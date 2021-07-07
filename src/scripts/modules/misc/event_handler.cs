@@ -1,6 +1,7 @@
 using SDL2;
+using Proj.Modules.Input;
 
-namespace Proj.Modules {
+namespace Proj.Modules.Misc {
     static class event_handler {
         public static void handle_events() {
             while (SDL.SDL_PollEvent(out SDL.SDL_Event events) != 0) {

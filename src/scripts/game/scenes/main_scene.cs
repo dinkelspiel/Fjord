@@ -1,4 +1,5 @@
-using Proj.Modules;
+using Proj.Modules.Input;
+using Proj.Modules.Ui;
 using SDL2;
 
 namespace Proj.Game {

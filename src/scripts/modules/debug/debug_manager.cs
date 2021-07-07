@@ -4,8 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Collections.Generic;
 
-namespace Proj.Modules
-{
+namespace Proj.Modules.Debug {
     public static class Debug
     {
         public static string last_message = "";
