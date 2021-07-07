@@ -1,0 +1,15 @@
+C:\Users\Willem\Documents\Coding\Proj\bin\Debug\net6.0\Proj.exe
+C:\Users\Willem\Documents\Coding\Proj\bin\Debug\net6.0\Proj.deps.json
+C:\Users\Willem\Documents\Coding\Proj\bin\Debug\net6.0\Proj.runtimeconfig.json
+C:\Users\Willem\Documents\Coding\Proj\bin\Debug\net6.0\Proj.dll
+C:\Users\Willem\Documents\Coding\Proj\bin\Debug\net6.0\ref\Proj.dll
+C:\Users\Willem\Documents\Coding\Proj\bin\Debug\net6.0\Proj.pdb
+C:\Users\Willem\Documents\Coding\Proj\obj\Debug\net6.0\Proj.csproj.AssemblyReference.cache
+C:\Users\Willem\Documents\Coding\Proj\obj\Debug\net6.0\Proj.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Willem\Documents\Coding\Proj\obj\Debug\net6.0\Proj.AssemblyInfoInputs.cache
+C:\Users\Willem\Documents\Coding\Proj\obj\Debug\net6.0\Proj.AssemblyInfo.cs
+C:\Users\Willem\Documents\Coding\Proj\obj\Debug\net6.0\Proj.csproj.CoreCompileInputs.cache
+C:\Users\Willem\Documents\Coding\Proj\obj\Debug\net6.0\Proj.dll
+C:\Users\Willem\Documents\Coding\Proj\obj\Debug\net6.0\ref\Proj.dll
+C:\Users\Willem\Documents\Coding\Proj\obj\Debug\net6.0\Proj.pdb
+C:\Users\Willem\Documents\Coding\Proj\obj\Debug\net6.0\Proj.genruntimeconfig.cache
