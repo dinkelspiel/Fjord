@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using System.Numerics;
 using Proj.Modules.Debug;
+using Proj.Modules;
 
 namespace Proj.Modules.Ui {
     public class gui_constraint {}
@@ -49,7 +50,7 @@ namespace Proj.Modules.Ui {
         public void update() {
             switch(x_constraint) {
             case percentage_constraint:
-                
+                Debug.Debug.send(Debug.Debug.get(), "Pog");
                 break;
             }
 
