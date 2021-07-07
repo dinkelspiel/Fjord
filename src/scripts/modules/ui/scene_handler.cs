@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Numerics;
 
-namespace Proj.Modules {
+namespace Proj.Modules.Ui {
     public class scene {
         public virtual void update() {}
         public virtual void render() {}

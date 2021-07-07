@@ -1,4 +1,4 @@
-namespace Proj.Modules {
+namespace Proj.Modules.Input {
     public static class input {
         public static bool[] pressed_keys = new bool[77];
 

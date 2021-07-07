@@ -1,7 +1,8 @@
 using System;
 using SDL2;
 using System.Numerics;
-using Proj.Modules;
+using Proj.Modules.Debug;
+using Proj.Modules.Ui;
 using Proj.Game;
 
 namespace Proj
