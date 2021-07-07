@@ -7,6 +7,13 @@ namespace Proj.Game {
         int x, y = 0;
         int move_speed = 5;
 
+        gui_element test;
+
+        public main_scene() {
+            test = new gui_element(new percentage_constraint(0.5f), new percentage_constraint(0.5f), new percentage_constraint(0.1f), new percentage_constraint(0.1f));
+            test.set_position_constraint(new center_constraint(), new center_constraint(), 12);
+        }
+
         public override void update() {
             if(input.get_key_pressed(input.key_w)) {
                 y -= move_speed;
@@ -19,16 +26,18 @@ namespace Proj.Game {
             } else if(input.get_key_pressed(input.key_d)) {
                 x += move_speed;
             }
+
+            test.update();
         }
 
         public override void render() {
+            test.render();
+
             SDL.SDL_Rect rect;
             rect.x = x;
             rect.y = y;
             rect.w = rect.h = 100;
-            SDL.SDL_SetRenderDrawColor(game_manager.renderer, 0, 0, 0, 255);
-            SDL.SDL_RenderFillRect(game_manager.renderer, ref rect);
-            SDL.SDL_SetRenderDrawColor(game_manager.renderer, 255, 255, 255, 255);
+            draw.rect(game_manager.renderer, rect, 255, 255, 255, 255, true);
         }
     }
 }
