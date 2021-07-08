@@ -174,10 +174,10 @@ namespace Proj.Modules.Ui {
                     width -= (int)(width - parent.width * width_constraint.value) / size_tween_value;
                     break;
                 case pixel_constraint:
-                width -= (int)(width - x_constraint.value) / size_tween_value;
+                    width -= (int)(width - x_constraint.value) / size_tween_value;
                     break;
                 case aspect_constraint:
-                width -= (int)(width - height) / position_tween_value;
+                    width -= (int)(width - height) / size_tween_value;
                     break;
             }
 
@@ -189,7 +189,7 @@ namespace Proj.Modules.Ui {
                     height -= (int)(height - y_constraint.value) / size_tween_value;
                     break;
                 case aspect_constraint:
-                    height -= (int)(height - width) / position_tween_value;
+                    height -= (int)(height - width) / size_tween_value;
                     break;
             }
 
