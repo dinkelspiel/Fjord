@@ -14,9 +14,10 @@ namespace Proj.Game {
             bg = new gui_element(new center_constraint(), new center_constraint(), new percentage_constraint(0.9f), new percentage_constraint(0.9f));
             bg.set_color(230, 221, 198);
 
-            button = new gui_element(new percentage_constraint(0.1f), new percentage_constraint(0.1f), new aspect_constraint(1), new percentage_constraint(0.1f));
+            button = new gui_element();
             bg.add_child(ref button);
-            button.set_position_constraint(new center_constraint(), new center_constraint(), 12);
+            button.set_size_constraint(new percentage_constraint(0.3f), new percentage_constraint(0.95f), 6);
+            button.set_position_constraint(new percentage_constraint(0.17f),new center_constraint(), 6);
         }
 
         public override void update() {

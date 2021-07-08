@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Proj.Modules.Debug;
+using System;
 using Proj.Modules.Input;
 using SDL2;
 
@@ -127,8 +128,12 @@ namespace Proj.Modules.Ui {
         #endregion
 
         public void add_child(ref gui_element element) {
-            element.parent = this;
+            element.set_parent(this);
             children.Add(element);
+        }
+
+        public void set_parent(gui_element element) {
+            parent = element;
         }
 
         public bool mouse_hovered() {
@@ -160,36 +165,63 @@ namespace Proj.Modules.Ui {
         }
 
         public void update() {
-            switch(x_constraint) {
-                case percentage_constraint:
-                    x -= (x - (parent.width * (int)x_constraint.value - width / 2)) / position_tween_value;
-                    break;
-                case pixel_constraint:
-                    x -= (int)(x + parent.x - x_constraint.value) / position_tween_value;
-                    break;
-                case center_constraint:
-                    x -= (int)(x - game_manager.screen.width / 2 + width / 2) / position_tween_value;
-                    break;
-            }
+            //Debug.Debug.send(Debug.Debug.get(), x.ToString());
+            if(parent.x == 0 && parent.y == 0) {
+                switch(x_constraint) {
+                    case percentage_constraint:
+                        x -= (int)(x - (parent.x + parent.width * x_constraint.value)) / position_tween_value;
+                        break;
+                    case pixel_constraint:
+                        x -= (int)(x - (parent.x + x_constraint.value)) / position_tween_value;
+                        break;
+                    case center_constraint:
+                        x -= (int)(x - (parent.x + parent.width / 2)) / position_tween_value;
+                        break;                    
+                }
 
-            switch(y_constraint) {
-                case percentage_constraint:
-                    y -= (y - (parent.height * (int)y_constraint.value - height / 2)) / position_tween_value;
-                    break;
-                case pixel_constraint:
-                    y -= (int)(y + parent.y - y_constraint.value) / position_tween_value;
-                    break;
-                case center_constraint:
-                    y -= (int)(y - game_manager.screen.height / 2 + height / 2) / position_tween_value;
-                    break;
+                switch(y_constraint) {
+                    case percentage_constraint:
+                        y -= (int)(y - (parent.y + parent.height * y_constraint.value)) / position_tween_value;
+                        break;
+                    case pixel_constraint:
+                        y -= (int)(y - (parent.y + y_constraint.value)) / position_tween_value;
+                        break;
+                    case center_constraint:
+                        y -= (int)(y - (parent.y + parent.height / 2)) / position_tween_value;
+                        break;                    
+                }
+            } else {
+                switch(x_constraint) {
+                    case percentage_constraint:
+                        x -= (int)(x - (parent.x + parent.width * x_constraint.value) + parent.width / 2) / position_tween_value;
+                        break;
+                    case pixel_constraint:
+                        x -= (int)(x - (parent.x + x_constraint.value) + parent.width / 2) / position_tween_value;
+                        break;
+                    case center_constraint:
+                        x -= (int)(x - (parent.x + parent.width / 2) + parent.width / 2) / position_tween_value;
+                        break;                    
+                }
+
+                switch(y_constraint) {
+                    case percentage_constraint:
+                        y -= (int)(y - (parent.y + parent.height * y_constraint.value) + parent.height / 2) / position_tween_value;
+                        break;
+                    case pixel_constraint:
+                        y -= (int)(y - (parent.y + y_constraint.value) + parent.height / 2) / position_tween_value;
+                        break;
+                    case center_constraint:
+                        y -= (int)(y - (parent.y + parent.height / 2) + parent.height / 2) / position_tween_value;
+                        break;                    
+                }
             }
 
             switch(width_constraint) {
                 case percentage_constraint:
-                    width -= (int)(width - parent.width * width_constraint.value) / size_tween_value;
+                    width -= (int)(width - (parent.width * width_constraint.value)) / size_tween_value;
                     break;
                 case pixel_constraint:
-                    width -= (int)(width - x_constraint.value) / size_tween_value;
+                    width -= (int)(width - (width_constraint.value)) / size_tween_value;
                     break;
                 case aspect_constraint:
                     width -= (int)(width - height * width_constraint.value) / size_tween_value;
@@ -198,10 +230,10 @@ namespace Proj.Modules.Ui {
 
             switch(height_constraint) {
                 case percentage_constraint:
-                    height -= (int)(height - parent.height * height_constraint.value) / size_tween_value;
+                    height -= (int)(height - (parent.height * height_constraint.value)) / size_tween_value;
                     break;
                 case pixel_constraint:
-                    height -= (int)(height - y_constraint.value) / size_tween_value;
+                    height -= (int)(height - (height_constraint.value)) / size_tween_value;
                     break;
                 case aspect_constraint:
                     height -= (int)(height - width * height_constraint.value) / size_tween_value;
@@ -215,8 +247,8 @@ namespace Proj.Modules.Ui {
 
         public void render() {
             SDL.SDL_Rect rect;
-            rect.x = x;
-            rect.y = y;
+            rect.x = x - width / 2;
+            rect.y = y - height / 2;
             rect.w = width;
             rect.h = height;
             draw.rect(game_manager.renderer, rect, color.r, color.g, color.b, color.a, true);
