@@ -171,12 +171,25 @@ namespace Proj.Modules.Ui {
 
             switch(width_constraint) {
                 case percentage_constraint:
-                    width -= (int)(width - parent.width * y_constraint.value) / size_tween_value;
+                    width -= (int)(width - parent.width * width_constraint.value) / size_tween_value;
                     break;
                 case pixel_constraint:
-                    width -= (int)(width + x_constraint.value)
+                width -= (int)(width - x_constraint.value) / size_tween_value;
                     break;
                 case aspect_constraint:
+                width -= (int)(width - height) / position_tween_value;
+                    break;
+            }
+
+            switch(height_constraint) {
+                case percentage_constraint:
+                    height -= (int)(height - parent.height * height_constraint.value) / size_tween_value;
+                    break;
+                case pixel_constraint:
+                    height -= (int)(height - y_constraint.value) / size_tween_value;
+                    break;
+                case aspect_constraint:
+                    height -= (int)(height - width) / position_tween_value;
                     break;
             }
 
