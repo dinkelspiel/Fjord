@@ -56,6 +56,8 @@ namespace Proj.Modules.Ui {
         public gui_element parent = game_manager.screen;
 
         public SDL.SDL_Color color;
+        public SDL.SDL_Color color_to;
+        public byte color_tween_value;
 
         public int x, y, width, height;
         #endregion
@@ -145,11 +147,12 @@ namespace Proj.Modules.Ui {
             return false;
         }
 
-        public void set_color(byte r, byte g, byte b, byte a=255) {
-            color.r = r;
-            color.g = g;
-            color.b = b;
-            color.a = a;
+        public void set_color(byte r, byte g, byte b, byte a=255, byte tween_value_set=1) {
+            color_to.r = r;
+            color_to.g = g;
+            color_to.b = b;
+            color_to.a = a;
+            color_tween_value = tween_value_set;
         }
 
         public void set_position_constraint(gui_constraint x_constraint_set, gui_constraint y_constraint_set, int tween_value_set) {
@@ -166,6 +169,7 @@ namespace Proj.Modules.Ui {
 
         public void update() {
             //Debug.Debug.send(Debug.Debug.get(), x.ToString());
+            #region Constraints
             if(parent.x == 0 && parent.y == 0) {
                 switch(x_constraint) {
                     case percentage_constraint:
@@ -239,6 +243,12 @@ namespace Proj.Modules.Ui {
                     height -= (int)(height - width * height_constraint.value) / size_tween_value;
                     break;
             }
+            #endregion
+
+            color.r -= (byte)((color.r - color_to.r) / color_tween_value);
+            color.g -= (byte)((color.g - color_to.g) / color_tween_value);
+            color.b -= (byte)((color.b - color_to.b) / color_tween_value);
+            color.a -= (byte)((color.a - color_to.a) / color_tween_value);
 
             foreach(gui_element element in children) {
                 element.update();
