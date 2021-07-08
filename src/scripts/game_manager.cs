@@ -13,6 +13,8 @@ namespace Proj
 
         public static IntPtr window;
         public static IntPtr renderer;
+        
+        public static screen_rect screen;
 
         public static int frame_start = 0;
         public static int frame_length = 0;
@@ -47,11 +49,16 @@ namespace Proj
                 is_running = false;
             }
 
+            screen = new screen_rect();
+
             scene_handler.add_scene("main", new main_scene());
             scene_handler.load_scene("main");
         }
 
+
+
         public static void update() {
+            screen.screen_update();
             scene_handler.update();
         }
 

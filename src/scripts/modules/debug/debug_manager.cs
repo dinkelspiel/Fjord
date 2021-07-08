@@ -1,8 +1,5 @@
 using System;
-using SDL2;
 using System.Diagnostics;
-using System.IO;
-using System.Collections.Generic;
 
 namespace Proj.Modules.Debug {
     public static class Debug

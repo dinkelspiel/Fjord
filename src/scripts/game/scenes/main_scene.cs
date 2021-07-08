@@ -1,11 +1,24 @@
 using Proj.Modules.Input;
 using Proj.Modules.Ui;
+using Proj.Modules.Debug;
 using SDL2;
 
 namespace Proj.Game {
     public class main_scene : scene {
         int x, y = 0;
         int move_speed = 5;
+
+        gui_element bg, button;
+
+        public main_scene() {
+            bg = new gui_element(new center_constraint(), new center_constraint(), new percentage_constraint(0.9f), new percentage_constraint(0.9f));
+            bg.set_color(230, 221, 198);
+
+            button = new gui_element();
+            bg.add_child(ref button);
+            button.set_size_constraint(new percentage_constraint(0.3f), new percentage_constraint(0.95f), 6);
+            button.set_position_constraint(new percentage_constraint(0.17f),new center_constraint(), 6);
+        }
 
         public override void update() {
             if(input.get_key_pressed(input.key_w)) {
@@ -19,16 +32,18 @@ namespace Proj.Game {
             } else if(input.get_key_pressed(input.key_d)) {
                 x += move_speed;
             }
+
+            bg.update();
         }
 
         public override void render() {
+            bg.render();
+
             SDL.SDL_Rect rect;
             rect.x = x;
             rect.y = y;
             rect.w = rect.h = 100;
-            SDL.SDL_SetRenderDrawColor(game_manager.renderer, 0, 0, 0, 255);
-            SDL.SDL_RenderFillRect(game_manager.renderer, ref rect);
-            SDL.SDL_SetRenderDrawColor(game_manager.renderer, 255, 255, 255, 255);
+            //draw.rect(game_manager.renderer, rect, 255, 255, 255, 255, true);
         }
     }
 }
