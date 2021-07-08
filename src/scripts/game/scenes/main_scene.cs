@@ -7,11 +7,13 @@ namespace Proj.Game {
         int x, y = 0;
         int move_speed = 5;
 
-        gui_element test;
+        gui_element bg, button;
 
         public main_scene() {
-            test = new gui_element(new center_constraint(), new center_constraint(), new percentage_constraint(0.9f), new percentage_constraint(0.9f));
-            test.set_color(230, 221, 198);
+            bg = new gui_element(new center_constraint(), new center_constraint(), new percentage_constraint(0.9f), new percentage_constraint(0.9f));
+            bg.set_color(230, 221, 198);
+
+            button = new gui_element(new percentage_constraint(0.1f), new percentage_constraint(0.1f), new aspect_constraint(1), new percentage_constraint(0.1f));
         }
 
         public override void update() {
@@ -27,11 +29,11 @@ namespace Proj.Game {
                 x += move_speed;
             }
 
-            test.update();
+            bg.update();
         }
 
         public override void render() {
-            test.render();
+            bg.render();
 
             SDL.SDL_Rect rect;
             rect.x = x;
