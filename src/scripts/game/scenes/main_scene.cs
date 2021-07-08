@@ -1,5 +1,6 @@
 using Proj.Modules.Input;
 using Proj.Modules.Ui;
+using Proj.Modules.Debug;
 using SDL2;
 
 namespace Proj.Game {
@@ -14,6 +15,8 @@ namespace Proj.Game {
             bg.set_color(230, 221, 198);
 
             button = new gui_element(new percentage_constraint(0.1f), new percentage_constraint(0.1f), new aspect_constraint(1), new percentage_constraint(0.1f));
+            bg.add_child(ref button);
+            button.set_position_constraint(new center_constraint(), new center_constraint(), 12);
         }
 
         public override void update() {

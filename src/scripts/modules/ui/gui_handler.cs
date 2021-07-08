@@ -1,8 +1,5 @@
 using System.Collections.Generic;
-using System;
-using System.Numerics;
 using Proj.Modules.Debug;
-using Proj.Modules;
 using Proj.Modules.Input;
 using SDL2;
 
