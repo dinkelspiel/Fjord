@@ -10,8 +10,8 @@ namespace Proj.Game {
         gui_element test;
 
         public main_scene() {
-            test = new gui_element(new percentage_constraint(0.5f), new percentage_constraint(0.5f), new percentage_constraint(0.1f), new percentage_constraint(0.1f));
-            test.set_position_constraint(new center_constraint(), new center_constraint(), 12);
+            test = new gui_element(new center_constraint(), new center_constraint(), new percentage_constraint(0.9f), new percentage_constraint(0.9f));
+            test.set_color(230, 221, 198);
         }
 
         public override void update() {
@@ -37,7 +37,7 @@ namespace Proj.Game {
             rect.x = x;
             rect.y = y;
             rect.w = rect.h = 100;
-            draw.rect(game_manager.renderer, rect, 255, 255, 255, 255, true);
+            //draw.rect(game_manager.renderer, rect, 255, 255, 255, 255, true);
         }
     }
 }

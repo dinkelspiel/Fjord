@@ -44,6 +44,7 @@ namespace Proj.Modules.Ui {
     public class center_constraint : gui_constraint {}
 
     public class gui_element {
+        #region Variables
         private List<gui_element> children = new List<gui_element>();
         
         public gui_constraint x_constraint;
@@ -59,6 +60,7 @@ namespace Proj.Modules.Ui {
         public SDL.SDL_Color color;
 
         public int x, y, width, height;
+        #endregion
         
         #region Constructrs
         public gui_element() {
@@ -130,6 +132,22 @@ namespace Proj.Modules.Ui {
         public void add_child(ref gui_element element) {
             element.parent = this;
             children.Add(element);
+        }
+
+        public bool mouse_hovered() {
+            if(mouse.x > x && mouse.x < x + width) {
+                if(mouse.y > y && mouse.y < y + height) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public void set_color(byte r, byte g, byte b, byte a=255) {
+            color.r = r;
+            color.g = g;
+            color.b = b;
+            color.a = a;
         }
 
         public void set_position_constraint(gui_constraint x_constraint_set, gui_constraint y_constraint_set, int tween_value_set) {
