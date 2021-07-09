@@ -24,7 +24,7 @@ namespace Proj.Game {
             button = new gui_lever();
             button.set_size_constraint(new aspect_constraint(1), new percentage_constraint(0.1f), 6);
             button.set_position_constraint(new pixel_constraint(10f), new pixel_constraint(10f), 6);
-            button.set_color(100, 100, 100, 255, 6);
+            button.set_color(100, 100, 100, 255, 1);
             //sidebar.add_child(ref button);
             
         }

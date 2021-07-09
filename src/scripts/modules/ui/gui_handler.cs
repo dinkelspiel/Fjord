@@ -74,9 +74,9 @@ namespace Proj.Modules.Ui {
             x = y = width = height = 0;
 
             color.r = 255;
-            color.b = 255f;
-            color.a = 255f;
-            color.g = 0f;
+            color.b = 255;
+            color.a = 255;
+            color.g = 0;
         }
 
         public gui_element(gui_constraint x_constraint_set, gui_constraint y_constraint_set, gui_constraint width_constraint_set, gui_constraint height_constraint_set) {
@@ -255,10 +255,10 @@ namespace Proj.Modules.Ui {
             }
             #endregion
 
-            color.r -= (byte)((color.r - color_to.r) / color_tween_value);
-            color.g -= (byte)((color.g - color_to.g) / color_tween_value);
-            color.b -= (byte)((color.b - color_to.b) / color_tween_value);
-            color.a -= (byte)((color.a - color_to.a) / color_tween_value);
+            color.r -= ((color.r - color_to.r) / color_tween_value);
+            color.g -= ((color.g - color_to.g) / color_tween_value);
+            color.b -= ((color.b - color_to.b) / color_tween_value);
+            color.a -= ((color.a - color_to.a) / color_tween_value);
 
             foreach(gui_element element in children) {
                 element.update();
