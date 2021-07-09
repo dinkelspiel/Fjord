@@ -16,12 +16,12 @@ namespace Proj.Game {
             bg.add_child(ref sidebar);
             sidebar.set_size_constraint(new percentage_constraint(0.3f), new percentage_constraint(0.95f), 6);
             sidebar.set_position_constraint(new percentage_constraint(0.17f),new center_constraint(), 6);
-            sidebar.set_color(255, 255, 255, 255, 1);
+            sidebar.set_color(255, 255, 255, 125, 1);
 
             button = new gui_element();
             button.set_size_constraint(new aspect_constraint(1), new percentage_constraint(0.1f), 6);
             button.set_position_constraint(new percentage_constraint(0.95f), new percentage_constraint(0.1f), 6);
-            button.set_color(100, 100, 100, 255, 1);
+            button.set_color(100, 100, 100, 125, 1);
             bg.add_child(ref button);
             
             pressed = false;
@@ -29,19 +29,19 @@ namespace Proj.Game {
 
         public override void update() {
             if(button.mouse_hovered()) {
-                button.set_color(200, 200, 200, 255, 3);
+                button.set_color(200, 200, 200, 125, 3);
                 if(mouse.button_just_pressed("lmb")) {
                     pressed = !pressed;
                 }
             } else {
-                button.set_color(100, 100, 100, 255, 12);
+                button.set_color(100, 100, 100, 125, 12);
             }
 
             if(pressed) {
-                sidebar.set_color(255, 255, 255, 0, 6);
+                sidebar.set_color(255, 255, 255, 125, 6);
                 sidebar.set_position_constraint(new percentage_constraint(-0.2f), new center_constraint(), 12);
             } else {
-                sidebar.set_color(255, 255, 255, 255, 6);
+                sidebar.set_color(255, 255, 255, 125, 12);
                 sidebar.set_position_constraint(new percentage_constraint(0.17f), new center_constraint(), 12);
             }
 
