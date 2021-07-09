@@ -1,6 +1,7 @@
 namespace Proj.Modules.Input {
     public static class input {
         public static bool[] pressed_keys = new bool[77];
+        public static bool[] last_frame = new bool[77];
 
         #region keys
         public static readonly int key_a = 0;
@@ -81,6 +82,10 @@ namespace Proj.Modules.Input {
 
         public static bool get_key_pressed(int key) {
             return pressed_keys[key];
+        }
+
+        public static bool get_key_just_pressed(int key) {
+            return pressed_keys[key] && !last_frame[key];
         }
 
         public static bool get_any_key_pressed() {

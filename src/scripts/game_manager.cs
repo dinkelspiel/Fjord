@@ -3,7 +3,11 @@ using SDL2;
 using System.Numerics;
 using Proj.Modules.Debug;
 using Proj.Modules.Ui;
+using Proj.Modules.Input;
+using Proj.Modules.Misc;
 using Proj.Game;
+using System.IO;
+using System.Reflection;
 
 namespace Proj
 {
@@ -19,6 +23,10 @@ namespace Proj
         public static int frame_start = 0;
         public static int frame_length = 0;
 
+        public static string asset_pack = "main";
+        public static string executable_path;
+        public static string executable_dir;
+
         public static bool running() {
             return is_running;
         }
@@ -31,23 +39,31 @@ namespace Proj
             }
 
             if (SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING) == 0) {
-                Debug.send(Debug.get(), "SDL initialized without errors");
+                Debug.send("SDL initialized without errors");
                 
                 window = SDL.SDL_CreateWindow(title, xpos, ypos, width, height, flags);
 
-                Debug.send(Debug.get(), "Window created without errors");
+                Debug.send("Window created without errors");
 
 
                 renderer = SDL.SDL_CreateRenderer(window, -1, 0);
                 SDL.SDL_SetRenderDrawColor(renderer, 47, 49, 90, 255); 
                 SDL.SDL_SetRenderDrawBlendMode(renderer, SDL.SDL_BlendMode.SDL_BLENDMODE_BLEND);
                 
-                Debug.send(Debug.get(), "Renderer created without errors");
+                Debug.send("Renderer created without errors");
 
                 is_running = true;
             } else {
                 is_running = false;
             }
+
+            executable_path = Assembly.GetEntryAssembly().Location;
+
+            string[] executable_arr = game_manager.executable_path.Split("\\");
+            Array.Resize(ref executable_arr, executable_arr.Length - 1);
+            executable_dir = String.Join("\\", executable_arr);
+
+            Language.load_langfile("en_US");
 
             screen = new screen_rect();
 
@@ -60,6 +76,10 @@ namespace Proj
         public static void update() {
             screen.screen_update();
             scene_handler.update();
+
+            input.last_frame = input.pressed_keys;
+            mouse.llmb = mouse.lmb;
+            mouse.lrmb = mouse.rmb;
         }
 
         public static void render() {
@@ -74,7 +94,7 @@ namespace Proj
             SDL.SDL_DestroyWindow(window);
             SDL.SDL_DestroyRenderer(renderer);
             SDL.SDL_Quit();
-            Debug.send(Debug.get(), "Game cleaned without errors");
+            Debug.send("Game cleaned without errors");
         }
 
         public static void tick_fps(int FPS) {

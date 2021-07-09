@@ -7,7 +7,7 @@ using Proj.Modules.Input;
 using SDL2;
 
 namespace Proj.Modules.Ui {
-
+     
     public class screen_rect : gui_element {
         int w, h;
         public screen_rect() {
@@ -44,7 +44,9 @@ namespace Proj.Modules.Ui {
         }
     }
 
-    public class center_constraint : gui_constraint {}
+    public class center_constraint : gui_constraint {
+
+    }
 
     public class gui_element {
         #region Variables
@@ -177,7 +179,6 @@ namespace Proj.Modules.Ui {
         }
 
         public void update() {
-            Debug.Debug.send(Debug.Debug.get(), color.r.ToString());
             #region Constraints
             if(parent.x == 0 && parent.y == 0) {
                 switch(x_constraint) {
@@ -274,6 +275,32 @@ namespace Proj.Modules.Ui {
 
             foreach(gui_element element in children) {
                 element.render();
+            }
+        }
+    }
+
+    public class gui_button : gui_element {
+        bool status = false;
+
+        public new void update() {
+            base.update();
+
+            if(base.mouse_hovered() && mouse.button_pressed("lmb")) {
+                status = true;
+            } else {
+                status = false;
+            }
+        }
+    }
+
+    public class gui_lever : gui_element {
+        bool status = false;
+
+        public new void update() {
+            base.update();
+
+            if(base.mouse_hovered() && mouse.button_just_pressed("lmb")) {
+                status = !status;
             }
         }
     }

@@ -15,7 +15,12 @@ namespace Proj.Modules.Debug {
             return sf.GetMethod().Name;
         }
 
-        public static void send(string method, string message) {
+        public static void send(string message) {
+            var st = new StackTrace();
+            var sf = st.GetFrame(1);
+
+            string method = sf.GetMethod().Name;
+
             string time = DateTime.Now.ToString("HH:mm:ss");
             if(message != last_message) {
                 Console.WriteLine("[{0}] {1} -> {2}", time, method, message);  

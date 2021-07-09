@@ -8,17 +8,25 @@ namespace Proj.Game {
         int x, y = 0;
         int move_speed = 5;
 
-        gui_element bg, button;
+        gui_element bg, sidebar;
+        gui_lever button;
 
         public main_scene() {
             bg = new gui_element(new center_constraint(), new center_constraint(), new percentage_constraint(0.9f), new percentage_constraint(0.9f));
             bg.set_color(230, 221, 198, 255, 12);
 
-            button = new gui_element();
-            bg.add_child(ref button);
-            button.set_size_constraint(new percentage_constraint(0.3f), new percentage_constraint(0.95f), 6);
-            button.set_position_constraint(new percentage_constraint(0.17f),new center_constraint(), 6);
-            button.set_color(255, 255, 255, 255, 12);
+            sidebar = new gui_element();
+            bg.add_child(ref sidebar);
+            sidebar.set_size_constraint(new percentage_constraint(0.3f), new percentage_constraint(0.95f), 6);
+            sidebar.set_position_constraint(new percentage_constraint(0.17f),new center_constraint(), 6);
+            sidebar.set_color(255, 255, 255, 255, 12);
+
+            button = new gui_lever();
+            button.set_size_constraint(new aspect_constraint(1), new percentage_constraint(0.1f), 6);
+            button.set_position_constraint(new pixel_constraint(10f), new pixel_constraint(10f), 6);
+            button.set_color(100, 100, 100, 255, 6);
+            //sidebar.add_child(ref button);
+            
         }
 
         public override void update() {
