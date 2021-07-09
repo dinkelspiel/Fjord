@@ -66,6 +66,8 @@ namespace Proj.Modules.Ui {
         public float_color color_to = new float_color();
         public float color_tween_value = 1;
 
+        public int border_radius = 0, border_radius_to = 0, border_radius_tween = 1;
+
         public float x, y, width, height;
         #endregion
         
@@ -178,6 +180,11 @@ namespace Proj.Modules.Ui {
             size_tween_value = tween_value_set;
         }
 
+        public void set_border_radius(int border_radius_set, int tween_value_set) {
+            border_radius_to = border_radius_set;
+            border_radius_tween = tween_value_set;
+        }
+
         public void update() {
             #region Constraints
             if(parent.x == 0 && parent.y == 0) {
@@ -260,11 +267,13 @@ namespace Proj.Modules.Ui {
                     break;
             }
             #endregion
-
             color.r -= ((color.r - color_to.r) / color_tween_value);
             color.g -= ((color.g - color_to.g) / color_tween_value);
             color.b -= ((color.b - color_to.b) / color_tween_value);
             color.a -= ((color.a - color_to.a) / color_tween_value);
+
+            Debug.Debug.send((border_radius - border_radius_to) / border_radius_tween);
+            border_radius -= (border_radius_to - border_radius) / border_radius_tween;
 
             foreach(gui_element element in children) {
                 element.update();
@@ -277,7 +286,7 @@ namespace Proj.Modules.Ui {
             rect.y = (int)y - (int)height / 2;
             rect.w = (int)width;
             rect.h = (int)height;
-            draw.round_rect(game_manager.renderer, rect, (byte)color.r, (byte)color.g, (byte)color.b, (byte)color.a, 10, true);
+            draw.round_rect(game_manager.renderer, rect, (byte)color.r, (byte)color.g, (byte)color.b, (byte)color.a, border_radius, true);
 
             foreach(gui_element element in children) {
                 element.render();
