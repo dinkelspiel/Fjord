@@ -10,13 +10,13 @@ namespace Proj.Game {
 
         public main_scene() {
             bg = new gui_element(new center_constraint(), new center_constraint(), new percentage_constraint(0.9f), new percentage_constraint(0.9f));
-            bg.set_color(230, 221, 198, 255, 12);
+            bg.set_color(230, 221, 198, 255, 1);
 
             sidebar = new gui_element();
             bg.add_child(ref sidebar);
             sidebar.set_size_constraint(new percentage_constraint(0.3f), new percentage_constraint(0.95f), 6);
             sidebar.set_position_constraint(new percentage_constraint(0.17f),new center_constraint(), 6);
-            sidebar.set_color(255, 255, 255, 255, 12);
+            sidebar.set_color(255, 255, 255, 255, 1);
 
             button = new gui_element();
             button.set_size_constraint(new aspect_constraint(1), new percentage_constraint(0.1f), 6);

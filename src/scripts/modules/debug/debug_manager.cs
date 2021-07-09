@@ -7,14 +7,6 @@ namespace Proj.Modules.Debug {
         public static string last_message = "";
         public static int last_message_streak = 0;
 
-        public static string get()
-        {
-            var st = new StackTrace();
-            var sf = st.GetFrame(1);
-
-            return sf.GetMethod().Name;
-        }
-
         public static void send(string message) {
             var st = new StackTrace();
             var sf = st.GetFrame(1);

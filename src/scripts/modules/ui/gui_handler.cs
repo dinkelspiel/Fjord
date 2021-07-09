@@ -277,7 +277,7 @@ namespace Proj.Modules.Ui {
             rect.y = (int)y - (int)height / 2;
             rect.w = (int)width;
             rect.h = (int)height;
-            draw.rect(game_manager.renderer, rect, (byte)color.r, (byte)color.g, (byte)color.b, (byte)color.a, true);
+            draw.round_rect(game_manager.renderer, rect, (byte)color.r, (byte)color.g, (byte)color.b, (byte)color.a, 10, true);
 
             foreach(gui_element element in children) {
                 element.render();

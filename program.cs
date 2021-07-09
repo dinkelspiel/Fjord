@@ -1,6 +1,7 @@
 ﻿using System;
 using SDL2;
 using Proj.Modules.Misc;
+using Proj.Modules.Ui;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,7 +11,6 @@ namespace Proj
     {
         private static void game_thread() {
             game_manager.init("Engine", SDL.SDL_WINDOWPOS_CENTERED, SDL.SDL_WINDOWPOS_CENTERED, 1280, 720, false);
-
             while(game_manager.running()) {
                 event_handler.handle_events();
                 game_manager.update();
