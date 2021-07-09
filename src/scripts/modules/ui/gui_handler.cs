@@ -150,8 +150,8 @@ namespace Proj.Modules.Ui {
         }
 
         public bool mouse_hovered() {
-            if(mouse.x > x && mouse.x < x + width) {
-                if(mouse.y > y && mouse.y < y + height) {
+            if(mouse.x > x - width / 2 && mouse.x < x + width / 2) { 
+                if(mouse.y > y - width / 2 && mouse.y < y + height / 2) {
                     return true;
                 }
             }
@@ -190,7 +190,10 @@ namespace Proj.Modules.Ui {
                         break;
                     case center_constraint:
                         x -= (x - (parent.x + parent.width / 2)) / position_tween_value;
-                        break;                    
+                        break;  
+                    case aspect_constraint:
+                        x -= (x - y) / position_tween_value;
+                        break;                  
                 }
 
                 switch(y_constraint) {
@@ -202,7 +205,10 @@ namespace Proj.Modules.Ui {
                         break;
                     case center_constraint:
                         y -= (y - (parent.y + parent.height / 2)) / position_tween_value;
-                        break;                    
+                        break;    
+                    case aspect_constraint:
+                        y -= (y - x) / position_tween_value;
+                        break;                
                 }
             } else {
                 switch(x_constraint) {
@@ -275,32 +281,6 @@ namespace Proj.Modules.Ui {
 
             foreach(gui_element element in children) {
                 element.render();
-            }
-        }
-    }
-
-    public class gui_button : gui_element {
-        bool status = false;
-
-        public new void update() {
-            base.update();
-
-            if(base.mouse_hovered() && mouse.button_pressed("lmb")) {
-                status = true;
-            } else {
-                status = false;
-            }
-        }
-    }
-
-    public class gui_lever : gui_element {
-        bool status = false;
-
-        public new void update() {
-            base.update();
-
-            if(base.mouse_hovered() && mouse.button_just_pressed("lmb")) {
-                status = !status;
             }
         }
     }

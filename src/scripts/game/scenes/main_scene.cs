@@ -8,8 +8,7 @@ namespace Proj.Game {
         int x, y = 0;
         int move_speed = 5;
 
-        gui_element bg, sidebar;
-        gui_lever button;
+        gui_element bg, sidebar, button;
 
         public main_scene() {
             bg = new gui_element(new center_constraint(), new center_constraint(), new percentage_constraint(0.9f), new percentage_constraint(0.9f));
@@ -21,11 +20,11 @@ namespace Proj.Game {
             sidebar.set_position_constraint(new percentage_constraint(0.17f),new center_constraint(), 6);
             sidebar.set_color(255, 255, 255, 255, 12);
 
-            button = new gui_lever();
+            button = new gui_element();
             button.set_size_constraint(new aspect_constraint(1), new percentage_constraint(0.1f), 6);
-            button.set_position_constraint(new pixel_constraint(10f), new pixel_constraint(10f), 6);
+            button.set_position_constraint(new pixel_constraint(50f), new pixel_constraint(50f), 6);
             button.set_color(100, 100, 100, 255, 1);
-            //sidebar.add_child(ref button);
+            sidebar.add_child(ref button);
             
         }
 
@@ -40,6 +39,12 @@ namespace Proj.Game {
                 x -= move_speed;
             } else if(input.get_key_pressed(input.key_d)) {
                 x += move_speed;
+            }
+
+            if(button.mouse_hovered()) {
+                button.set_color(200, 200, 200, 255, 3);
+            } else {
+                button.set_color(100, 100, 100, 255, 12);
             }
 
             bg.update();
