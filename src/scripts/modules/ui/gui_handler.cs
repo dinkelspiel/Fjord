@@ -272,8 +272,7 @@ namespace Proj.Modules.Ui {
             color.b -= ((color.b - color_to.b) / color_tween_value);
             color.a -= ((color.a - color_to.a) / color_tween_value);
 
-            Debug.Debug.send((border_radius - border_radius_to) / border_radius_tween);
-            border_radius -= (border_radius_to - border_radius) / border_radius_tween;
+            border_radius = border_radius_to;
 
             foreach(gui_element element in children) {
                 element.update();

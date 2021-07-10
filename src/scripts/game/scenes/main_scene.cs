@@ -6,7 +6,7 @@ using SDL2;
 namespace Proj.Game {
     public class main_scene : scene {
         gui_element bg, sidebar, button, button_2, button_2_;
-        bool pressed;
+        bool pressed, press;
 
         public main_scene() {
             bg = new gui_element(new center_constraint(), new center_constraint(), new percentage_constraint(0.9f), new percentage_constraint(0.9f));
@@ -26,16 +26,22 @@ namespace Proj.Game {
             bg.add_child(ref button);
             
             pressed = false;
+            press = false;
 
             button_2 = new gui_element();
-            button_2.set_position_constraint(new percentage_constraint(0.8f), new percentage_constraint(0.2f), 1);
-            button_2.set_size_constraint(new percentage_constraint(0.1f), new percentage_constraint(0.05f), 1);
-            button_2.set_color(255, 255, 0, 255, 1);
+            button_2.set_position_constraint(new percentage_constraint(0.8f), new pixel_constraint(40f), 1);
+            button_2.set_size_constraint(new percentage_constraint(0.13f), new percentage_constraint(0.1f), 1);
+            button_2.set_color(100, 100, 100, 255, 1);
+            button_2.set_border_radius(30, 1);
 
             bg.add_child(ref button_2);
 
             button_2_ = new gui_element();
-
+            button_2_.set_position_constraint(new percentage_constraint(0.17f), new center_constraint(), 1);
+            button_2_.set_size_constraint(new aspect_constraint(1f), new percentage_constraint(0.85f), 1);
+            button_2_.set_color(0, 255, 0, 255, 1);
+            button_2_.set_border_radius(25, 1);
+            button_2.add_child(ref button_2_);
         }
 
         public override void update() {
@@ -57,7 +63,21 @@ namespace Proj.Game {
             }
 
             bg.update();
+
+            if(button_2.mouse_hovered()) {
+                if(mouse.button_just_pressed("lmb")) {
+                    press = !press;
+                }
+            }
+
+            if(press) {
+                button_2_.set_position_constraint(new percentage_constraint(0.78f), new center_constraint(), 12);
+            } else {
+                button_2_.set_position_constraint(new percentage_constraint(0.22f), new center_constraint(), 12);
+            }
         }
+
+
 
         public override void render() {
             bg.render();
