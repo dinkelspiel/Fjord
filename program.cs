@@ -1,7 +1,8 @@
 ﻿using System;
 using SDL2;
 using Proj.Modules.Misc;
-using Proj.Modules.Ui;
+using Proj.Modules.Debug;
+using Proj.Modules.Input;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -23,7 +24,7 @@ namespace Proj
         }
 
         private static void debug_thead() {
-            //debug_web.start_server();
+            debug_web.web_init();
         }
 
         static void Main(string[] args) {

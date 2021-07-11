@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using System.Net;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Proj.Modules.Debug
 {
@@ -11,20 +12,7 @@ namespace Proj.Modules.Debug
         public static string url = "http://localhost:8000/";
         public static int pageViews = 0;
         public static int requestCount = 0;
-        public static string pageData = 
-            "<!DOCTYPE>" +
-            "<html>" +
-            "  <head>" +
-            "    <title>HttpListener Example</title>" +
-            "  </head>" +
-            "  <body>" +
-            "    <p>Page Views: {0}</p>" +
-            "    <form method=\"post\" action=\"shutdown\">" +
-            "      <input type=\"submit\" value=\"Shutdown\" {1}>" +
-            "    </form>" +
-            "  </body>" +
-            "</html>";
-
+        public static string pageData = File.ReadAllText("src\\scripts\\modules\\debug\\web\\index.html");
 
         public static async Task HandleIncomingConnections()
         {
@@ -40,13 +28,13 @@ namespace Proj.Modules.Debug
                 HttpListenerRequest req = ctx.Request;
                 HttpListenerResponse resp = ctx.Response;
 
-                // Print out some info about the request
-                Console.WriteLine("Request #: {0}", ++requestCount);
-                Console.WriteLine(req.Url.ToString());
-                Console.WriteLine(req.HttpMethod);
-                Console.WriteLine(req.UserHostName);
-                Console.WriteLine(req.UserAgent);
-                Console.WriteLine();
+                // // Print out some info about the request
+                // Console.WriteLine("Request #: {0}", ++requestCount);
+                // Console.WriteLine(req.Url.ToString());
+                // Console.WriteLine(req.HttpMethod);
+                // Console.WriteLine(req.UserHostName);
+                // Console.WriteLine(req.UserAgent);
+                // Console.WriteLine();
 
                 // If `shutdown` url requested w/ POST, then shutdown the server after serving the page
                 if ((req.HttpMethod == "POST") && (req.Url.AbsolutePath == "/shutdown"))
@@ -73,13 +61,13 @@ namespace Proj.Modules.Debug
         }
 
 
-        public static void start_server()
+        public static void web_init()
         {
             // Create a Http server and start listening for incoming connections
             listener = new HttpListener();
             listener.Prefixes.Add(url);
             listener.Start();
-            Console.WriteLine("Listening for connections on {0}", url);
+            Debug.send("Debug webserver started on " + url);
 
             // Handle requests
             Task listenTask = HandleIncomingConnections();

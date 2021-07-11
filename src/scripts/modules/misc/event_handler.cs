@@ -1,5 +1,6 @@
 using SDL2;
 using Proj.Modules.Input;
+using Proj.Modules.Debug;
 
 namespace Proj.Modules.Misc {
     static class event_handler {

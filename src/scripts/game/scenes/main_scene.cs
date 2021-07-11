@@ -2,85 +2,133 @@ using Proj.Modules.Input;
 using Proj.Modules.Ui;
 using Proj.Modules.Debug;
 using SDL2;
+using System;
 
 namespace Proj.Game {
     public class main_scene : scene {
-        gui_element bg, sidebar, button, button_2, button_2_;
-        bool pressed, press;
+
+        gui_element footer, b1, b2, b3, b4, body;
+        int[] squares = new int[5];
+        int score = 0;
+        int counter = 0;
 
         public main_scene() {
-            bg = new gui_element(new center_constraint(), new center_constraint(), new percentage_constraint(0.9f), new percentage_constraint(0.9f));
-            bg.set_color(230, 221, 198, 255, 1);
+            footer = new gui_element();
+            footer.set_position_constraint(new center_constraint(), new percentage_constraint(0.9f), 1);
+            footer.set_size_constraint(new pixel_constraint(512), new pixel_constraint(128), 1);
+            footer.set_color(0, 0, 0, 255, 1);
 
-            sidebar = new gui_element();
-            bg.add_child(ref sidebar);
-            sidebar.set_size_constraint(new percentage_constraint(0.3f), new percentage_constraint(0.95f), 6);
-            sidebar.set_position_constraint(new percentage_constraint(0.17f),new center_constraint(), 6);
-            sidebar.set_color(255, 255, 255, 125, 1);
+            b1 = new gui_element();
+            b1.set_position_constraint(new pixel_constraint(64), new center_constraint(), 1);
+            b1.set_size_constraint(new percentage_constraint(0.25f), new aspect_constraint(1f), 1);
+            b1.set_color(100, 100, 100, 255, 1);
+            footer.add_child(ref b1);
 
-            button = new gui_element();
-            button.set_size_constraint(new aspect_constraint(1), new percentage_constraint(0.1f), 6);
-            button.set_position_constraint(new percentage_constraint(0.95f), new percentage_constraint(0.1f), 6);
-            button.set_color(100, 100, 100, 125, 1);
-            button.set_border_radius(20, 24);
-            bg.add_child(ref button);
-            
-            pressed = false;
-            press = false;
+            b2 = new gui_element();
+            b2.set_position_constraint(new pixel_constraint(192), new center_constraint(), 1);
+            b2.set_size_constraint(new percentage_constraint(0.25f), new aspect_constraint(1f), 1);
+            b2.set_color(130, 130, 130, 255, 1);
+            footer.add_child(ref b2);
 
-            button_2 = new gui_element();
-            button_2.set_position_constraint(new percentage_constraint(0.8f), new pixel_constraint(40f), 1);
-            button_2.set_size_constraint(new percentage_constraint(0.13f), new percentage_constraint(0.1f), 1);
-            button_2.set_color(100, 100, 100, 255, 1);
-            button_2.set_border_radius(30, 1);
+            b3 = new gui_element();
+            b3.set_position_constraint(new pixel_constraint(320), new center_constraint(), 1);
+            b3.set_size_constraint(new percentage_constraint(0.25f), new aspect_constraint(1f), 1);
+            b3.set_color(100, 100, 100, 255, 1);
+            footer.add_child(ref b3);
 
-            bg.add_child(ref button_2);
+            b4 = new gui_element();
+            b4.set_position_constraint(new pixel_constraint(448), new center_constraint(), 1);
+            b4.set_size_constraint(new percentage_constraint(0.25f), new aspect_constraint(1f), 1);
+            b4.set_color(130, 130, 130, 255, 1);
+            footer.add_child(ref b4);
 
-            button_2_ = new gui_element();
-            button_2_.set_position_constraint(new percentage_constraint(0.17f), new center_constraint(), 1);
-            button_2_.set_size_constraint(new aspect_constraint(1f), new percentage_constraint(0.85f), 1);
-            button_2_.set_color(0, 255, 0, 255, 1);
-            button_2_.set_border_radius(25, 1);
-            button_2.add_child(ref button_2_);
+            body = new gui_element();
+            body.set_position_constraint(new center_constraint(), new percentage_constraint(0.405f), 1);
+            body.set_size_constraint(new pixel_constraint(512), new percentage_constraint(0.81f), 1);
+            body.set_color(220, 220, 220);
+
+            Random random = new Random();
+            for(int i = 0; i < squares.Length; i++) {
+                squares[i] = random.Next(0, 4);
+            }
+
+            foreach(int square in squares) {
+                Debug.send(square);
+            }
+        }
+
+        private void regen() {
+            Random random = new Random();
+            for(int i = 0; i < squares.Length; i++) {
+                squares[i] = random.Next(0, 4);
+            }
+        }
+
+        private void pressed(int key) {
+            Random random = new Random();
+            if(key == squares[squares.Length - 1]) {
+                score++;
+                squares[4] = squares[3];
+                squares[3] = squares[2];
+                squares[2] = squares[1];
+                squares[1] = squares[0];
+                squares[0] = random.Next(0, 4);
+            } else {
+                Debug.send(score);
+                game_manager.is_running = false;
+            }
         }
 
         public override void update() {
-            if(button.mouse_hovered()) {
-                button.set_color(200, 200, 200, 125, 3);
-                if(mouse.button_just_pressed("lmb")) {
-                    pressed = !pressed;
-                }
-            } else {
-                button.set_color(100, 100, 100, 125, 12);
+            footer.update();
+            body.update();
+
+            counter++;
+
+
+            b1.set_color(100, 100, 100, 255, 3);
+            if(input.get_key_just_pressed(input.key_e)) {
+                b1.set_color(255, 255, 255, 255, 3);
+                pressed(0);
             }
 
-            if(pressed) {
-                sidebar.set_color(255, 255, 255, 125, 6);
-                sidebar.set_position_constraint(new percentage_constraint(-0.25f), new center_constraint(), 12);
-            } else {
-                sidebar.set_color(255, 255, 255, 125, 12);
-                sidebar.set_position_constraint(new percentage_constraint(0.17f), new center_constraint(), 12);
+            b2.set_color(130, 130, 130, 255, 3);
+            if(input.get_key_just_pressed(input.key_f)) {
+                b2.set_color(255, 255, 255, 255, 3);
+                pressed(1);
             }
 
-            bg.update();
-
-            if(button_2.mouse_hovered()) {
-                if(mouse.button_just_pressed("lmb")) {
-                    press = !press;
-                }
+            b3.set_color(100, 100, 100, 255, 3);
+            if(input.get_key_just_pressed(input.key_j)) {
+                b3.set_color(255, 255, 255, 255, 3);
+                pressed(2);
             }
 
-            if(press) {
-                button_2_.set_position_constraint(new percentage_constraint(0.78f), new center_constraint(), 12);
-            } else {
-                button_2_.set_position_constraint(new percentage_constraint(0.22f), new center_constraint(), 12);
+            b4.set_color(130, 130, 130, 255, 3);
+            if(input.get_key_just_pressed(input.key_i)) {
+                b4.set_color(255, 255, 255, 255, 3);
+                pressed(3);
             }
+
+            // if(input.get_key_just_pressed(input.key_r)) {
+            //     regen();
+            // }
+            Debug.send(score);
         }
 
-
-
         public override void render() {
-            bg.render();
+            footer.render();
+            body.render();
+
+            SDL.SDL_Rect rect;
+            rect.w = rect.h = 128;
+            int i = 0;
+            foreach(int square in squares) {
+                rect.x = 128 * square + 384;
+                rect.y =  i * 128 - 96 + (i * 10);
+                draw.rect(game_manager.renderer, rect, 0, 0, 0, 255, true);
+                i++;
+            }
         }
     }
 }

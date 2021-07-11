@@ -76,8 +76,9 @@ namespace Proj
         public static void update() {
             screen.screen_update();
             scene_handler.update();
-
-            input.last_frame = input.pressed_keys;
+            for(var i = 0; i < input.pressed_keys.Length; i++) {
+                input.last_frame[i] = input.pressed_keys[i];
+            }
             mouse.llmb = mouse.lmb;
             mouse.lrmb = mouse.rmb;
         }
@@ -91,9 +92,13 @@ namespace Proj
         }
 
         public static void stop() {
+
+            //debug_web.listener.Close();
+
             SDL.SDL_DestroyWindow(window);
             SDL.SDL_DestroyRenderer(renderer);
             SDL.SDL_Quit();
+
             Debug.send("Game cleaned without errors");
         }
 
