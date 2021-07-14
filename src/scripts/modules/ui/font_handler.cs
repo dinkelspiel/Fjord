@@ -19,7 +19,7 @@ namespace Proj.Modules.Ui
         public static void get_text_and_rect(IntPtr renderer, int x, int y, string text, string font_id, out dynamic texture, out SDL.SDL_Rect rect) {
             int text_width;
             int text_height;
-            dynamic surface;
+            IntPtr surface;
             SDL.SDL_Color textColor;
             dynamic font = fonts[font_id];
             textColor.r = textColor.g = textColor.b = 255;
@@ -27,8 +27,8 @@ namespace Proj.Modules.Ui
 
             surface = SDL_ttf.TTF_RenderText_Solid(font, text, textColor);
             texture = SDL.SDL_CreateTextureFromSurface(renderer, surface);
-            text_width = 300;
-            text_height = 300;
+            uint pog; int pog2;
+            SDL.SDL_QueryTexture(texture, out pog, out pog2, out text_width, out text_height);
             SDL.SDL_FreeSurface(surface);
             rect.x = x;
             rect.y = y;
