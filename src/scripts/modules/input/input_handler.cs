@@ -3,6 +3,8 @@ namespace Proj.Modules.Input {
         public static bool[] pressed_keys = new bool[77];
         public static bool[] last_frame = new bool[77];
 
+        public static string input_state = "general";
+
         #region keys
         public static readonly int key_a = 0;
         public static readonly int key_b = 1;
@@ -80,12 +82,20 @@ namespace Proj.Modules.Input {
         public static readonly int key_right = 73;
         #endregion
 
-        public static bool get_key_pressed(int key) {
-            return pressed_keys[key];
+        public static bool get_key_pressed(int key, string input_state_check=null) {
+            if(input_state_check == null) {
+                return pressed_keys[key];
+            } else {
+                return pressed_keys[key] && input_state == input_state_check;
+            }
         }
 
-        public static bool get_key_just_pressed(int key) {
-            return pressed_keys[key] && !last_frame[key];
+        public static bool get_key_just_pressed(int key, string input_state_check=null) {
+            if(input_state_check == null) {
+                return pressed_keys[key] && !last_frame[key];
+            } else {
+                return pressed_keys[key] && !last_frame[key] && input_state == input_state_check;
+            }
         }
 
         public static bool get_any_key_pressed() {
@@ -95,6 +105,14 @@ namespace Proj.Modules.Input {
                 }
             }
             return false;
+        }
+
+        public static void set_input_state(string input_state_set) {
+            input_state = input_state_set;
+        }
+
+        public static string get_input_state() {
+            return input_state;
         }
     }
 }
