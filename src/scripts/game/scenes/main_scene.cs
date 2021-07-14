@@ -13,6 +13,9 @@ namespace Proj.Game {
         int score = 0;
         int counter = 0;
 
+        dynamic texture;
+        SDL.SDL_Rect rect1;
+
         public main_scene() {
             footer = new gui_element();
             footer.set_position_constraint(new center_constraint(), new percentage_constraint(0.9f), 1);
@@ -115,8 +118,9 @@ namespace Proj.Game {
             footer.update();
             body.update();
 
-            counter++;
+            font_handler.get_text_and_rect(game_manager.renderer, 0, 0, score.ToString(), "default", out texture, out rect1);
 
+            counter++;
 
             b1.set_color(100, 100, 100, 255, 3);
             if(input.get_key_just_pressed(input.key_e)) {
@@ -141,11 +145,6 @@ namespace Proj.Game {
                 b4.set_color(255, 255, 255, 255, 3);
                 pressed(3);
             }
-
-            // if(input.get_key_just_pressed(input.key_r)) {
-            //     regen();
-            // }
-            Debug.send(score);
         }
 
         public override void render() {
@@ -158,24 +157,29 @@ namespace Proj.Game {
             foreach(int square in squares) {
                 switch(i) {
                     case 0:
-                        s1.set_position_constraint(new pixel_constraint(128 * square + 64), new pixel_constraint(128 * i), 1);
+                        s1.set_position_constraint(new pixel_constraint(128 * square + 64), new pixel_constraint(128 * i + (i * 10) - 30), 1);
                         break;
                     case 1:
-                        s2.set_position_constraint(new pixel_constraint(128 * square + 64), new pixel_constraint(128 * i), 1);
+                        s2.set_position_constraint(new pixel_constraint(128 * square + 64), new pixel_constraint(128 * i + (i * 10) - 30), 1);
                         break;
                     case 2:
-                        s3.set_position_constraint(new pixel_constraint(128 * square + 64), new pixel_constraint(128 * i), 1);
+                        s3.set_position_constraint(new pixel_constraint(128 * square + 64), new pixel_constraint(128 * i + (i * 10) - 30), 1);
                         break;
                     case 3:
-                        s4.set_position_constraint(new pixel_constraint(128 * square + 64), new pixel_constraint(128 * i), 1);
+                        s4.set_position_constraint(new pixel_constraint(128 * square + 64), new pixel_constraint(128 * i + (i * 10) - 30), 1);
                         break;
                     case 4:
-                        s5.set_position_constraint(new pixel_constraint(128 * square + 64), new pixel_constraint(128 * i), 1);
+                        s5.set_position_constraint(new pixel_constraint(128 * square + 64), new pixel_constraint(128 * i + (i * 10) - 30), 1);
                         break;
                 }
 
                 i++;
             }
+
+            SDL.SDL_Rect dest;
+            dest.x = dest.y = 0;
+            dest.w = dest.h = 200;
+            SDL.SDL_RenderCopy(game_manager.renderer, texture, ref dest, ref rect1);
         }
     }
 }

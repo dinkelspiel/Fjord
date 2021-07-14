@@ -25,10 +25,6 @@ namespace Proj
 
         public static string asset_pack = "main";
         public static string executable_path;
-        public static string executable_dir;
-
-        private static dynamic texture1;
-        private static SDL.SDL_Rect rect1;
 
         public static bool running() {
             return is_running;
@@ -73,8 +69,6 @@ namespace Proj
             scene_handler.load_scene("main");
 
             font_handler.load_font("default", "Sans", 42);
-
-            font_handler.get_text_and_rect(renderer, 0, 0, "Pogg", "default", out texture1, out rect1);
         }
 
 
@@ -93,11 +87,6 @@ namespace Proj
             SDL.SDL_RenderClear(renderer);
 
             scene_handler.render();
-
-            SDL.SDL_Rect dest;
-            dest.x = dest.y = 0;
-            dest.w = dest.h = 200;
-            SDL.SDL_RenderCopy(renderer, texture1, ref dest, ref rect1);
 
             SDL.SDL_RenderPresent(renderer);
         }
