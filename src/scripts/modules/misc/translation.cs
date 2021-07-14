@@ -13,9 +13,7 @@ namespace Proj.Modules.Misc {
 
             // Debug workaround for filepath
 
-            string[] executable_arr = game_manager.executable_path.Split("\\");
-            Array.Resize(ref executable_arr, executable_arr.Length - 4);
-            string file_path = String.Join("\\", executable_arr) + "\\src\\resources\\" + game_manager.asset_pack + "\\data\\lang\\" + language + ".lang";;
+            string file_path = game_manager.executable_path + "\\src\\resources\\" + game_manager.asset_pack + "\\data\\lang\\" + language + ".lang";
 
             string[] array = File.ReadAllLines(file_path);
             foreach(string i in array) {

@@ -7,8 +7,9 @@ using System;
 namespace Proj.Game {
     public class main_scene : scene {
 
-        gui_element footer, b1, b2, b3, b4, body;
+        gui_element footer, b1, b2, b3, b4, body, s1, s2, s3, s4, s5;
         int[] squares = new int[5];
+        int[] order = new int[5]{0, 1, 2, 3, 4};
         int score = 0;
         int counter = 0;
 
@@ -47,6 +48,32 @@ namespace Proj.Game {
             body.set_size_constraint(new pixel_constraint(512), new percentage_constraint(0.81f), 1);
             body.set_color(220, 220, 220);
 
+            s1 = new gui_element();
+            s1.set_size_constraint(new pixel_constraint(128), new pixel_constraint(128), 1);
+            s1.set_color(0, 0, 0, 255, 1);
+
+            s2 = new gui_element();
+            s2.set_size_constraint(new pixel_constraint(128), new pixel_constraint(128), 1);
+            s2.set_color(0, 0, 0, 255, 1);
+
+            s3 = new gui_element();
+            s3.set_size_constraint(new pixel_constraint(128), new pixel_constraint(128), 1);
+            s3.set_color(0, 0, 0, 255, 1);
+
+            s4 = new gui_element();
+            s4.set_size_constraint(new pixel_constraint(128), new pixel_constraint(128), 1);
+            s4.set_color(0, 0, 0, 255, 1);
+
+            s5 = new gui_element();
+            s5.set_size_constraint(new pixel_constraint(128), new pixel_constraint(128), 1);
+            s5.set_color(0, 0, 0, 255, 1);
+
+            body.add_child(ref s1);
+            body.add_child(ref s2);
+            body.add_child(ref s3);
+            body.add_child(ref s4);
+            body.add_child(ref s5);
+
             Random random = new Random();
             for(int i = 0; i < squares.Length; i++) {
                 squares[i] = random.Next(0, 4);
@@ -65,6 +92,11 @@ namespace Proj.Game {
         }
 
         private void pressed(int key) {
+            order[0] = order[4];
+            order[4] = order[3];
+            order[3] = order[2];
+            order[2] = order[1];
+            order[1] = order[0];
             Random random = new Random();
             if(key == squares[squares.Length - 1]) {
                 score++;
@@ -124,9 +156,24 @@ namespace Proj.Game {
             rect.w = rect.h = 128;
             int i = 0;
             foreach(int square in squares) {
-                rect.x = 128 * square + 384;
-                rect.y =  i * 128 - 96 + (i * 10);
-                draw.rect(game_manager.renderer, rect, 0, 0, 0, 255, true);
+                switch(i) {
+                    case 0:
+                        s1.set_position_constraint(new pixel_constraint(128 * square + 64), new pixel_constraint(128 * i), 1);
+                        break;
+                    case 1:
+                        s2.set_position_constraint(new pixel_constraint(128 * square + 64), new pixel_constraint(128 * i), 1);
+                        break;
+                    case 2:
+                        s3.set_position_constraint(new pixel_constraint(128 * square + 64), new pixel_constraint(128 * i), 1);
+                        break;
+                    case 3:
+                        s4.set_position_constraint(new pixel_constraint(128 * square + 64), new pixel_constraint(128 * i), 1);
+                        break;
+                    case 4:
+                        s5.set_position_constraint(new pixel_constraint(128 * square + 64), new pixel_constraint(128 * i), 1);
+                        break;
+                }
+
                 i++;
             }
         }

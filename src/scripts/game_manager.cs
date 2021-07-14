@@ -27,6 +27,9 @@ namespace Proj
         public static string executable_path;
         public static string executable_dir;
 
+        private static dynamic texture1;
+        private static SDL.SDL_Rect rect1;
+
         public static bool running() {
             return is_running;
         }
@@ -45,6 +48,7 @@ namespace Proj
 
                 Debug.send("Window created without errors");
 
+                SDL_ttf.TTF_Init();
 
                 renderer = SDL.SDL_CreateRenderer(window, -1, 0);
                 SDL.SDL_SetRenderDrawColor(renderer, 47, 49, 90, 255); 
@@ -57,11 +61,9 @@ namespace Proj
                 is_running = false;
             }
 
-            executable_path = Assembly.GetEntryAssembly().Location;
+            executable_path = Directory.GetCurrentDirectory();
 
-            string[] executable_arr = game_manager.executable_path.Split("\\");
-            Array.Resize(ref executable_arr, executable_arr.Length - 1);
-            executable_dir = String.Join("\\", executable_arr);
+            Debug.send(executable_path);
 
             Language.load_langfile("en_US");
 
@@ -69,6 +71,10 @@ namespace Proj
 
             scene_handler.add_scene("main", new main_scene());
             scene_handler.load_scene("main");
+
+            font_handler.load_font("default", "Sans", 42);
+
+            font_handler.get_text_and_rect(renderer, 0, 0, "Pogg", "default", out texture1, out rect1);
         }
 
 
@@ -87,6 +93,11 @@ namespace Proj
             SDL.SDL_RenderClear(renderer);
 
             scene_handler.render();
+
+            SDL.SDL_Rect dest;
+            dest.x = dest.y = 0;
+            dest.w = dest.h = 200;
+            SDL.SDL_RenderCopy(renderer, texture1, ref dest, ref rect1);
 
             SDL.SDL_RenderPresent(renderer);
         }
