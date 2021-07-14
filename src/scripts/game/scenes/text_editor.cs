@@ -73,15 +73,15 @@ namespace Proj.Game {
             foreach(string line in text) {
                 font_handler.get_text_and_rect(game_manager.renderer, 0, 0, line, "Cozette", out texture1, out rect1);
                 SDL.SDL_Rect dest;
-                dest.x = 0;
-                dest.y = rect1.h * i;
+                dest.x = 10;
+                dest.y = rect1.h * i + 10;
                 dest.w = rect1.w;
                 dest.h = rect1.h;
                 SDL.SDL_RenderCopy(game_manager.renderer, texture1, ref rect1, ref dest); 
 
                 SDL.SDL_Rect marker;
-                marker.x = rect1.w + 5;
-                marker.y = dest.y + dest.h - 6;
+                marker.x = rect1.w + 15;
+                marker.y = dest.h * i + dest.h;
                 marker.h = 3;
                 marker.w = 12;
 
