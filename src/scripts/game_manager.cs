@@ -59,8 +59,6 @@ namespace Proj
 
             executable_path = Directory.GetCurrentDirectory();
 
-            Debug.send(executable_path);
-
             Language.load_langfile("en_US");
 
             screen = new screen_rect();
@@ -100,6 +98,7 @@ namespace Proj
             SDL.SDL_Quit();
 
             Debug.send("Game cleaned without errors");
+            System.Environment.Exit(0);
         }
 
         public static void tick_fps(int FPS) {
