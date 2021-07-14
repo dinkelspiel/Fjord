@@ -24,7 +24,7 @@ namespace Proj.Modules.Misc {
                 #region keys
                 case SDL.SDL_EventType.SDL_KEYDOWN:
                     switch(events.key.keysym.sym) {
-                       case SDL.SDL_Keycode.SDLK_a:
+                        case SDL.SDL_Keycode.SDLK_a:
                             input.pressed_keys[input.key_a] = true;
                             break;
                         case SDL.SDL_Keycode.SDLK_b:
@@ -224,6 +224,9 @@ namespace Proj.Modules.Misc {
                             break;
                         case SDL.SDL_Keycode.SDLK_LALT:
                             input.pressed_keys[input.key_lalt] = true;
+                            break;
+                        case SDL.SDL_Keycode.SDLK_SPACE:
+                            input.pressed_keys[input.key_space] = true;
                             break;
                         case SDL.SDL_Keycode.SDLK_RALT:
                             input.pressed_keys[input.key_ralt] = true;
@@ -451,6 +454,9 @@ namespace Proj.Modules.Misc {
                         case SDL.SDL_Keycode.SDLK_LALT:
                             input.pressed_keys[input.key_lalt] = false;
                             break;
+                        case SDL.SDL_Keycode.SDLK_SPACE:
+                            input.pressed_keys[input.key_space] = false;
+                            break;
                         case SDL.SDL_Keycode.SDLK_RALT:
                             input.pressed_keys[input.key_ralt] = false;
                             break;
@@ -474,8 +480,8 @@ namespace Proj.Modules.Misc {
                             break;
                     }
                     break;
-                }
                 #endregion
+                }
             }
         }
     }

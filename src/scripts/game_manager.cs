@@ -64,7 +64,8 @@ namespace Proj
             screen = new screen_rect();
 
             scene_handler.add_scene("main", new main_scene());
-            scene_handler.load_scene("main");
+            scene_handler.add_scene("text_editor", new text_editor());
+            scene_handler.load_scene("text_editor");
 
             font_handler.load_font("default", "Sans", 42);
         }

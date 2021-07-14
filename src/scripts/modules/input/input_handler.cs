@@ -2,7 +2,7 @@ namespace Proj.Modules.Input {
     public static class input {
         public static bool[] pressed_keys = new bool[77];
         public static bool[] last_frame = new bool[77];
-        public static string[] key_references = new string[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12", "escape", "backquote", "minus", "equals", "backspace", "tab", "leftbracket", "rightbracket", "backslash", "capslock", "semicolon", "quote", "return", "lshift", "comma", "period", "rshift", "lctrl", "lalt", "ralt", "application", "rctrl", "up", "down", "left", "right"};
+        private static string[] key_references = new string[]{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12", "escape", "backquote", "minus", "equals", "backspace", "tab", "leftbracket", "rightbracket", "backslash", "capslock", "semicolon", "quote", "return", "lshift", "comma", "period", "rshift", "lctrl", "lalt", "ralt", "application", "rctrl", "up", "down", "left", "right"};
 
         public static string input_state = "general";
 
@@ -74,13 +74,14 @@ namespace Proj.Modules.Input {
         public static readonly int key_rshift = 64;
         public static readonly int key_lctrl = 65;
         public static readonly int key_lalt = 66;
-        public static readonly int key_ralt = 67;
-        public static readonly int key_application = 68;
-        public static readonly int key_rctrl = 69;
-        public static readonly int key_up = 70;
-        public static readonly int key_down = 71;
-        public static readonly int key_left = 72;
-        public static readonly int key_right = 73;
+        public static readonly int key_space = 67;
+        public static readonly int key_ralt = 68;
+        public static readonly int key_application = 69;
+        public static readonly int key_rctrl = 70;
+        public static readonly int key_up = 71;
+        public static readonly int key_down = 72;
+        public static readonly int key_left = 73;
+        public static readonly int key_right = 74;
         #endregion
 
         public static bool get_key_pressed(int key, string input_state_check=null) {

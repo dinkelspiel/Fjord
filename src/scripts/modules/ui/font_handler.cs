@@ -16,7 +16,7 @@ namespace Proj.Modules.Ui
             return false;
         }
 
-        public static void get_text_and_rect(IntPtr renderer, int x, int y, string text, string font_id, out dynamic texture, out SDL.SDL_Rect rect) {
+        public static void get_text_and_rect(IntPtr renderer, int x, int y, string text, string font_id, out IntPtr texture, out SDL.SDL_Rect rect) {
             int text_width;
             int text_height;
             IntPtr surface;

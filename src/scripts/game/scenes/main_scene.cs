@@ -13,7 +13,7 @@ namespace Proj.Game {
         int score = 0;
         int counter = 0;
 
-        dynamic texture1, texture2;
+        IntPtr texture1, texture2;
         SDL.SDL_Rect rect1, rect2;
 
         public main_scene() {
