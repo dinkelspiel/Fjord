@@ -111,7 +111,15 @@ namespace Proj.Modules.Ui {
         } 
     
         public static void polygon(IntPtr renderer, byte r, byte g, byte b, byte a, Vector4[] lines) {
+            SDL.SDL_Color old_color;
+            SDL.SDL_GetRenderDrawColor(game_manager.renderer, out old_color.r, out old_color.g, out old_color.b, out old_color.a);
+            SDL.SDL_SetRenderDrawColor(game_manager.renderer, r, g, b, a);
 
+            foreach(Vector4 line in lines) {
+                SDL.SDL_RenderDrawLine(renderer, (int)line.X, (int)line.Y, (int)line.Z, (int)line.W);
+            }
+            
+            SDL.SDL_SetRenderDrawColor(game_manager.renderer, old_color.r, old_color.g, old_color.b, old_color.a);
         }
     }
 }
