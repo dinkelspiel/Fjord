@@ -2,6 +2,7 @@ using SDL2;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Numerics;
 
 namespace Proj.Modules.Ui {
     public static class draw {
@@ -108,5 +109,9 @@ namespace Proj.Modules.Ui {
             }
             SDL.SDL_SetRenderDrawColor(renderer, oldcolor.r, oldcolor.g, oldcolor.b, oldcolor.a);
         } 
+    
+        public static void polygon(IntPtr renderer, byte r, byte g, byte b, byte a, Vector4[] lines) {
+
+        }
     }
 }

@@ -12,13 +12,21 @@ namespace Proj.Game {
         List<String> text = new List<string>();
 
         int current_line = 0;
+        int current_char = 0;
 
         IntPtr texture1;
-        SDL.SDL_Rect rect1;
+        SDL.SDL_Rect rect1, letter;
+
+        SDL.SDL_Rect marker, marker_to;
+
+        int fallback_y;
 
         public text_editor() {
             font_handler.load_font("Cozette", "Cozette", 32);
+            font_handler.load_font("Nunito", "Nunito", 32);
             text.Add("");
+
+            font_handler.get_text_and_rect(game_manager.renderer, 0, 0, "a", "Nunito", out texture1, out letter);
         }
 
         public override void update() {
@@ -54,40 +62,50 @@ namespace Proj.Game {
                 } else if(input.get_any_key_just_pressed() == input.key_return) {
                     text.Add("");
                     current_line += 1;
+                    current_char = text[current_line].Length;
                 } else if(input.get_any_key_just_pressed() == input.key_tab) {
                     text[current_line] += "    ";
                 } else if(input.get_any_key_just_pressed() == input.key_up) {
                     if(current_line > 0) {
                         current_line -= 1;
+                        current_char = text[current_line].Length;
                     }
                 } else if(input.get_any_key_just_pressed() == input.key_down) {
                     if(current_line < text.Count - 1) {
                         current_line += 1;
+                        current_char = text[current_line].Length;
                     }
+                } else if(input.get_any_key_just_pressed() == input.key_left) {
+
+                } else if(input.get_any_key_just_pressed() == input.key_right) {
+
                 }
             }
+
+            marker.x += (marker_to.x - marker.x) / 2;
+            marker.y += (marker_to.y - marker_to.y) / 3;         
         }
 
         public override void render() {
             int i = 0;
             foreach(string line in text) {
-                font_handler.get_text_and_rect(game_manager.renderer, 0, 0, line, "Cozette", out texture1, out rect1);
+                font_handler.get_text_and_rect(game_manager.renderer, 0, 0, line, "Nunito", out texture1, out rect1);
                 SDL.SDL_Rect dest;
                 dest.x = 10;
-                dest.y = rect1.h * i + 10;
+                dest.y = rect1.h * i - i * 10 + 30;
                 dest.w = rect1.w;
                 dest.h = rect1.h;
                 SDL.SDL_RenderCopy(game_manager.renderer, texture1, ref rect1, ref dest); 
 
-                SDL.SDL_Rect marker;
-                marker.x = rect1.w + 15;
-                marker.y = dest.h * i + dest.h;
-                marker.h = 3;
-                marker.w = 12;
-
-                if(i == current_line) {
-                    draw.rect(game_manager.renderer, marker, 255, 255, 255, 255, true);
-                }
+                marker_to.x = rect1.w + 18 - letter.w * (current_char + 1);
+                
+                marker.h = 20;
+                marker.w = 2;
+                
+                if(current_line == i)
+                    marker.y = letter.h * i - i * 10 + 45;
+                
+                draw.rect(game_manager.renderer, marker, 255, 255, 255, 255, true);
 
                 i++;
             } 
