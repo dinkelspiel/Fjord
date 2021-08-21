@@ -57,8 +57,6 @@ namespace Proj
                 is_running = false;
             }
 
-            SDL.SDL_RenderSetLogicalSize(game_manager.renderer, 300, 169);
-
             executable_path = Directory.GetCurrentDirectory();
 
             Language.load_langfile("en_US");
@@ -68,7 +66,7 @@ namespace Proj
             scene_handler.add_scene("main", new main_scene());
             scene_handler.add_scene("text_editor", new text_editor());
             scene_handler.add_scene("slay", new slay());
-            scene_handler.load_scene("slay");
+            scene_handler.load_scene("text_editor");
 
             font_handler.load_font("default", "Sans", 42);
         }
@@ -113,6 +111,11 @@ namespace Proj
                 SDL.SDL_Delay((uint)frame_delay - (uint)frame_length);
             }
             frame_start = (int)SDL.SDL_GetTicks();
+        }
+
+        public static void set_render_resolution(IntPtr renderer, int width, int height) {
+            SDL.SDL_RenderSetLogicalSize(renderer, width, height);
+            //SDL.SDL_RenderSetLogicalSize(game_manager.renderer, 300, 169);
         }
     }
 }
