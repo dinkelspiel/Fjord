@@ -27,8 +27,7 @@ namespace Proj.Game {
             }
         }
 
-        public override void on_load()
-        {
+        public override void on_load() {
             game_manager.set_render_resolution(game_manager.renderer, 300, 169);
         }
 
