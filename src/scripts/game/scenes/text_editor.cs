@@ -14,48 +14,33 @@ namespace Proj.Game {
         int current_line = 0;
         int current_char = 0;
 
-        IntPtr texture1;
-        SDL.SDL_Rect rect1, letter;
+        IntPtr line_texture;
+        SDL.SDL_Rect line_rect, letter_rect;
 
-        SDL.SDL_Rect marker, marker_to;
+        SDL.SDL_Rect header;
 
-        int fallback_y;
+        string font = "FiraCode";
 
         public text_editor() {
-            font_handler.load_font("Cozette", "Cozette", 32);
-            font_handler.load_font("Nunito", "Nunito", 32);
+
+            font_handler.load_font("Cozette", "Cozette", 22);
+            font_handler.load_font("Nunito", "Nunito", 22);
+            font_handler.load_font("FiraCode", "FiraCode", 22);
             text.Add("");
 
-            font_handler.get_text_and_rect(game_manager.renderer, 0, 0, "a", "Nunito", out texture1, out letter);
+            font_handler.get_text_and_rect(game_manager.renderer, "a", font, out line_texture, out letter_rect, 0, 0);
+
+            header.x = header.y = 0;
+            header.w = 1280;
+            header.h = 25;
         }
 
         public override void update() {
             if(input.get_any_key_just_pressed() != -1) {
-                if(input.get_key(input.get_any_key_just_pressed()).Length == 1) {
-                    text[current_line] += input.get_key_pressed(input.key_lshift) ? input.get_key(input.get_any_key_just_pressed()).ToUpper() : input.get_key(input.get_any_key_just_pressed());
-                } else if(input.get_any_key_just_pressed() == input.key_backspace) {
-                    if(input.get_key_pressed(input.key_lctrl)) {
-                        var text_arr = text[current_line].Split(" ");
-                        if(text_arr.Length > 1) {
-                            text_arr = text_arr.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                            text_arr[text_arr.Length - 1] = "";
-                            text[current_line] = string.Join(" ", text_arr);
-                        } else if(current_line > 0) {
-                            current_line -= 1;
-                            text.RemoveAt(text.Count - 1);
-                        } else {
-                            text_arr[0] = "";
-                            text[current_line] = string.Join(" ", text_arr);
-                        }
-                    } else {
-                        if(text[current_line].Length > 0) {
-                            text[current_line] = text[current_line].Remove(text[current_line].Length - 1);
-                        } else {
-                            if(current_line > 0) {
-                                current_line -= 1;
-                                text.RemoveAt(text.Count - 1);
-                            }
-                        }
+                if(input.get_any_key_just_pressed() == input.key_backspace) {
+                    if(text[current_line].Length > 0 && current_char > 0 && current_char < text[current_line].Length) {
+                        text[current_line] = text[current_line].Remove(current_char, 1);
+                        current_char -= 1;
                     }
                 } else if(input.get_any_key_just_pressed() == input.key_space) {
                     text[current_line] += " ";
@@ -76,39 +61,63 @@ namespace Proj.Game {
                         current_char = text[current_line].Length;
                     }
                 } else if(input.get_any_key_just_pressed() == input.key_left) {
-
+                    if(current_char > 0) {
+                        current_char -= 1;
+                    } else {
+                        if(current_line > 0) {
+                            current_line -= 1;
+                            current_char = text[current_line].Length;
+                        }
+                    }
                 } else if(input.get_any_key_just_pressed() == input.key_right) {
-
+                    current_char += current_char < text[current_line].Length ? 1 : 0;
+                } else if(input.get_key_pressed(input.key_lctrl)) {
+                    if(input.get_key_just_pressed(input.key_s)) {
+                        
+                    }
+                } else {
+                    if(input.get_key(input.get_any_key_just_pressed()).Length == 1) 
+                        text[current_line] += input.get_key(input.get_any_key_just_pressed());
+                        current_char += 1;
                 }
-            }
-
-            marker.x += (marker_to.x - marker.x) / 2;
-            marker.y += (marker_to.y - marker_to.y) / 3;         
+            }     
         }
 
         public override void render() {
+
+            draw.rect(game_manager.renderer, header, 100, 100, 100, 255, true);
+
             int i = 0;
             foreach(string line in text) {
-                font_handler.get_text_and_rect(game_manager.renderer, 0, 0, line, "Nunito", out texture1, out rect1);
+            
+                font_handler.get_text_and_rect(game_manager.renderer, line, font, out line_texture, out line_rect, 0, 0, 110, 219, 115, 255);
                 SDL.SDL_Rect dest;
-                dest.x = 10;
-                dest.y = rect1.h * i - i * 10 + 30;
-                dest.w = rect1.w;
-                dest.h = rect1.h;
-                SDL.SDL_RenderCopy(game_manager.renderer, texture1, ref rect1, ref dest); 
+                dest.x = 5;
+                dest.y = line_rect.h * i - i * 5 + 30;
+                dest.w = line_rect.w;
+                dest.h = line_rect.h;
+                SDL.SDL_RenderCopy(game_manager.renderer, line_texture, ref line_rect, ref dest); 
 
-                marker_to.x = rect1.w + 18 - letter.w * (current_char + 1);
-                
-                marker.h = 20;
-                marker.w = 2;
-                
-                if(current_line == i)
-                    marker.y = letter.h * i - i * 10 + 45;
-                
-                draw.rect(game_manager.renderer, marker, 255, 255, 255, 255, true);
-
+                if(i == current_line) {
+                    SDL.SDL_Rect marker;
+                    marker.x = dest.w + 7;
+                    marker.y = dest.y + dest.h / 6;
+                    marker.w = 2;
+                    marker.h = dest.h - dest.h / 3;
+                    draw.rect(game_manager.renderer, marker, 255, 255, 255, 255, true);
+                }
                 i++;
-            } 
+            }
+
+            IntPtr header_texture;
+            SDL.SDL_Rect header_src, header_dest;
+            var header_text = "*unsaved*";
+            font_handler.get_text_and_rect(game_manager.renderer, header_text, font, out header_texture, out header_src, 0, 0, 0, 0, 0, 255);
+            header_dest.x = 5;
+            header_dest.y = 0;
+            header_dest.w = header_src.w;
+            header_dest.h = header_src.h;
+            SDL.SDL_RenderCopy(game_manager.renderer, header_texture, ref header_src, ref header_dest);
         }
     }
 }
