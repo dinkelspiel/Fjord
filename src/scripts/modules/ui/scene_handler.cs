@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using Proj.Modules.Debug;
 
 namespace Proj.Modules.Ui {
     public class scene {
         public virtual void update() {}
         public virtual void render() {}
+        public virtual void on_load() {}
     }
 
     public static class scene_handler {
@@ -16,6 +18,8 @@ namespace Proj.Modules.Ui {
         
         public static void load_scene(string id) {
             current_scene = id;
+            scenes[current_scene].on_load();
+            Debug.Debug.send("Loaded scene '" + id + "' successfully!");
         }
 
         public static void update() {
