@@ -47,7 +47,7 @@ namespace Proj
                 SDL_ttf.TTF_Init();
 
                 renderer = SDL.SDL_CreateRenderer(window, -1, 0);
-                SDL.SDL_SetRenderDrawColor(renderer, 47, 49, 90, 255); 
+                SDL.SDL_SetRenderDrawColor(renderer, 26, 26, 28, 255); 
                 SDL.SDL_SetRenderDrawBlendMode(renderer, SDL.SDL_BlendMode.SDL_BLENDMODE_BLEND);
                 
                 Debug.send("Renderer created without errors");
