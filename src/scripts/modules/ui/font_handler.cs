@@ -16,14 +16,16 @@ namespace Proj.Modules.Ui
             return false;
         }
 
-        public static void get_text_and_rect(IntPtr renderer, int x, int y, string text, string font_id, out IntPtr texture, out SDL.SDL_Rect rect) {
+        public static void get_text_and_rect(IntPtr renderer, string text, string font_id, out IntPtr texture, out SDL.SDL_Rect rect, int x = 0, int y = 0, byte r = 255, byte g = 255, byte b = 255, byte a = 255) {
             int text_width;
             int text_height;
             IntPtr surface;
             SDL.SDL_Color textColor;
             dynamic font = fonts[font_id];
-            textColor.r = textColor.g = textColor.b = 255;
-            textColor.a = 0;    
+            textColor.r = r;
+            textColor.g = g;
+            textColor.b = b;
+            textColor.a = a;    
 
             surface = SDL_ttf.TTF_RenderText_Solid(font, text, textColor);
             texture = SDL.SDL_CreateTextureFromSurface(renderer, surface);
