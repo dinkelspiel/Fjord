@@ -122,8 +122,8 @@ namespace Proj.Game {
             body.update();
             reset_screen.update();
 
-            font_handler.get_text_and_rect(game_manager.renderer, 0, 0, score.ToString(), "default", out texture1, out rect1);
-            font_handler.get_text_and_rect(game_manager.renderer, 1280 / 2, 720 / 2, "Restart by pressing 'R'", "default", out texture2, out rect2);
+            font_handler.get_text_and_rect(game_manager.renderer, score.ToString(), "default", out texture1, out rect1, 0, 0);
+            font_handler.get_text_and_rect(game_manager.renderer, "Restart by pressing 'R'", "default", out texture2, out rect2, 1280 / 2, 720 / 2);
 
             counter++;
 
