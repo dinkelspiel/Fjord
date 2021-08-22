@@ -37,7 +37,7 @@ namespace Proj.Game {
 
         public override void update() {
             if(input.get_any_key_just_pressed() != -1) {
-                if(input.get_any_key_just_pressed() == input.key_backspace) {
+                if(input.get_key_just_pressed(input.key_backspace, "general")) {
                     if(text[current_line].Length > 0) {
                         if(!input.get_key_pressed(input.key_lctrl)) {
                             var edit_text = text[current_line].Substring(0, current_char);
@@ -54,7 +54,6 @@ namespace Proj.Game {
                             var remainder_text = text[current_line].Substring(current_char, text[current_line].Length - current_char);
 
                             var text_arr = edit_text.Split(" ");
-                            text_arr = text_arr.Where(x => !string.IsNullOrEmpty(x)).ToArray();
                             text_arr = text_arr.SkipLast(1).ToArray();
                             edit_text = string.Join(" ", text_arr);
 
@@ -62,26 +61,26 @@ namespace Proj.Game {
                             current_char = text[current_line].Length;
                         }
                     }
-                } else if(input.get_any_key_just_pressed() == input.key_space) {
+                } else if(input.get_key_just_pressed(input.key_space, "general")) {
                     text[current_line] += " ";
                     current_char += 1;
-                } else if(input.get_any_key_just_pressed() == input.key_return) {
+                } else if(input.get_key_just_pressed(input.key_return, "general")) {
                     text.Add("");
                     current_line += 1;
                     current_char = text[current_line].Length;
-                } else if(input.get_any_key_just_pressed() == input.key_tab) {
+                } else if(input.get_key_just_pressed(input.key_tab, "general")) {
                     text[current_line] += "    ";
-                } else if(input.get_any_key_just_pressed() == input.key_up) {
+                } else if(input.get_key_just_pressed(input.key_up, "general")) {
                     if(current_line > 0) {
                         current_line -= 1;
                         current_char = text[current_line].Length;
                     }
-                } else if(input.get_any_key_just_pressed() == input.key_down) {
+                } else if(input.get_key_just_pressed(input.key_down, "general")) {
                     if(current_line < text.Count - 1) {
                         current_line += 1;
                         current_char = text[current_line].Length;
                     }
-                } else if(input.get_any_key_just_pressed() == input.key_left) {
+                } else if(input.get_key_just_pressed(input.key_left, "general")) {
                     if(current_char > 0) {
                         current_char -= 1;
                     } else {
@@ -90,16 +89,15 @@ namespace Proj.Game {
                             current_char = text[current_line].Length;
                         }
                     }
-                } else if(input.get_any_key_just_pressed() == input.key_right) {
+                } else if(input.get_key_just_pressed(input.key_right, "general")) {
                     current_char += current_char < text[current_line].Length ? 1 : 0;
-                } else if(input.get_key_pressed(input.key_lctrl)) {
-                    if(input.get_key_just_pressed(input.key_s)) {
-                        
-                    }
+                } else if(input.get_key_pressed(input.key_s)) {
+                    input.set_input_state("Save");
                 } else {
-                    if(input.get_key(input.get_any_key_just_pressed()).Length == 1) 
-                        text[current_line] += input.get_key(input.get_any_key_just_pressed());
-                        current_char += 1;
+                    if(input.input_state == "general")
+                        if(input.get_key(input.get_any_key_just_pressed()).Length == 1) 
+                            text[current_line] += input.get_key(input.get_any_key_just_pressed());
+                            current_char += 1;
                 }
             }     
         }
@@ -120,7 +118,10 @@ namespace Proj.Game {
                 SDL.SDL_RenderCopy(game_manager.renderer, line_texture, ref line_rect, ref dest); 
 
                 if(i == current_line) {
-                    var length = text[current_line].Substring(0, current_char);
+                    var length = "";
+                    if(current_char < text[current_line].Length + 1) {
+                        length = text[current_line].Substring(0, current_char);
+                    }
                     font_handler.get_text_and_rect(game_manager.renderer, length, font, out line_texture, out line_rect, 0, 0, 110, 219, 115, 255);
 
                     SDL.SDL_Rect marker;
