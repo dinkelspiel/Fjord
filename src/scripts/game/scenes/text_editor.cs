@@ -38,12 +38,33 @@ namespace Proj.Game {
         public override void update() {
             if(input.get_any_key_just_pressed() != -1) {
                 if(input.get_any_key_just_pressed() == input.key_backspace) {
-                    if(text[current_line].Length > 0 && current_char > 0 && current_char < text[current_line].Length) {
-                        text[current_line] = text[current_line].Remove(current_char, 1);
-                        current_char -= 1;
+                    if(text[current_line].Length > 0) {
+                        if(!input.get_key_pressed(input.key_lctrl)) {
+                            var edit_text = text[current_line].Substring(0, current_char);
+                            var remainder_text = text[current_line].Substring(current_char, text[current_line].Length - current_char);
+
+                            if(edit_text.Length > 0) {
+                                edit_text = edit_text.Substring(0, edit_text.Length - 1);
+                            }
+                            
+                            text[current_line] = edit_text + remainder_text;
+                            current_char -= current_char > 0 ? 1 : 0;
+                        } else {
+                            var edit_text = text[current_line].Substring(0, current_char);
+                            var remainder_text = text[current_line].Substring(current_char, text[current_line].Length - current_char);
+
+                            var text_arr = edit_text.Split(" ");
+                            text_arr = text_arr.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                            text_arr = text_arr.SkipLast(1).ToArray();
+                            edit_text = string.Join(" ", text_arr);
+
+                            text[current_line] = edit_text + remainder_text;
+                            current_char = text[current_line].Length;
+                        }
                     }
                 } else if(input.get_any_key_just_pressed() == input.key_space) {
                     text[current_line] += " ";
+                    current_char += 1;
                 } else if(input.get_any_key_just_pressed() == input.key_return) {
                     text.Add("");
                     current_line += 1;
@@ -99,8 +120,11 @@ namespace Proj.Game {
                 SDL.SDL_RenderCopy(game_manager.renderer, line_texture, ref line_rect, ref dest); 
 
                 if(i == current_line) {
+                    var length = text[current_line].Substring(0, current_char);
+                    font_handler.get_text_and_rect(game_manager.renderer, length, font, out line_texture, out line_rect, 0, 0, 110, 219, 115, 255);
+
                     SDL.SDL_Rect marker;
-                    marker.x = dest.w + 7;
+                    marker.x = line_rect.w + 7;
                     marker.y = dest.y + dest.h / 6;
                     marker.w = 2;
                     marker.h = dest.h - dest.h / 3;
