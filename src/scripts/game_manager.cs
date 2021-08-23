@@ -17,6 +17,8 @@ namespace Proj
 
         public static IntPtr window;
         public static IntPtr renderer;
+
+        public static SDL.SDL_Color bg_color;
         
         public static screen_rect screen;
 
@@ -47,7 +49,6 @@ namespace Proj
                 SDL_ttf.TTF_Init();
 
                 renderer = SDL.SDL_CreateRenderer(window, -1, 0);
-                SDL.SDL_SetRenderDrawColor(renderer, 26, 26, 28, 255); 
                 SDL.SDL_SetRenderDrawBlendMode(renderer, SDL.SDL_BlendMode.SDL_BLENDMODE_BLEND);
                 
                 Debug.send("Renderer created without errors");
@@ -63,10 +64,13 @@ namespace Proj
 
             screen = new screen_rect();
 
+            set_render_background(26, 26, 28, 255);
+
             scene_handler.add_scene("main", new main_scene());
             scene_handler.add_scene("text_editor", new text_editor());
             scene_handler.add_scene("slay", new slay());
-            scene_handler.load_scene("text_editor");
+            scene_handler.add_scene("car_game", new car_game());
+            scene_handler.load_scene("car_game");
 
             font_handler.load_font("default", "Sans", 42);
         }
@@ -116,6 +120,18 @@ namespace Proj
         public static void set_render_resolution(IntPtr renderer, int width, int height) {
             SDL.SDL_RenderSetLogicalSize(renderer, width, height);
             //SDL.SDL_RenderSetLogicalSize(game_manager.renderer, 300, 169);
+        }
+
+        public static void set_render_background(byte r, byte g, byte b, byte a) {
+            SDL.SDL_Color color;
+            color.r = r;
+            color.g = g;
+            color.b = b;
+            color.a = a;
+
+            SDL.SDL_SetRenderDrawColor(game_manager.renderer, r, g, b, a);
+
+            bg_color = color;
         }
     }
 }
