@@ -121,5 +121,18 @@ namespace Proj.Modules.Ui {
             
             SDL.SDL_SetRenderDrawColor(game_manager.renderer, old_color.r, old_color.g, old_color.b, old_color.a);
         }
+    
+        public static void rotated_texture(IntPtr renderer, IntPtr texture, SDL.SDL_Rect src, SDL.SDL_Rect dest, double angle) {
+            SDL.SDL_Point size;
+            uint format;
+            int access;
+            SDL.SDL_QueryTexture(texture, out format, out access, out size.x, out size.y);
+
+            SDL.SDL_Point center;
+            center.x = size.x / 2;
+            center.y = size.y / 2;
+
+            SDL.SDL_RenderCopyEx(renderer, texture, ref src, ref dest, angle, ref center, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
+        }
     }
 }
