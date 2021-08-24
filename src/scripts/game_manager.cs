@@ -67,10 +67,11 @@ namespace Proj
 
             set_render_background(26, 26, 28, 255);
 
-            scene_handler.add_scene("main", new main_scene());
+            zgui.init();
+
             scene_handler.add_scene("text_editor", new text_editor());
-            scene_handler.add_scene("slay", new slay());
-            scene_handler.load_scene("main");
+            scene_handler.add_scene("city_builder", new city_builder());
+            scene_handler.load_scene("city_builder");
 
             font_handler.load_font("default", "Sans", 42);
         }
