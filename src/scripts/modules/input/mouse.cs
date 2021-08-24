@@ -4,21 +4,21 @@ namespace Proj.Modules.Input {
         public static bool lmb, rmb;
         public static bool llmb, lrmb;
 
-        public static bool button_pressed(string button) {
+        public static bool button_pressed(int button) {
             switch(button) {
-                case "lmb":
+                case 0:
                     return lmb;
-                case "rmb":
+                case 1:
                     return rmb;
             }
             return false;
         }
 
-        public static bool button_just_pressed(string button) {
+        public static bool button_just_pressed(int button) {
             switch(button) {
-                case "lmb":
+                case 0:
                     return lmb && !llmb;
-                case "rmb":
+                case 1:
                     return rmb && !lrmb;
             }
             return false;            
