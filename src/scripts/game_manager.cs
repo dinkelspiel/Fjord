@@ -69,7 +69,7 @@ namespace Proj
             scene_handler.add_scene("main", new main_scene());
             scene_handler.add_scene("text_editor", new text_editor());
             scene_handler.add_scene("slay", new slay());
-            scene_handler.load_scene("car_game");
+            scene_handler.load_scene("text_editor");
 
             font_handler.load_font("default", "Sans", 42);
         }
