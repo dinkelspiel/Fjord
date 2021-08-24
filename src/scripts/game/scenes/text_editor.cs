@@ -91,8 +91,6 @@ namespace Proj.Game {
                     }
                 } else if(input.get_key_just_pressed(input.key_right, "general")) {
                     current_char += current_char < text[current_line].Length ? 1 : 0;
-                } else if(input.get_key_pressed(input.key_s)) {
-                    input.set_input_state("Save");
                 } else {
                     if(input.input_state == "general")
                         if(input.get_key(input.get_any_key_just_pressed()).Length == 1) 
