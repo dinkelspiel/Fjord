@@ -5,6 +5,7 @@ using Proj.Modules.Debug;
 using Proj.Modules.Ui;
 using Proj.Modules.Input;
 using Proj.Modules.Misc;
+using Proj.Modules.Graphics;
 using Proj.Game;
 using System.IO;
 using System.Reflection;
@@ -69,7 +70,7 @@ namespace Proj
             scene_handler.add_scene("main", new main_scene());
             scene_handler.add_scene("text_editor", new text_editor());
             scene_handler.add_scene("slay", new slay());
-            scene_handler.load_scene("text_editor");
+            scene_handler.load_scene("main");
 
             font_handler.load_font("default", "Sans", 42);
         }
