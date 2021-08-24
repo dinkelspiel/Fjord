@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Proj.Modules.Graphics
 {
-    public class font_handler
+    public static class font_handler
     {
         private static Dictionary<string, dynamic> fonts = new Dictionary<string, dynamic>();
 
