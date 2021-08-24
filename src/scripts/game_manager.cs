@@ -67,6 +67,9 @@ namespace Proj
 
             set_render_background(26, 26, 28, 255);
 
+            zgui.init();
+
+            scene_handler.add_scene("text_editor", new text_editor());
             scene_handler.add_scene("city_builder", new city_builder());
             scene_handler.load_scene("city_builder");
 
