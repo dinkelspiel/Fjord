@@ -12,7 +12,9 @@ namespace Proj.Game {
 
         IntPtr grass_tile = texture_handler.load_texture("city_builder/grass.png", game_manager.renderer);
 
-        SDL.SDL_Rect rect;
+        SDL.SDL_Point selected;
+
+        SDL.SDL_Rect rect, rect2;
         SDL.SDL_Color bg, o1, o2, o3;
 
         public int[,] Map = new int[,] {
@@ -23,6 +25,9 @@ namespace Proj.Game {
         };
 
         public city_builder() {
+            selected.x = -1;
+            selected.y = -1;
+
             rect.x = 10;
             rect.y = 10;
             rect.w = 500;
@@ -53,29 +58,50 @@ namespace Proj.Game {
         }
 
         public override void update() {
+            if(mouse.button_just_pressed(0)){
+                for(var i = 0; i < 4; i++) {
+                    for(var j = 0; j < 4; j++) {
+                        if(selected.x != -1)
+                            continue;
 
+                        int remove = j % 2 == 0 ? 13 : 0;
+                        int x = 100 + i * 26 + remove;
+                        int y =  50 + j * 8;
+                        double offset = Math.Clamp(math_uti.point_distance(new Vector2(mouse.x / 4.26f, mouse.y / 4.26f), new Vector2(x, y)), 0, 20) / 2.5;
+                        //draw.texture_ext(game_manager.renderer, grass_tile, x, y + (int)offset, 0);
+                        if(math_uti.point_distance(new Vector2(mouse.x / 4.26f, mouse.y / 4.26f), new Vector2(x, y + (int)offset)) < 5) {
+                            selected.x = i;
+                            selected.y = j;
+                        }
+                    }
+                }
+            }
+
+            if(mouse.button_just_pressed(1)) {
+                selected.x = -1;
+                selected.y = -1;
+            }
         }
 
         public override void render() {
             for(var i = 0; i < 4; i++) {
                 for(var j = 0; j < 4; j++) {
-                    int remove = j % 2 == 0 ? 13 : 0;
-                    int x = 100 + i * 26 + remove;
-                    int y =  50 + j * 8;
+                    if(i == selected.x && j == selected.y)
+                        continue;
+
+                    int remove = j % 2 == 0 ? 15 : 0;
+                    int x = 100 + i * 30 + remove;
+                    int y =  50 + j * 7;
                     double offset = Math.Clamp(math_uti.point_distance(new Vector2(mouse.x / 4.26f, mouse.y / 4.26f), new Vector2(x, y)), 0, 20) / 2.5;
                     draw.texture_ext(game_manager.renderer, grass_tile, x, y + (int)offset, 0);
                 }
             }
 
-            game_manager.set_render_resolution(game_manager.renderer, 1280, 720);
+            //zgui.window(rect, bg, o1, o2, o3, "text", "Test Window", true);
 
-            zgui.window(rect, bg, o1, o2, o3, "text", "Test Window", true);
+            //int yes = 30;
 
-            game_manager.set_render_resolution(game_manager.renderer, 300, 169);
-
-            int yes = 30;
-
-            zgui.window_movement(ref rect.x, ref rect.y, ref rect.w, ref yes);
+            //zgui.window_movement(ref rect.x, ref rect.y, ref rect.w, ref yes);
         }
     }
 }
