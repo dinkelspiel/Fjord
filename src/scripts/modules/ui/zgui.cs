@@ -1,5 +1,6 @@
 using Proj.Modules.Graphics;
 using Proj.Modules.Input;
+using Proj.Modules.Debug;
 using SDL2;
 using System;
 using System.Numerics;
@@ -8,6 +9,8 @@ namespace Proj.Modules.Ui
 {
     public static class zgui
     {
+
+        static Vector2 corrected_pos = new Vector2(0, 0);
 
         public static void init() {
             font_handler.load_font("text", "Cozette", 12);
@@ -61,7 +64,19 @@ namespace Proj.Modules.Ui
         }
     
         public static void window_movement(ref int x, ref int y, ref int w, ref int h) {
-            
+            if(mouse.button_just_pressed(0)) {
+                corrected_pos.X = mouse.x - x;
+			    corrected_pos.Y = mouse.y - y;
+                Debug.Debug.send("pog");
+            }
+            if(mouse.button_pressed(0)) {
+                if(mouse.x > x && mouse.x < x + w) {
+                    if(mouse.y > y && mouse.y < y + h) {
+                        x = mouse.x - (int)corrected_pos.X;
+                        y = mouse.y - (int)corrected_pos.Y;
+                    }
+                }
+            }
         }
     }
 }
