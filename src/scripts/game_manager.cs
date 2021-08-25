@@ -19,6 +19,9 @@ namespace Proj
         public static IntPtr window;
         public static IntPtr renderer;
 
+        public static Vector2 window_resolution = new Vector2(1280, 720); 
+        public static Vector2 resolution = new Vector2(1280, 720); 
+
         public static SDL.SDL_Color bg_color;
         
         public static screen_rect screen;
@@ -49,7 +52,7 @@ namespace Proj
 
                 SDL_ttf.TTF_Init();
 
-                renderer = SDL.SDL_CreateRenderer(window, -1, 0);
+                renderer = SDL.SDL_CreateRenderer(window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
                 SDL.SDL_SetRenderDrawBlendMode(renderer, SDL.SDL_BlendMode.SDL_BLENDMODE_BLEND);
                 
                 Debug.send("Renderer created without errors");
@@ -121,6 +124,8 @@ namespace Proj
 
         public static void set_render_resolution(IntPtr renderer, int width, int height) {
             SDL.SDL_RenderSetLogicalSize(renderer, width, height);
+            resolution.X = width;
+            resolution.Y = height;
             //SDL.SDL_RenderSetLogicalSize(game_manager.renderer, 300, 169);
         }
 
