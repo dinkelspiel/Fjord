@@ -84,8 +84,6 @@ namespace Proj
             for(var i = 0; i < input.pressed_keys.Length; i++) {
                 input.last_frame[i] = input.pressed_keys[i];
             }
-            mouse.llmb = mouse.lmb;
-            mouse.lrmb = mouse.rmb;
         }
 
         public static void render() {
@@ -94,6 +92,9 @@ namespace Proj
             scene_handler.render();
 
             SDL.SDL_RenderPresent(renderer);
+
+            mouse.llmb = mouse.lmb;
+            mouse.lrmb = mouse.rmb;
         }
 
         public static void stop() {
