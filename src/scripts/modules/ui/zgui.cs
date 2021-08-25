@@ -11,6 +11,7 @@ namespace Proj.Modules.Ui
     {
 
         static Vector2 corrected_pos = new Vector2(0, 0);
+        static bool drag = false;
 
         public static void init() {
             font_handler.load_font("text", "Cozette", 12);
@@ -67,14 +68,16 @@ namespace Proj.Modules.Ui
             if(mouse.button_just_pressed(0)) {
                 corrected_pos.X = mouse.x - x;
 			    corrected_pos.Y = mouse.y - y;
-                Debug.Debug.send("pog");
-            }
-            if(mouse.button_pressed(0)) {
                 if(mouse.x > x && mouse.x < x + w) {
                     if(mouse.y > y && mouse.y < y + h) {
-                        x = mouse.x - (int)corrected_pos.X;
-                        y = mouse.y - (int)corrected_pos.Y;
+                        drag = true;
                     }
+                }
+            }
+            if(mouse.button_pressed(0)) {
+                if(drag) {
+                    x = mouse.x - (int)corrected_pos.X;
+                    y = mouse.y - (int)corrected_pos.Y;
                 }
             }
         }
