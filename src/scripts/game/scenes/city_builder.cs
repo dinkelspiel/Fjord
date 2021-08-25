@@ -59,8 +59,8 @@ namespace Proj.Game {
         public override void render() {
             for(var i = 0; i < 4; i++) {
                 for(var j = 0; j < 4; j++) {
-                    int remove = j % 2 == 0 ? 12 : 0;
-                    int x = 100 + i * 24 + remove;
+                    int remove = j % 2 == 0 ? 13 : 0;
+                    int x = 100 + i * 26 + remove;
                     int y =  50 + j * 8;
                     double offset = Math.Clamp(math_uti.point_distance(new Vector2(mouse.x / 4.26f, mouse.y / 4.26f), new Vector2(x, y)), 0, 20) / 2.5;
                     draw.texture_ext(game_manager.renderer, grass_tile, x, y + (int)offset, 0);
