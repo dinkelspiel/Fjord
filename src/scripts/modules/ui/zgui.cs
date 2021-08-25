@@ -18,6 +18,8 @@ namespace Proj.Modules.Ui
         }
 
         public static void window(SDL.SDL_Rect rect, SDL.SDL_Color bg, SDL.SDL_Color o1, SDL.SDL_Color o2, SDL.SDL_Color o3, string font, string title, bool show_label) {
+            SDL.SDL_RenderSetLogicalSize(game_manager.renderer, (int)game_manager.window_resolution.X, (int)game_manager.window_resolution.Y);
+            
             SDL.SDL_Rect rect1;
             rect1.x = rect.x - 3;
             rect1.y = rect.y - 3;
@@ -62,6 +64,8 @@ namespace Proj.Modules.Ui
                 SDL.SDL_RenderCopy(game_manager.renderer, texture, ref rect1, ref dest);
                 
             }
+
+            SDL.SDL_RenderSetLogicalSize(game_manager.renderer, (int)game_manager.resolution.X, (int)game_manager.resolution.Y);
         }
     
         public static void window_movement(ref int x, ref int y, ref int w, ref int h) {
@@ -79,6 +83,8 @@ namespace Proj.Modules.Ui
                     x = mouse.x - (int)corrected_pos.X;
                     y = mouse.y - (int)corrected_pos.Y;
                 }
+            } else {
+                drag = false;
             }
         }
     }
