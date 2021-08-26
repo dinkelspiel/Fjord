@@ -43,8 +43,8 @@ namespace Proj.Game {
 
         List<Vector2> path = new List<Vector2>();
 
-        IntPtr red_balloon_tex = texture_handler.load_texture("bloons/red_balloon.png", game_manager.renderer);
-        IntPtr map = texture_handler.load_texture("bloons/map.png", game_manager.renderer);
+        IntPtr red_balloon_tex;
+        IntPtr map;
 
         List<balloon> enemies = new List<balloon>();
 
@@ -59,12 +59,24 @@ namespace Proj.Game {
             path.Add(new Vector2(740, 600));
             path.Add(new Vector2(740, 250));
             path.Add(new Vector2(460, 250));
+            path.Add(new Vector2(460, 165));
+            path.Add(new Vector2(835, 165));
+            path.Add(new Vector2(835, 235));
+            path.Add(new Vector2(935, 250));
+            path.Add(new Vector2(935, 320));
+            path.Add(new Vector2(835, 330));
+            path.Add(new Vector2(830, 480));
+            path.Add(new Vector2(460, 480));
+            path.Add(new Vector2(450, 630));
 
             enemies[0].start_path(path);
         }
 
         public override void on_load() {
-           
+           game_manager.set_asset_pack("bloons");
+
+           map = texture_handler.load_texture("map.png", game_manager.renderer);
+           red_balloon_tex = texture_handler.load_texture("red_balloon.png", game_manager.renderer);
         }
 
         public override void update() {

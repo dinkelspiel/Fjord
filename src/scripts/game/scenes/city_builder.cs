@@ -10,13 +10,13 @@ using System.Numerics;
 namespace Proj.Game {
     public class city_builder : scene {
 
-        IntPtr grass_tile = texture_handler.load_texture("city_builder/grass.png", game_manager.renderer);
-
         SDL.SDL_Point selected, closest;
         double closest_length = 0;
 
         SDL.SDL_Rect rect, rect2;
         SDL.SDL_Color bg, o1, o2, o3;
+
+        IntPtr grass_tile;
 
         public int[,] Map = new int[,] {
             {1, 1, 1, 1},
@@ -56,6 +56,10 @@ namespace Proj.Game {
 
         public override void on_load() {
             game_manager.set_render_resolution(game_manager.renderer, 300, 169);
+
+            game_manager.set_asset_pack("city_builder");
+
+            grass_tile = texture_handler.load_texture("city_builder/grass.png", game_manager.renderer);
         }
 
         public override void update() {

@@ -24,16 +24,19 @@ namespace Proj.Game {
 
         public text_editor() {
 
-            font_handler.load_font("Cozette", "Cozette", 22);
-            font_handler.load_font("Nunito", "Nunito", 22);
-            font_handler.load_font("FiraCode", "FiraCode", 22);
             text.Add("");
-
-            font_handler.get_text_and_rect(game_manager.renderer, "a", font, out line_texture, out letter_rect, 0, 0);
 
             header.x = header.y = 0;
             header.w = 1280;
             header.h = 25;
+        }
+
+        public override void on_load()
+        {
+            game_manager.set_asset_pack("text_editor");
+            
+            font_handler.load_font("FiraCode", "FiraCode", 22);
+            font_handler.get_text_and_rect(game_manager.renderer, "a", font, out line_texture, out letter_rect, 0, 0);
         }
 
         public override void update() {
