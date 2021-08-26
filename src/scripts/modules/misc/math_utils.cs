@@ -1,5 +1,6 @@
 using System.Numerics;
 using System;
+using Proj.Modules.Input;
 
 namespace Proj.Modules.Misc {
     public static class math_uti {
@@ -25,6 +26,13 @@ namespace Proj.Modules.Misc {
 
         public static double degtorad(double degrees) {
             return (System.Math.PI / 180) * degrees;
+        }
+
+        public static bool mouse_inside(int x, int y, int w, int h) {
+            if((mouse.x > x) && (mouse.x < x + w) && (mouse.y > y) && (mouse.y < y + h)) {
+                return true;
+            }
+            return false;
         }
     }
 }
