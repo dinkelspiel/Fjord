@@ -75,7 +75,8 @@ namespace Proj
             scene_handler.add_scene("text_editor", new text_editor());
             scene_handler.add_scene("city_builder", new city_builder());
             scene_handler.add_scene("bloons", new bloons());
-            scene_handler.load_scene("bloons");
+            scene_handler.add_scene("node_editor", new node_editor());
+            scene_handler.load_scene("node_editor");
 
             font_handler.load_font("default", "Sans", 42);
         }
@@ -85,9 +86,6 @@ namespace Proj
         public static void update() {
             screen.screen_update();
             scene_handler.update();
-            for(var i = 0; i < input.pressed_keys.Length; i++) {
-                input.last_frame[i] = input.pressed_keys[i];
-            }
         }
 
         public static void render() {
@@ -99,6 +97,10 @@ namespace Proj
 
             mouse.llmb = mouse.lmb;
             mouse.lrmb = mouse.rmb;
+
+            for(var i = 0; i < input.pressed_keys.Length; i++) {
+                input.last_frame[i] = input.pressed_keys[i];
+            }
         }
 
         public static void stop() {
