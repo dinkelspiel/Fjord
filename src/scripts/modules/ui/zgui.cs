@@ -104,7 +104,68 @@ namespace Proj.Modules.Ui
                 draw.rect(game_manager.renderer, rect, 36, 36, 36, 255, true);
             }
         }
-    
+
+        public static void button(int x, int y, int w, int h, ref bool value, string font, string text) {
+            if ((mouse.x > x) && (mouse.x < x + w) && (mouse.y > y) && (mouse.y < y + h) && mouse.button_just_pressed(0))
+		        value = !value;
+
+            SDL.SDL_Rect rect;
+            rect.x = x;
+            rect.y = y;
+            rect.w = w;
+            rect.h = h;
+
+            if(value) {
+                draw.rect(game_manager.renderer, rect, 52, 134, 235, 255, true);
+            } else {
+                draw.rect(game_manager.renderer, rect, 36, 36, 36, 255, true);
+            }
+
+            IntPtr tex;
+            SDL.SDL_Rect rec;
+            font_handler.get_text_and_rect(game_manager.renderer, text, font, out tex, out rec);
+            draw.texture_ext(game_manager.renderer, tex, x + w / 2, y + h / 2, 0);
+        }
+
+        public static void input_box (int x, int y, int w, int h, string font, ref string value, string input_state) {
+            if(input.input_state == input_state && input.get_any_key_just_pressed() > -1) { 
+                if(input.get_key(input.get_any_key_just_pressed()).Length == 1) {
+                    value += input.get_key(input.get_any_key_just_pressed());
+                } else if(input.get_key_just_pressed(input.key_backspace)) {
+                    if(value.Length > 0) {
+                        value = value.Substring(0, value.Length - 1);
+                    }
+                } else if(input.get_key_just_pressed(input.key_space)) {
+                    value += " ";
+                } else if(input.get_key_just_pressed(input.key_backslash)) {
+                    value += "/";
+                } else if(input.get_key_just_pressed(input.key_period)) {
+                    value += ".";
+                }
+            }
+
+            IntPtr tex;
+            SDL.SDL_Rect rect1;
+            uint i;
+            int j, wi, hi;
+            font_handler.get_text_and_rect(game_manager.renderer, value, font, out tex, out rect1, 0, 0);
+            SDL.SDL_QueryTexture(tex, out i, out j, out wi, out hi);
+
+            SDL.SDL_Rect rect;
+            rect.x = x;
+            rect.y = y;
+            rect.w = wi < w ? w : wi + 10;
+            rect.h = h;
+
+            if(input.input_state == input_state) {
+                draw.rect(game_manager.renderer, rect, 52, 134, 235, 255, true);
+            } else {
+                draw.rect(game_manager.renderer, rect, 36, 36, 36, 255, true);
+            }
+
+            draw.texture_ext(game_manager.renderer, tex, x + wi / 2 + 5, y + hi / 2 + 2, 0);
+        }
+
         public static void window_movement(ref int x, ref int y, ref int w, ref int h) {
             if(mouse.button_just_pressed(0)) {
                 corrected_pos.X = mouse.x - x;
