@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System;
 using System.IO;
+using Proj.Modules.Debug;
 
 namespace Proj.Modules.Misc {
     public static class Language {
@@ -14,7 +15,10 @@ namespace Proj.Modules.Misc {
             // Debug workaround for filepath
 
             string file_path = game_manager.executable_path + "\\src\\resources\\" + game_manager.asset_pack + "\\data\\lang\\" + language + ".lang";
-
+            if(!File.Exists(file_path)) {
+                Debug.Debug.send("Couldn't find lang_file '" + language + "' in asset_pack '" + game_manager.asset_pack + "' aborting.");
+                return;
+            }
             string[] array = File.ReadAllLines(file_path);
             foreach(string i in array) {
                 lang_file.Add(i.Split("::")[0], i.Split("::")[1]);
