@@ -97,7 +97,7 @@ namespace Proj.Game {
                     int x = 100 + i * 30 + remove;
                     int y =  50 + j * 7;
 
-                    double offset = Math.Clamp(math_uti.point_distance(new Vector2(mouse.x / 4.26f, mouse.y / 4.26f), new Vector2(x, y)), 0, 20) / 2.5;
+                    double offset = Math.Clamp(math_uti.point_distance(new Vector2(mouse.x / 4.26f, mouse.y / 4.26f), new Vector2(x, y)), 0, 15) / 2.5;
 
                     SDL.SDL_Rect rect;
                     rect.x = x;
