@@ -141,5 +141,10 @@ namespace Proj
 
             bg_color = color;
         }
+
+        public static void set_asset_pack(string asset_pack_set) {
+            asset_pack = asset_pack_set;
+            Debug.send("Loaded asset pack '" + asset_pack_set + "' successfully.");
+        }
     }
 }
