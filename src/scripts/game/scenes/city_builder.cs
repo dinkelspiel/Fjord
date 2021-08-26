@@ -59,7 +59,7 @@ namespace Proj.Game {
 
             game_manager.set_asset_pack("city_builder");
 
-            grass_tile = texture_handler.load_texture("city_builder/grass.png", game_manager.renderer);
+            grass_tile = texture_handler.load_texture("grass.png", game_manager.renderer);
         }
 
         public override void update() {
