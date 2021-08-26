@@ -67,6 +67,43 @@ namespace Proj.Modules.Ui
 
             SDL.SDL_RenderSetLogicalSize(game_manager.renderer, (int)game_manager.resolution.X, (int)game_manager.resolution.Y);
         }
+
+        public static void slider(int x, int y, int width, ref float value, float min_value, float max_value) {
+            int ix = x + 100;
+            int yi = y + 4;
+
+            if ((mouse.x > ix) && (mouse.x < ix + width) && (mouse.y > yi) && (mouse.y < yi + 6) && (mouse.button_pressed(0)))
+		        value = (mouse.x - ix) / ((float)width / (float)max_value);
+
+            SDL.SDL_Rect rect;
+            rect.x = ix;
+            rect.y = yi;
+            rect.w = width;
+            rect.h = 6;
+
+            draw.rect(game_manager.renderer, rect, 36, 36, 36, 255, true);
+            rect.w = (int)(value * ((float)width / (float)max_value)); 
+            draw.rect(game_manager.renderer, rect, 52, 134, 235, 255, true);
+        }
+
+        public static void check_box(int x, int y, ref bool value) {
+            int w = 10, h = 10;
+
+            if ((mouse.x > x) && (mouse.x < x + w) && (mouse.y > y) && (mouse.y < y + h) && mouse.button_just_pressed(0))
+		        value = !value;
+
+            SDL.SDL_Rect rect;
+            rect.x = x;
+            rect.y = y;
+            rect.w = w;
+            rect.h = h;
+
+            if(value) {
+                draw.rect(game_manager.renderer, rect, 52, 134, 235, 255, true);
+            } else {
+                draw.rect(game_manager.renderer, rect, 36, 36, 36, 255, true);
+            }
+        }
     
         public static void window_movement(ref int x, ref int y, ref int w, ref int h) {
             if(mouse.button_just_pressed(0)) {
