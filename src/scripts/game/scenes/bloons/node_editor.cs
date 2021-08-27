@@ -10,11 +10,12 @@ using System.Numerics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace Proj.Game {
-    public class export_output {
+    public class map_format {
         public List<Vector2> nodes { get; set; }
-        public List<IntPtr> textures { get; set; }
+        public List<string> textures { get; set; }
     }
 
     public class node_editor : scene {
@@ -26,8 +27,10 @@ namespace Proj.Game {
         bool export_input = false;
         string value = "";
         string export_file = "";
+        bool hide = false;
 
         List<IntPtr> textures = new List<IntPtr>();
+        List<string> textures_string = new List<string>();
 
         public node_editor() {
 
@@ -41,9 +44,15 @@ namespace Proj.Game {
         }
 
         public override void update() {
-
-            if(mouse.button_just_pressed(0) && !math_uti.mouse_inside(280, 10, 200, 30) && !math_uti.mouse_inside(280, 50, 80, 30) && !math_uti.mouse_inside(0, 0, 250, 1280) && !math_uti.mouse_inside(280, 100, 200, 30) && !math_uti.mouse_inside(280, 140, 100, 30)) {
-                nodes.Add(new Vector2(mouse.x, mouse.y));
+            
+            if(!hide) {
+                if(mouse.button_just_pressed(0) && !math_uti.mouse_inside(280, 10, 200, 30) && !math_uti.mouse_inside(280, 50, 80, 30) && !math_uti.mouse_inside(0, 0, 250, 1280) && !math_uti.mouse_inside(280, 100, 200, 30) && !math_uti.mouse_inside(280, 140, 100, 30) && !math_uti.mouse_inside(280, 680, 20, 20)) {
+                    nodes.Add(new Vector2(mouse.x, mouse.y));
+                }
+            } else {
+                if(mouse.button_just_pressed(0) && !math_uti.mouse_inside(20, 680, 20, 20)) {
+                    nodes.Add(new Vector2(mouse.x, mouse.y));
+                }
             }
             
             if(math_uti.mouse_inside(280, 20, 200, 30) && mouse.button_just_pressed(0)) {
@@ -65,6 +74,7 @@ namespace Proj.Game {
                 load_tex = false;
                 if(value != "") {
                     textures.Add(texture_handler.load_texture(value, game_manager.renderer));
+                    textures_string.Add(value);
                 }
             }
 
@@ -87,14 +97,15 @@ namespace Proj.Game {
                 export_button = false;
                 export_input = false;
 
-                var _export_output = new export_output {
+                var _export_output = new map_format {
                     nodes = nodes,
-                    textures = textures
+                    textures = textures_string
                 }; 
 
                 var json_string = JsonConvert.SerializeObject(_export_output);
 
-                Debug.send(json_string);
+                string full_path = game_manager.executable_path + "\\src\\resources\\bloons\\data\\maps\\" + export_file;
+                System.IO.File.WriteAllText(full_path, json_string);
             }
         }
 
@@ -104,19 +115,25 @@ namespace Proj.Game {
             rect.y = 0;
             rect.w = 270;
             rect.h = 1280;
-            draw.rect(game_manager.renderer, rect, 0, 0, 0, 100, true);
-
+            
             foreach(IntPtr tex in textures) {
                 draw.texture_ext(game_manager.renderer, tex, 1280 / 2 , 720 / 2, 0);
             }
+            
+            if(!hide) 
+                draw.rect(game_manager.renderer, rect, 0, 0, 0, 100, true);
 
             for(var i = 0; i < nodes.Count; i++) {
                 string text = "#" + i + " X: " + nodes[i].X.ToString() + " Y: " + nodes[i].Y.ToString();
                 IntPtr texture;
                 SDL.SDL_Rect rect1;
+
                 font_handler.get_text_and_rect(game_manager.renderer, text, "bloons_font", out texture, out rect1, 0, 0);
-                draw.texture_ext(game_manager.renderer, texture, 135, 20 * (i + 1), 0);
-                
+
+                if(!hide) {
+                    draw.texture_ext(game_manager.renderer, texture, 135, 20 * (i + 1), 0);
+                }
+
                 SDL.SDL_Rect rect2;
 
                 rect2.x = (int)nodes[i].X - 3;
@@ -156,11 +173,15 @@ namespace Proj.Game {
                 }
             }
 
-            zgui.input_box(280, 10, 200, 30, "bloons_font", ref value, "load_texture");
-            zgui.button(280, 50, 80, 30, ref load_tex_button, "bloons_font", "Load");
+            if(!hide) {
+                zgui.input_box(280, 10, 200, 30, "bloons_font", ref value, "load_texture");
+                zgui.button(280, 50, 80, 30, ref load_tex_button, "bloons_font", "Load");
 
-            zgui.input_box(280, 100, 200, 30, "bloons_font", ref export_file, "export_file");
-            zgui.button(280, 140, 100, 30, ref export_button, "bloons_font", "Export");
+                zgui.input_box(280, 100, 200, 30, "bloons_font", ref export_file, "export_file");
+                zgui.button(280, 140, 100, 30, ref export_button, "bloons_font", "Export");
+            }
+
+            zgui.button(!hide ? 280 : 20, 680, 20, 20, ref hide, "bloons_font", !hide ? "<" : ">");
         }
     }
 }
