@@ -29,6 +29,8 @@ namespace Proj.Game {
         string export_file = "";
         bool hide = false;
 
+        bool edit_mode = false;
+
         List<IntPtr> textures = new List<IntPtr>();
         List<string> textures_string = new List<string>();
 
@@ -46,12 +48,14 @@ namespace Proj.Game {
         public override void update() {
             
             if(!hide) {
-                if(mouse.button_just_pressed(0) && !math_uti.mouse_inside(280, 10, 200, 30) && !math_uti.mouse_inside(280, 50, 80, 30) && !math_uti.mouse_inside(0, 0, 250, 1280) && !math_uti.mouse_inside(280, 100, 200, 30) && !math_uti.mouse_inside(280, 140, 100, 30) && !math_uti.mouse_inside(280, 680, 20, 20)) {
-                    nodes.Add(new Vector2(mouse.x, mouse.y));
+                if(mouse.button_just_pressed(0) && !math_uti.mouse_inside(280, 10, 200, 30) && !math_uti.mouse_inside(280, 50, 80, 30) && !math_uti.mouse_inside(0, 0, 250, 1280) && !math_uti.mouse_inside(280, 100, 200, 30) && !math_uti.mouse_inside(280, 140, 100, 30) && !math_uti.mouse_inside(280, 690, 20, 20) && !math_uti.mouse_inside(280, 190, 180, 30)) {
+                    if(!edit_mode)
+                        nodes.Add(new Vector2(mouse.x, mouse.y));
                 }
             } else {
-                if(mouse.button_just_pressed(0) && !math_uti.mouse_inside(20, 680, 20, 20)) {
-                    nodes.Add(new Vector2(mouse.x, mouse.y));
+                if(mouse.button_just_pressed(0) && !math_uti.mouse_inside(10, 690, 20, 20)) {
+                    if(!edit_mode)
+                        nodes.Add(new Vector2(mouse.x, mouse.y));
                 }
             }
             
@@ -85,10 +89,12 @@ namespace Proj.Game {
             }
 
             if(mouse.button_just_pressed(1)) {
-                for(var i = 0; i < nodes.Count; i++) {
-                    if(math_uti.point_distance(new Vector2(nodes[i].X, nodes[i].Y), new Vector2(mouse.x, mouse.y)) < 5) {
-                        nodes.RemoveAt(i);
-                        break;
+                if(!edit_mode) {
+                    for(var i = 0; i < nodes.Count; i++) {
+                        if(math_uti.point_distance(new Vector2(nodes[i].X, nodes[i].Y), new Vector2(mouse.x, mouse.y)) < 5) {
+                            nodes.RemoveAt(i);
+                            break;
+                        }
                     }
                 }
             }
@@ -183,9 +189,11 @@ namespace Proj.Game {
 
                 zgui.input_box(280, 100, 200, 30, "bloons_font", ref export_file, "export_file");
                 zgui.button(280, 140, 100, 30, ref export_button, "bloons_font", "Export");
+
+                zgui.button(280, 190, 180, 30, ref edit_mode, "bloons_font", edit_mode ? "texture_edit" : "node_edit");
             }
 
-            zgui.button(!hide ? 280 : 20, 680, 20, 20, ref hide, "bloons_font", !hide ? "<" : ">");
+            zgui.button(!hide ? 280 : 10, 690, 20, 20, ref hide, "bloons_font", !hide ? "<" : ">");
         }
     }
 }
