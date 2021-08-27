@@ -161,6 +161,10 @@ namespace Proj.Game {
                     }
                     draw.rect(game_manager.renderer, rect2, 52, 134, 235, 255, true);
 
+                    if(input.get_key_just_pressed(input.key_backspace)) {
+                        nodes.RemoveAt(i);
+                    }
+
                     SDL.SDL_Rect marker;
                     marker.x = 2;
                     marker.y = rect1.y;
