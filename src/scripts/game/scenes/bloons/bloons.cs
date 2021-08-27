@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using SDL2;
 using System;
 using System.Numerics;
+using Newtonsoft.Json;
 
 namespace Proj.Game {
 
@@ -22,7 +23,6 @@ namespace Proj.Game {
         public double speed;
 
         public int node = -2;
-        public List<Vector2> path = new List<Vector2>();
 
         public balloon(int x_set, int y_set, types type_set) {
             x = x_set;
@@ -31,11 +31,10 @@ namespace Proj.Game {
             speed = 2;
         }
 
-        public void start_path(List<Vector2> path_set) {
+        public void start_path(map_format map) {
             node = 0;
-            path = path_set;
-            x = path[0].X;
-            y = path[0].Y;
+            x = map.nodes[0].X;
+            y = map.nodes[0].Y;
         }
     }
 
@@ -44,63 +43,54 @@ namespace Proj.Game {
         List<Vector2> path = new List<Vector2>();
 
         IntPtr red_balloon_tex;
-        IntPtr map;
+        map_format map;
+        List<IntPtr> textures = new List<IntPtr>();
 
         List<balloon> enemies = new List<balloon>();
 
         public bloons() {
             enemies.Add(new balloon(0, 0, types.red));
+        }
 
-            path.Add(new Vector2(300, 400));
-            path.Add(new Vector2(460, 400));
-            path.Add(new Vector2(460, 320));
-            path.Add(new Vector2(580, 320));
-            path.Add(new Vector2(570, 600));
-            path.Add(new Vector2(740, 600));
-            path.Add(new Vector2(740, 250));
-            path.Add(new Vector2(460, 250));
-            path.Add(new Vector2(460, 165));
-            path.Add(new Vector2(835, 165));
-            path.Add(new Vector2(835, 250));
-            path.Add(new Vector2(935, 250));
-            path.Add(new Vector2(935, 320));
-            path.Add(new Vector2(830, 330));
-            path.Add(new Vector2(830, 480));
-            path.Add(new Vector2(460, 480));
-            path.Add(new Vector2(460, 630));
+        public void load_map(string path) {
+            string full_path = game_manager.executable_path + "\\src\\resources\\bloons\\data\\maps\\" + path;
+            string file = System.IO.File.ReadAllText(full_path);
+            map_format map_ = JsonConvert.DeserializeObject<map_format>(file);
 
-            enemies[0].start_path(path);
+            foreach(string item in map_.textures) {
+                Debug.send(game_manager.asset_pack);
+                textures.Add(texture_handler.load_texture(item, game_manager.renderer));
+            }
+
+            map = map_;
         }
 
         public override void on_load() {
-           game_manager.set_asset_pack("bloons");
+            game_manager.set_asset_pack("bloons");
 
-           map = texture_handler.load_texture("map.png", game_manager.renderer);
-           red_balloon_tex = texture_handler.load_texture("red_balloon.png", game_manager.renderer);
+            load_map("map.json");
+            enemies[0].start_path(map);
+
+            red_balloon_tex = texture_handler.load_texture("red_balloon.png", game_manager.renderer);
         }
 
         public override void update() {
-
-            if(mouse.button_just_pressed(0)) {
-                Debug.send(mouse.x);
-                Debug.send(mouse.y);
-                Debug.send('-');
-            }
-
-
             for(var i = 0; i < enemies.Count; i++) {
 
-                if(math_uti.point_distance(new Vector2(enemies[i].x, enemies[i].y), new Vector2(enemies[i].path[enemies[i].node].X, enemies[i].path[enemies[i].node].Y)) < 5) {
-                    enemies[i].node += enemies[i].node < enemies[i].path.Count - 1 ? 1 : 0;
+                if(math_uti.point_distance(new Vector2(enemies[i].x, enemies[i].y), new Vector2(map.nodes[enemies[i].node].X, map.nodes[enemies[i].node].Y)) < 5) {
+                    enemies[i].node += enemies[i].node < map.nodes.Count - 1 ? 1 : 0;
                 }
 
-                enemies[i].x += (float)math_uti.lengthdir_x(enemies[i].speed, 180 - math_uti.point_direction(new Vector2(enemies[i].x, enemies[i].y), new Vector2(enemies[i].path[enemies[i].node].X, enemies[i].path[enemies[i].node].Y)) + 180);
-                enemies[i].y += (float)math_uti.lengthdir_y(enemies[i].speed, 180 - math_uti.point_direction(new Vector2(enemies[i].x, enemies[i].y), new Vector2(enemies[i].path[enemies[i].node].X, enemies[i].path[enemies[i].node].Y)) + 180);
+                enemies[i].x += (float)math_uti.lengthdir_x(enemies[i].speed, 180 - math_uti.point_direction(new Vector2(enemies[i].x, enemies[i].y), new Vector2(map.nodes[enemies[i].node].X, map.nodes[enemies[i].node].Y)) + 180);
+                enemies[i].y += (float)math_uti.lengthdir_y(enemies[i].speed, 180 - math_uti.point_direction(new Vector2(enemies[i].x, enemies[i].y), new Vector2(map.nodes[enemies[i].node].X, map.nodes[enemies[i].node].Y)) + 180);
             }
         }
 
         public override void render() {
-            draw.texture_ext(game_manager.renderer, map, (int)game_manager.resolution.X / 2, (int)game_manager.resolution.Y / 2, 0);
+            foreach(IntPtr texture in textures) {
+                draw.texture_ext(game_manager.renderer, texture, (int)game_manager.resolution.X / 2, (int)game_manager.resolution.Y / 2, 0);
+            }
+            
             foreach(balloon bloon in enemies) {
                 draw.texture_ext(game_manager.renderer, red_balloon_tex, (int)bloon.x, (int)bloon.y - 32, 0);
             }
