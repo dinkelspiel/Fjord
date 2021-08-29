@@ -6,6 +6,7 @@ namespace Proj.Modules.Ui {
         public virtual void update() {}
         public virtual void render() {}
         public virtual void on_load() {}
+        public virtual void on_unload() {}
     }
 
     public static class scene_handler {
@@ -17,6 +18,7 @@ namespace Proj.Modules.Ui {
         }
         
         public static void load_scene(string id) {
+            scenes[current_scene].on_unload();
             current_scene = id;
             scenes[current_scene].on_load();
             Debug.Debug.send("Loaded scene '" + id + "' successfully!");
