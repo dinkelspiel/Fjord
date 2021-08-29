@@ -122,7 +122,7 @@ namespace Proj.Modules.Graphics {
             SDL.SDL_SetRenderDrawColor(game_manager.renderer, old_color.r, old_color.g, old_color.b, old_color.a);
         }
     
-        public static void texture_ext(IntPtr renderer, IntPtr texture, int x, int y, double angle) {
+        public static void texture_ext(IntPtr renderer, IntPtr texture, int x, int y, double angle, bool flip_horizontal=false, bool flip_vertical=false) {
             SDL.SDL_Point size;
             uint format;
             int access;
@@ -142,8 +142,18 @@ namespace Proj.Modules.Graphics {
             dest.y = y - size.y / 2;
             dest.w = size.x;
             dest.h = size.y;
+            
+            SDL.SDL_RendererFlip flip = SDL.SDL_RendererFlip.SDL_FLIP_NONE; 
+            
+            if(flip_horizontal && flip_vertical) {
+                flip = SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
+            } else if(flip_horizontal && !flip_vertical) {
+                flip = SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL;
+            } else if(!flip_horizontal && flip_vertical) {
+                flip = SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
+            }
 
-            SDL.SDL_RenderCopyEx(renderer, texture, ref src, ref dest, angle, ref center, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
+            SDL.SDL_RenderCopyEx(renderer, texture, ref src, ref dest, angle, ref center, flip);
         }
     }
 }
