@@ -18,7 +18,8 @@ namespace Proj.Modules.Ui {
         }
         
         public static void load_scene(string id) {
-            scenes[current_scene].on_unload();
+            if(current_scene != null)
+                scenes[current_scene].on_unload();
             current_scene = id;
             scenes[current_scene].on_load();
             Debug.Debug.send("Loaded scene '" + id + "' successfully!");
