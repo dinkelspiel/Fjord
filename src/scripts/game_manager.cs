@@ -76,7 +76,7 @@ namespace Proj
             scene_handler.add_scene("city_builder", new city_builder());
             scene_handler.add_scene("bloons", new bloons());
             scene_handler.add_scene("node_editor", new node_editor());
-            scene_handler.load_scene("node_editor");
+            scene_handler.load_scene("city_builder");
 
             font_handler.load_font("default", "Sans", 42);
         }
