@@ -72,8 +72,6 @@ namespace Proj
 
             zgui.init();
 
-            set_render_viewport(0, 0, 1280, 720);
-
             scene_handler.add_scene("text_editor", new text_editor());
             scene_handler.add_scene("city_builder", new city_builder());
             scene_handler.add_scene("bloons", new bloons());
@@ -82,8 +80,6 @@ namespace Proj
 
             font_handler.load_font("default", "Sans", 42);
         }
-
-
 
         public static void update() {
             screen.screen_update();
@@ -149,16 +145,6 @@ namespace Proj
         public static void set_asset_pack(string asset_pack_set) {
             asset_pack = asset_pack_set;
             Debug.send("Loaded asset pack '" + asset_pack_set + "' successfully.");
-        }
-
-        public static void set_render_viewport(int x, int y, int w, int h) {
-            SDL.SDL_Rect rect;
-            rect.x = x;
-            rect.y = y;
-            rect.w = w;
-            rect.h = h;
-
-            SDL.SDL_RenderSetViewport(game_manager.renderer, ref rect);
         }
     }
 }
