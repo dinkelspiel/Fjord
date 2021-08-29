@@ -46,6 +46,8 @@ namespace Proj.Game {
         }
 
         public override void update() {
+
+            // Node Editor
             
             if(!hide) {
                 if(mouse.button_just_pressed(0) && !math_uti.mouse_inside(280, 10, 200, 30) && !math_uti.mouse_inside(280, 50, 80, 30) && !math_uti.mouse_inside(0, 0, 250, 1280) && !math_uti.mouse_inside(280, 100, 200, 30) && !math_uti.mouse_inside(280, 140, 100, 30) && !math_uti.mouse_inside(280, 690, 20, 20) && !math_uti.mouse_inside(280, 190, 180, 30)) {
@@ -56,6 +58,9 @@ namespace Proj.Game {
                 if(mouse.button_just_pressed(0) && !math_uti.mouse_inside(10, 690, 20, 20)) {
                     if(!edit_mode)
                         nodes.Add(new Vector2(mouse.x, mouse.y));
+                    else {
+
+                    }
                 }
             }
             
