@@ -2,9 +2,17 @@ using SDL2;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Proj.Modules.Camera;
 using System.Numerics;
 
 namespace Proj.Modules.Graphics {
+    public enum flip_type {
+        none = 0,
+        horizontal = 1,
+        vertical = 2,
+        both = 3
+    }
+
     public static class draw {
         public static void rect(IntPtr renderer, SDL.SDL_Rect rect, byte r, byte g, byte b, byte a, bool fill) {
             SDL.SDL_Color old_color;
@@ -122,7 +130,7 @@ namespace Proj.Modules.Graphics {
             SDL.SDL_SetRenderDrawColor(game_manager.renderer, old_color.r, old_color.g, old_color.b, old_color.a);
         }
     
-        public static void texture_ext(IntPtr renderer, IntPtr texture, int x, int y, double angle, bool flip_horizontal=false, bool flip_vertical=false) {
+        public static void texture(IntPtr renderer, IntPtr texture, int x, int y, double angle, bool relative=false, flip_type flip=flip_type.none) {
             SDL.SDL_Point size;
             uint format;
             int access;
@@ -138,22 +146,22 @@ namespace Proj.Modules.Graphics {
             src.w = size.x;
             src.h = size.y;
 
-            dest.x = x - size.x / 2;
-            dest.y = y - size.y / 2;
+            dest.x = x - size.x / 2 - (relative ? (int)camera.camera_position.X : 0);
+            dest.y = y - size.y / 2 - (relative ? (int)camera.camera_position.Y : 0);
             dest.w = size.x;
             dest.h = size.y;
             
-            SDL.SDL_RendererFlip flip = SDL.SDL_RendererFlip.SDL_FLIP_NONE; 
+            SDL.SDL_RendererFlip flip_sdl = SDL.SDL_RendererFlip.SDL_FLIP_NONE; 
             
-            if(flip_horizontal && flip_vertical) {
-                flip = SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
-            } else if(flip_horizontal && !flip_vertical) {
-                flip = SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL;
-            } else if(!flip_horizontal && flip_vertical) {
-                flip = SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
+            if(flip == flip_type.both) {
+                flip_sdl = SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
+            } else if(flip == flip_type.horizontal) {
+                flip_sdl = SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL;
+            } else if(flip == flip_type.vertical) {
+                flip_sdl = SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
             }
 
-            SDL.SDL_RenderCopyEx(renderer, texture, ref src, ref dest, angle, ref center, flip);
+            SDL.SDL_RenderCopyEx(renderer, texture, ref src, ref dest, angle, ref center, flip_sdl);
         }
     }
 }
