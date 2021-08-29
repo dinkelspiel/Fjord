@@ -3,6 +3,7 @@ using Proj.Modules.Ui;
 using Proj.Modules.Debug;
 using Proj.Modules.Misc;
 using Proj.Modules.Graphics;
+using Proj.Modules.Camera;
 using System.Collections.Generic;
 using SDL2;
 using System;
@@ -48,6 +49,8 @@ namespace Proj.Game {
 
         List<balloon> enemies = new List<balloon>();
 
+        Vector2 pos;
+
         public bloons() {
             enemies.Add(new balloon(0, 0, types.red));
         }
@@ -75,6 +78,21 @@ namespace Proj.Game {
         }
 
         public override void update() {
+            int move_speed = 4;
+            if(input.get_key_pressed(input.key_w)) {
+                pos.Y -= move_speed;
+            } else if(input.get_key_pressed(input.key_s)) {
+                pos.Y += move_speed;
+            }
+
+            if(input.get_key_pressed(input.key_a)) {
+                pos.X -= move_speed;
+            } else if(input.get_key_pressed(input.key_d)) {
+                pos.X += move_speed;
+            }
+
+            camera.set_viewport(pos.X, pos.Y);
+
             for(var i = 0; i < enemies.Count; i++) {
 
                 if(math_uti.point_distance(new Vector2(enemies[i].x, enemies[i].y), new Vector2(map.nodes[enemies[i].node].X, map.nodes[enemies[i].node].Y)) < 5) {
@@ -88,11 +106,11 @@ namespace Proj.Game {
 
         public override void render() {
             foreach(IntPtr texture in textures) {
-                draw.texture_ext(game_manager.renderer, texture, (int)game_manager.resolution.X / 2, (int)game_manager.resolution.Y / 2, 0);
+                draw.texture(game_manager.renderer, texture, (int)game_manager.resolution.X / 2, (int)game_manager.resolution.Y / 2, 0, true);
             }
             
             foreach(balloon bloon in enemies) {
-                draw.texture_ext(game_manager.renderer, red_balloon_tex, (int)bloon.x, (int)bloon.y - 32, 0);
+                draw.texture(game_manager.renderer, red_balloon_tex, (int)bloon.x, (int)bloon.y - 32, 0, true);
             }
 
             foreach(Vector2 point in path) {

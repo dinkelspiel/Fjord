@@ -112,7 +112,7 @@ namespace Proj.Game {
 
                     SDL.SDL_QueryTexture(grass_tile, out a, out b, out w, out h);
 
-                    draw.texture_ext(game_manager.renderer, grass_tile, x, y + (int)offset, 0);
+                    draw.texture(game_manager.renderer, grass_tile, x, y + (int)offset, 0);
                     // draw.texture_ext(game_manager.renderer, grass_divider, x + w / 4 + 1, y + (int)offset - 3 + h / 2 + 1, 0, true);
                     // draw.texture_ext(game_manager.renderer, grass_divider, x + w / 4 + 1, y + (int)offset - 3, 0);
                 }

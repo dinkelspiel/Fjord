@@ -128,7 +128,7 @@ namespace Proj.Game {
             rect.h = 1280;
             
             foreach(IntPtr tex in textures) {
-                draw.texture_ext(game_manager.renderer, tex, 1280 / 2 , 720 / 2, 0);
+                draw.texture(game_manager.renderer, tex, 1280 / 2 , 720 / 2, 0);
             }
             
             if(!hide) 
@@ -142,7 +142,7 @@ namespace Proj.Game {
                 font_handler.get_text_and_rect(game_manager.renderer, text, "bloons_font", out texture, out rect1, 0, 0);
 
                 if(!hide) {
-                    draw.texture_ext(game_manager.renderer, texture, 135, 20 * (i + 1), 0);
+                    draw.texture(game_manager.renderer, texture, 135, 20 * (i + 1), 0);
                 }
 
                 SDL.SDL_Rect rect2;
