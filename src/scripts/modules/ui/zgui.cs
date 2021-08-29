@@ -124,7 +124,7 @@ namespace Proj.Modules.Ui
             IntPtr tex;
             SDL.SDL_Rect rec;
             font_handler.get_text_and_rect(game_manager.renderer, text, font, out tex, out rec);
-            draw.texture_ext(game_manager.renderer, tex, x + w / 2, y + h / 2, 0);
+            draw.texture(game_manager.renderer, tex, x + w / 2, y + h / 2, 0);
         }
 
         public static void input_box (int x, int y, int w, int h, string font, ref string value, string input_state) {
@@ -163,7 +163,7 @@ namespace Proj.Modules.Ui
                 draw.rect(game_manager.renderer, rect, 36, 36, 36, 255, true);
             }
 
-            draw.texture_ext(game_manager.renderer, tex, x + wi / 2 + 5, y + hi / 2 + 2, 0);
+            draw.texture(game_manager.renderer, tex, x + wi / 2 + 5, y + hi / 2 + 2, 0);
         }
 
         public static void window_movement(ref int x, ref int y, ref int w, ref int h) {
