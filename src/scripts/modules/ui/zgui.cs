@@ -127,7 +127,7 @@ namespace Proj.Modules.Ui
             draw.texture(game_manager.renderer, tex, x + w / 2, y + h / 2, 0);
         }
 
-        public static void input_box (int x, int y, int w, int h, string font, ref string value, string input_state) {
+        public static void input_box (int x, int y, int w, int h, string font, ref string value, string default_value, string input_state) {
             if(input.input_state == input_state && input.get_any_key_just_pressed() > -1) { 
                 if(input.get_key(input.get_any_key_just_pressed()).Length == 1) {
                     value += input.get_key(input.get_any_key_just_pressed());
@@ -148,7 +148,11 @@ namespace Proj.Modules.Ui
             SDL.SDL_Rect rect1;
             uint i;
             int j, wi, hi;
-            font_handler.get_text_and_rect(game_manager.renderer, value, font, out tex, out rect1, 0, 0);
+            if(value != "") {
+                font_handler.get_text_and_rect(game_manager.renderer, value, font, out tex, out rect1, 0, 0);
+            } else {
+                font_handler.get_text_and_rect(game_manager.renderer, default_value, font, out tex, out rect1, 0, 0);
+            }
             SDL.SDL_QueryTexture(tex, out i, out j, out wi, out hi);
 
             SDL.SDL_Rect rect;
