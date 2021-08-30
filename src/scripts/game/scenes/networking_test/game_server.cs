@@ -67,7 +67,7 @@ namespace Proj.Game {
             int a, w, h;
             uint f;
             SDL.SDL_QueryTexture(tex, out f, out a, out w, out h);
-            draw.texture(game_manager.renderer, tex,  10 + w / 2, 20, 0, false);
+            draw.texture(game_manager.renderer, tex,  10 + w / 2, 20, 0);
         }
     }
 }
