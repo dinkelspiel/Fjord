@@ -14,7 +14,7 @@ namespace Proj.Game {
     public class game_server_echo : WebSocketBehavior {
         protected override void OnMessage(MessageEventArgs e)
         {
-            Debug.send("Recieved message from client: " + e.Data);
+            //Debug.send("Recieved message from client: " + e.Data);
             if(e.Data == "Connected") {
                 game_server_handle.connected_players += 1;
                 Send("ID§" + game_server_handle.connected_players.ToString());

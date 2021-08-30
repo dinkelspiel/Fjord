@@ -189,10 +189,10 @@ namespace Proj.Game {
             }
 
             if(!hide) {
-                zgui.input_box(280, 10, 200, 30, "bloons_font", ref value, "load_texture");
+                zgui.input_box(280, 10, 200, 30, "bloons_font", ref value, "texture name", "load_texture");
                 zgui.button(280, 50, 80, 30, ref load_tex_button, "bloons_font", "Load");
 
-                zgui.input_box(280, 100, 200, 30, "bloons_font", ref export_file, "export_file");
+                zgui.input_box(280, 100, 200, 30, "bloons_font", ref export_file, "export filename", "export_file");
                 zgui.button(280, 140, 100, 30, ref export_button, "bloons_font", "Export");
 
                 zgui.button(280, 190, 180, 30, ref edit_mode, "bloons_font", edit_mode ? "texture_edit" : "node_edit");
