@@ -25,6 +25,10 @@ namespace Proj.Modules.Ui {
             Debug.Debug.send("Loaded scene '" + id + "' successfully!");
         }
 
+        public static void stop() {
+            scenes[current_scene].on_unload();
+        }
+
         public static void update() {
             if(scenes.Count > 0) {
                 scenes[current_scene].update();

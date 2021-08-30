@@ -50,6 +50,11 @@ namespace Proj.Game {
                     players.Add(asd, add);
                 }
             }
+
+            if(e.Data.Split('§')[0] == "DISCONNECTPLAYER") {
+                var asd = Int32.Parse(e.Data.Split('§')[1]);
+                players.Remove(asd);
+            }
         }
 
         public game_client() {
@@ -61,6 +66,10 @@ namespace Proj.Game {
         public override void on_load() {
             ws_client.connect();
             ws_client.ws.Send("Connected");
+        }
+
+        public override void on_unload() {
+            ws_client.ws.Send("DISCONNECT§" + id.ToString());
         }
 
         public override void update() {

@@ -24,6 +24,11 @@ namespace Proj.Game {
             if(e.Data.Split('§')[0] == "JSON") {
                 Sessions.Broadcast("PACKET§" + e.Data.Split('§')[1]);
             }
+
+            if(e.Data.Split('§')[0] == "DISCONNECT") {
+                game_server_handle.connected_players -= 1;
+                Sessions.Broadcast("DISCONNECTPLAYER§" + e.Data.Split('§')[1]);
+            }
         }
     }
 
@@ -43,6 +48,8 @@ namespace Proj.Game {
 
         public override void on_load() {
             ws_server.start();
+            game_manager.set_asset_pack("networking_test");
+            font_handler.load_font("font", "FiraCode", 22);
         }
 
         public override void on_unload() {
@@ -54,7 +61,13 @@ namespace Proj.Game {
         }
 
         public override void render() {
-
+            IntPtr tex;
+            SDL.SDL_Rect rect;
+            font_handler.get_text_and_rect(game_manager.renderer, "Connected Players: " + game_server_handle.connected_players.ToString(), "font", out tex, out rect, 0, 0);
+            int a, w, h;
+            uint f;
+            SDL.SDL_QueryTexture(tex, out f, out a, out w, out h);
+            draw.texture(game_manager.renderer, tex,  10 + w / 2, 20, 0, false);
         }
     }
 }

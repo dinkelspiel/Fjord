@@ -130,7 +130,7 @@ namespace Proj.Modules.Graphics {
             SDL.SDL_SetRenderDrawColor(game_manager.renderer, old_color.r, old_color.g, old_color.b, old_color.a);
         }
     
-        public static void texture(IntPtr renderer, IntPtr texture, int x, int y, double angle, bool relative=false, flip_type flip=flip_type.none) {
+        public static void texture(IntPtr renderer, IntPtr texture, int x, int y, double angle, Vector2 origin=new Vector2(), bool relative=false, flip_type flip=flip_type.none) {
             SDL.SDL_Point size;
             uint format;
             int access;
@@ -139,8 +139,14 @@ namespace Proj.Modules.Graphics {
             SDL.SDL_Rect src, dest;
 
             SDL.SDL_Point center;
-            center.x = size.x / 2;
-            center.y = size.y / 2;
+
+            if(origin == new Vector2()) {
+                center.x = size.x / 2;
+                center.y = size.y / 2;
+            } else {
+                center.x = (int)origin.X;
+                center.y = (int)origin.Y;
+            }
 
             src.x = src.y = 0;
             src.w = size.x;

@@ -107,6 +107,7 @@ namespace Proj
         public static void stop() {
 
             //debug_web.listener.Close();
+            scene_handler.stop();
 
             SDL.SDL_DestroyWindow(window);
             SDL.SDL_DestroyRenderer(renderer);
