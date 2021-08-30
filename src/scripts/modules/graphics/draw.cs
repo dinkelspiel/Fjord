@@ -163,5 +163,39 @@ namespace Proj.Modules.Graphics {
 
             SDL.SDL_RenderCopyEx(renderer, texture, ref src, ref dest, angle, ref center, flip_sdl);
         }
+
+        public static void texture_ext(IntPtr renderer, IntPtr texture, int x, int y, double angle, int dest_w, int dest_h, bool relative=false, flip_type flip=flip_type.none) {
+            SDL.SDL_Point size;
+            uint format;
+            int access;
+            SDL.SDL_QueryTexture(texture, out format, out access, out size.x, out size.y);
+
+            SDL.SDL_Rect src, dest;
+
+            SDL.SDL_Point center;
+            center.x = size.x / 2;
+            center.y = size.y / 2;
+
+            src.x = src.y = 0;
+            src.w = size.x;
+            src.h = size.y;
+
+            dest.x = x - size.x / 2 - (relative ? (int)camera.camera_position.X : 0);
+            dest.y = y - size.y / 2 - (relative ? (int)camera.camera_position.Y : 0);
+            dest.w = dest_w;
+            dest.h = dest_h;
+            
+            SDL.SDL_RendererFlip flip_sdl = SDL.SDL_RendererFlip.SDL_FLIP_NONE; 
+            
+            if(flip == flip_type.both) {
+                flip_sdl = SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
+            } else if(flip == flip_type.horizontal) {
+                flip_sdl = SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL;
+            } else if(flip == flip_type.vertical) {
+                flip_sdl = SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
+            }
+
+            SDL.SDL_RenderCopyEx(renderer, texture, ref src, ref dest, angle, ref center, flip_sdl);
+        }
     }
 }
