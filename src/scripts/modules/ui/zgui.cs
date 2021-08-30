@@ -132,8 +132,18 @@ namespace Proj.Modules.Ui
                 if(input.get_key(input.get_any_key_just_pressed()).Length == 1) {
                     value += input.get_key(input.get_any_key_just_pressed());
                 } else if(input.get_key_just_pressed(input.key_backspace)) {
-                    if(value.Length > 0) {
-                        value = value.Substring(0, value.Length - 1);
+                    if(!input.get_key_pressed(input.key_lctrl)) {
+                        if(value.Length > 0) {
+                            value = value.Substring(0, value.Length - 1);
+                        }
+                    } else {
+                        if(value.Length > 0) {
+                            var valarr = value.Split(" ");
+                            if(valarr.Any()) {
+                                valarr = valarr.SkipLast(1).ToArray();
+                            }
+                            value = String.Join(" ", valarr);
+                        }
                     }
                 } else if(input.get_key_just_pressed(input.key_space)) {
                     value += " ";
