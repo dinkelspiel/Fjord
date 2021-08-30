@@ -5,6 +5,8 @@ using Proj.Modules.Debug;
 namespace Proj.Modules.Misc {
     static class event_handler {
         public static void handle_events() {
+            mouse.wheel_down = false;
+            mouse.wheel_up = false;
             while (SDL.SDL_PollEvent(out SDL.SDL_Event events) != 0) {
                 switch(events.type) {
                 case SDL.SDL_EventType.SDL_QUIT:
@@ -13,6 +15,7 @@ namespace Proj.Modules.Misc {
                 case SDL.SDL_EventType.SDL_MOUSEMOTION:
                     SDL.SDL_GetMouseState(out mouse.x, out mouse.y);
                     break;
+                #region mouse
                 case SDL.SDL_EventType.SDL_MOUSEBUTTONDOWN:
                     if(events.button.button == SDL.SDL_BUTTON_LEFT) {
                         mouse.lmb = true;
@@ -29,6 +32,17 @@ namespace Proj.Modules.Misc {
                         mouse.rmb = false;
                     }
                     break;
+                case SDL.SDL_EventType.SDL_MOUSEWHEEL:
+                    if(events.wheel.y > 0) { // scroll up
+                        mouse.wheel_up = true;
+                        mouse.wheel_down = false;
+                    }
+                    else if(events.wheel.y < 0) { // scroll down
+                        mouse.wheel_down = true;
+                        mouse.wheel_up = false;
+                    }
+                    break;
+                #endregion
                 #region keys
                 case SDL.SDL_EventType.SDL_KEYDOWN:
                     switch(events.key.keysym.sym) {
