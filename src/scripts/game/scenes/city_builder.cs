@@ -11,7 +11,6 @@ namespace Proj.Game {
     public class city_builder : scene {
 
         SDL.SDL_Point selected, closest;
-        double closest_length = 0;
 
         SDL.SDL_Rect rect, rect2;
         SDL.SDL_Color bg, o1, o2, o3;
