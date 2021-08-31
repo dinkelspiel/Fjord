@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using SDL2;
 using System;
 using System.Numerics;
+using Newtonsoft.Json;
 
 namespace Proj.Game {
     public class tilemap_editor : scene {
@@ -20,6 +21,11 @@ namespace Proj.Game {
         string load_texture_string = "";
 
         bool load_tex_button = false;
+
+        bool export_file = false;
+        string export_file_string;
+
+        bool export_file_button = false;
 
         string asset_pack = "general";
         bool change_asset_pack = false;
@@ -60,7 +66,9 @@ namespace Proj.Game {
 
             if(math_uti.mouse_inside(470, 10, 200, 30) && mouse.button_just_pressed(0)) {
                 change_asset_pack = !change_asset_pack;
-            }  
+            }  else if(!math_uti.mouse_inside(470, 10, 200, 30) && mouse.button_just_pressed(0)) {
+                change_asset_pack = false;
+            }
 
             if(change_asset_pack) {
                 input.set_input_state("set_asset_pack");
@@ -70,7 +78,9 @@ namespace Proj.Game {
 
             if(math_uti.mouse_inside(260, 10, 200, 30) && mouse.button_just_pressed(0)) {
                 load_tex = !load_tex;
-            }    
+            } else if(!math_uti.mouse_inside(260, 10, 200, 30) && mouse.button_just_pressed(0)) {
+                load_tex = false;
+            }
 
             if(load_tex) {
                 input.set_input_state("load_texture");
@@ -79,14 +89,40 @@ namespace Proj.Game {
             }
 
             if(load_tex_button) {
-                string ass = game_manager.asset_pack;
                 game_manager.set_asset_pack(asset_pack);
                 texs.Add(texture_handler.load_texture(load_texture_string, game_manager.renderer));
                 Tilemap.textures.Add(load_texture_string);
                 load_tex_button = false;
                 load_tex = false;
                 load_texture_string = "";
-                game_manager.set_asset_pack(ass);
+            }
+
+            if(math_uti.mouse_inside(260, 100, 200, 30) && mouse.button_just_pressed(0)) {
+                export_file = !export_file;
+            } else if(!math_uti.mouse_inside(260, 100, 200, 30) && mouse.button_just_pressed(0)) {
+                export_file = false;
+            }
+
+            if(export_file) {
+                input.set_input_state("export_tilemap");
+            } else if(input.input_state == "export_tilemap") {
+                input.set_input_state("general");
+            }
+
+            if(export_file_button) {
+                export_file_button = false;
+                export_file = false;
+
+                var _export_output = new tilemap(Tilemap.w, Tilemap.h, Tilemap.grid_w, Tilemap.grid_h) {
+                    textures = Tilemap.textures,
+                    map = Tilemap.map,
+                    asset_pack = asset_pack
+                }; 
+
+                var json_string = JsonConvert.SerializeObject(_export_output);
+
+                string full_path = game_manager.executable_path + "\\src\\resources\\" + asset_pack + "\\data\\tilemaps\\" + export_file_string;
+                System.IO.File.WriteAllText(full_path, json_string);
             }
 
             grid_x = (int)(Tilemap.grid_w * zoom) - (int)camera.camera_position.X - (int)(Tilemap.grid_w * zoom);
@@ -159,6 +195,9 @@ namespace Proj.Game {
 
             zgui.input_box(260, 10, 200, 30, "font", ref load_texture_string, "texture path", "load_texture");
             zgui.button(260, 50, 80, 30, ref load_tex_button, "font", "Load");
+
+            zgui.input_box(260, 100, 200, 30, "font", ref export_file_string, "export path", "export_tilemap");
+            zgui.button(260, 140, 100, 30, ref export_file_button, "font", "Export");
 
             zgui.input_box(470, 10, 200, 30, "font", ref asset_pack, "", "set_asset_pack");
         }
