@@ -22,6 +22,8 @@ namespace Proj.Game {
             Tilemap = JsonConvert.DeserializeObject<tilemap>(file);
 
             Tilemap.load_textures();
+
+            Tilemap.zoom = 2.5;
         }
 
         public override void on_load() {
