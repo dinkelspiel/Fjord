@@ -1,6 +1,8 @@
 namespace Proj.Modules.Tools {
     public class tilemap {
 
+        public string asset_pack;
+
         public int[,] map;
         public int grid_w, grid_h;
         public int w, h;
