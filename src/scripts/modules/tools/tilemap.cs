@@ -13,6 +13,8 @@ namespace Proj.Modules.Tools {
         public List<string> textures = new List<string>();
         List<IntPtr> textures_intptr = new List<IntPtr>();
 
+        public double zoom = 1;
+
         public tilemap(int w, int h, int grid_w, int grid_h) {
             map = new int[w,h];
             this.grid_w = grid_w;
@@ -35,8 +37,10 @@ namespace Proj.Modules.Tools {
         public void draw_tilemap(int x, int y) {
             for(var i = 0; i < w; i++) {
                 for(var j = 0; j < h; j++) {
-                    if(map[i, j] != -1 && map[i, j] < textures_intptr.Count)
-                        draw.texture(game_manager.renderer, textures_intptr[map[i, j]], x + i * grid_w, y + j * grid_h, 0, new Vector2(0, 0), true);
+                    if(map[i, j] != -1)
+                        if(map[i, j] == 0) 
+                            continue;
+                        draw.texture_ext(game_manager.renderer, textures_intptr[map[i, j] - 1], (int)(x + (i * grid_w) * zoom), (int)(y + (j * grid_h) * zoom), 0, (int)(grid_w * zoom), (int)(grid_h * zoom), new Vector2(0, 0), true);
                 }
             }
         }
