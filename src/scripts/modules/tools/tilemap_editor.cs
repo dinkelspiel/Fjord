@@ -140,7 +140,7 @@ namespace Proj.Game {
                 y_ = y_ / (int)h_;
 
                 if(x_ < Tilemap.w && x_ > -1 && y_ < Tilemap.h && y_ > -1)
-                    Tilemap.map[(int)x_, (int)y_] = 1;
+                    Tilemap.map[(int)x_, (int)y_] = selected_tile + 1;
             }
         }
 
@@ -154,11 +154,11 @@ namespace Proj.Game {
                     rect.h = (int)(Tilemap.grid_h * zoom);
                     draw.rect(game_manager.renderer, rect, 255, 255, 255, 255, false);
 
-                    if(Tilemap.map[i, j] == 1) {
+                    if(Tilemap.map[i, j] > 0) {
                         int w, h;
                         w = (int)(Tilemap.grid_w * zoom);
                         h = (int)(Tilemap.grid_h * zoom);
-                        draw.texture_ext(game_manager.renderer, texs[0], rect.x + 8, rect.y + 8, 0, w, h);
+                        draw.texture_ext(game_manager.renderer, texs[Tilemap.map[i, j] - 1], rect.x + 8, rect.y + 8, 0, w, h);
                     }
                 }
             }
@@ -181,13 +181,13 @@ namespace Proj.Game {
                 if(iw == selected_tile) {
                     SDL.SDL_Rect rect;
                     rect.x = 10;
-                    rect.y = 10;
+                    rect.y = 10 + (20 * (iw)) + (64 * iw);
                     rect.w = 69;
                     rect.h = 69;
                     draw.rect(game_manager.renderer, rect, 52, 134, 235, 255, true);
                 }
-                draw.texture_ext(game_manager.renderer, tex, 20, 20, 0, 64, 64);
-                if(math_uti.mouse_inside(20, 20, 64, 64) && mouse.button_just_pressed(0)) {
+                draw.texture_ext(game_manager.renderer, tex, 20, (20 * (iw + 1)) + (64 * iw), 0, 64, 64);
+                if(math_uti.mouse_inside(20, (20 * (iw + 1)) + (64 * iw), 64, 64) && mouse.button_just_pressed(0)) {
                     selected_tile = iw;
                 }
                 iw++;
