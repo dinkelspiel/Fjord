@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Proj.Modules.Camera;
 using System.Numerics;
+using System.Runtime.InteropServices;
 
 namespace Proj.Modules.Graphics {
     public enum flip_type {
@@ -207,6 +208,20 @@ namespace Proj.Modules.Graphics {
             }
 
             SDL.SDL_RenderCopyEx(renderer, texture, ref src, ref dest, angle, ref center, flip_sdl);
+        }
+        
+        //[DllImport("SDL2_gfx.dll", CallingConvention = CallingConvention.Cdecl)]
+        //static extern int thickLineColor(IntPtr renderer, int x1, int y1, int x2, int y2, uint width, uint r, uint g, uint b, uint a);
+
+        public static void line(IntPtr renderer, int x, int y, int x2, int y2, byte r, byte g, byte b, byte a) {
+            //thickLineColor(game_manager.renderer, 0, 0, 100, 100, 5, 255, 255, 255, 255);
+            SDL.SDL_Color old_color;
+            SDL.SDL_GetRenderDrawColor(game_manager.renderer, out old_color.r, out old_color.g, out old_color.b, out old_color.a);
+            SDL.SDL_SetRenderDrawColor(game_manager.renderer, r, g, b, a);
+
+            SDL.SDL_RenderDrawLine(game_manager.renderer, x, y, x2, y2);
+
+            SDL.SDL_SetRenderDrawColor(game_manager.renderer, old_color.r, old_color.g, old_color.b, old_color.a);
         }
     }
 }
