@@ -9,6 +9,7 @@ namespace Proj.Modules.Tools {
         public int[,] map;
         public int grid_w, grid_h;
         public int w, h;
+        public Vector2 position = new Vector2(0, 0);
 
         public List<string> textures = new List<string>();
         List<IntPtr> textures_intptr = new List<IntPtr>();
@@ -34,13 +35,13 @@ namespace Proj.Modules.Tools {
             game_manager.set_asset_pack(ass);
         }
 
-        public void draw_tilemap(int x, int y) {
+        public void draw_tilemap() {
             for(var i = 0; i < w; i++) {
                 for(var j = 0; j < h; j++) {
                     if(map[i, j] != -1)
                         if(map[i, j] == 0) 
                             continue;
-                        draw.texture_ext(game_manager.renderer, textures_intptr[map[i, j] - 1], (int)(x + (i * grid_w) * zoom), (int)(y + (j * grid_h) * zoom), 0, (int)(grid_w * zoom), (int)(grid_h * zoom), new Vector2(0, 0), true);
+                        draw.texture_ext(game_manager.renderer, textures_intptr[map[i, j] - 1], (int)(position.X + (i * grid_w) * zoom), (int)(position.Y + (j * grid_h) * zoom), 0, (int)(grid_w * zoom), (int)(grid_h * zoom), new Vector2(0, 0), true);
                 }
             }
         }
