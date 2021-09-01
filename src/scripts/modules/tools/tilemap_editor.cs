@@ -30,7 +30,7 @@ namespace Proj.Game {
         string asset_pack = "general";
         bool change_asset_pack = false;
 
-        tilemap Tilemap = new tilemap(20, 20, 16, 16);
+        tilemap Tilemap = new tilemap(80, 45, 8, 8);
         List<IntPtr> texs = new List<IntPtr>();
 
         int grid_x, grid_y, grid_x_end, grid_y_end;
