@@ -1,5 +1,6 @@
 using Proj.Modules.Graphics;
 using System.Numerics;
+using Proj.Modules.Misc;
 
 namespace Proj.Modules.Tools {
     public class tilemap {
@@ -33,6 +34,30 @@ namespace Proj.Modules.Tools {
             }
 
             game_manager.set_asset_pack(ass);
+        }
+
+        public Vector2 get_at_pixel(int x, int y) {
+            int _x = x - (int)position.X;
+            int _y = y - (int)position.Y;
+            _x = _x / (int)(grid_w * zoom);
+            _y = _y / (int)(grid_h * zoom);
+
+            if(_x >= 0 && _x < w && _y >= 0 && _y < h)
+                return(new Vector2(_x, _y));
+            else 
+                return(new Vector2(-1, -1));
+        }
+
+        public int get_data_at_pixel(int x, int y) {
+            int _x = x - (int)position.X;
+            int _y = y - (int)position.Y;
+            _x = _x / (int)(grid_w * zoom);
+            _y = _y / (int)(grid_h * zoom);
+
+            if(_x >= 0 && _x < w && _y >= 0 && _y < h)
+                return(map[_x, _y]);
+            else 
+                return(-1);
         }
 
         public void draw_tilemap() {
