@@ -8,6 +8,13 @@ namespace Proj.Modules.Graphics
     {
         private static Dictionary<string, dynamic> fonts = new Dictionary<string, dynamic>();
 
+        public static void init() {
+            string ass = game_manager.asset_pack;
+            game_manager.set_asset_pack("general");
+            fonts.Add("default", SDL_ttf.TTF_OpenFont(game_manager.executable_path + "\\src\\resources\\general\\assets\\fonts\\FiraCode.ttf", 22));
+            game_manager.set_asset_pack(ass);
+        }
+
         public static bool load_font(string id, string font, int font_size) {
             if(!fonts.ContainsKey(id)) {
                 fonts.Add(id, SDL_ttf.TTF_OpenFont(game_manager.executable_path + "\\src\\resources\\" + game_manager.asset_pack + "\\assets\\fonts\\" + font + ".ttf", font_size));
