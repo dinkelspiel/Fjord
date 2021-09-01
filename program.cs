@@ -23,13 +23,8 @@ namespace Proj
             game_manager.stop();
         }
 
-        private static void debug_thead() {
-            //debug_web.web_init();
-        }
-
         static void Main(string[] args) {
             // Task game_task = Task.Factory.StartNew(() => game_thread());
-            // Task debug_web_task = Task.Factory.StartNew(() => debug_thead());
             // Task.WaitAll(game_task, debug_web_task);
             game_thread();
         }
