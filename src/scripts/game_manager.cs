@@ -71,6 +71,8 @@ namespace Proj
             set_render_background(26, 26, 28, 255);
 
             zgui.init();
+            texture_handler.init();
+            font_handler.init();
 
             scene_handler.add_scene("text_editor", new text_editor());
             scene_handler.add_scene("city_builder", new city_builder());
@@ -80,6 +82,8 @@ namespace Proj
             scene_handler.add_scene("server", new game_server());
             scene_handler.add_scene("tilemap", new tilemap_editor());
             scene_handler.add_scene("platformer", new platformer());
+            scene_handler.add_scene("rope", new rope());
+            scene_handler.add_scene("jezzball", new jezzball());
             scene_handler.load_scene("platformer");
 
             font_handler.load_font("default", "Sans", 42);
