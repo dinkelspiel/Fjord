@@ -31,24 +31,38 @@ namespace Proj.Game {
         }
 
         public override void on_load() {
+            Player.texture_origin = new Vector2();
 
-        }
+            Player.texture_xscale = 2.5f;
+            Player.texture_yscale = 2.5f;
+        }   
 
         public override void update() {
             Player.update();
 
             int move_sp = 4;
+            int x_sp = 0;
+            int y_sp = 0;
             if(input.get_key_pressed(input.key_w)) {
-                Player.transform.Y -= move_sp;
+                y_sp -= move_sp;
             } else if(input.get_key_pressed(input.key_s)) {
-                Player.transform.Y += move_sp;
+                y_sp += move_sp;
             } 
 
             if(input.get_key_pressed(input.key_a)) {
-                Player.transform.X -= move_sp;
+                x_sp -= move_sp;
             } else if(input.get_key_pressed(input.key_d)) {
-                Player.transform.X += move_sp;
+                x_sp += move_sp;
             } 
+
+            if(Tilemap.get_data_at_pixel((int)Player.position.X + x_sp, (int)Player.position.Y) == 1) 
+                x_sp = 0;
+
+            if(Tilemap.get_data_at_pixel((int)Player.position.X, (int)Player.position.Y + y_sp) == 1) 
+                y_sp = 0;
+
+            Player.position.X += x_sp;
+            Player.position.Y += y_sp;
         }
 
         public override void render() {
