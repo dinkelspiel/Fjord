@@ -175,8 +175,8 @@ namespace Proj.Modules.Graphics {
             size.y = size.y * (dest_h / size.y); 
 
             SDL.SDL_Point center;
-            center.x = size.x / 2;
-            center.y = size.y / 2;
+            center.x = 0;
+            center.y = 0;
 
             SDL.SDL_Rect src, dest;
 
@@ -184,8 +184,8 @@ namespace Proj.Modules.Graphics {
             src.w = size.x;
             src.h = size.y;
 
-            dest.x = x - size.x / 2 - (relative ? (int)camera.camera_position.X : 0);
-            dest.y = y - size.y / 2 - (relative ? (int)camera.camera_position.Y : 0);
+            dest.x = x - size.x / 2 - 3 - (relative ? (int)camera.camera_position.X : 0);
+            dest.y = y - size.x / 2 - 3 - (relative ? (int)camera.camera_position.Y : 0);
             dest.w = dest_w;
             dest.h = dest_h;
             
