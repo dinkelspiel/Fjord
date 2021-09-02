@@ -31,6 +31,8 @@ namespace Proj.Game {
         public Point point_1;
         public Point point_2;
 
+        public bool bShowCircles = true;
+
         public void simulate() {
             foreach(Point p in points) {
                 if(!p.locked) {
@@ -61,7 +63,7 @@ namespace Proj.Game {
             if(bSimulate) 
                 simulate();
 
-            if(mouse.button_just_pressed(0) && !math_uti.mouse_inside(0, 0, 160, 110)) {
+            if(mouse.button_just_pressed(0) && !math_uti.mouse_inside(0, 0, 160, 150)) {
                 if(!input.get_key_pressed(input.key_lshift)) {
                     var p = new Point{
                         position = new Vector2(mouse.x, mouse.y),
@@ -116,14 +118,18 @@ namespace Proj.Game {
         public override void render() {
             zgui.button(10, 10, 150, 30, ref bSimulate, "default", "Simulate");
             zgui.button(10, 50, 150, 30, ref select, "default", "Select");
+            zgui.button(10, 90, 150, 30, ref bShowCircles, "default", "Circles");
 
             foreach(Point p in points) {
                 if(point_1 == p || point_2 == p) 
                     draw.circle(game_manager.renderer, (int)p.position.X, (int)p.position.Y, 14, 181, 198, 213, 255);
                 if(!p.locked)
-                    draw.circle(game_manager.renderer, (int)p.position.X, (int)p.position.Y, 10, 255, 255, 255, 255);
-                else
+                    if(bShowCircles)
+                        draw.circle(game_manager.renderer, (int)p.position.X, (int)p.position.Y, 10, 255, 255, 255, 255);
+
+                if(p.locked) {
                     draw.circle(game_manager.renderer, (int)p.position.X, (int)p.position.Y, 10, 255, 107, 107, 255);
+                }
             }
 
             foreach(Stick stick in sticks) {
