@@ -106,11 +106,11 @@ namespace Proj.Game {
 
         public override void render() {
             foreach(IntPtr texture in textures) {
-                draw.texture(game_manager.renderer, texture, (int)game_manager.resolution.X / 2, (int)game_manager.resolution.Y / 2, 0, new Vector2(), true);
+                draw.texture(game_manager.renderer, texture, (int)game_manager.resolution.X / 2, (int)game_manager.resolution.Y / 2, 0, true);
             }
             
             foreach(balloon bloon in enemies) {
-                draw.texture(game_manager.renderer, red_balloon_tex, (int)bloon.x, (int)bloon.y - 32, 0, new Vector2(), true);
+                draw.texture(game_manager.renderer, red_balloon_tex, (int)bloon.x, (int)bloon.y - 32, 0, true);
             }
 
             foreach(Vector2 point in path) {
