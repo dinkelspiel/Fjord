@@ -131,7 +131,7 @@ namespace Proj.Modules.Graphics {
             SDL.SDL_SetRenderDrawColor(game_manager.renderer, old_color.r, old_color.g, old_color.b, old_color.a);
         }
     
-        public static void texture(IntPtr renderer, IntPtr texture, int x, int y, double angle, Vector2 origin=new Vector2(), bool relative=false, flip_type flip=flip_type.none) {
+        public static void texture(IntPtr renderer, IntPtr texture, int x, int y, double angle, bool relative=false, flip_type flip=flip_type.none) {
             SDL.SDL_Point size;
             uint format;
             int access;
@@ -140,14 +140,8 @@ namespace Proj.Modules.Graphics {
             SDL.SDL_Rect src, dest;
 
             SDL.SDL_Point center;
-
-            if(origin == new Vector2()) {
-                center.x = size.x / 2;
-                center.y = size.y / 2;
-            } else {
-                center.x = (int)origin.X;
-                center.y = (int)origin.Y;
-            }
+            center.x = size.x / 2;
+            center.y = size.y / 2;
 
             src.x = src.y = 0;
             src.w = size.x;
@@ -171,22 +165,20 @@ namespace Proj.Modules.Graphics {
             SDL.SDL_RenderCopyEx(renderer, texture, ref src, ref dest, angle, ref center, flip_sdl);
         }
 
-        public static void texture_ext(IntPtr renderer, IntPtr texture, int x, int y, double angle, int dest_w, int dest_h, Vector2 origin=new Vector2(), bool relative=false, flip_type flip=flip_type.none) {
+        public static void texture_ext(IntPtr renderer, IntPtr texture, int x, int y, double angle, int dest_w, int dest_h, bool relative=false, flip_type flip=flip_type.none) {
             SDL.SDL_Point size;
             uint format;
             int access;
             SDL.SDL_QueryTexture(texture, out format, out access, out size.x, out size.y);
 
-            SDL.SDL_Rect src, dest;
+            size.x = size.x * (dest_w / size.x); 
+            size.y = size.y * (dest_h / size.y); 
 
             SDL.SDL_Point center;
-            if(origin == new Vector2()) {
-                center.x = size.x / 2;
-                center.y = size.y / 2;
-            } else {
-                center.x = (int)origin.X;
-                center.y = (int)origin.Y;
-            }
+            center.x = size.x / 2;
+            center.y = size.y / 2;
+
+            SDL.SDL_Rect src, dest;
 
             src.x = src.y = 0;
             src.w = size.x;
