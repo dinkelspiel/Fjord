@@ -81,10 +81,9 @@ namespace Proj
             scene_handler.add_scene("client", new game_client());
             scene_handler.add_scene("server", new game_server());
             scene_handler.add_scene("tilemap", new tilemap_editor());
-            scene_handler.add_scene("platformer", new platformer());
             scene_handler.add_scene("rope", new rope());
             scene_handler.add_scene("jezzball", new jezzball());
-            scene_handler.load_scene("platformer");
+            scene_handler.load_scene("rope");
 
             font_handler.load_font("default", "Sans", 42);
         }
