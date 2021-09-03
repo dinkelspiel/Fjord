@@ -31,7 +31,6 @@ namespace Proj.Game {
         }
 
         public override void on_load() {
-            Player.texture_origin = new Vector2();
 
             Player.texture_xscale = 2.5f;
             Player.texture_yscale = 2.5f;
