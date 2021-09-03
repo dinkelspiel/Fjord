@@ -31,13 +31,16 @@ namespace Proj.Game {
         bool change_asset_pack = false;
 
         tilemap Tilemap = new tilemap(80, 45, 8, 8);
-        List<IntPtr> texs = new List<IntPtr>();
+        IntPtr atlas;
 
         int grid_x, grid_y, grid_x_end, grid_y_end;
 
         int selected_tile = -1;
 
         public override void on_load() {
+            game_manager.set_asset_pack("test");
+            atlas = texture_handler.load_texture("atlas.png", game_manager.renderer);
+
             game_manager.set_asset_pack("general");
             font_handler.load_font("font", "FiraCode", 22);
         }
@@ -90,7 +93,6 @@ namespace Proj.Game {
 
             if(load_tex_button) {
                 game_manager.set_asset_pack(asset_pack);
-                texs.Add(texture_handler.load_texture(load_texture_string, game_manager.renderer));
                 Tilemap.textures.Add(load_texture_string);
                 load_tex_button = false;
                 load_tex = false;
@@ -158,7 +160,6 @@ namespace Proj.Game {
                         int w, h;
                         w = (int)(Tilemap.grid_w * zoom);
                         h = (int)(Tilemap.grid_h * zoom);
-                        draw.texture_ext(game_manager.renderer, texs[Tilemap.map[i, j] - 1], rect.x + 8, rect.y + 8, 0, w, h);
                     }
                 }
             }
@@ -170,28 +171,8 @@ namespace Proj.Game {
             rect1.h = 1280;
             draw.rect(game_manager.renderer, rect1, 0, 0, 0, 200, true);
 
-            rect1.x = grid_x;
-            rect1.y = grid_y;
-            rect1.w = grid_x_end - grid_x;
-            rect1.h = grid_y_end - grid_y;
-            draw.rect(game_manager.renderer, rect1, 0, 255, 0, 255, false);
-
             int iw = 0;
-            foreach(IntPtr tex in texs) {
-                if(iw == selected_tile) {
-                    SDL.SDL_Rect rect;
-                    rect.x = 10;
-                    rect.y = 10 + (20 * (iw)) + (64 * iw);
-                    rect.w = 69;
-                    rect.h = 69;
-                    draw.rect(game_manager.renderer, rect, 52, 134, 235, 255, true);
-                }
-                draw.texture_ext(game_manager.renderer, tex, 20, (20 * (iw + 1)) + (64 * iw), 0, 64, 64);
-                if(math_uti.mouse_inside(20, (20 * (iw + 1)) + (64 * iw), 64, 64) && mouse.button_just_pressed(0)) {
-                    selected_tile = iw;
-                }
-                iw++;
-            }
+            draw.texture(game_manager.renderer, atlas, 10, 10, 0);
 
             zgui.input_box(260, 10, 200, 30, "font", ref load_texture_string, "texture path", "load_texture");
             zgui.button(260, 50, 80, 30, ref load_tex_button, "font", "Load");
