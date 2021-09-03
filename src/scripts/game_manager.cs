@@ -83,7 +83,7 @@ namespace Proj
             scene_handler.add_scene("tilemap", new tilemap_editor());
             scene_handler.add_scene("rope", new rope());
             scene_handler.add_scene("jezzball", new jezzball());
-            scene_handler.load_scene("rope");
+            scene_handler.load_scene("tilemap");
 
             font_handler.load_font("default", "Sans", 42);
         }
