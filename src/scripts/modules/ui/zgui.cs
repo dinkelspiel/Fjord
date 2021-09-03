@@ -180,6 +180,25 @@ namespace Proj.Modules.Ui
             draw.texture(game_manager.renderer, tex, x + wi / 2 + 5, y + hi / 2 + 2, 0);
         }
 
+        public static void text_box (int x, int y, int w, int h, string font, ref string value) {
+            IntPtr tex;
+            SDL.SDL_Rect rect1;
+            uint i;
+            int j, wi, hi;
+            
+            font_handler.get_text_and_rect(game_manager.renderer, value, font, out tex, out rect1, 0, 0);
+            
+            SDL.SDL_QueryTexture(tex, out i, out j, out wi, out hi);
+
+            SDL.SDL_Rect rect;
+            rect.x = x;
+            rect.y = y;
+            rect.w = wi < w ? w : wi + 10;
+            rect.h = h;
+
+            draw.texture(game_manager.renderer, tex, x + wi / 2 + 5, y + hi / 2 + 2, 0);
+        }
+
         public static void window_movement(ref int x, ref int y, ref int w, ref int h) {
             if(mouse.button_just_pressed(0)) {
                 corrected_pos.X = mouse.x - x;

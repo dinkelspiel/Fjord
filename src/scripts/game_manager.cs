@@ -74,16 +74,8 @@ namespace Proj
             texture_handler.init();
             font_handler.init();
 
-            scene_handler.add_scene("text_editor", new text_editor());
-            scene_handler.add_scene("city_builder", new city_builder());
-            scene_handler.add_scene("bloons", new bloons());
-            scene_handler.add_scene("node_editor", new node_editor());
-            scene_handler.add_scene("client", new game_client());
-            scene_handler.add_scene("server", new game_server());
-            scene_handler.add_scene("tilemap", new tilemap_editor());
-            scene_handler.add_scene("rope", new rope());
-            scene_handler.add_scene("jezzball", new jezzball());
-            scene_handler.load_scene("tilemap");
+            scene_handler.add_scene("minijam88", new MiniJam88());
+            scene_handler.load_scene("minijam88");
 
             font_handler.load_font("default", "Sans", 42);
         }
