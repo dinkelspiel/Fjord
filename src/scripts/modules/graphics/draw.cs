@@ -165,7 +165,7 @@ namespace Proj.Modules.Graphics {
             SDL.SDL_RenderCopyEx(renderer, texture, ref src, ref dest, angle, ref center, flip_sdl);
         }
 
-        public static void texture_ext(IntPtr renderer, IntPtr texture, int x, int y, double angle, int dest_w, int dest_h, bool relative=false, flip_type flip=flip_type.none) {
+        public static void texture_ext(IntPtr renderer, IntPtr texture, int x, int y, double angle, int dest_w, int dest_h, SDL.SDL_Point origin, bool relative=false, flip_type flip=flip_type.none) {
             SDL.SDL_Point size;
             uint format;
             int access;
@@ -174,9 +174,9 @@ namespace Proj.Modules.Graphics {
             size.x = size.x * (dest_w / size.x); 
             size.y = size.y * (dest_h / size.y); 
 
-            SDL.SDL_Point center;
-            center.x = 0;
-            center.y = 0;
+            // SDL.SDL_Point center;
+            // center.x = size.x / 2;
+            // center.y = size.y / 2;
 
             SDL.SDL_Rect src, dest;
 
@@ -199,7 +199,7 @@ namespace Proj.Modules.Graphics {
                 flip_sdl = SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
             }
 
-            SDL.SDL_RenderCopyEx(renderer, texture, ref src, ref dest, angle, ref center, flip_sdl);
+            SDL.SDL_RenderCopyEx(renderer, texture, ref src, ref dest, angle, ref origin, flip_sdl);
         }
         
         //[DllImport("SDL2_gfx.dll", CallingConvention = CallingConvention.Cdecl)]

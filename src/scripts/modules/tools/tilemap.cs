@@ -1,6 +1,7 @@
 using Proj.Modules.Graphics;
 using System.Numerics;
 using Proj.Modules.Misc;
+using SDL2;
 
 namespace Proj.Modules.Tools {
     public class tilemap {
@@ -66,7 +67,10 @@ namespace Proj.Modules.Tools {
                     if(map[i, j] != -1)
                         if(map[i, j] == 0) 
                             continue;
-                        draw.texture_ext(game_manager.renderer, textures_intptr[map[i, j] - 1], (int)(position.X + (i * grid_w) * zoom), (int)(position.Y + (j * grid_h) * zoom), 0, (int)(grid_w * zoom), (int)(grid_h * zoom), true);
+                        SDL.SDL_Point point;
+                        point.x = 0;
+                        point.y = 0;
+                        draw.texture_ext(game_manager.renderer, textures_intptr[map[i, j] - 1], (int)(position.X + (i * grid_w) * zoom), (int)(position.Y + (j * grid_h) * zoom), 0, (int)(grid_w * zoom), (int)(grid_h * zoom), point, true);
                 }
             }
         }

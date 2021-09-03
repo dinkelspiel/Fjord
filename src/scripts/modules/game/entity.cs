@@ -11,6 +11,7 @@ namespace Proj.Modules.Game
         
         public IntPtr texture = texture_handler.default_texture;
         public float texture_angle = 0;
+        public Vector2 texture_origin = new Vector2(0, 0);
 
         public float texture_xscale = 1;
         public float texture_yscale = 1;
@@ -39,7 +40,12 @@ namespace Proj.Modules.Game
             uint f;
             int a, w, h;
             SDL.SDL_QueryTexture(texture, out f, out a, out w, out h);
-            draw.texture_ext(game_manager.renderer, texture, (int)position.X, (int)position.Y, texture_angle, (int)(w * texture_xscale), (int)(h * texture_yscale), true);
+
+            SDL.SDL_Point origin;
+            origin.x = (int)texture_origin.X;
+            origin.y = (int)texture_origin.Y;
+
+            draw.texture_ext(game_manager.renderer, texture, (int)position.X, (int)position.Y, texture_angle, (int)(w * texture_xscale), (int)(h * texture_yscale), origin, true);
         }
     }
 }
