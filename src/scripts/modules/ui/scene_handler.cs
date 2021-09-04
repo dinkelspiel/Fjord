@@ -40,5 +40,9 @@ namespace Proj.Modules.Ui {
                 scenes[current_scene].render();
             }
         }
+
+        public static bool get_scene(string id) {
+            return scenes.ContainsKey(id);
+        }
     }
 }
