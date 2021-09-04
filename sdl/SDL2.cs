@@ -3832,6 +3832,11 @@ namespace SDL2
 		{
 			public int x;
 			public int y;
+
+			public SDL_Point(int x_, int y_) {
+				x = x_;
+				y = y_;
+			}
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
