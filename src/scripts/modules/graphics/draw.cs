@@ -201,6 +201,24 @@ namespace Proj.Modules.Graphics {
 
             SDL.SDL_RenderCopyEx(renderer, texture, ref src, ref dest, angle, ref origin, flip_sdl);
         }
+
+        public static void texture_atlas(IntPtr renderer, IntPtr texture_atlas, int atlas_x, int atlas_y, int atlas_w, int atlas_h, int x, int y, double angle, int dest_w, int dest_h, SDL.SDL_Point origin, bool relative=false, flip_type flip=flip_type.none) {
+
+            SDL.SDL_Rect src_rect = new SDL.SDL_Rect(atlas_x, atlas_y, atlas_w, atlas_h);
+            SDL.SDL_Rect dest_rect = new SDL.SDL_Rect(x - (relative ? (int)camera.camera_position.X : 0), y - (relative ? (int)camera.camera_position.Y : 0), dest_w, dest_h);
+
+            SDL.SDL_RendererFlip flip_sdl = SDL.SDL_RendererFlip.SDL_FLIP_NONE; 
+            
+            if(flip == flip_type.both) {
+                flip_sdl = SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
+            } else if(flip == flip_type.horizontal) {
+                flip_sdl = SDL.SDL_RendererFlip.SDL_FLIP_HORIZONTAL;
+            } else if(flip == flip_type.vertical) {
+                flip_sdl = SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
+            }
+
+            SDL.SDL_RenderCopyEx(renderer, texture_atlas, ref src_rect, ref dest_rect, angle, ref origin, flip_sdl);
+        }
         
         //[DllImport("SDL2_gfx.dll", CallingConvention = CallingConvention.Cdecl)]
         //static extern int thickLineColor(IntPtr renderer, int x1, int y1, int x2, int y2, uint width, uint r, uint g, uint b, uint a);
