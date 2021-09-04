@@ -15,6 +15,7 @@ namespace Proj.Modules.Game
 
         public float texture_xscale = 1;
         public float texture_yscale = 1;
+        public flip_type texture_flip = flip_type.none;
 
         public int texture_right;
         public int texture_left;
@@ -45,7 +46,7 @@ namespace Proj.Modules.Game
             origin.x = (int)texture_origin.X;
             origin.y = (int)texture_origin.Y;
 
-            draw.texture_ext(game_manager.renderer, texture, (int)position.X, (int)position.Y, texture_angle, (int)(w * texture_xscale), (int)(h * texture_yscale), origin, true);
+            draw.texture_ext(game_manager.renderer, texture, (int)position.X, (int)position.Y, texture_angle, (int)(w * texture_xscale), (int)(h * texture_yscale), origin, true, texture_flip);
         }
     }
 }
