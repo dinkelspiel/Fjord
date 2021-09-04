@@ -3846,6 +3846,13 @@ namespace SDL2
 			public int y;
 			public int w;
 			public int h;
+
+			public SDL_Rect(int x_, int y_, int w_, int h_) {
+				x = x_;
+				y = y_;
+				w = w_;
+				h = h_;
+			}
 		}
 
 		/* Only available in 2.0.10 or higher. */
