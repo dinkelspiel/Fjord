@@ -23,8 +23,6 @@ namespace Proj
         public static Vector2 resolution = new Vector2(1280, 720); 
 
         public static SDL.SDL_Color bg_color;
-        
-        public static screen_rect screen;
 
         public static int frame_start = 0;
         public static int frame_length = 0;
@@ -66,8 +64,6 @@ namespace Proj
 
             Language.load_langfile("en_US");
 
-            screen = new screen_rect();
-
             set_render_background(26, 26, 28, 255);
 
             zgui.init();
@@ -89,7 +85,6 @@ namespace Proj
         }
 
         public static void update() {
-            screen.screen_update();
             scene_handler.update();
         }
 
