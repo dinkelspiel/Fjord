@@ -36,7 +36,7 @@ namespace Proj
             return is_running;
         }
 
-        public static void init(string title, int xpos, int ypos, int width, int height, bool fullscreen) {
+        public static void init(string title, int xpos, int ypos, int width, int height, bool fullscreen, string[] sys_args) {
 
             SDL.SDL_WindowFlags flags = 0;
             if (fullscreen) {
@@ -74,8 +74,16 @@ namespace Proj
             texture_handler.init();
             font_handler.init();
 
-            scene_handler.add_scene("minijam88", new MiniJam88());
-            scene_handler.load_scene("minijam88");
+            scene game;
+
+            if(sys_args.Contains("-tilemap")) {
+                game = new tilemap_editor();
+
+            } else {
+                game = new game();
+            }
+
+            game.on_load();
 
             font_handler.load_font("default", "Sans", 42);
         }
