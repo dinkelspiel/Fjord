@@ -4,6 +4,17 @@ using Proj.Modules.Input;
 
 namespace Proj.Modules.Misc {
     public static class math_uti {
+        [Serializable]
+        public struct Vec2 {
+            public int X { get; set; }
+            public int Y { get; set; }
+
+            public Vec2(int x, int y) {
+                this.X = x;
+                this.Y = y;
+            }
+        }
+
         public static double point_distance(Vector2 origin, Vector2 target) {
             return Math.Sqrt(Math.Pow(target.X - origin.X, 2) + Math.Pow(target.Y - origin.Y, 2));
         }
@@ -13,10 +24,12 @@ namespace Proj.Modules.Misc {
         }
 
         public static double lengthdir_x(double length, double angle) {
+            angle = 180 - angle + 180;
             return length * Math.Cos(angle * Math.PI / -180);
         }
 
         public static double lengthdir_y(double length, double angle) {
+            angle = 180 - angle + 180;
             return length * Math.Sin(angle * Math.PI / -180);
         }
 
@@ -33,6 +46,12 @@ namespace Proj.Modules.Misc {
                 return true;
             }
             return false;
+        }
+
+        public static int angle_difference(int angle1, int angle2) {
+            var a = angle2 - angle1;
+            a += (a>180) ? -360 : (a<-180) ? 360 : 0;
+            return a;
         }
     }
 }
