@@ -3,8 +3,9 @@ using Proj.Modules.Ui;
 using Proj.Modules.Debug;
 using Proj.Modules.Graphics;
 using Proj.Modules.Camera;
-using Proj.Modules.Tools;
+using Proj.Modules.Game;
 using Proj.Modules.Misc;
+using static Proj.Modules.Misc.math_uti;
 using System.Collections.Generic;
 using SDL2;
 using System;
@@ -23,14 +24,14 @@ namespace Proj.Game {
         bool load_tex_button = false;
 
         bool export_file = false;
-        string export_file_string;
+        string export_file_string = "";
 
         bool export_file_button = false;
 
         string asset_pack = "general";
         bool change_asset_pack = false;
 
-        tilemap Tilemap = new tilemap(80, 45, 8, 8, 8, 8);
+        tilemap Tilemap = new tilemap(20, 20, 8, 8, 8, 8);
         IntPtr atlas;
 
         int grid_x, grid_y, grid_x_end, grid_y_end;
@@ -44,6 +45,7 @@ namespace Proj.Game {
             }
 
             game_manager.set_asset_pack("MiniJam88");
+            Tilemap.atlas_str = "atlas.png";
             atlas = texture_handler.load_texture("atlas.png", game_manager.renderer);
 
             game_manager.set_asset_pack("general");
@@ -51,6 +53,13 @@ namespace Proj.Game {
         }
 
         public override void update() {
+            if(input.get_key_just_pressed(input.key_r)) {
+                if(input.get_key_pressed(input.key_lshift) && input.get_key_pressed(input.key_lctrl)) {
+                    game_manager.set_asset_pack("MiniJam88");
+                    atlas = texture_handler.load_texture("atlas.png", game_manager.renderer);
+                }
+            }
+
             if(mouse.scrolling(0)) {
                 zoom += 0.1f;
             } else if(mouse.scrolling(1)) {
@@ -103,6 +112,7 @@ namespace Proj.Game {
                 var _export_output = new tilemap(Tilemap.w, Tilemap.h, Tilemap.grid_w, Tilemap.grid_h, Tilemap.atlas_gridw, Tilemap.atlas_gridh) {
                     atlas_str = Tilemap.atlas_str,
                     map = Tilemap.map,
+                    collision_map = Tilemap.collision_map,
                     asset_pack = asset_pack
                 }; 
 
@@ -112,12 +122,34 @@ namespace Proj.Game {
                 System.IO.File.WriteAllText(full_path, json_string);
             }
 
+            if(math_uti.mouse_inside(260, 10, 200, 30) && mouse.button_just_pressed(0)) {
+                load_tex = !load_tex;
+            } else if(!math_uti.mouse_inside(260, 10, 200, 30) && mouse.button_just_pressed(0)) {
+                load_tex = false;
+            }
+
+            if(load_tex) {
+                input.set_input_state("load_texture");
+            } else if(input.input_state == "load_texture") {
+                input.set_input_state("general");
+            }
+
+            if(load_tex_button) {
+                load_tex_button = false;
+                load_tex = false;
+
+                var full_path = game_manager.executable_path + "\\src\\resources\\MiniJam88\\data\\tilemaps\\" + load_texture_string;
+                var file = System.IO.File.ReadAllText(full_path);
+
+                Tilemap = JsonConvert.DeserializeObject<tilemap>(file);
+            }
+
             grid_x = (int)(Tilemap.grid_w * zoom) - (int)camera.camera_position.X - (int)(Tilemap.grid_w * zoom);
             grid_y = (int)(Tilemap.grid_h * zoom) - (int)camera.camera_position.Y - (int)(Tilemap.grid_h * zoom);
             grid_x_end = grid_x + Tilemap.w * (int)(Tilemap.grid_w * zoom);
             grid_y_end = grid_y + Tilemap.h * (int)(Tilemap.grid_h * zoom);
 
-            if(mouse.button_just_pressed(0) && selected_tile.X != -1 && math_uti.mouse_inside(grid_x, grid_y, grid_x_end, grid_y_end)) {
+            if(mouse.button_pressed(1)) {
                 var x_ = (mouse.x - grid_x);
                 var y_ = (mouse.y - grid_y);
                 var w_ = Tilemap.grid_w * zoom;
@@ -127,15 +159,51 @@ namespace Proj.Game {
                 y_ = y_ / (int)h_;
 
                 if(x_ < Tilemap.w && x_ > -1 && y_ < Tilemap.h && y_ > -1) {
-                    // // TODO: Fixs to work with atlas. 
-            
-                    // Tilemap.map[(int)x_, (int)y_] = selected_tile + 1;
-                
-                    Tilemap.map[new Vector2(x_, y_)] = selected_tile;
+                    Tilemap.collision_map[tilemap_funcs.create_pos(x_, y_)] = false;
+                }                
+            }
+
+            if(mouse.button_pressed(0)) {
+
+                var x_ = (mouse.x - grid_x);
+                var y_ = (mouse.y - grid_y);
+                var w_ = Tilemap.grid_w * zoom;
+                var h_ = Tilemap.grid_h * zoom;
+    
+                x_ = x_ / (int)w_;
+                y_ = y_ / (int)h_;
+
+                if(x_ < Tilemap.w && x_ > -1 && y_ < Tilemap.h && y_ > -1) {
+                    if(!input.get_key_pressed(input.key_lshift))
+                        Tilemap.map[tilemap_funcs.create_pos(x_, y_)] = selected_tile;
+                    if(input.get_key_pressed(input.key_lctrl) && !input.get_key_pressed(input.key_lshift)) {
+                        Tilemap.map[tilemap_funcs.create_pos(x_ - 1, y_ - 1)] = selected_tile;
+                        Tilemap.map[tilemap_funcs.create_pos(x_ - 1, y_)] = selected_tile;
+                        Tilemap.map[tilemap_funcs.create_pos(x_ - 1, y_ + 1)] = selected_tile;
+                        Tilemap.map[tilemap_funcs.create_pos(x_, y_ - 1)] = selected_tile;
+                        Tilemap.map[tilemap_funcs.create_pos(x_, y_)] = selected_tile;
+                        Tilemap.map[tilemap_funcs.create_pos(x_, y_ + 1)] = selected_tile;
+                        Tilemap.map[tilemap_funcs.create_pos(x_ + 1, y_ - 1)] = selected_tile;
+                        Tilemap.map[tilemap_funcs.create_pos(x_ + 1, y_)] = selected_tile;
+                        Tilemap.map[tilemap_funcs.create_pos(x_ + 1, y_ + 1)] = selected_tile;
+                    }
+                    if(input.get_key_pressed(input.key_lshift))
+                        Tilemap.collision_map[tilemap_funcs.create_pos(x_, y_)] = true; 
+                    if(input.get_key_pressed(input.key_lctrl) && input.get_key_pressed(input.key_lshift)) {
+                        Tilemap.collision_map[tilemap_funcs.create_pos(x_ - 1, y_ - 1)] = true;
+                        Tilemap.collision_map[tilemap_funcs.create_pos(x_ - 1, y_)] = true;
+                        Tilemap.collision_map[tilemap_funcs.create_pos(x_ - 1, y_ + 1)] = true;
+                        Tilemap.collision_map[tilemap_funcs.create_pos(x_, y_ - 1)] = true;
+                        Tilemap.collision_map[tilemap_funcs.create_pos(x_, y_)] = true;
+                        Tilemap.collision_map[tilemap_funcs.create_pos(x_, y_ + 1)] = true;
+                        Tilemap.collision_map[tilemap_funcs.create_pos(x_ + 1, y_ - 1)] = true;
+                        Tilemap.collision_map[tilemap_funcs.create_pos(x_ + 1, y_)] = true;
+                        Tilemap.collision_map[tilemap_funcs.create_pos(x_ + 1, y_ + 1)] = true;
+                    }
                 }
             }
 
-            if(Math.Round(mouse.x / 58f) < 4 && Math.Round(mouse.y / 58f) < 6 && mouse.button_just_pressed(0)) {
+            if(Math.Round(mouse.x / 58f) < 4 && Math.Round(mouse.y / 58f) < 10 && mouse.button_just_pressed(0)) {
                 selected_tile.X = (float)Math.Round((10f + mouse.x) / 58f) - 1;
                 selected_tile.Y = (float)Math.Round((10f + mouse.y) / 58f) - 1;
             }
@@ -151,7 +219,9 @@ namespace Proj.Game {
                     rect.h = (int)(Tilemap.grid_h * zoom);
                     draw.rect(game_manager.renderer, rect, 255, 255, 255, 255, false);
 
-                    draw.texture_atlas(game_manager.renderer, atlas, (int)Tilemap.map[new Vector2(i, j)].X * Tilemap.atlas_gridw, (int)Tilemap.map[new Vector2(i, j)].Y * Tilemap.atlas_gridh, 8, 8, rect.x, rect.y, 0, rect.w, rect.h, new SDL.SDL_Point(0, 0), false, flip_type.none);
+                    draw.texture_atlas(game_manager.renderer, atlas, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].X * Tilemap.atlas_gridw, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].Y * Tilemap.atlas_gridh, 8, 8, rect.x, rect.y, 0, rect.w, rect.h, new SDL.SDL_Point(0, 0), false, flip_type.none);
+                    if(Tilemap.collision_map[tilemap_funcs.create_pos(i, j)])
+                        draw.rect(game_manager.renderer, rect, 255, 0, 0, 50, true, false);
                 }
             }
 
@@ -166,9 +236,9 @@ namespace Proj.Game {
 
             // Draws atlas
 
-            draw.texture_ext(game_manager.renderer, atlas, 125, 125, 0, 230, 345, new SDL.SDL_Point(0, 0), false);
+            draw.texture_ext(game_manager.renderer, atlas, 10, 10, 0, 230, 575, new SDL.SDL_Point(0, 0), false);
 
-            if(Math.Round(mouse.x / 58f) < 4 && Math.Round(mouse.y / 58f) < 6)
+            if(Math.Round(mouse.x / 58f) < 4 && Math.Round(mouse.y / 58f) < 10)
                 draw.rect(game_manager.renderer, new SDL.SDL_Rect(10 + (int)(Math.Round((mouse.x - 29) / 58f) * 58f), 10 + (int)(Math.Round((mouse.y - 29) / 58f) * 58f), 58, 58), 0, 255, 0, 255, false);
 
             draw.rect(game_manager.renderer, new SDL.SDL_Rect(10 + (int)selected_tile.X * 58, 10 + (int)selected_tile.Y * 58, 58, 58), 119, 172, 241, 100, true);
