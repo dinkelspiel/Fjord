@@ -50,6 +50,10 @@ namespace Proj.Game
 
         public override void update()
         {
+            if(input.get_key_just_pressed(input.key_space)) {
+                scene_handler.load_scene("MiniJam88");
+            }
+
             time++;
 
             camera_pos.X += (0 - camera_pos.X) / 6;
