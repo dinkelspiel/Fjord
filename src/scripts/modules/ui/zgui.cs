@@ -128,9 +128,12 @@ namespace Proj.Modules.Ui
         }
 
         public static void input_box (int x, int y, int w, int h, string font, ref string value, string default_value, string input_state) {
+            if(value == null) 
+                return;
+
             if(input.input_state == input_state && input.get_any_key_just_pressed() > -1) { 
                 if(input.get_key(input.get_any_key_just_pressed()).Length == 1) {
-                    value += input.get_key(input.get_any_key_just_pressed());
+                    value += !input.get_key_pressed(input.key_lshift) ? input.get_key(input.get_any_key_just_pressed()) : input.get_key(input.get_any_key_just_pressed()).ToUpper();
                 } else if(input.get_key_just_pressed(input.key_backspace)) {
                     if(!input.get_key_pressed(input.key_lctrl)) {
                         if(value.Length > 0) {
