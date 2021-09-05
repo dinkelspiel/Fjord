@@ -15,8 +15,11 @@ namespace Proj.Modules.Graphics {
     }
 
     public static class draw {
-        public static void rect(IntPtr renderer, SDL.SDL_Rect rect, byte r, byte g, byte b, byte a, bool fill) {
+        public static void rect(IntPtr renderer, SDL.SDL_Rect rect, byte r, byte g, byte b, byte a, bool fill, bool relative = false) {
             SDL.SDL_Color old_color;
+            rect.x -= (relative ? (int)camera.camera_position.X : 0);
+            rect.y -= (relative ? (int)camera.camera_position.Y : 0);
+
             SDL.SDL_GetRenderDrawColor(game_manager.renderer, out old_color.r, out old_color.g, out old_color.b, out old_color.a);
             SDL.SDL_SetRenderDrawColor(game_manager.renderer, r, g, b, a);
 
@@ -171,12 +174,15 @@ namespace Proj.Modules.Graphics {
             int access;
             SDL.SDL_QueryTexture(texture, out format, out access, out size.x, out size.y);
 
+            origin.x = origin.x * (dest_w / size.x);
+            origin.y = origin.y * (dest_h / size.y);
+
             size.x = size.x * (dest_w / size.x); 
             size.y = size.y * (dest_h / size.y); 
 
-            // SDL.SDL_Point center;
-            // center.x = size.x / 2;
-            // center.y = size.y / 2;
+            SDL.SDL_Point origin_;
+            origin_.x = size.x / 2;
+            origin_.y = size.y / 2;
 
             SDL.SDL_Rect src, dest;
 
@@ -184,8 +190,8 @@ namespace Proj.Modules.Graphics {
             src.w = size.x;
             src.h = size.y;
 
-            dest.x = x - size.x / 2 - 3 - (relative ? (int)camera.camera_position.X : 0);
-            dest.y = y - size.x / 2 - 3 - (relative ? (int)camera.camera_position.Y : 0);
+            dest.x = x - (relative ? (int)camera.camera_position.X : 0) - origin.x;
+            dest.y = y - (relative ? (int)camera.camera_position.Y : 0) - origin.y;
             dest.w = dest_w;
             dest.h = dest_h;
             
@@ -202,7 +208,7 @@ namespace Proj.Modules.Graphics {
             SDL.SDL_RenderCopyEx(renderer, texture, ref src, ref dest, angle, ref origin, flip_sdl);
         }
 
-        public static void texture_atlas(IntPtr renderer, IntPtr texture_atlas, int atlas_x, int atlas_y, int atlas_w, int atlas_h, int x, int y, double angle, int dest_w, int dest_h, SDL.SDL_Point origin, bool relative=false, flip_type flip=flip_type.none) {
+        public static void texture_atlas(IntPtr renderer, IntPtr texture_atlas, int atlas_x, int atlas_y, int atlas_w, int atlas_h, int x, int y, double angle, int dest_w, int dest_h, SDL.SDL_Point origin_, bool relative=false, flip_type flip=flip_type.none) {
 
             SDL.SDL_Rect src_rect = new SDL.SDL_Rect(atlas_x, atlas_y, atlas_w, atlas_h);
             SDL.SDL_Rect dest_rect = new SDL.SDL_Rect(x - (relative ? (int)camera.camera_position.X : 0), y - (relative ? (int)camera.camera_position.Y : 0), dest_w, dest_h);
@@ -217,7 +223,7 @@ namespace Proj.Modules.Graphics {
                 flip_sdl = SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
             }
 
-            SDL.SDL_RenderCopyEx(renderer, texture_atlas, ref src_rect, ref dest_rect, angle, ref origin, flip_sdl);
+            SDL.SDL_RenderCopyEx(renderer, texture_atlas, ref src_rect, ref dest_rect, angle, ref origin_, flip_sdl);
         }
         
         //[DllImport("SDL2_gfx.dll", CallingConvention = CallingConvention.Cdecl)]
