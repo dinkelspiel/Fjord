@@ -70,6 +70,11 @@ namespace Fjord
             texture_handler.init();
             font_handler.init();
 
+            scene_handler.add_scene("engine_startup", new scene_startup());
+            scene_handler.load_scene("engine_startup");
+
+            scene_handler.start_scene_running = true;
+
             scene game;
 
             if(sys_args.Contains("-tilemap")) {
