@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Proj.Modules.Debug;
+using Fjord.Modules.Debug;
 
-namespace Proj.Modules.Ui {
+namespace Fjord.Modules.Ui {
     public class scene {
         public virtual void update() {}
         public virtual void render() {}

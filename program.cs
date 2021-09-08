@@ -1,12 +1,12 @@
 ﻿using System;
 using SDL2;
-using Proj.Modules.Misc;
-using Proj.Modules.Debug;
-using Proj.Modules.Input;
+using Fjord.Modules.Misc;
+using Fjord.Modules.Debug;
+using Fjord.Modules.Input;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Proj
+namespace Fjord
 {
     class Program
     {

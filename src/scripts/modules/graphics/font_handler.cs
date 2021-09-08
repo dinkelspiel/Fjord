@@ -2,7 +2,7 @@ using SDL2;
 using System;
 using System.Collections.Generic;
 
-namespace Proj.Modules.Graphics
+namespace Fjord.Modules.Graphics
 {
     public static class font_handler
     {

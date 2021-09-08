@@ -1,6 +1,6 @@
 using System.Numerics;
 using System;
-using Proj.Modules.Debug;
+using Fjord.Modules.Debug;
 
 namespace Proj.Modules.Misc {
     public class float_color {

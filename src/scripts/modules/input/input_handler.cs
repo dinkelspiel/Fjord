@@ -1,4 +1,4 @@
-namespace Proj.Modules.Input {
+namespace Fjord.Modules.Input {
     public static class input {
         public static bool[] pressed_keys = new bool[77];
         public static bool[] last_frame = new bool[77];

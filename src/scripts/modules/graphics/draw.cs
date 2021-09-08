@@ -2,11 +2,11 @@ using SDL2;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Proj.Modules.Camera;
+using Fjord.Modules.Camera;
 using System.Numerics;
 using System.Runtime.InteropServices;
 
-namespace Proj.Modules.Graphics {
+namespace Fjord.Modules.Graphics {
     public enum flip_type {
         none = 0,
         horizontal = 1,

@@ -1,8 +1,8 @@
 using SDL2;
-using Proj.Modules.Input;
-using Proj.Modules.Debug;
+using Fjord.Modules.Input;
+using Fjord.Modules.Debug;
 
-namespace Proj.Modules.Misc {
+namespace Fjord.Modules.Misc {
     static class event_handler {
         public static void handle_events() {
             mouse.wheel_down = false;

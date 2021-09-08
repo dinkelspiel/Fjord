@@ -1,9 +1,9 @@
 using System.Numerics;
-using Proj.Modules.Graphics;
+using Fjord.Modules.Graphics;
 using SDL2;
 using System;
 
-namespace Proj.Modules.Game
+namespace Fjord.Modules.Game
 {
     public class entity
     {

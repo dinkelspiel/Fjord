@@ -1,10 +1,10 @@
-using Proj.Modules.Graphics;
+using Fjord.Modules.Graphics;
 using System.Numerics;
-using Proj.Modules.Misc;
-using static Proj.Modules.Misc.math_uti;
+using Fjord.Modules.Misc;
+using static Fjord.Modules.Misc.math_uti;
 using SDL2;
 
-namespace Proj.Modules.Game {
+namespace Fjord.Modules.Game {
     public static class tilemap_funcs {
         public static string create_pos(int x, int y) {
             var x__ = x.ToString().Length == 1 ? "0" + x.ToString() : x.ToString();

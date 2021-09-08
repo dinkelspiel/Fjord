@@ -1,18 +1,18 @@
-using Proj.Modules.Input;
-using Proj.Modules.Ui;
-using Proj.Modules.Debug;
-using Proj.Modules.Graphics;
-using Proj.Modules.Camera;
-using Proj.Modules.Game;
-using Proj.Modules.Misc;
-using static Proj.Modules.Misc.math_uti;
+using Fjord.Modules.Input;
+using Fjord.Modules.Ui;
+using Fjord.Modules.Debug;
+using Fjord.Modules.Graphics;
+using Fjord.Modules.Camera;
+using Fjord.Modules.Game;
+using Fjord.Modules.Misc;
+using static Fjord.Modules.Misc.math_uti;
 using System.Collections.Generic;
 using SDL2;
 using System;
 using System.Numerics;
 using Newtonsoft.Json;
 
-namespace Proj.Game {
+namespace Fjord.Game {
     public class tilemap_editor : scene {
         
         float zoom = 1;

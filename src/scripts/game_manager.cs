@@ -1,16 +1,16 @@
 using System;
 using SDL2;
 using System.Numerics;
-using Proj.Modules.Debug;
-using Proj.Modules.Ui;
-using Proj.Modules.Input;
-using Proj.Modules.Misc;
-using Proj.Modules.Graphics;
-using Proj.Game;
+using Fjord.Modules.Debug;
+using Fjord.Modules.Ui;
+using Fjord.Modules.Input;
+using Fjord.Modules.Misc;
+using Fjord.Modules.Graphics;
+using Fjord.Game;
 using System.IO;
 using System.Reflection;
 
-namespace Proj
+namespace Fjord
 {
     static class game_manager
     {

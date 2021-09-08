@@ -1,7 +1,7 @@
 using System.Numerics;
 using SDL2;
 
-namespace Proj.Modules.Camera {
+namespace Fjord.Modules.Camera {
     public static class camera {
         public static Vector2 camera_position = new Vector2(0, 0);
 

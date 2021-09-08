@@ -1,4 +1,4 @@
-namespace Proj.Modules.Input {
+namespace Fjord.Modules.Input {
     public static class mouse {
         public static int x, y;
         public static bool lmb, rmb;

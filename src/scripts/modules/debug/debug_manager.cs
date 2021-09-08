@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
 
-namespace Proj.Modules.Debug {
+namespace Fjord.Modules.Debug {
     public static class Debug
     {
         public static string last_message = "";

@@ -1,8 +1,8 @@
 using WebSocketSharp;
 using WebSocketSharp.Server;
-using Proj.Modules.Debug;
+using Fjord.Modules.Debug;
 
-namespace Proj.Modules.Networking
+namespace Fjord.Modules.Networking
 {
     public class server
     {

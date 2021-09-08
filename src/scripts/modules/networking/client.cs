@@ -1,6 +1,6 @@
 using WebSocketSharp;
 
-namespace Proj.Modules.Networking
+namespace Fjord.Modules.Networking
 {
     public class client
     {

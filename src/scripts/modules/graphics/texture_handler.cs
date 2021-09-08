@@ -1,7 +1,7 @@
 using SDL2;
 using System;
 
-namespace Proj.Modules.Graphics {
+namespace Fjord.Modules.Graphics {
     public static class texture_handler {
         public static IntPtr default_texture;
 

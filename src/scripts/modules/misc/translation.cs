@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using System;
 using System.IO;
-using Proj.Modules.Debug;
+using Fjord.Modules.Debug;
 
-namespace Proj.Modules.Misc {
+namespace Fjord.Modules.Misc {
     public static class Language {
         public static string language = "en_US";
         private static Dictionary<string, string> lang_file = new Dictionary<string, string>();

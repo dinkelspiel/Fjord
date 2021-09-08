@@ -1,11 +1,11 @@
-using Proj.Modules.Graphics;
-using Proj.Modules.Input;
-using Proj.Modules.Debug;
+using Fjord.Modules.Graphics;
+using Fjord.Modules.Input;
+using Fjord.Modules.Debug;
 using SDL2;
 using System;
 using System.Numerics;
 
-namespace Proj.Modules.Ui
+namespace Fjord.Modules.Ui
 {
     public static class zgui
     {

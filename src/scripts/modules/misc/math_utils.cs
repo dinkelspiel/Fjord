@@ -1,8 +1,8 @@
 using System.Numerics;
 using System;
-using Proj.Modules.Input;
+using Fjord.Modules.Input;
 
-namespace Proj.Modules.Misc {
+namespace Fjord.Modules.Misc {
     public static class math_uti {
         [Serializable]
         public struct Vec2 {
