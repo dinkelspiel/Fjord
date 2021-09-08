@@ -9,7 +9,7 @@ namespace Fjord.Game
         {
             if(!scene_handler.get_scene("game-template")) {
                 scene_handler.add_scene("game-template", new game());
-                scene_handler.load_scene("game-template");
+                scene_handler.start_scene("game-template");
             }
         }
 
