@@ -1,6 +1,7 @@
-using Proj.Modules.Ui;
+using Fjord.Modules.Ui;
+using Fjord;
 
-namespace Proj.Game
+namespace Fjord.Game
 {
     public class game : scene
     {
@@ -8,6 +9,7 @@ namespace Proj.Game
         {
             if(!scene_handler.get_scene("game-template")) {
                 scene_handler.add_scene("game-template", new game());
+                scene_handler.load_scene("game-template");
             }
         }
 
