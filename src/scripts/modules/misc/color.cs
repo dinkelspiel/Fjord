@@ -13,7 +13,7 @@ namespace Proj.Modules.Misc {
         }
 
         public void print() {
-            Debug.Debug.send(r.ToString() + " " + g.ToString() + " " + b.ToString() + " " + a.ToString());
+            Debug.send(r.ToString() + " " + g.ToString() + " " + b.ToString() + " " + a.ToString());
         }
     }
 }
