@@ -122,7 +122,6 @@ namespace Fjord.Modules.Ui
             }
 
             IntPtr tex;
-            SDL.SDL_Rect rec;
             font_handler.get_text_and_rect(game_manager.renderer, text, font, out tex);
             draw.texture(game_manager.renderer, tex, x + w / 2, y + h / 2, 0);
         }
@@ -158,7 +157,6 @@ namespace Fjord.Modules.Ui
             }
 
             IntPtr tex;
-            SDL.SDL_Rect rect1;
             uint i;
             int j, wi, hi;
             if(value != "") {
@@ -185,7 +183,6 @@ namespace Fjord.Modules.Ui
 
         public static void text_box (int x, int y, int w, int h, string font, ref string value) {
             IntPtr tex;
-            SDL.SDL_Rect rect1;
             uint i;
             int j, wi, hi;
             
