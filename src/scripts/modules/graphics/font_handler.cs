@@ -40,10 +40,6 @@ namespace Fjord.Modules.Graphics
             uint pog; int pog2;
             SDL.SDL_QueryTexture(texture, out pog, out pog2, out text_width, out text_height);
             SDL.SDL_FreeSurface(surface);
-            rect.x = x;
-            rect.y = y;
-            rect.w = text_width;
-            rect.h = text_height;
         }
     }
 }
