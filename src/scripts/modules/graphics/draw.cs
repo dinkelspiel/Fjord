@@ -156,33 +156,16 @@ namespace Fjord.Modules.Graphics {
             SDL.SDL_RenderCopyEx(renderer, texture, ref src, ref dest, angle, ref center, flip_sdl);
         }
 
-        public static void texture_ext(IntPtr renderer, IntPtr texture, int x, int y, double angle, int dest_w, int dest_h, SDL.SDL_Point origin, bool relative=false, flip_type flip=flip_type.none) {
-            SDL.SDL_Point size;
-            uint format;
-            int access;
-            SDL.SDL_QueryTexture(texture, out format, out access, out size.x, out size.y);
+        public static void texture_ext(IntPtr renderer, IntPtr texture, int x, int y, double angle, double x_scale, double y_scale, SDL.SDL_Point origin, bool relative=false, flip_type flip=flip_type.none) {
+            uint f;
+            int a, w, h;
 
-            origin.x = origin.x * (dest_w / size.x);
-            origin.y = origin.y * (dest_h / size.y);
+            SDL.SDL_QueryTexture(texture, out f, out a, out w, out h);
 
-            size.x = size.x * (dest_w / size.x); 
-            size.y = size.y * (dest_h / size.y); 
+            SDL.SDL_Rect src = new SDL.SDL_Rect(0, 0, w, h);
 
-            SDL.SDL_Point origin_;
-            origin_.x = size.x / 2;
-            origin_.y = size.y / 2;
+            SDL.SDL_Rect dest = new SDL.SDL_Rect(0, 0, (int)(w * x_scale), (int)(h * y_scale));
 
-            SDL.SDL_Rect src, dest;
-
-            src.x = src.y = 0;
-            src.w = size.x;
-            src.h = size.y;
-
-            dest.x = x - (relative ? (int)camera.camera_position.X : 0) - origin.x;
-            dest.y = y - (relative ? (int)camera.camera_position.Y : 0) - origin.y;
-            dest.w = dest_w;
-            dest.h = dest_h;
-            
             SDL.SDL_RendererFlip flip_sdl = SDL.SDL_RendererFlip.SDL_FLIP_NONE; 
             
             if(flip == flip_type.both) {
@@ -193,7 +176,7 @@ namespace Fjord.Modules.Graphics {
                 flip_sdl = SDL.SDL_RendererFlip.SDL_FLIP_VERTICAL;
             }
 
-            SDL.SDL_RenderCopyEx(renderer, texture, ref src, ref dest, angle, ref origin, flip_sdl);
+            SDL.SDL_RenderCopyEx(renderer, texture, ref src, ref dest, 0, ref origin, flip_sdl);
         }
 
         public static void texture_atlas(IntPtr renderer, IntPtr texture_atlas, int atlas_x, int atlas_y, int atlas_w, int atlas_h, int x, int y, double angle, int dest_w, int dest_h, SDL.SDL_Point origin_, bool relative=false, flip_type flip=flip_type.none) {
