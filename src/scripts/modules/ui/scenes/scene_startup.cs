@@ -14,8 +14,8 @@ namespace Fjord.Game
 
         public override void on_load()
         {
-            font_handler.get_text_and_rect(game_manager.renderer, "Fjord", "default-bold", out title, out title_rect);
-            font_handler.get_text_and_rect(game_manager.renderer, "Made with", "default", out title2, out title_rect2);
+            font_handler.get_text_and_rect(game_manager.renderer, "Fjord", "default-bold", out title);
+            font_handler.get_text_and_rect(game_manager.renderer, "Made with", "default", out title2);
         }
 
         public override void update()
@@ -36,9 +36,9 @@ namespace Fjord.Game
 
             int w, h, a;
             uint f;
-            SDL.SDL_QueryTexture(title2, out f, out a, out w, out h);
+            SDL.SDL_QueryTexture(title, out f, out a, out w, out h);
 
-            draw.texture_ext(game_manager.renderer, title, (int)game_manager.window_resolution.X / 2, (int)game_manager.window_resolution.Y / 2, 0);        
+            draw.texture_ext(game_manager.renderer, title, (int)game_manager.window_resolution.X / 2, (int)game_manager.window_resolution.Y / 2, 0, 0.5, 0.5, new SDL.SDL_Point(0, 0));        
         }
     }
 }
