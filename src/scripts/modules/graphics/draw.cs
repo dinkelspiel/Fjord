@@ -164,7 +164,7 @@ namespace Fjord.Modules.Graphics {
 
             SDL.SDL_Rect src = new SDL.SDL_Rect(0, 0, w, h);
 
-            SDL.SDL_Rect dest = new SDL.SDL_Rect(0, 0, (int)(w * x_scale), (int)(h * y_scale));
+            SDL.SDL_Rect dest = new SDL.SDL_Rect(x - (int)(w * x_scale) / 2, y - (int)(h * y_scale) / 2, (int)(w * x_scale), (int)(h * y_scale));
 
             SDL.SDL_RendererFlip flip_sdl = SDL.SDL_RendererFlip.SDL_FLIP_NONE; 
             
