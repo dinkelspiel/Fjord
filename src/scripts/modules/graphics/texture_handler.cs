@@ -12,7 +12,7 @@ namespace Fjord.Modules.Graphics {
         }
 
         public static IntPtr load_texture(string file, IntPtr renderer) {
-            IntPtr tmp_surface = SDL_image.IMG_Load("src/resources/" + game_manager.asset_pack + "/assets/images/" + file);;
+            IntPtr tmp_surface = SDL_image.IMG_Load("src/resources/" + game_manager.asset_pack + "/assets/images/" + file);
             IntPtr texture;
             if(File.Exists("src/resources/" + game_manager.asset_pack + "/assets/images/" + file)) {
                 texture = SDL.SDL_CreateTextureFromSurface(game_manager.renderer, tmp_surface);
