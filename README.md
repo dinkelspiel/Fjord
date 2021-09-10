@@ -20,3 +20,7 @@ Assetpacks have a structure of:
 Assetpacks are loaded using the `game_manager.set_asset_pack(string asset_pack);` function.
 
 Help with the modules can be found at [the wiki](https://github.com/willmexe/Fjord/wiki).
+
+## Projects that use Fjord
+
+[Get the last](https://github.com/willmexe/Mini-Jam-88) - A game made for the Mini Jam 88 Game Jam.
