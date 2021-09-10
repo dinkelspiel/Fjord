@@ -82,14 +82,19 @@ namespace Fjord
 
             scene game;
 
-            if(sys_args.Contains("-tilemap")) {
+            if(sys_args.Contains("--tilemap")) {
                 game = new tilemap_editor();
-
+            } else if(sys_args.Contains("--noload")) {
+                game = new game();
+                game.on_load();
+                
+                scene_handler.start_scene_running = false;
+                scene_handler.load_scene(scene_handler.string_start_scene);
             } else {
                 game = new game();
-            }
 
-            game.on_load();
+                game.on_load();
+            }
 
             font_handler.load_font("default", "Sans", 42);
         }
