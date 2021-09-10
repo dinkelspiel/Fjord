@@ -156,9 +156,10 @@ namespace Fjord.Modules.Graphics {
             SDL.SDL_RenderCopyEx(renderer, texture, ref src, ref dest, angle, ref center, flip_sdl);
         }
 
-        public static void texture_ext(IntPtr renderer, IntPtr texture, int x, int y, double angle, double x_scale, double y_scale, SDL.SDL_Point origin, bool relative=false, flip_type flip=flip_type.none) {
+        public static void texture_ext(IntPtr renderer, IntPtr texture, int x, int y, double angle, double x_scale, double y_scale, bool relative=false, flip_type flip=flip_type.none) {
             uint f;
             int a, w, h;
+            SDL.SDL_Point origin = new SDL.SDL_Point(0, 0);
 
             SDL.SDL_QueryTexture(texture, out f, out a, out w, out h);
 
@@ -220,7 +221,7 @@ namespace Fjord.Modules.Graphics {
 
             double scale = (double)font_size / (double)font_handler.get_font_size(font);
 
-            draw.texture_ext(renderer, texture, x, y, 0, scale, scale, new SDL.SDL_Point(0, 0));
+            draw.texture_ext(renderer, texture, x, y, 0, scale, scale);
         }
     }
 }

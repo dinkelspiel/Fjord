@@ -236,7 +236,7 @@ namespace Fjord.Game {
 
             // Draws atlas
 
-            draw.texture_ext(game_manager.renderer, atlas, 10, 10, 0, 230, 575, new SDL.SDL_Point(0, 0), false);
+            draw.texture_ext(game_manager.renderer, atlas, 10, 10, 0, 230, 575, false);
 
             if(Math.Round(mouse.x / 58f) < 4 && Math.Round(mouse.y / 58f) < 10)
                 draw.rect(game_manager.renderer, new SDL.SDL_Rect(10 + (int)(Math.Round((mouse.x - 29) / 58f) * 58f), 10 + (int)(Math.Round((mouse.y - 29) / 58f) * 58f), 58, 58), 0, 255, 0, 255, false);

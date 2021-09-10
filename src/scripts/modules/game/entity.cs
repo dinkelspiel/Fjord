@@ -46,7 +46,7 @@ namespace Fjord.Modules.Game
             origin.x = (int)texture_origin.X;
             origin.y = (int)texture_origin.Y;
 
-            draw.texture_ext(game_manager.renderer, texture, (int)position.X, (int)position.Y, texture_angle, (int)(w * texture_xscale), (int)(h * texture_yscale), origin, true, texture_flip);
+            draw.texture_ext(game_manager.renderer, texture, (int)position.X, (int)position.Y, texture_angle, (int)(w * texture_xscale), (int)(h * texture_yscale), true, texture_flip);
         }
     }
 }
