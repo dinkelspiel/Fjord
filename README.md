@@ -1,4 +1,4 @@
-<img src=https://imgur.com/dhYU9ni>
+<img src=https://imgur.com/a/7nF2kCs>
 
 <img src=https://img.shields.io/github/workflow/status/willmexe/Fjord/build/main>
 
