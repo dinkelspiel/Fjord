@@ -16,7 +16,7 @@ namespace Fjord.Game
                 scene_handler.add_scene("game-template", new game());
 
                 // Load the first scene this can later be called in any file as for example a win condition to switch scene.
-                scene_handler.load_scene("game-template");
+                scene_handler.start_scene("game-template");
             }
         }
 
