@@ -43,7 +43,7 @@ namespace Fjord.Game
             draw.texture_ext(game_manager.renderer, logo, (int)game_manager.resolution.X / 2, (int)game_manager.resolution.Y / 2, 0, 1, 1);
 
             draw.text(game_manager.renderer, (int)game_manager.resolution.X / 2 - 620, (int)game_manager.resolution.Y / 2, "default", 72, "Made using ");
-            draw.text(game_manager.renderer, (int)game_manager.resolution.X / 2, (int)game_manager.resolution.Y / 2, "default-bold", 128, "Fjord");
+            draw.text(game_manager.renderer, (int)game_manager.resolution.X / 2 + 620, (int)game_manager.resolution.Y / 2, "default-bold", 128, "Fjord");
         }
     }
 }
