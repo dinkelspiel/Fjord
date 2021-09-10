@@ -2,10 +2,9 @@
  <img src=https://i.imgur.com/dhYU9ni.png width=50% height=50%>
 </p>
 
+# Fjord
 
 <img src=https://img.shields.io/github/workflow/status/willmexe/Fjord/build/main>
-
-# Fjord
 
 V2 of my <a href=https://github.com/willmexe/Game-Engine>old engine</a> now in C# from Python
  
