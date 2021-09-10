@@ -1,6 +1,7 @@
 using SDL2;
 using System;
 using System.Collections.Generic;
+using Fjord.Modules.Misc;
 
 namespace Fjord.Modules.Graphics
 {
@@ -8,6 +9,8 @@ namespace Fjord.Modules.Graphics
     {
         private static Dictionary<string, dynamic> fonts = new Dictionary<string, dynamic>();
         private static Dictionary<string, int> font_sizes = new Dictionary<string, int>();
+
+        private static Dictionary<string, IntPtr> texts = new Dictionary<string, IntPtr>();
 
         public static void init() {
             string ass = game_manager.asset_pack;
@@ -31,21 +34,25 @@ namespace Fjord.Modules.Graphics
         }
 
         public static void get_text_and_rect(IntPtr renderer, string text, string font_id, out IntPtr texture, int x = 0, int y = 0, byte r = 255, byte g = 255, byte b = 255, byte a = 255) {
-            int text_width;
-            int text_height;
-            IntPtr surface;
-            SDL.SDL_Color textColor;
-            dynamic font = fonts[font_id];
-            textColor.r = r;
-            textColor.g = g;
-            textColor.b = b;
-            textColor.a = a;    
+            var key_ = hash.HashString(text + font_id);
+            if(!texts.ContainsKey(key_)) {
+                IntPtr surface;
+                SDL.SDL_Color textColor;
+                dynamic font = fonts[font_id];
+                textColor.r = r;
+                textColor.g = g;
+                textColor.b = b;
+                textColor.a = a;    
 
-            surface = SDL_ttf.TTF_RenderText_Solid(font, text, textColor);
-            texture = SDL.SDL_CreateTextureFromSurface(renderer, surface);
-            uint pog; int pog2;
-            SDL.SDL_QueryTexture(texture, out pog, out pog2, out text_width, out text_height);
-            SDL.SDL_FreeSurface(surface);
+                surface = SDL_ttf.TTF_RenderText_Solid(font, text, textColor);
+                var texture_ = SDL.SDL_CreateTextureFromSurface(renderer, surface);
+                SDL.SDL_FreeSurface(surface);
+
+                texts.Add(key_, texture_);
+                texture = texture_;
+            } else {
+                texture = texts[key_];
+            }
         }
     }
 }
