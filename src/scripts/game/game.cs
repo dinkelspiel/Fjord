@@ -7,9 +7,16 @@ namespace Fjord.Game
     {
         public override void on_load()
         {
+            // This is where you load all your scenes 
+            // The if statement is so that it doesn't trigger multiple times
+
             if(!scene_handler.get_scene("game-template")) {
+
+                // Add all scenes
                 scene_handler.add_scene("game-template", new game());
-                scene_handler.start_scene("game-template");
+
+                // Load the first scene this can later be called in any file as for example a win condition to switch scene.
+                scene_handler.load_scene("game-template");
             }
         }
 

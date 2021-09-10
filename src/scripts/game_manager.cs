@@ -36,6 +36,8 @@ namespace Fjord
 
         public static void init(string title, int xpos, int ypos, int width, int height, bool fullscreen, string[] sys_args) {
 
+            window_resolution = new Vector2(width, height);
+
             SDL.SDL_WindowFlags flags = 0;
             if (fullscreen) {
                 flags = SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN;

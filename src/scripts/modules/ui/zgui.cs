@@ -47,7 +47,7 @@ namespace Fjord.Modules.Ui
                 IntPtr texture;
                 SDL.SDL_Rect dest;
 
-                font_handler.get_text_and_rect(game_manager.renderer, title, font, out texture, out rect1, 0, 0, 0, 0, 0, 255);
+                font_handler.get_text_and_rect(game_manager.renderer, title, font, out texture, 0, 0, 0, 0, 0, 255);
                 //draw.texture_ext(game_manager.renderer, texture, rect.x + 13, rect.y - 5, 0);
                 dest.x = rect.x + 13;
                 dest.y = rect.y - 5;
@@ -55,7 +55,7 @@ namespace Fjord.Modules.Ui
                 dest.h = rect1.h;
                 SDL.SDL_RenderCopy(game_manager.renderer, texture, ref rect1, ref dest);
 
-                font_handler.get_text_and_rect(game_manager.renderer, title, font, out texture, out rect1);
+                font_handler.get_text_and_rect(game_manager.renderer, title, font, out texture);
                 //draw.texture_ext(game_manager.renderer, texture, rect.x + 11, rect.y - 7, 0);
                 dest.x = rect.x + 11;
                 dest.y = rect.y - 7;
@@ -122,8 +122,7 @@ namespace Fjord.Modules.Ui
             }
 
             IntPtr tex;
-            SDL.SDL_Rect rec;
-            font_handler.get_text_and_rect(game_manager.renderer, text, font, out tex, out rec);
+            font_handler.get_text_and_rect(game_manager.renderer, text, font, out tex);
             draw.texture(game_manager.renderer, tex, x + w / 2, y + h / 2, 0);
         }
 
@@ -158,13 +157,12 @@ namespace Fjord.Modules.Ui
             }
 
             IntPtr tex;
-            SDL.SDL_Rect rect1;
             uint i;
             int j, wi, hi;
             if(value != "") {
-                font_handler.get_text_and_rect(game_manager.renderer, value, font, out tex, out rect1, 0, 0);
+                font_handler.get_text_and_rect(game_manager.renderer, value, font, out tex, 0, 0);
             } else {
-                font_handler.get_text_and_rect(game_manager.renderer, default_value, font, out tex, out rect1, 0, 0);
+                font_handler.get_text_and_rect(game_manager.renderer, default_value, font, out tex, 0, 0);
             }
             SDL.SDL_QueryTexture(tex, out i, out j, out wi, out hi);
 
@@ -185,11 +183,10 @@ namespace Fjord.Modules.Ui
 
         public static void text_box (int x, int y, int w, int h, string font, ref string value) {
             IntPtr tex;
-            SDL.SDL_Rect rect1;
             uint i;
             int j, wi, hi;
             
-            font_handler.get_text_and_rect(game_manager.renderer, value, font, out tex, out rect1, 0, 0);
+            font_handler.get_text_and_rect(game_manager.renderer, value, font, out tex, 0, 0);
             
             SDL.SDL_QueryTexture(tex, out i, out j, out wi, out hi);
 
