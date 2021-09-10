@@ -72,6 +72,8 @@ namespace Fjord
             texture_handler.init();
             font_handler.init();
 
+            load_icon();
+
             scene_handler.add_scene("engine_startup", new scene_startup());
             scene_handler.load_scene("engine_startup");
 
@@ -154,6 +156,11 @@ namespace Fjord
 
         public static void set_asset_pack(string asset_pack_set) {
             asset_pack = asset_pack_set;
+        }
+
+        public static void load_icon() {
+            IntPtr icon = SDL_image.IMG_Load("src/resources/" + game_manager.asset_pack + "/assets/images/icon.png");
+            SDL.SDL_SetWindowIcon(game_manager.window, icon);
         }
     }
 }
