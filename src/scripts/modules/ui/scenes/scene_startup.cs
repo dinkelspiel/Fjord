@@ -26,7 +26,7 @@ namespace Fjord.Game
 
             time++;
 
-            if(time > 170) {
+            if(time > 180) {
                 scene_handler.start_scene_running = false;
                 scene_handler.load_scene(scene_handler.string_start_scene);
             }
