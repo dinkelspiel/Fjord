@@ -19,8 +19,8 @@ namespace Fjord
         public static IntPtr window;
         public static IntPtr renderer;
 
-        public static Vector2 window_resolution = new Vector2(1280, 720); 
-        public static Vector2 resolution = new Vector2(1280, 720); 
+        public static Vector2 window_resolution;
+        public static Vector2 resolution;
 
         public static SDL.SDL_Color bg_color;
 
@@ -37,6 +37,7 @@ namespace Fjord
         public static void init(string title, int xpos, int ypos, int width, int height, bool fullscreen, string[] sys_args) {
 
             window_resolution = new Vector2(width, height);
+            resolution = new Vector2(width, height);
 
             SDL.SDL_WindowFlags flags = 0;
             if (fullscreen) {
