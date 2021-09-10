@@ -210,5 +210,17 @@ namespace Fjord.Modules.Graphics {
 
             SDL.SDL_SetRenderDrawColor(game_manager.renderer, old_color.r, old_color.g, old_color.b, old_color.a);
         }
+
+        public static void text(IntPtr renderer, int x, int y, string font, int font_size, string text, byte r=255, byte g=255, byte b=255, byte a=255) {
+            IntPtr texture; 
+            font_handler.get_text_and_rect(renderer, text, font, out texture, 0, 0, r, g, b, a);
+
+            SDL.SDL_Rect src;
+            src.x = src.y = 0;
+
+            double scale = (double)font_size / (double)font_handler.get_font_size(font);
+
+            draw.texture_ext(renderer, texture, x, y, 0, scale, scale, new SDL.SDL_Point(0, 0));
+        }
     }
 }
