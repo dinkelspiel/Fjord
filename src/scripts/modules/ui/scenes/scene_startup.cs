@@ -1,5 +1,7 @@
 using Fjord.Modules.Ui;
 using Fjord.Modules.Graphics;
+using Fjord.Modules.Debug;
+using Fjord.Modules.Input;
 using Fjord;
 using SDL2;
 
@@ -8,14 +10,14 @@ namespace Fjord.Game
     public class scene_startup : scene
     {
         private int time = 0;
+        int radius = 400;
 
-        IntPtr title, title2;
-        SDL.SDL_Rect title_rect, title_rect2;
+        private IntPtr logo;
 
         public override void on_load()
         {
-            font_handler.get_text_and_rect(game_manager.renderer, "Fjord", "default-bold", out title);
-            font_handler.get_text_and_rect(game_manager.renderer, "Made with", "default", out title2);
+            game_manager.set_asset_pack("general");
+            logo = texture_handler.load_texture("icon_large.png", game_manager.renderer);
         }
 
         public override void update()
@@ -24,7 +26,7 @@ namespace Fjord.Game
 
             time++;
 
-            if(time > 420) {
+            if(time > 170) {
                 scene_handler.start_scene_running = false;
                 scene_handler.load_scene(scene_handler.string_start_scene);
             }
@@ -33,12 +35,15 @@ namespace Fjord.Game
         public override void render()
         {
             base.render();
+            var r = game_manager.bg_color.r;
+            var g = game_manager.bg_color.g;
+            var b = game_manager.bg_color.b;
+            var a = game_manager.bg_color.a;
 
-            int w, h, a;
-            uint f;
-            SDL.SDL_QueryTexture(title, out f, out a, out w, out h);
+            draw.texture_ext(game_manager.renderer, logo, (int)game_manager.resolution.X / 2, (int)game_manager.resolution.Y / 2, 0, 1, 1);
 
-            draw.texture_ext(game_manager.renderer, title, (int)game_manager.window_resolution.X / 2, (int)game_manager.window_resolution.Y / 2, 0, 0.5, 0.5, new SDL.SDL_Point(0, 0));        
+            draw.text(game_manager.renderer, (int)game_manager.resolution.X / 2 - 620, (int)game_manager.resolution.Y / 2, "default", 72, "Made using ");
+            draw.text(game_manager.renderer, (int)game_manager.resolution.X / 2, (int)game_manager.resolution.Y / 2, "default-bold", 128, "Fjord");
         }
     }
 }
