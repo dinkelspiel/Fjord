@@ -33,7 +33,7 @@ namespace Fjord.Game
 
             time++;
 
-            if(time > 180) {
+            if(time > 90) {
                 game_manager.set_render_resolution(game_manager.renderer, (int)old_resolution.X, (int)old_resolution.Y);
 
                 scene_handler.start_scene_running = false;
