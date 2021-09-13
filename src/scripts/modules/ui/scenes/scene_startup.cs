@@ -4,6 +4,7 @@ using Fjord.Modules.Debug;
 using Fjord.Modules.Input;
 using Fjord;
 using SDL2;
+using System.Numerics;
 
 namespace Fjord.Game
 {
@@ -14,8 +15,12 @@ namespace Fjord.Game
 
         private IntPtr logo;
 
+        private Vector2 old_resolution;
+
         public override void on_load()
         {
+            old_resolution = game_manager.resolution;
+
             game_manager.set_asset_pack("general");
             logo = texture_handler.load_texture("icon_large.png", game_manager.renderer);
         }
@@ -24,9 +29,13 @@ namespace Fjord.Game
         {
             base.update();
 
+            game_manager.set_render_resolution(game_manager.renderer, 1920, 1080);
+
             time++;
 
             if(time > 180) {
+                game_manager.set_render_resolution(game_manager.renderer, (int)old_resolution.X, (int)old_resolution.Y);
+
                 scene_handler.start_scene_running = false;
                 scene_handler.load_scene(scene_handler.string_start_scene);
             }
