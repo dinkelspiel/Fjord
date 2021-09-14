@@ -11,7 +11,6 @@ namespace Fjord.Game
     public class scene_startup : scene
     {
         private int time = 0;
-        int radius = 400;
 
         private IntPtr logo;
 
