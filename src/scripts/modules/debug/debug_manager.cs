@@ -22,7 +22,7 @@ namespace Fjord.Modules.Debug {
             } else {
                 last_message_streak += 1;
                 Console.SetCursorPosition(0, Console.CursorTop -1);
-                Console.WriteLine("[{0}] {1}x {2} -> {3}", time, last_message_streak.ToString(), method, message);  
+                Console.WriteLine("[{0}] {1}x {2} -> {3}", time + 1, last_message_streak.ToString(), method, message);  
             }  
             last_message = message;       
         }
