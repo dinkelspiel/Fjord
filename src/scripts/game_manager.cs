@@ -73,28 +73,9 @@ namespace Fjord
             texture_handler.init();
             font_handler.init();
 
-            load_icon();
-
-            scene_handler.add_scene("engine_startup", new scene_startup());
-            scene_handler.load_scene("engine_startup");
-
-            scene_handler.start_scene_running = true;
-
             scene game_;
-
-            if(sys_args.Contains("--tilemap")) {
-                game_ = new tilemap_editor();
-                game_.on_load();
-            } else if(sys_args.Contains("--noload")) {
-                game_ = new game();
-                game_.on_load();
-
-                scene_handler.start_scene_running = false;
-                scene_handler.load_scene(scene_handler.string_start_scene);
-            } else {
-                game_ = new game();
-                game_.on_load();
-            }
+            game_ = new game();
+            game_.on_load();
 
             font_handler.load_font("default", "Sans", 42);
         }
