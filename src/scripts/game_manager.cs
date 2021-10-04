@@ -30,11 +30,15 @@ namespace Fjord
         public static string asset_pack = "main";
         public static string executable_path;
 
+        public static string[] sys_args;
+
         public static bool running() {
             return is_running;
         }
 
         public static void init(string title, int xpos, int ypos, int width, int height, bool fullscreen, string[] sys_args) {
+
+            game_manager.sys_args = sys_args;
 
             window_resolution = new Vector2(width, height);
             resolution = new Vector2(width, height);
