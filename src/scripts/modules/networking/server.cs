@@ -4,12 +4,12 @@ using Fjord.Modules.Debug;
 
 namespace Fjord.Modules.Networking
 {
-    public class server
+    public class ws_server
     {
         public string url;
         public WebSocketServer wssv;
 
-        public server(string url) {
+        public ws_server(string url) {
             this.url = url;
             wssv = new WebSocketServer(url);
         }

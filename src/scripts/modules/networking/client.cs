@@ -2,11 +2,11 @@ using WebSocketSharp;
 
 namespace Fjord.Modules.Networking
 {
-    public class client
+    public class ws_client
     {
         public WebSocket ws;
 
-        public client(string url) {
+        public ws_client(string url) {
             ws = new WebSocket(url);
         }
 
