@@ -1,5 +1,4 @@
-using Fjord.Modules.Ui;
-using Fjord;
+using Fjord.Modules.Game;
 
 namespace Fjord.Game
 {

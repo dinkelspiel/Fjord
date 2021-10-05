@@ -6,6 +6,7 @@ using Fjord.Modules.Ui;
 using Fjord.Modules.Input;
 using Fjord.Modules.Misc;
 using Fjord.Modules.Graphics;
+using Fjord.Modules.Game;
 using Fjord.Game;
 using System.IO;
 using System.Reflection;
