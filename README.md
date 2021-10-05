@@ -11,7 +11,7 @@ V2 of my <a href=https://github.com/willmexe/Game-Engine>old engine</a> now in C
 ## Usage
 
 The two folders that are important if you are making a game are
-`./src/scripts/game/` and `./src/resources/`.
+`./src/game/` and `./resources/`.
 
 The first path is for where you put all your scripts. 
 The already present project is the boiler plate to load the game in the engine but doesn't do anything.
