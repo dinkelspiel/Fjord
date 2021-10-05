@@ -1,5 +1,7 @@
 using Fjord.Modules.Graphics;
 using System.Numerics;
+using System.Collections.Generic;
+using System;
 using Fjord.Modules.Misc;
 using static Fjord.Modules.Misc.math_uti;
 using SDL2;
