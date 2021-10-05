@@ -26,7 +26,7 @@ namespace Fjord.Modules.Graphics
 
         public static bool load_font(string id, string font, int font_size) {
             if(!fonts.ContainsKey(id)) {
-                fonts.Add(id, SDL_ttf.TTF_OpenFont(game_manager.executable_path + "\\src\\resources\\" + game_manager.asset_pack + "\\assets\\fonts\\" + font + ".ttf", font_size));
+                fonts.Add(id, SDL_ttf.TTF_OpenFont(game_manager.executable_path + "\\resources\\" + game_manager.asset_pack + "\\assets\\fonts\\" + font + ".ttf", font_size));
                 font_sizes.Add(id, font_size);
                 return true;
             }
