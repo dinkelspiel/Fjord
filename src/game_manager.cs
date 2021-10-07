@@ -25,8 +25,11 @@ namespace Fjord
 
         public static SDL.SDL_Color bg_color;
 
-        public static int frame_start = 0;
-        public static int frame_length = 0;
+        public static ulong frame_now = SDL.SDL_GetPerformanceCounter();
+        public static ulong frame_last = 0;
+
+        public static double delta_time_ms = 0;
+        public static double delta_time = 0;
 
         public static string asset_pack = "main";
         public static string executable_path;
@@ -117,14 +120,13 @@ namespace Fjord
             System.Environment.Exit(0);
         }
 
+        [Obsolete("\"tick_fps(int FPS)\" is deprecated. Use \"delta_time\" multiplied to your time dependant variables.")]
         public static void tick_fps(int FPS) {
-            frame_length = (int)SDL.SDL_GetTicks() - frame_start;
-            int frame_delay = 1000 / FPS;
+            double frame_delay = 1000 / FPS;
 
-            if (frame_delay > frame_length) {
-                SDL.SDL_Delay((uint)frame_delay - (uint)frame_length);
+            if (frame_delay > game_manager.delta_time_ms) {
+                SDL.SDL_Delay((uint)(frame_delay - game_manager.delta_time_ms));
             }
-            frame_start = (int)SDL.SDL_GetTicks();
         }
 
         public static void set_render_resolution(IntPtr renderer, int width, int height) {
