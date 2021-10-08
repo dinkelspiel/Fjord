@@ -97,6 +97,8 @@ namespace Fjord
 
             scene_handler.render();
 
+            debug_gui.draw_fps();
+
             SDL.SDL_RenderPresent(renderer);
 
             mouse.llmb = mouse.lmb;
@@ -120,7 +122,11 @@ namespace Fjord
             System.Environment.Exit(0);
         }
 
-        [Obsolete("\"tick_fps(int FPS)\" is deprecated. Use \"delta_time\" multiplied to your time dependant variables.")]
+        public static int get_fps() {
+            return(int)(1000 / delta_time_ms);
+        }
+
+        [Obsolete("\"tick_fps(int FPS)\" is deprecated. Use \"delta_time\" multiplied to your framerate dependant variables.")]
         public static void tick_fps(int FPS) {
             double frame_delay = 1000 / FPS;
 
