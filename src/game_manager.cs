@@ -36,6 +36,9 @@ namespace Fjord
 
         public static string[] sys_args;
 
+        private static int[] fps_avg_arr = new int[120];
+        private static int fps_avg_count = 0;
+
         public static bool running() {
             return is_running;
         }
@@ -90,6 +93,13 @@ namespace Fjord
 
         public static void update() {
             scene_handler.update();
+
+            fps_avg_arr[fps_avg_count] = (int)(1000 / delta_time_ms);
+            fps_avg_count++;
+
+            if(fps_avg_count > fps_avg_arr.Length - 1) {
+                fps_avg_count = 0;
+            }
         }
 
         public static void render() {
@@ -123,7 +133,11 @@ namespace Fjord
         }
 
         public static int get_fps() {
-            return(int)(1000 / delta_time_ms);
+            return (int)Queryable.Average(fps_avg_arr.AsQueryable());
+        }
+
+        public static int get_fps_exact() {
+            return (int)(1000 / delta_time_ms);
         }
 
         [Obsolete("\"tick_fps(int FPS)\" is deprecated. Use \"delta_time\" multiplied to your framerate dependant variables.")]
