@@ -31,6 +31,10 @@ namespace Fjord
         public static double delta_time_ms = 0;
         public static double delta_time = 0;
 
+        public static double input_time = 0;
+        public static double update_time = 0;
+        public static double render_time = 0;
+
         public static string asset_pack = "main";
         public static string executable_path;
 
@@ -38,6 +42,16 @@ namespace Fjord
 
         private static int[] fps_avg_arr = new int[120];
         private static int fps_avg_count = 0;
+
+        private static int[] input_avg_arr = new int[120];
+        private static int input_avg_count = 0;
+
+        private static int[] update_avg_arr = new int[120];
+        private static int update_avg_count = 0;
+
+        private static int[] render_avg_arr = new int[120];
+        private static int render_avg_count = 0;
+
 
         public static bool running() {
             return is_running;
@@ -95,11 +109,19 @@ namespace Fjord
             scene_handler.update();
 
             fps_avg_arr[fps_avg_count] = (int)(1000 / delta_time_ms);
+            input_avg_arr[input_avg_count] = (int)(1000 / input_time);
+            update_avg_arr[update_avg_count] = (int)(1000 / update_time);
+            render_avg_arr[render_avg_count] = (int)(1000 / render_time);
+            
             fps_avg_count++;
+            input_avg_count++;
+            update_avg_count++;
+            render_avg_count++;
 
-            if(fps_avg_count > fps_avg_arr.Length - 1) {
-                fps_avg_count = 0;
-            }
+            fps_avg_count = fps_avg_count > fps_avg_arr.Length - 1 ? 0 : fps_avg_count;
+            input_avg_count = input_avg_count > input_avg_arr.Length - 1 ? 0 : input_avg_count;
+            update_avg_count = update_avg_count > update_avg_arr.Length - 1 ? 0 : update_avg_count;
+            render_avg_count = render_avg_count > render_avg_arr.Length - 1 ? 0 : render_avg_count;
         }
 
         public static void render() {
@@ -138,6 +160,30 @@ namespace Fjord
 
         public static int get_fps_exact() {
             return (int)(1000 / delta_time_ms);
+        }
+
+        public static int get_input_fps() {
+            return (int)Queryable.Average(input_avg_arr.AsQueryable());
+        }
+
+        public static int get_input_fps_exact() {
+            return (int)(1000 / input_time);
+        }
+
+        public static int get_update_fps() {
+            return (int)Queryable.Average(update_avg_arr.AsQueryable());
+        }
+
+        public static int get_update_fps_exact() {
+            return (int)(1000 / update_time);
+        }
+
+        public static int get_render_fps() {
+            return (int)Queryable.Average(render_avg_arr.AsQueryable());
+        }
+
+        public static int get_render_fps_exact() {
+            return (int)(1000 / render_time);
         }
 
         [Obsolete("\"tick_fps(int FPS)\" is deprecated. Use \"delta_time\" multiplied to your framerate dependant variables.")]
