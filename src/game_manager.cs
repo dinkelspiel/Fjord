@@ -106,22 +106,12 @@ namespace Fjord
         }
 
         public static void update() {
-            scene_handler.update();
-
             fps_avg_arr[fps_avg_count] = (int)(1000 / delta_time_ms);
-            input_avg_arr[input_avg_count] = (int)(1000 / input_time);
-            update_avg_arr[update_avg_count] = (int)(1000 / update_time);
-            render_avg_arr[render_avg_count] = (int)(1000 / render_time);
-            
             fps_avg_count++;
-            input_avg_count++;
-            update_avg_count++;
-            render_avg_count++;
 
             fps_avg_count = fps_avg_count > fps_avg_arr.Length - 1 ? 0 : fps_avg_count;
-            input_avg_count = input_avg_count > input_avg_arr.Length - 1 ? 0 : input_avg_count;
-            update_avg_count = update_avg_count > update_avg_arr.Length - 1 ? 0 : update_avg_count;
-            render_avg_count = render_avg_count > render_avg_arr.Length - 1 ? 0 : render_avg_count;
+
+            scene_handler.update();
         }
 
         public static void render() {

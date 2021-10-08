@@ -22,13 +22,8 @@ namespace Fjord
                 game_manager.delta_time = (double)((game_manager.frame_now - game_manager.frame_last)*10 / (double)SDL.SDL_GetPerformanceFrequency());
 
                 event_handler.handle_events();
-                game_manager.input_time = (double)((SDL.SDL_GetPerformanceCounter() - game_manager.frame_last)*1000 / (double)SDL.SDL_GetPerformanceFrequency());
-
                 game_manager.update();
-                game_manager.update_time = (double)((SDL.SDL_GetPerformanceCounter() - game_manager.frame_last)*1000 / (double)SDL.SDL_GetPerformanceFrequency()) - game_manager.input_time;
-            
                 game_manager.render();
-                game_manager.render_time = (double)((SDL.SDL_GetPerformanceCounter() - game_manager.frame_last)*1000 / (double)SDL.SDL_GetPerformanceFrequency()) - (game_manager.input_time + game_manager.update_time);
             }
 
             game_manager.stop();
