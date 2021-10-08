@@ -138,8 +138,10 @@ namespace Fjord.Modules.Graphics {
             src.w = size.x;
             src.h = size.y;
 
-            dest.x = x - size.x / 2 - (relative ? (int)camera.camera_position.X : 0);
-            dest.y = y - size.y / 2 - (relative ? (int)camera.camera_position.Y : 0);
+            // dest.x = x - size.x / 2 - (relative ? (int)camera.camera_position.X : 0);
+            // dest.y = y - size.y / 2 - (relative ? (int)camera.camera_position.Y : 0);
+            dest.x = x - (relative ? (int)camera.camera_position.X : 0);
+            dest.y = y - (relative ? (int)camera.camera_position.Y : 0);
             dest.w = size.x;
             dest.h = size.y;
             
@@ -165,7 +167,9 @@ namespace Fjord.Modules.Graphics {
 
             SDL.SDL_Rect src = new SDL.SDL_Rect(0, 0, w, h);
 
-            SDL.SDL_Rect dest = new SDL.SDL_Rect(x - (int)(w * x_scale) / 2, y - (int)(h * y_scale) / 2, (int)(w * x_scale), (int)(h * y_scale));
+            // Center Origin: SDL.SDL_Rect dest = new SDL.SDL_Rect(x - (int)(w * x_scale) / 2, y - (int)(h * y_scale) / 2, (int)(w * x_scale), (int)(h * y_scale));
+
+            SDL.SDL_Rect dest = new SDL.SDL_Rect(x, y, (int)(w * x_scale), (int)(h * y_scale));
 
             SDL.SDL_RendererFlip flip_sdl = SDL.SDL_RendererFlip.SDL_FLIP_NONE; 
             
@@ -214,7 +218,7 @@ namespace Fjord.Modules.Graphics {
 
         public static void text(IntPtr renderer, int x, int y, string font, int font_size, string text, byte r=255, byte g=255, byte b=255, byte a=255) {
             IntPtr texture; 
-            font_handler.get_text_and_rect(renderer, text, font, out texture, 0, 0, r, g, b, a);
+            font_handler.get_texture(renderer, text, font, out texture, 0, 0, r, g, b, a);
 
             SDL.SDL_Rect src;
             src.x = src.y = 0;
