@@ -219,7 +219,7 @@ namespace Fjord.Game {
                     rect.h = (int)(Tilemap.grid_h * zoom);
                     draw.rect(game_manager.renderer, rect, 255, 255, 255, 255, false);
 
-                    draw.texture_atlas(game_manager.renderer, atlas, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].X * Tilemap.atlas_gridw, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].Y * Tilemap.atlas_gridh, 8, 8, rect.x, rect.y, 0, rect.w, rect.h, new SDL.SDL_Point(0, 0), false, flip_type.none);
+                    draw.texture_atlas(game_manager.renderer, atlas, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].X * Tilemap.atlas_gridw, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].Y * Tilemap.atlas_gridh, 8, 8, rect.x, rect.y, 0, rect.w, rect.h, new SDL.SDL_Point(0, 0), false, draw_origin.CENTER, flip_type.none);
                     if(Tilemap.collision_map[tilemap_funcs.create_pos(i, j)])
                         draw.rect(game_manager.renderer, rect, 255, 0, 0, 50, true, false);
                 }
