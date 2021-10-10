@@ -7,7 +7,7 @@ using Fjord.Modules.Game;
 using Fjord.Modules.Misc;
 using static Fjord.Modules.Misc.math_uti;
 using System.Collections.Generic;
-using SDL2;
+using static SDL2.SDL;
 using System;
 using System.Numerics;
 using Newtonsoft.Json;
@@ -212,14 +212,14 @@ namespace Fjord.Game {
         public override void render() {
             for(var i = 0; i < Tilemap.w; i++) {
                 for(var j = 0; j < Tilemap.h; j++) {
-                    SDL.SDL_Rect rect;
+                    SDL_Rect rect;
                     rect.x = i * (int)(Tilemap.grid_w * zoom) + (grid_x);
                     rect.y = j * (int)(Tilemap.grid_h * zoom) + (grid_y);
                     rect.w = (int)(Tilemap.grid_w * zoom);
                     rect.h = (int)(Tilemap.grid_h * zoom);
                     draw.rect(game_manager.renderer, rect, 255, 255, 255, 255, false);
 
-                    draw.texture_atlas(game_manager.renderer, atlas, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].X * Tilemap.atlas_gridw, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].Y * Tilemap.atlas_gridh, 8, 8, rect.x, rect.y, 0, rect.w, rect.h, new SDL.SDL_Point(0, 0), false, draw_origin.CENTER, flip_type.none);
+                    draw.texture_atlas(game_manager.renderer, atlas, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].X * Tilemap.atlas_gridw, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].Y * Tilemap.atlas_gridh, 8, 8, rect.x, rect.y, 0, rect.w, rect.h, new SDL_Point(0, 0), false, draw_origin.CENTER, flip_type.none);
                     if(Tilemap.collision_map[tilemap_funcs.create_pos(i, j)])
                         draw.rect(game_manager.renderer, rect, 255, 0, 0, 50, true, false);
                 }
@@ -227,7 +227,7 @@ namespace Fjord.Game {
 
             // Draws background to ui
 
-            SDL.SDL_Rect rect1;
+            SDL_Rect rect1;
             rect1.x = 0;
             rect1.y = 0;
             rect1.w = 250;
@@ -239,9 +239,9 @@ namespace Fjord.Game {
             draw.texture_ext(game_manager.renderer, atlas, 10, 10, 0, 230, 575, false);
 
             if(Math.Round(mouse.x / 58f) < 4 && Math.Round(mouse.y / 58f) < 10)
-                draw.rect(game_manager.renderer, new SDL.SDL_Rect(10 + (int)(Math.Round((mouse.x - 29) / 58f) * 58f), 10 + (int)(Math.Round((mouse.y - 29) / 58f) * 58f), 58, 58), 0, 255, 0, 255, false);
+                draw.rect(game_manager.renderer, new SDL_Rect(10 + (int)(Math.Round((mouse.x - 29) / 58f) * 58f), 10 + (int)(Math.Round((mouse.y - 29) / 58f) * 58f), 58, 58), 0, 255, 0, 255, false);
 
-            draw.rect(game_manager.renderer, new SDL.SDL_Rect(10 + (int)selected_tile.X * 58, 10 + (int)selected_tile.Y * 58, 58, 58), 119, 172, 241, 100, true);
+            draw.rect(game_manager.renderer, new SDL_Rect(10 + (int)selected_tile.X * 58, 10 + (int)selected_tile.Y * 58, 58, 58), 119, 172, 241, 100, true);
 
             // Draws ui
 

@@ -1,6 +1,6 @@
 using System.Numerics;
 using Fjord.Modules.Graphics;
-using SDL2;
+using static SDL2.SDL;
 using System;
 
 namespace Fjord.Modules.Game
@@ -27,7 +27,7 @@ namespace Fjord.Modules.Game
         public virtual void update() {
             uint f;
             int a, w, h;
-            SDL.SDL_QueryTexture(texture, out f, out a, out w, out h);
+            SDL_QueryTexture(texture, out f, out a, out w, out h);
             w = (int)(w * texture_xscale);
             h = (int)(h * texture_yscale);
 
@@ -40,9 +40,9 @@ namespace Fjord.Modules.Game
         public virtual void render() {
             uint f;
             int a, w, h;
-            SDL.SDL_QueryTexture(texture, out f, out a, out w, out h);
+            SDL_QueryTexture(texture, out f, out a, out w, out h);
 
-            SDL.SDL_Point origin;
+            SDL_Point origin;
             origin.x = (int)texture_origin.X;
             origin.y = (int)texture_origin.Y;
 

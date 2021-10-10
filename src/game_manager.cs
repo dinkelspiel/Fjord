@@ -1,5 +1,7 @@
 using System;
-using SDL2;
+using static SDL2.SDL;
+using static SDL2.SDL_image;
+using static SDL2.SDL_ttf;
 using System.Numerics;
 using Fjord.Modules.Debug;
 using Fjord.Modules.Ui;
@@ -23,9 +25,9 @@ namespace Fjord
         public static Vector2 window_resolution;
         public static Vector2 resolution;
 
-        public static SDL.SDL_Color bg_color;
+        public static SDL_Color bg_color;
 
-        public static ulong frame_now = SDL.SDL_GetPerformanceCounter();
+        public static ulong frame_now = SDL_GetPerformanceCounter();
         public static ulong frame_last = 0;
 
         public static double delta_time_ms = 0;
@@ -64,22 +66,22 @@ namespace Fjord
             window_resolution = new Vector2(width, height);
             resolution = new Vector2(width, height);
 
-            SDL.SDL_WindowFlags flags = 0;
+            SDL_WindowFlags flags = 0;
             if (fullscreen) {
-                flags = SDL.SDL_WindowFlags.SDL_WINDOW_FULLSCREEN;
+                flags = SDL_WindowFlags.SDL_WINDOW_FULLSCREEN;
             }
 
-            if (SDL.SDL_Init(SDL.SDL_INIT_EVERYTHING) == 0) {
+            if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
                 Debug.send("SDL initialized without errors");
                 
-                window = SDL.SDL_CreateWindow(title, xpos, ypos, width, height, flags);
+                window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
 
                 Debug.send("Window created without errors");
 
-                SDL_ttf.TTF_Init();
+                TTF_Init();
 
-                renderer = SDL.SDL_CreateRenderer(window, -1, SDL.SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
-                SDL.SDL_SetRenderDrawBlendMode(renderer, SDL.SDL_BlendMode.SDL_BLENDMODE_BLEND);
+                renderer = SDL_CreateRenderer(window, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+                SDL_SetRenderDrawBlendMode(renderer, SDL_BlendMode.SDL_BLENDMODE_BLEND);
                 
                 Debug.send("Renderer created without errors");
 
@@ -115,13 +117,13 @@ namespace Fjord
         }
 
         public static void render() {
-            SDL.SDL_RenderClear(renderer);
+            SDL_RenderClear(renderer);
 
             scene_handler.render();
 
             debug_gui.draw_fps();
 
-            SDL.SDL_RenderPresent(renderer);
+            SDL_RenderPresent(renderer);
 
             mouse.llmb = mouse.lmb;
             mouse.lrmb = mouse.rmb;
@@ -136,9 +138,9 @@ namespace Fjord
             //debug_web.listener.Close();
             scene_handler.stop();
 
-            SDL.SDL_DestroyWindow(window);
-            SDL.SDL_DestroyRenderer(renderer);
-            SDL.SDL_Quit();
+            SDL_DestroyWindow(window);
+            SDL_DestroyRenderer(renderer);
+            SDL_Quit();
 
             Debug.send("Game cleaned without errors");
             System.Environment.Exit(0);
@@ -181,25 +183,25 @@ namespace Fjord
             double frame_delay = 1000 / FPS;
 
             if (frame_delay > game_manager.delta_time_ms) {
-                SDL.SDL_Delay((uint)(frame_delay - game_manager.delta_time_ms));
+                SDL_Delay((uint)(frame_delay - game_manager.delta_time_ms));
             }
         }
 
         public static void set_render_resolution(IntPtr renderer, int width, int height) {
-            SDL.SDL_RenderSetLogicalSize(renderer, width, height);
+            SDL_RenderSetLogicalSize(renderer, width, height);
             resolution.X = width;
             resolution.Y = height;
-            //SDL.SDL_RenderSetLogicalSize(game_manager.renderer, 300, 169);
+            //SDL_RenderSetLogicalSize(game_manager.renderer, 300, 169);
         }
 
         public static void set_render_background(byte r, byte g, byte b, byte a) {
-            SDL.SDL_Color color;
+            SDL_Color color;
             color.r = r;
             color.g = g;
             color.b = b;
             color.a = a;
 
-            SDL.SDL_SetRenderDrawColor(game_manager.renderer, r, g, b, a);
+            SDL_SetRenderDrawColor(game_manager.renderer, r, g, b, a);
 
             bg_color = color;
         }
@@ -209,8 +211,8 @@ namespace Fjord
         }
 
         public static void load_icon() {
-            IntPtr icon = SDL_image.IMG_Load("resources/" + game_manager.asset_pack + "/assets/images/icon.png");
-            SDL.SDL_SetWindowIcon(game_manager.window, icon);
+            IntPtr icon = IMG_Load("resources/" + game_manager.asset_pack + "/assets/images/icon.png");
+            SDL_SetWindowIcon(game_manager.window, icon);
         }
     }
 }

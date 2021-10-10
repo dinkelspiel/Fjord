@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 using Fjord.Modules.Misc;
 using static Fjord.Modules.Misc.math_uti;
-using SDL2;
+using static SDL2.SDL;
 
 namespace Fjord.Modules.Game {
     public static class tilemap_funcs {
@@ -112,7 +112,7 @@ namespace Fjord.Modules.Game {
 
                         // SDL.SDL_RenderCopyEx(game_manager.renderer, atlas, ref src_rect, ref dest_rect, 0, ref point, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
 
-                        draw.texture_atlas(game_manager.renderer, atlas, (int)map[tilemap_funcs.create_pos(i, j)].X * 8, (int)map[tilemap_funcs.create_pos(i, j)].Y * 8, 8, 8, (int)(position.X + (i * grid_w) * zoom),  (int)(position.Y + (j * grid_h) * zoom), 0, (int)(grid_w * zoom), (int)(grid_h * zoom), new SDL.SDL_Point(0, 0), true);
+                        draw.texture_atlas(game_manager.renderer, atlas, (int)map[tilemap_funcs.create_pos(i, j)].X * 8, (int)map[tilemap_funcs.create_pos(i, j)].Y * 8, 8, 8, (int)(position.X + (i * grid_w) * zoom),  (int)(position.Y + (j * grid_h) * zoom), 0, (int)(grid_w * zoom), (int)(grid_h * zoom), new SDL_Point(0, 0), true);
                         //draw.texture_ext(game_manager.renderer, textures_intptr[map[i, j] - 1], (int)(position.X + (i * grid_w) * zoom), (int)(position.Y + (j * grid_h) * zoom), 0, (int)(grid_w * zoom), (int)(grid_h * zoom), point, true);
                     }
                 }

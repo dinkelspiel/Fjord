@@ -1,7 +1,7 @@
 using Fjord.Modules.Graphics;
 using Fjord.Modules.Input;
 using Fjord.Modules.Debug;
-using SDL2;
+using static SDL2.SDL;
 using System;
 using System.Numerics;
 
@@ -17,10 +17,10 @@ namespace Fjord.Modules.Ui
             font_handler.load_font("text", "Cozette", 12);
         }
 
-        public static void window(SDL.SDL_Rect rect, SDL.SDL_Color bg, SDL.SDL_Color o1, SDL.SDL_Color o2, SDL.SDL_Color o3, string font, string title, bool show_label) {
-            SDL.SDL_RenderSetLogicalSize(game_manager.renderer, (int)game_manager.window_resolution.X, (int)game_manager.window_resolution.Y);
+        public static void window(SDL_Rect rect, SDL_Color bg, SDL_Color o1, SDL_Color o2, SDL_Color o3, string font, string title, bool show_label) {
+            SDL_RenderSetLogicalSize(game_manager.renderer, (int)game_manager.window_resolution.X, (int)game_manager.window_resolution.Y);
             
-            SDL.SDL_Rect rect1;
+            SDL_Rect rect1;
             rect1.x = rect.x - 3;
             rect1.y = rect.y - 3;
             rect1.w = rect.w + 6;
@@ -45,7 +45,7 @@ namespace Fjord.Modules.Ui
                 // render::text(x + 13, y - 5, font, string, false, color::black());
                 // render::text(x + 11, y - 7, font, string, false, color::white());
                 IntPtr texture;
-                SDL.SDL_Rect dest;
+                SDL_Rect dest;
 
                 font_handler.get_texture(game_manager.renderer, title, font, out texture, 0, 0, 0, 0, 0, 255);
                 //draw.texture_ext(game_manager.renderer, texture, rect.x + 13, rect.y - 5, 0);
@@ -53,7 +53,7 @@ namespace Fjord.Modules.Ui
                 dest.y = rect.y - 5;
                 dest.w = rect1.w;
                 dest.h = rect1.h;
-                SDL.SDL_RenderCopy(game_manager.renderer, texture, ref rect1, ref dest);
+                SDL_RenderCopy(game_manager.renderer, texture, ref rect1, ref dest);
 
                 font_handler.get_texture(game_manager.renderer, title, font, out texture);
                 //draw.texture_ext(game_manager.renderer, texture, rect.x + 11, rect.y - 7, 0);
@@ -61,11 +61,11 @@ namespace Fjord.Modules.Ui
                 dest.y = rect.y - 7;
                 dest.w = rect1.w;
                 dest.h = rect1.h;
-                SDL.SDL_RenderCopy(game_manager.renderer, texture, ref rect1, ref dest);
+                SDL_RenderCopy(game_manager.renderer, texture, ref rect1, ref dest);
                 
             }
 
-            SDL.SDL_RenderSetLogicalSize(game_manager.renderer, (int)game_manager.resolution.X, (int)game_manager.resolution.Y);
+            SDL_RenderSetLogicalSize(game_manager.renderer, (int)game_manager.resolution.X, (int)game_manager.resolution.Y);
         }
 
         public static void slider(int x, int y, int width, ref float value, float min_value, float max_value) {
@@ -75,7 +75,7 @@ namespace Fjord.Modules.Ui
             if ((mouse.x > ix) && (mouse.x < ix + width) && (mouse.y > yi) && (mouse.y < yi + 6) && (mouse.button_pressed(0)))
 		        value = (mouse.x - ix) / ((float)width / (float)max_value);
 
-            SDL.SDL_Rect rect;
+            SDL_Rect rect;
             rect.x = ix;
             rect.y = yi;
             rect.w = width;
@@ -92,7 +92,7 @@ namespace Fjord.Modules.Ui
             if ((mouse.x > x) && (mouse.x < x + w) && (mouse.y > y) && (mouse.y < y + h) && mouse.button_just_pressed(0))
 		        value = !value;
 
-            SDL.SDL_Rect rect;
+            SDL_Rect rect;
             rect.x = x;
             rect.y = y;
             rect.w = w;
@@ -109,7 +109,7 @@ namespace Fjord.Modules.Ui
             if ((mouse.x > x) && (mouse.x < x + w) && (mouse.y > y) && (mouse.y < y + h) && mouse.button_just_pressed(0))
 		        value = !value;
 
-            SDL.SDL_Rect rect;
+            SDL_Rect rect;
             rect.x = x;
             rect.y = y;
             rect.w = w;
@@ -164,9 +164,9 @@ namespace Fjord.Modules.Ui
             } else {
                 font_handler.get_texture(game_manager.renderer, default_value, font, out tex, 0, 0);
             }
-            SDL.SDL_QueryTexture(tex, out i, out j, out wi, out hi);
+            SDL_QueryTexture(tex, out i, out j, out wi, out hi);
 
-            SDL.SDL_Rect rect;
+            SDL_Rect rect;
             rect.x = x;
             rect.y = y;
             rect.w = wi < w ? w : wi + 10;
@@ -188,9 +188,9 @@ namespace Fjord.Modules.Ui
             
             font_handler.get_texture(game_manager.renderer, value, font, out tex, 0, 0);
             
-            SDL.SDL_QueryTexture(tex, out i, out j, out wi, out hi);
+            SDL_QueryTexture(tex, out i, out j, out wi, out hi);
 
-            SDL.SDL_Rect rect;
+            SDL_Rect rect;
             rect.x = x;
             rect.y = y;
             rect.w = wi < w ? w : wi + 10;

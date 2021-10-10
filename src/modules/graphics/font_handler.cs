@@ -1,4 +1,5 @@
-using SDL2;
+using static SDL2.SDL_ttf;
+using static SDL2.SDL;
 using System;
 using System.Collections.Generic;
 using Fjord.Modules.Misc;
@@ -26,7 +27,7 @@ namespace Fjord.Modules.Graphics
 
         public static bool load_font(string id, string font, int font_size) {
             if(!fonts.ContainsKey(id)) {
-                fonts.Add(id, SDL_ttf.TTF_OpenFont(game_manager.executable_path + "\\resources\\" + game_manager.asset_pack + "\\assets\\fonts\\" + font + ".ttf", font_size));
+                fonts.Add(id, TTF_OpenFont(game_manager.executable_path + "\\resources\\" + game_manager.asset_pack + "\\assets\\fonts\\" + font + ".ttf", font_size));
                 font_sizes.Add(id, font_size);
                 return true;
             }
@@ -37,16 +38,16 @@ namespace Fjord.Modules.Graphics
             var key_ = hash.HashString(text + font_id);
             if(!texts.ContainsKey(key_)) {
                 IntPtr surface;
-                SDL.SDL_Color textColor;
+                SDL_Color textColor;
                 dynamic font = fonts[font_id];
                 textColor.r = r;
                 textColor.g = g;
                 textColor.b = b;
                 textColor.a = a;    
 
-                surface = SDL_ttf.TTF_RenderText_Solid(font, text, textColor);
-                var texture_ = SDL.SDL_CreateTextureFromSurface(renderer, surface);
-                SDL.SDL_FreeSurface(surface);
+                surface = TTF_RenderText_Solid(font, text, textColor);
+                var texture_ = SDL_CreateTextureFromSurface(renderer, surface);
+                SDL_FreeSurface(surface);
 
                 texts.Add(key_, texture_);
                 texture = texture_;
