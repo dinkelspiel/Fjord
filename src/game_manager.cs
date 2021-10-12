@@ -2,13 +2,13 @@ using System;
 using static SDL2.SDL;
 using static SDL2.SDL_image;
 using static SDL2.SDL_ttf;
-using System.Numerics;
 using Fjord.Modules.Debug;
 using Fjord.Modules.Ui;
 using Fjord.Modules.Input;
 using Fjord.Modules.Misc;
 using Fjord.Modules.Graphics;
 using Fjord.Modules.Game;
+using Fjord.Modules.Mathf;
 using Fjord.Game;
 using System.IO;
 using System.Reflection;
@@ -22,10 +22,12 @@ namespace Fjord
         public static IntPtr window;
         public static IntPtr renderer;
 
-        public static Vector2 window_resolution;
-        public static Vector2 resolution;
+        public static V2 window_resolution;
+        public static V2 resolution;
 
         public static SDL_Color bg_color;
+
+        private static bool draw_debug = false;
 
         public static ulong frame_now = SDL_GetPerformanceCounter();
         public static ulong frame_last = 0;
@@ -59,8 +61,8 @@ namespace Fjord
 
             game_manager.sys_args = sys_args;
 
-            window_resolution = new Vector2(width, height);
-            resolution = new Vector2(width, height);
+            window_resolution = new V2(width, height);
+            resolution = new V2(width, height);
 
             SDL_WindowFlags flags = 0;
             if (fullscreen) {
@@ -117,7 +119,8 @@ namespace Fjord
 
             scene_handler.render();
 
-            debug_gui.draw_fps();
+            if(draw_debug)
+                debug_gui.draw_fps();
 
             SDL_RenderPresent(renderer);
 
@@ -159,10 +162,14 @@ namespace Fjord
             }
         }
 
+        public static void draw_debug_gui() {
+            draw_debug = !draw_debug;
+        }
+
         public static void set_render_resolution(IntPtr renderer, int width, int height) {
             SDL_RenderSetLogicalSize(renderer, width, height);
-            resolution.X = width;
-            resolution.Y = height;
+            resolution.x = width;
+            resolution.y = height;
             //SDL_RenderSetLogicalSize(game_manager.renderer, 300, 169);
         }
 

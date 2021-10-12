@@ -2,25 +2,15 @@ using System.Numerics;
 using System;
 using Fjord.Modules.Input;
 
-namespace Fjord.Modules.Misc {
-    public static class math_uti {
-        [Serializable]
-        public struct Vec2 {
-            public int X { get; set; }
-            public int Y { get; set; }
+namespace Fjord.Modules.Mathf {
+    public static class Mathf {
 
-            public Vec2(int x, int y) {
-                this.X = x;
-                this.Y = y;
-            }
+        public static double get_hypot(V2 origin, V2 target) {
+            return Math.Sqrt(Math.Pow(target.x - origin.x, 2) + Math.Pow(target.y - origin.y, 2));
         }
 
-        public static double point_distance(Vector2 origin, Vector2 target) {
-            return Math.Sqrt(Math.Pow(target.X - origin.X, 2) + Math.Pow(target.Y - origin.Y, 2));
-        }
-
-        public static double point_direction(Vector2 origin, Vector2 target) {
-            return radtodeg(Math.Atan2(target.Y-origin.Y, target.X-origin.X));
+        public static double get_dir(V2 origin, V2 target) {
+            return radtodeg(Math.Atan2(target.y-origin.y, target.x-origin.x));
         }
 
         public static double lengthdir_x(double length, double angle) {

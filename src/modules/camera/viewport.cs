@@ -1,15 +1,15 @@
-using System.Numerics;
+using Fjord.Modules.Mathf;
 using static SDL2.SDL;
 
 namespace Fjord.Modules.Camera {
     public static class camera {
-        public static Vector2 camera_position = new Vector2(0, 0);
+        public static V2f camera_position = new V2f(0, 0);
 
         public static void set_viewport(float x, float y) {
             SDL_Rect rect;
             SDL_RenderGetViewport(game_manager.renderer, out rect);
-            camera_position.X = x - rect.w / 2;
-            camera_position.Y = y - rect.h / 2;
+            camera_position.x = x - rect.w / 2;
+            camera_position.y = y - rect.h / 2;
         }
     }
 }

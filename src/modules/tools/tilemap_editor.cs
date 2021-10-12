@@ -5,7 +5,7 @@ using Fjord.Modules.Graphics;
 using Fjord.Modules.Camera;
 using Fjord.Modules.Game;
 using Fjord.Modules.Misc;
-using static Fjord.Modules.Misc.math_uti;
+using Fjord.Modules.Mathf;
 using System.Collections.Generic;
 using static SDL2.SDL;
 using System;
@@ -16,7 +16,7 @@ namespace Fjord.Game {
     public class tilemap_editor : scene {
         
         float zoom = 1;
-        Vector2 pos;
+        V2 pos;
 
         bool load_tex = false;
         string load_texture_string = "";
@@ -36,7 +36,7 @@ namespace Fjord.Game {
 
         int grid_x, grid_y, grid_x_end, grid_y_end;
 
-        Vector2 selected_tile = new Vector2(-1, -1);
+        V2 selected_tile = new V2(-1, -1);
 
         public override void on_load() {
             if(!scene_handler.get_scene("tilemap_editor")) {
@@ -68,22 +68,22 @@ namespace Fjord.Game {
 
             int move_sp = 4;
             if(input.get_key_pressed(input.key_w, "general")) {
-                pos.Y -= move_sp;
+                pos.y -= move_sp;
             } else if(input.get_key_pressed(input.key_s, "general")) {
-                pos.Y += move_sp;
+                pos.y += move_sp;
             }
 
             if(input.get_key_pressed(input.key_a, "general")) {
-                pos.X -= move_sp;
+                pos.x-= move_sp;
             } else if(input.get_key_pressed(input.key_d, "general")) {
-                pos.X += move_sp;
+                pos.x+= move_sp;
             }   
 
-            camera.set_viewport(pos.X, pos.Y);   
+            camera.set_viewport(pos.x, pos.y);   
 
-            if(math_uti.mouse_inside(470, 10, 200, 30) && mouse.button_just_pressed(0)) {
+            if(Mathf.mouse_inside(470, 10, 200, 30) && mouse.button_just_pressed(0)) {
                 change_asset_pack = !change_asset_pack;
-            }  else if(!math_uti.mouse_inside(470, 10, 200, 30) && mouse.button_just_pressed(0)) {
+            }  else if(!Mathf.mouse_inside(470, 10, 200, 30) && mouse.button_just_pressed(0)) {
                 change_asset_pack = false;
             }
 
@@ -93,9 +93,9 @@ namespace Fjord.Game {
                 input.set_input_state("general");
             }
 
-            if(math_uti.mouse_inside(260, 100, 200, 30) && mouse.button_just_pressed(0)) {
+            if(Mathf.mouse_inside(260, 100, 200, 30) && mouse.button_just_pressed(0)) {
                 export_file = !export_file;
-            } else if(!math_uti.mouse_inside(260, 100, 200, 30) && mouse.button_just_pressed(0)) {
+            } else if(!Mathf.mouse_inside(260, 100, 200, 30) && mouse.button_just_pressed(0)) {
                 export_file = false;
             }
 
@@ -122,9 +122,9 @@ namespace Fjord.Game {
                 System.IO.File.WriteAllText(full_path, json_string);
             }
 
-            if(math_uti.mouse_inside(260, 10, 200, 30) && mouse.button_just_pressed(0)) {
+            if(Mathf.mouse_inside(260, 10, 200, 30) && mouse.button_just_pressed(0)) {
                 load_tex = !load_tex;
-            } else if(!math_uti.mouse_inside(260, 10, 200, 30) && mouse.button_just_pressed(0)) {
+            } else if(!Mathf.mouse_inside(260, 10, 200, 30) && mouse.button_just_pressed(0)) {
                 load_tex = false;
             }
 
@@ -144,13 +144,13 @@ namespace Fjord.Game {
                 Tilemap = JsonConvert.DeserializeObject<tilemap>(file);
             }
 
-            grid_x = (int)(Tilemap.grid_w * zoom) - (int)camera.camera_position.X - (int)(Tilemap.grid_w * zoom);
-            grid_y = (int)(Tilemap.grid_h * zoom) - (int)camera.camera_position.Y - (int)(Tilemap.grid_h * zoom);
+            grid_x = (int)(Tilemap.grid_w * zoom) - (int)camera.camera_position.x - (int)(Tilemap.grid_w * zoom);
+            grid_y = (int)(Tilemap.grid_h * zoom) - (int)camera.camera_position.y - (int)(Tilemap.grid_h * zoom);
             grid_x_end = grid_x + Tilemap.w * (int)(Tilemap.grid_w * zoom);
             grid_y_end = grid_y + Tilemap.h * (int)(Tilemap.grid_h * zoom);
 
             if(mouse.button_pressed(1)) {
-                var x_ = (mouse.x - grid_x);
+                var x_ = (mouse.x- grid_x);
                 var y_ = (mouse.y - grid_y);
                 var w_ = Tilemap.grid_w * zoom;
                 var h_ = Tilemap.grid_h * zoom;
@@ -165,7 +165,7 @@ namespace Fjord.Game {
 
             if(mouse.button_pressed(0)) {
 
-                var x_ = (mouse.x - grid_x);
+                var x_ = (mouse.x- grid_x);
                 var y_ = (mouse.y - grid_y);
                 var w_ = Tilemap.grid_w * zoom;
                 var h_ = Tilemap.grid_h * zoom;
@@ -203,9 +203,9 @@ namespace Fjord.Game {
                 }
             }
 
-            if(Math.Round(mouse.x / 58f) < 4 && Math.Round(mouse.y / 58f) < 10 && mouse.button_just_pressed(0)) {
-                selected_tile.X = (float)Math.Round((10f + mouse.x) / 58f) - 1;
-                selected_tile.Y = (float)Math.Round((10f + mouse.y) / 58f) - 1;
+            if(Math.Round(mouse.x/ 58f) < 4 && Math.Round(mouse.y / 58f) < 10 && mouse.button_just_pressed(0)) {
+                selected_tile.x = (int)Math.Round((10f + mouse.x) / 58f) - 1;
+                selected_tile.y = (int)Math.Round((10f + mouse.y) / 58f) - 1;
             }
         }
 
@@ -213,13 +213,13 @@ namespace Fjord.Game {
             for(var i = 0; i < Tilemap.w; i++) {
                 for(var j = 0; j < Tilemap.h; j++) {
                     SDL_Rect rect;
-                    rect.x = i * (int)(Tilemap.grid_w * zoom) + (grid_x);
+                    rect.x= i * (int)(Tilemap.grid_w * zoom) + (grid_x);
                     rect.y = j * (int)(Tilemap.grid_h * zoom) + (grid_y);
                     rect.w = (int)(Tilemap.grid_w * zoom);
                     rect.h = (int)(Tilemap.grid_h * zoom);
                     draw.rect(game_manager.renderer, rect, 255, 255, 255, 255, false);
 
-                    draw.texture_atlas(game_manager.renderer, atlas, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].X * Tilemap.atlas_gridw, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].Y * Tilemap.atlas_gridh, 8, 8, rect.x, rect.y, 0, rect.w, rect.h, new SDL_Point(0, 0), false, draw_origin.CENTER, flip_type.none);
+                    draw.texture_atlas(game_manager.renderer, atlas, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].x * Tilemap.atlas_gridw, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].y * Tilemap.atlas_gridh, 8, 8, rect.x, rect.y, 0, rect.w, rect.h, new SDL_Point(0, 0), false, draw_origin.CENTER, flip_type.none);
                     if(Tilemap.collision_map[tilemap_funcs.create_pos(i, j)])
                         draw.rect(game_manager.renderer, rect, 255, 0, 0, 50, true, false);
                 }
@@ -228,7 +228,7 @@ namespace Fjord.Game {
             // Draws background to ui
 
             SDL_Rect rect1;
-            rect1.x = 0;
+            rect1.x= 0;
             rect1.y = 0;
             rect1.w = 250;
             rect1.h = 1280;
@@ -238,10 +238,10 @@ namespace Fjord.Game {
 
             draw.texture_ext(game_manager.renderer, atlas, 10, 10, 0, 230, 575, false);
 
-            if(Math.Round(mouse.x / 58f) < 4 && Math.Round(mouse.y / 58f) < 10)
-                draw.rect(game_manager.renderer, new SDL_Rect(10 + (int)(Math.Round((mouse.x - 29) / 58f) * 58f), 10 + (int)(Math.Round((mouse.y - 29) / 58f) * 58f), 58, 58), 0, 255, 0, 255, false);
+            if(Math.Round(mouse.x/ 58f) < 4 && Math.Round(mouse.y / 58f) < 10)
+                draw.rect(game_manager.renderer, new SDL_Rect(10 + (int)(Math.Round((mouse.x- 29) / 58f) * 58f), 10 + (int)(Math.Round((mouse.y - 29) / 58f) * 58f), 58, 58), 0, 255, 0, 255, false);
 
-            draw.rect(game_manager.renderer, new SDL_Rect(10 + (int)selected_tile.X * 58, 10 + (int)selected_tile.Y * 58, 58, 58), 119, 172, 241, 100, true);
+            draw.rect(game_manager.renderer, new SDL_Rect(10 + (int)selected_tile.x* 58, 10 + (int)selected_tile.y * 58, 58, 58), 119, 172, 241, 100, true);
 
             // Draws ui
 

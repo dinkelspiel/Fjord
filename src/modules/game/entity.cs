@@ -1,4 +1,4 @@
-using System.Numerics;
+using Fjord.Modules.Mathf;
 using Fjord.Modules.Graphics;
 using static SDL2.SDL;
 using System;
@@ -7,11 +7,11 @@ namespace Fjord.Modules.Game
 {
     public class entity
     {
-        public Vector2 position = new Vector2(0, 0);
+        public V2f position = new V2f(0, 0);
         
         public IntPtr texture = texture_handler.default_texture;
         public float texture_angle = 0;
-        public Vector2 texture_origin = new Vector2(0, 0);
+        public V2 texture_origin = new V2(0, 0);
 
         public float texture_xscale = 1;
         public float texture_yscale = 1;
@@ -31,10 +31,10 @@ namespace Fjord.Modules.Game
             w = (int)(w * texture_xscale);
             h = (int)(h * texture_yscale);
 
-            texture_right = (int)position.X + w / 2;
-            texture_left = (int)position.X - w / 2;
-            texture_top = (int)position.Y - h / 2;
-            texture_bottom = (int)position.Y + h / 2;
+            texture_right = (int)position.x + w / 2;
+            texture_left = (int)position.x - w / 2;
+            texture_top = (int)position.y - h / 2;
+            texture_bottom = (int)position.y + h / 2;
         }
 
         public virtual void render() {
@@ -43,10 +43,10 @@ namespace Fjord.Modules.Game
             SDL_QueryTexture(texture, out f, out a, out w, out h);
 
             SDL_Point origin;
-            origin.x = (int)texture_origin.X;
-            origin.y = (int)texture_origin.Y;
+            origin.x = (int)texture_origin.x;
+            origin.y = (int)texture_origin.y;
 
-            draw.texture_ext(game_manager.renderer, texture, (int)position.X, (int)position.Y, texture_angle, texture_xscale, texture_yscale, true, draw_origin.CENTER, texture_flip);
+            draw.texture_ext(game_manager.renderer, texture, (int)position.x, (int)position.y, texture_angle, texture_xscale, texture_yscale, true, draw_origin.CENTER, texture_flip);
         }
     }
 }

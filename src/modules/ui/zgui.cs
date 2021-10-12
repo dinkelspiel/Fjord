@@ -1,16 +1,16 @@
 using Fjord.Modules.Graphics;
 using Fjord.Modules.Input;
 using Fjord.Modules.Debug;
+using Fjord.Modules.Mathf;
 using static SDL2.SDL;
 using System;
-using System.Numerics;
 
 namespace Fjord.Modules.Ui
 {
     public static class zgui
     {
 
-        static Vector2 corrected_pos = new Vector2(0, 0);
+        static V2 corrected_pos = new V2(0, 0);
         static bool drag = false;
 
         public static void init() {
@@ -18,7 +18,7 @@ namespace Fjord.Modules.Ui
         }
 
         public static void window(SDL_Rect rect, SDL_Color bg, SDL_Color o1, SDL_Color o2, SDL_Color o3, string font, string title, bool show_label) {
-            SDL_RenderSetLogicalSize(game_manager.renderer, (int)game_manager.window_resolution.X, (int)game_manager.window_resolution.Y);
+            SDL_RenderSetLogicalSize(game_manager.renderer, (int)game_manager.window_resolution.x, (int)game_manager.window_resolution.y);
             
             SDL_Rect rect1;
             rect1.x = rect.x - 3;
@@ -65,7 +65,7 @@ namespace Fjord.Modules.Ui
                 
             }
 
-            SDL_RenderSetLogicalSize(game_manager.renderer, (int)game_manager.resolution.X, (int)game_manager.resolution.Y);
+            SDL_RenderSetLogicalSize(game_manager.renderer, (int)game_manager.resolution.x, (int)game_manager.resolution.y);
         }
 
         public static void slider(int x, int y, int width, ref float value, float min_value, float max_value) {
@@ -201,8 +201,8 @@ namespace Fjord.Modules.Ui
 
         public static void window_movement(ref int x, ref int y, ref int w, ref int h) {
             if(mouse.button_just_pressed(0)) {
-                corrected_pos.X = mouse.x - x;
-			    corrected_pos.Y = mouse.y - y;
+                corrected_pos.x = mouse.x - x;
+			    corrected_pos.y = mouse.y - y;
                 if(mouse.x > x && mouse.x < x + w) {
                     if(mouse.y > y && mouse.y < y + h) {
                         drag = true;
@@ -211,8 +211,8 @@ namespace Fjord.Modules.Ui
             }
             if(mouse.button_pressed(0)) {
                 if(drag) {
-                    x = mouse.x - (int)corrected_pos.X;
-                    y = mouse.y - (int)corrected_pos.Y;
+                    x = mouse.x - (int)corrected_pos.x;
+                    y = mouse.y - (int)corrected_pos.y;
                 }
             } else {
                 drag = false;

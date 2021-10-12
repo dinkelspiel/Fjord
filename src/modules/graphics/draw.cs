@@ -4,7 +4,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Fjord.Modules.Camera;
-using System.Numerics;
+using Fjord.Modules.Mathf;
 using System.Runtime.InteropServices;
 
 namespace Fjord.Modules.Graphics {
@@ -28,7 +28,7 @@ namespace Fjord.Modules.Graphics {
     }
 
     public static class draw {
-        public static Vector2 get_origin_value(int x, int y, int w, int h, double x_scale, double y_scale, draw_origin origin_) {
+        public static V2 get_origin_value(int x, int y, int w, int h, double x_scale, double y_scale, draw_origin origin_) {
             int x_, y_;
 
             switch(origin_) {
@@ -47,13 +47,13 @@ namespace Fjord.Modules.Graphics {
                     break;
             }
 
-            return new Vector2(x_, y_);
+            return new V2(x_, y_);
         }
 
         public static void rect(IntPtr renderer, SDL_Rect rect, byte r, byte g, byte b, byte a, bool fill, bool relative = false) {
             SDL_Color old_color;
-            rect.x -= (relative ? (int)camera.camera_position.X : 0);
-            rect.y -= (relative ? (int)camera.camera_position.Y : 0);
+            rect.x -= (relative ? (int)camera.camera_position.x : 0);
+            rect.y -= (relative ? (int)camera.camera_position.y : 0);
 
             SDL_GetRenderDrawColor(game_manager.renderer, out old_color.r, out old_color.g, out old_color.b, out old_color.a);
             SDL_SetRenderDrawColor(game_manager.renderer, r, g, b, a);
@@ -175,8 +175,8 @@ namespace Fjord.Modules.Graphics {
 
             // dest.x = x - size.x / 2 - (relative ? (int)camera.camera_position.X : 0);
             // dest.y = y - size.y / 2 - (relative ? (int)camera.camera_position.Y : 0);
-            dest.x = x - (relative ? (int)camera.camera_position.X : 0);
-            dest.y = y - (relative ? (int)camera.camera_position.Y : 0);
+            dest.x = x - (relative ? (int)camera.camera_position.x : 0);
+            dest.y = y - (relative ? (int)camera.camera_position.y : 0);
             dest.w = size.x;
             dest.h = size.y;
             
@@ -202,10 +202,10 @@ namespace Fjord.Modules.Graphics {
 
             SDL_Rect src = new SDL_Rect(0, 0, w, h);
 
-            Vector2 vec = draw.get_origin_value(x, y, w, h, x_scale, y_scale, origin_);
-            int x_ = (int)vec.X, y_ = (int)vec.Y;
+            V2 vec = draw.get_origin_value(x, y, w, h, x_scale, y_scale, origin_);
+            int x_ = (int)vec.x, y_ = (int)vec.y;
             
-            SDL_Rect dest = new SDL_Rect(x_ - (relative ? (int)camera.camera_position.X : 0), y_ - (relative ? (int)camera.camera_position.Y : 0), (int)(w * x_scale), (int)(h * y_scale));
+            SDL_Rect dest = new SDL_Rect(x_ - (relative ? (int)camera.camera_position.x : 0), y_ - (relative ? (int)camera.camera_position.y : 0), (int)(w * x_scale), (int)(h * y_scale));
 
             SDL_RendererFlip flip_sdl = SDL_RendererFlip.SDL_FLIP_NONE; 
             
@@ -223,7 +223,7 @@ namespace Fjord.Modules.Graphics {
         public static void texture_atlas(IntPtr renderer, IntPtr texture_atlas, int atlas_x, int atlas_y, int atlas_w, int atlas_h, int x, int y, double angle, int dest_w, int dest_h, SDL_Point origin_, bool relative=false, draw_origin Origin=draw_origin.TOP_LEFT, flip_type flip=flip_type.none) {
 
             SDL_Rect src_rect = new SDL_Rect(atlas_x, atlas_y, atlas_w, atlas_h);
-            SDL_Rect dest_rect = new SDL_Rect(x - (relative ? (int)camera.camera_position.X : 0), y - (relative ? (int)camera.camera_position.Y : 0), dest_w, dest_h);
+            SDL_Rect dest_rect = new SDL_Rect(x - (relative ? (int)camera.camera_position.x : 0), y - (relative ? (int)camera.camera_position.y : 0), dest_w, dest_h);
 
             SDL_RendererFlip flip_sdl = SDL_RendererFlip.SDL_FLIP_NONE; 
             
