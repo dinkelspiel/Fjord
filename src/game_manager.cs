@@ -43,16 +43,6 @@ namespace Fjord
         private static int[] fps_avg_arr = new int[120];
         private static int fps_avg_count = 0;
 
-        private static int[] input_avg_arr = new int[120];
-        private static int input_avg_count = 0;
-
-        private static int[] update_avg_arr = new int[120];
-        private static int update_avg_count = 0;
-
-        private static int[] render_avg_arr = new int[120];
-        private static int render_avg_count = 0;
-
-
         public static bool running() {
             return is_running;
         }
