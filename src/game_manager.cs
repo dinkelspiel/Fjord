@@ -12,6 +12,7 @@ using Fjord.Modules.Mathf;
 using Fjord.Game;
 using System.IO;
 using System.Reflection;
+using System.Text;
 
 namespace Fjord
 {
@@ -120,6 +121,20 @@ namespace Fjord
             for(var i = 0; i < input.pressed_keys.Length; i++) {
                 input.last_frame[i] = input.pressed_keys[i];
             }
+        }
+
+        public static void stopwitherror(Exception e) {
+            var time = DateTime.Now.ToString("dd/MMM-HH.mm.ss");
+            var file = "logs/" + time + "/error.txt";
+            byte[] bytes = Encoding.ASCII.GetBytes("hello");  
+
+            Directory.CreateDirectory("logs/" + time);
+            FileStream logfile = File.Open(file, FileMode.Create);
+            logfile.Write(bytes);
+
+            Debug.send("QUIT WITH ERROR!");
+            
+            game_manager.stop();
         }
 
         public static void stop() {

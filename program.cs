@@ -22,8 +22,21 @@ namespace Fjord
                 game_manager.delta_time = (double)((game_manager.frame_now - game_manager.frame_last)*10 / (double)SDL_GetPerformanceFrequency());
 
                 event_handler.handle_events();
-                game_manager.update();
-                game_manager.render();
+                try {
+                     game_manager.update();
+                } catch (Exception e) {
+                    game_manager.stopwitherror(e);
+
+                    throw;
+                }
+                    
+                try {
+                     game_manager.render();
+                } catch (Exception e) {
+                    game_manager.stopwitherror(e);
+
+                    throw;
+                }
             }
 
             game_manager.stop();
