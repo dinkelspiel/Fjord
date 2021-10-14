@@ -41,7 +41,7 @@ namespace Fjord.Modules.Debug {
                 string msg = String.Format(prefixstr + "[{0}]{1} {2}x {3} -> {4}", time, prefixstr, (last_message_streak + 1).ToString(), method, message);
                 Console.WriteLine(msg); 
 
-                game_manager.log.Add(msg);
+                game_manager.log[game_manager.log.Count - 1] = msg;
                 
                 last_message_streak += 1;
             }  
