@@ -1,4 +1,5 @@
 obj/
 bin/
+logs/
 resources/
 src/game/
