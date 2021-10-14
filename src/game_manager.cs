@@ -44,6 +44,8 @@ namespace Fjord
         private static int[] fps_avg_arr = new int[120];
         private static int fps_avg_count = 0;
 
+        public static List<string> log = new List<string>();
+
         public static bool running() {
             return is_running;
         }
@@ -123,18 +125,13 @@ namespace Fjord
             }
         }
 
-        public static void stopwitherror(Exception e) {
-            var time = DateTime.Now.ToString("dd/MMM-HH.mm.ss");
-            var file = "logs/" + time + "/error.txt";
-            byte[] bytes = Encoding.ASCII.GetBytes("hello");  
+        public static void stop(Exception e) {
 
-            Directory.CreateDirectory("logs/" + time);
-            FileStream logfile = File.Open(file, FileMode.Create);
-            logfile.Write(bytes);
+            Debug.error(e.Message + e.StackTrace.Split('\n')[0].Replace(" at ", " In ").Replace("  ", "").Replace("\n", ""));
 
-            Debug.send("QUIT WITH ERROR!");
-            
-            game_manager.stop();
+            log.Add(e.Message + "\n" + e.StackTrace.Replace("   ", ""));
+
+            stop();
         }
 
         public static void stop() {
@@ -146,7 +143,15 @@ namespace Fjord
             SDL_DestroyRenderer(renderer);
             SDL_Quit();
 
-            Debug.send("Game cleaned without errors");
+            Debug.send("Game cleaned");
+
+            var time = DateTime.Now.ToString("dd/MMM");
+            var file = "logs/" + time + "/" + DateTime.Now.ToString("HH.mm.ss") + ".txt";
+            byte[] bytes = Encoding.ASCII.GetBytes("hello");  
+
+            Directory.CreateDirectory("logs/" + time);
+            File.WriteAllLines(file, log);
+
             System.Environment.Exit(0);
         }
 

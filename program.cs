@@ -25,7 +25,7 @@ namespace Fjord
                 try {
                      game_manager.update();
                 } catch (Exception e) {
-                    game_manager.stopwitherror(e);
+                    game_manager.stop(e);
 
                     throw;
                 }
@@ -33,7 +33,7 @@ namespace Fjord
                 try {
                      game_manager.render();
                 } catch (Exception e) {
-                    game_manager.stopwitherror(e);
+                    game_manager.stop(e);
 
                     throw;
                 }
