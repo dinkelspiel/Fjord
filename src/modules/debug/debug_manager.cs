@@ -7,24 +7,59 @@ namespace Fjord.Modules.Debug {
         public static string last_message = "";
         public static int last_message_streak = 0;
 
-        public static void send(dynamic message) {
+        public static void send(dynamic message, string funcoverride=null, string prefix=null) {
             message = message.ToString();
             
             var st = new StackTrace();
             var sf = st.GetFrame(1);
 
-            string method = sf.GetMethod().Name;
+            string method;
+
+            if(funcoverride == null) 
+                method = sf.GetMethod().Name;
+            else
+                method = funcoverride;
+            
+            string prefixstr;
+            
+            if(prefix == null) 
+                prefixstr = "";
+            else
+                prefixstr = "[" + prefix + "]";
 
             string time = DateTime.Now.ToString("HH:mm:ss");
             if(message != last_message) {
-                Console.WriteLine("[{0}] {1} -> {2}", time, method, message);  
+                string msg = String.Format("[{0}]{1} {2} -> {3}", time, prefixstr, method, message);
+                Console.WriteLine(msg);
+
+                game_manager.log.Add(msg);  
+
                 last_message_streak = 0;
             } else {
-                last_message_streak += 1;
                 Console.SetCursorPosition(0, Console.CursorTop -1);
-                Console.WriteLine("[{0}] {1}x {2} -> {3}", time, (last_message_streak + 1).ToString(), method, message);  
+
+                string msg = String.Format(prefixstr + "[{0}]{1} {2}x {3} -> {4}", time, prefixstr, (last_message_streak + 1).ToString(), method, message);
+                Console.WriteLine(msg); 
+
+                game_manager.log.Add(msg);
+                
+                last_message_streak += 1;
             }  
             last_message = message;       
+        }
+
+        public static void error(dynamic message) {
+            var st = new StackTrace();
+            var sf = st.GetFrame(1);
+
+            send(message, sf.GetMethod().Name, "Error");
+        }
+
+        public static void warn(dynamic message) {
+            var st = new StackTrace();
+            var sf = st.GetFrame(1);
+
+            send(message, sf.GetMethod().Name, "Warn");
         }
     }
 }
