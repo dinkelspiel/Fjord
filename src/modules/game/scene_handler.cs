@@ -30,7 +30,8 @@ namespace Fjord.Modules.Game {
         }
 
         public static void stop() {
-            scenes[current_scene].on_unload();
+            if(current_scene != null)
+                scenes[current_scene].on_unload();
         }
 
         public static void update() {

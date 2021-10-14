@@ -118,7 +118,7 @@ namespace Fjord.Game {
 
                 var json_string = JsonConvert.SerializeObject(_export_output);
 
-                string full_path = game_manager.executable_path + "\\resources\\" + asset_pack + "\\data\\tilemaps\\" + export_file_string;
+                string full_path = game_manager.executable_path + "\\" + game_manager.get_resource_folder() + "\\" + asset_pack + "\\data\\tilemaps\\" + export_file_string;
                 System.IO.File.WriteAllText(full_path, json_string);
             }
 
@@ -138,7 +138,7 @@ namespace Fjord.Game {
                 load_tex_button = false;
                 load_tex = false;
 
-                var full_path = game_manager.executable_path + "\\resources\\MiniJam88\\data\\tilemaps\\" + load_texture_string;
+                var full_path = game_manager.executable_path + "\\" + game_manager.get_resource_folder() + "\\MiniJam88\\data\\tilemaps\\" + load_texture_string;
                 var file = System.IO.File.ReadAllText(full_path);
 
                 Tilemap = JsonConvert.DeserializeObject<tilemap>(file);

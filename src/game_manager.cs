@@ -16,7 +16,7 @@ using System.Text;
 
 namespace Fjord
 {
-    static class game_manager
+    public static class game_manager
     {
         public static bool is_running = false;
 
@@ -43,6 +43,8 @@ namespace Fjord
 
         private static int[] fps_avg_arr = new int[120];
         private static int fps_avg_count = 0;
+
+        private static string resources_folder = null;
 
         public static List<string> log = new List<string>();
 
@@ -91,11 +93,57 @@ namespace Fjord
             texture_handler.init();
             font_handler.init();
 
-            scene game_;
-            game_ = new game();
-            game_.on_load();
+            // scene game_;
+            // game_ = new game();
+            // game_.on_load();
 
             font_handler.load_font("default", "Sans", 42);
+        }
+
+        public static void set_resource_folder(string folder) {
+            resources_folder = folder;
+        }
+
+        public static string get_resource_folder() {
+            return resources_folder;
+        }
+
+        public static void run(scene start_scene) {
+
+            if(resources_folder == null) {
+                Debug.send("You must set the resource folder location before initializing the game!", "stop", "Error");
+                game_manager.stop();
+            }
+
+            game_manager.init("Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false, sys_args);
+            start_scene.on_load();
+
+            while(game_manager.running()) {
+                game_manager.frame_last = game_manager.frame_now;
+                game_manager.frame_now = SDL_GetPerformanceCounter();
+
+                game_manager.delta_time_ms = (double)((game_manager.frame_now - game_manager.frame_last)*1000 / (double)SDL_GetPerformanceFrequency());
+                game_manager.delta_time = (double)((game_manager.frame_now - game_manager.frame_last)*10 / (double)SDL_GetPerformanceFrequency());
+
+                event_handler.handle_events();
+                try {
+                     game_manager.update();
+                } catch (Exception e) {
+                    game_manager.stop(e);
+
+                    throw;
+                }
+                    
+                try {
+                     game_manager.render();
+                } catch (Exception e) {
+                    game_manager.stop(e);
+
+                    throw;
+                }
+            }
+
+            game_manager.stop();
         }
 
         public static void update() {
@@ -200,7 +248,7 @@ namespace Fjord
         }
 
         public static void load_icon() {
-            IntPtr icon = IMG_Load("resources/" + game_manager.asset_pack + "/assets/images/icon.png");
+            IntPtr icon = IMG_Load(game_manager.get_resource_folder() +"/" + game_manager.asset_pack + "/assets/images/icon.png");
             SDL_SetWindowIcon(game_manager.window, icon);
         }
     }

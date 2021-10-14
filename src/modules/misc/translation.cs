@@ -14,7 +14,7 @@ namespace Fjord.Modules.Misc {
 
             // Debug workaround for filepath
 
-            string file_path = game_manager.executable_path + "\\resources\\" + game_manager.asset_pack + "\\data\\lang\\" + language + ".lang";
+            string file_path = game_manager.executable_path + "\\" + game_manager.get_resource_folder() + "\\" + game_manager.asset_pack + "\\data\\lang\\" + language + ".lang";
             if(!File.Exists(file_path)) {
                 Debug.Debug.send("Couldn't find lang_file '" + language + "' in asset_pack '" + game_manager.asset_pack + "' aborting.");
                 return;
