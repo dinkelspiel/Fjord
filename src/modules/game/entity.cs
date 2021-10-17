@@ -10,6 +10,8 @@ namespace Fjord.Modules.Game
         public V2f position = new V2f(0, 0);
         
         public IntPtr texture = texture_handler.default_texture;
+        public V2 texture_size;
+
         public float texture_angle = 0;
         public V2 texture_origin = new V2(0, 0);
 
@@ -25,6 +27,10 @@ namespace Fjord.Modules.Game
         public bool visible = true;
 
         public virtual void update() {
+            uint format;
+            int access;
+            SDL_QueryTexture(texture, out format, out access, out texture_size.x, out texture_size.y);
+
             uint f;
             int a, w, h;
             SDL_QueryTexture(texture, out f, out a, out w, out h);
