@@ -115,8 +115,13 @@ namespace Fjord
                 game_manager.stop();
             }
 
-            game_manager.init("Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false, sys_args);
-            start_scene.on_load();
+            try {
+                game_manager.init("Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false, sys_args);
+                start_scene.on_load();
+            } catch (Exception e) {
+                Debug.send("Init error!");
+                game_manager.stop(e);
+            }
 
             while(game_manager.running()) {
                 game_manager.frame_last = game_manager.frame_now;
