@@ -7,13 +7,9 @@ namespace Fjord.Modules.Graphics {
         public static IntPtr default_texture;
 
         public static void init() {
-            string tmp = game_manager.asset_pack;
-            game_manager.set_asset_pack("general");
-            IntPtr tmp_surface = load_texture("error.png", game_manager.renderer);
+            IntPtr tmp_surface = IMG_Load(game_manager.get_resource_folder() + "/general/assets/images/error.png");
             default_texture = SDL_CreateTextureFromSurface(game_manager.renderer, tmp_surface);
             SDL_FreeSurface(tmp_surface);       
-
-            game_manager.set_asset_pack(tmp);
         }
 
         public static IntPtr load_texture(string file, IntPtr renderer) {
