@@ -1,5 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <PackageId>Fjord</PackageId>
+    <Version>1.0.2</Version>
+    <Authors>willmexe</Authors>
+    <Company>willmexe</Company>
+
     <OutputType>Library</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
