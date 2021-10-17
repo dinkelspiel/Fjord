@@ -248,6 +248,27 @@ namespace Fjord.Modules.Graphics {
             SDL_SetRenderDrawColor(game_manager.renderer, old_color.r, old_color.g, old_color.b, old_color.a);
         }
 
+        // TODO: Make this work ffs
+
+        public static void thick_line(IntPtr renderer, int x, int y, int x2, int y2, int width, byte r, byte g, byte b, byte a) {
+            SDL_Color old_color;
+            SDL_GetRenderDrawColor(game_manager.renderer, out old_color.r, out old_color.g, out old_color.b, out old_color.a);
+            SDL_SetRenderDrawColor(game_manager.renderer, r, g, b, a);
+
+            UInt32 rmask, gmask, bmask, amask;
+
+            rmask = 0xff000000;
+            gmask = 0x00ff0000;
+            bmask = 0x0000ff00;
+            amask = 0x000000ff;
+
+            IntPtr line = SDL_CreateRGBSurface(0, width, (int)Mathf.Mathf.get_hypot(new V2(x, y), new V2(x2, y2)), 32, rmask, gmask, bmask, amask);
+            IntPtr texture = SDL_CreateTextureFromSurface(game_manager.renderer, line);
+            draw.texture_ext(game_manager.renderer, texture, x, y, Mathf.Mathf.get_dir(new V2(x, y), new V2(x2, y2)), 1, 1, false);
+
+            SDL_SetRenderDrawColor(game_manager.renderer, old_color.r, old_color.g, old_color.b, old_color.a);            
+        }
+
         public static void text(IntPtr renderer, int x, int y, string font, int font_size, string text, byte r=255, byte g=255, byte b=255, byte a=255) {
             IntPtr texture; 
             font_handler.get_texture(renderer, text, font, out texture, 0, 0, r, g, b, a);
