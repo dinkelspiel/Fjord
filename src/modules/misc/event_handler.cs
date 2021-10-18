@@ -10,7 +10,7 @@ namespace Fjord.Modules.Misc {
             while (SDL_PollEvent(out SDL_Event events) != 0) {
                 switch(events.type) {
                 case SDL_EventType.SDL_QUIT:
-                    game_manager.is_running = false;
+                    game.is_running = false;
                     break;
                 case SDL_EventType.SDL_MOUSEMOTION:
                     SDL_GetMouseState(out mouse.x, out mouse.y);

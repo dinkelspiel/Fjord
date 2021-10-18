@@ -7,7 +7,7 @@ namespace Fjord.Modules.Camera {
 
         public static void set_viewport(float x, float y) {
             SDL_Rect rect;
-            SDL_RenderGetViewport(game_manager.renderer, out rect);
+            SDL_RenderGetViewport(game.renderer, out rect);
             camera_position.x = x - rect.w / 2;
             camera_position.y = y - rect.h / 2;
         }

@@ -9,14 +9,13 @@ using Fjord.Modules.Misc;
 using Fjord.Modules.Graphics;
 using Fjord.Modules.Game;
 using Fjord.Modules.Mathf;
-using Fjord.Game;
 using System.IO;
 using System.Reflection;
 using System.Text;
 
 namespace Fjord
 {
-    public static class game_manager
+    public static class game
     {
         public static bool is_running = false;
 
@@ -54,7 +53,7 @@ namespace Fjord
 
         public static void init(string title, int xpos, int ypos, int width, int height, bool fullscreen, string[] sys_args) {
 
-            game_manager.sys_args = sys_args;
+            game.sys_args = sys_args;
 
             window_resolution = new V2(width, height);
             resolution = new V2(width, height);
@@ -112,43 +111,43 @@ namespace Fjord
 
             if(resources_folder == null) {
                 Debug.send("You must set the resource folder location before initializing the game!", "stop", "Error");
-                game_manager.stop();
+                game.stop();
             }
 
             try {
-                game_manager.init("Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false, sys_args);
+                game.init("Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false, sys_args);
                 start_scene.on_load();
             } catch (Exception e) {
                 Debug.send("Init error!");
-                game_manager.stop(e);
+                game.stop(e);
             }
 
-            while(game_manager.running()) {
-                game_manager.frame_last = game_manager.frame_now;
-                game_manager.frame_now = SDL_GetPerformanceCounter();
+            while(game.running()) {
+                game.frame_last = game.frame_now;
+                game.frame_now = SDL_GetPerformanceCounter();
 
-                game_manager.delta_time_ms = (double)((game_manager.frame_now - game_manager.frame_last)*1000 / (double)SDL_GetPerformanceFrequency());
-                game_manager.delta_time = (double)((game_manager.frame_now - game_manager.frame_last)*10 / (double)SDL_GetPerformanceFrequency());
+                game.delta_time_ms = (double)((game.frame_now - game.frame_last)*1000 / (double)SDL_GetPerformanceFrequency());
+                game.delta_time = (double)((game.frame_now - game.frame_last)*10 / (double)SDL_GetPerformanceFrequency());
 
                 event_handler.handle_events();
                 try {
-                     game_manager.update();
+                     game.update();
                 } catch (Exception e) {
-                    game_manager.stop(e);
+                    game.stop(e);
 
                     throw;
                 }
                     
                 try {
-                     game_manager.render();
+                     game.render();
                 } catch (Exception e) {
-                    game_manager.stop(e);
+                    game.stop(e);
 
                     throw;
                 }
             }
 
-            game_manager.stop();
+            game.stop();
         }
 
         public static void update() {
@@ -220,8 +219,8 @@ namespace Fjord
         public static void tick_fps(int FPS) {
             double frame_delay = 1000 / FPS;
 
-            if (frame_delay > game_manager.delta_time_ms) {
-                SDL_Delay((uint)(frame_delay - game_manager.delta_time_ms));
+            if (frame_delay > game.delta_time_ms) {
+                SDL_Delay((uint)(frame_delay - game.delta_time_ms));
             }
         }
 
@@ -233,7 +232,7 @@ namespace Fjord
             SDL_RenderSetLogicalSize(renderer, width, height);
             resolution.x = width;
             resolution.y = height;
-            //SDL_RenderSetLogicalSize(game_manager.renderer, 300, 169);
+            //SDL_RenderSetLogicalSize(game.renderer, 300, 169);
         }
 
         public static void set_render_background(byte r, byte g, byte b, byte a) {
@@ -243,7 +242,7 @@ namespace Fjord
             color.b = b;
             color.a = a;
 
-            SDL_SetRenderDrawColor(game_manager.renderer, r, g, b, a);
+            SDL_SetRenderDrawColor(game.renderer, r, g, b, a);
 
             bg_color = color;
         }
@@ -253,8 +252,8 @@ namespace Fjord
         }
 
         public static void load_icon() {
-            IntPtr icon = IMG_Load(game_manager.get_resource_folder() +"/" + game_manager.asset_pack + "/assets/images/icon.png");
-            SDL_SetWindowIcon(game_manager.window, icon);
+            IntPtr icon = IMG_Load(game.get_resource_folder() +"/" + game.asset_pack + "/assets/images/icon.png");
+            SDL_SetWindowIcon(game.window, icon);
         }
     }
 }

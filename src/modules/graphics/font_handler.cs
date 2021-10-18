@@ -14,11 +14,11 @@ namespace Fjord.Modules.Graphics
         private static Dictionary<string, IntPtr> texts = new Dictionary<string, IntPtr>();
 
         public static void init() {
-            string ass = game_manager.asset_pack;
-            game_manager.set_asset_pack("general");
+            string ass = game.asset_pack;
+            game.set_asset_pack("general");
             font_handler.load_font("default", "FiraCode", 255);
             font_handler.load_font("default-bold", "FiraCode-Bold", 255);
-            game_manager.set_asset_pack(ass);
+            game.set_asset_pack(ass);
         }
 
         public static int get_font_size(string id) {
@@ -27,7 +27,7 @@ namespace Fjord.Modules.Graphics
 
         public static bool load_font(string id, string font, int font_size) {
             if(!fonts.ContainsKey(id)) {
-                fonts.Add(id, TTF_OpenFont(game_manager.executable_path + "\\" + game_manager.get_resource_folder() + "\\" + game_manager.asset_pack + "\\assets\\fonts\\" + font + ".ttf", font_size));
+                fonts.Add(id, TTF_OpenFont(game.executable_path + "\\" + game.get_resource_folder() + "\\" + game.asset_pack + "\\assets\\fonts\\" + font + ".ttf", font_size));
                 font_sizes.Add(id, font_size);
                 return true;
             }
