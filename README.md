@@ -4,7 +4,7 @@
 
 # Fjord
 
-<img src=https://img.shields.io/github/workflow/status/willmexe/Fjord/build/main>
+<img src="./icons/made-with-c#.svg">
 
 V2 of my <a href=https://github.com/willmexe/Game-Engine>old engine</a> now in C# from Python
  
