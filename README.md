@@ -4,7 +4,7 @@
 
 # Fjord
 
-<img src="./icons/made-with-c#.svg">
+<img src="./icons/made-with-c%23.svg">
 
 V2 of my <a href=https://github.com/willmexe/Game-Engine>old engine</a> now in C# from Python
  
