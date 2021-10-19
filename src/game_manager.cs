@@ -207,6 +207,10 @@ namespace Fjord
             System.Environment.Exit(0);
         }
 
+        public static int get_ticks() {
+            return (int)SDL_GetTicks();
+        }
+
         public static int get_fps() {
             return (int)Queryable.Average(fps_avg_arr.AsQueryable());
         }
