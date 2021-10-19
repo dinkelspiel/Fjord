@@ -5,6 +5,25 @@ using Fjord.Modules.Input;
 namespace Fjord.Modules.Mathf {
     public static class Mathf {
 
+        public static double Lerp(double firstFloat, double secondFloat, double by)
+        {
+            return firstFloat * (1 - by) + secondFloat * by;
+        }
+
+        public static V2f Lerp(V2f firstVector, V2f secondVector, double by)
+        {
+            double retX = (double)Lerp((double)firstVector.x, (double)secondVector.x, by);
+            double retY = (double)Lerp(firstVector.y, secondVector.y, by);
+            return new V2f((float)retX, (float)retY);
+        }
+
+        public static V2 Lerp(V2 firstVector, V2 secondVector, double by)
+        {
+            double retX = (double)Lerp((double)firstVector.x, (double)secondVector.x, by);
+            double retY = (double)Lerp(firstVector.y, secondVector.y, by);
+            return new V2((int)retX, (int)retY);
+        }
+
         public static double get_hypot(V2 origin, V2 target) {
             return Math.Sqrt(Math.Pow(target.x - origin.x, 2) + Math.Pow(target.y - origin.y, 2));
         }
