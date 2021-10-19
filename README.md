@@ -5,10 +5,10 @@
 # Fjord
 <a href="https://dotnet.microsoft.com/">
  <img src="./icons/made-with-c%23.svg">
-</a>
+</a> <br>
 
-V2 of my <a href=https://github.com/willmexe/Game-Engine>old engine</a> now in C# from Python
- 
+A code only game engine i'm writing in C# to make game development easier.
+
 ## Usage
 
 Help with the engine can be found at [the wiki](https://github.com/willmexe/Fjord/wiki).
