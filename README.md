@@ -9,6 +9,11 @@
 
 A code only game engine i'm writing in C# to make game development easier.
 
+## Tested Platforms
+
+- Windows 10, 11
+- Ubuntu
+
 ## Usage
 
 Help with the engine can be found at [the wiki](https://github.com/willmexe/Fjord/wiki).
