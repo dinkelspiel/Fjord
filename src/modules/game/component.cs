@@ -4,8 +4,9 @@ using static SDL2.SDL;
 
 namespace Fjord.Modules.Game {
     public abstract class component {
-        public entity parent;
+        public dynamic parent;
 
+        public virtual void on_load() {}
         public virtual void update() {}
         public virtual void render() {}
     }
@@ -47,10 +48,10 @@ namespace Fjord.Modules.Game {
             w = (int)(w * texture_xscale);
             h = (int)(h * texture_yscale);
 
-            texture_right = (int)parent.get_component(Transform).position.x + w / 2;
-            texture_left = (int)transform.x - w / 2;
-            texture_top = (int)transform.y - h / 2;
-            texture_bottom = (int)transform.y + h / 2;
+            texture_right = (int)parent.get_component<Transform>().position.x + w / 2;
+            texture_left = (int)parent.get_component<Transform>().position.x - w / 2;
+            texture_top = (int)parent.get_component<Transform>().position.y - h / 2;
+            texture_bottom = (int)parent.get_component<Transform>().position.y + h / 2;
         }
 
         public override void render()
@@ -64,7 +65,7 @@ namespace Fjord.Modules.Game {
             origin.y = (int)texture_origin.y;
 
             if(visible)
-                draw.texture_ext(game.renderer, texture, (int)transform.x, (int)transform.y, texture_angle, texture_xscale, texture_yscale, true, draw_origin.CENTER, texture_flip);
+                draw.texture_ext(game.renderer, texture, (int)parent.get_component<Transform>().position.x, (int)parent.get_component<Transform>().position.y, texture_angle, texture_xscale, texture_yscale, true, draw_origin.CENTER, texture_flip);
         }
     }
 }

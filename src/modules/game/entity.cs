@@ -10,26 +10,39 @@ namespace Fjord.Modules.Game
     {
         public Transform transform = new Transform();
 
-        public Dictionary<Type, component> components = new Dictionary<Type, component>();
+        public List<component> components = new List<component>();
 
-        public component get_component(Type Comp) {
-            return components[Comp];
+        public dynamic get_component<T>() {
+            for(var i = 0; i < components.Count; i++) {
+                if(components[i].GetType() == typeof(T)) {
+                    return components[i];
+                }
+            }
+
+            Debug.Debug.error("Component type: \"" + typeof(T).ToString() + "\" doesn't exist in components.");
+            return components[0];
         }
 
-        public void add_component(component Comp) {
-            components.Add(Comp.GetType(), Comp);
+        public void add_component(component Comp, dynamic parent) {
+            Comp.parent = parent;
+            Comp.on_load();
+            components.Add(Comp);
         }
 
         public void remove_component(component Comp) {
-            components.Remove(Comp.GetType());
+            components.Remove(Comp);
         }
 
         public virtual void update() {
-
+            foreach(dynamic i in components) {
+                i.update();
+            }
         }
 
         public virtual void render() {
-
+            foreach(dynamic i in components) {
+                i.render();
+            }
         }
     }
 }
