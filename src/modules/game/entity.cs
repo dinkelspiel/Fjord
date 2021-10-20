@@ -12,8 +12,8 @@ namespace Fjord.Modules.Game
 
         public Dictionary<Type, component> components = new Dictionary<Type, component>();
 
-        public component get_component(component Comp) {
-            return components[Comp.GetType()];
+        public component get_component(Type Comp) {
+            return components[Comp];
         }
 
         public void add_component(component Comp) {
