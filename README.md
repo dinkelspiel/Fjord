@@ -12,7 +12,7 @@ A code only game engine i'm writing in C# to make game development easier.
 ## Tested Platforms
 
 - Windows 10, 11
-- Ubuntu
+- Ubuntu 20.04
 
 ## Usage
 
