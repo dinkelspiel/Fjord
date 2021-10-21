@@ -14,7 +14,7 @@ namespace Fjord.Modules.Game {
     public class Transform : component
     {
         public V2f position = new V2f(0, 0);
-        public V2f scale = new V2f(0, 0);
+        public V2f scale = new V2f(1, 1);
         public float rotation = 0f;
     }
 
@@ -22,11 +22,8 @@ namespace Fjord.Modules.Game {
         public IntPtr texture = texture_handler.default_texture;
         public V2 texture_size;
 
-        public float texture_angle = 0;
         public V2 texture_origin = new V2(0, 0);
 
-        public float texture_xscale = 1;
-        public float texture_yscale = 1;
         public flip_type texture_flip = flip_type.none;
 
         public int texture_right;
@@ -45,8 +42,8 @@ namespace Fjord.Modules.Game {
             uint f;
             int a, w, h;
             SDL_QueryTexture(texture, out f, out a, out w, out h);
-            w = (int)(w * texture_xscale);
-            h = (int)(h * texture_yscale);
+            w = (int)(w * parent.get_component<Transform>().scale.x);
+            h = (int)(h * parent.get_component<Transform>().scale.y);
 
             texture_right = (int)parent.get_component<Transform>().position.x + w / 2;
             texture_left = (int)parent.get_component<Transform>().position.x - w / 2;
@@ -65,7 +62,7 @@ namespace Fjord.Modules.Game {
             origin.y = (int)texture_origin.y;
 
             if(visible)
-                draw.texture_ext(game.renderer, texture, (int)parent.get_component<Transform>().position.x, (int)parent.get_component<Transform>().position.y, texture_angle, texture_xscale, texture_yscale, true, draw_origin.CENTER, texture_flip);
+                draw.texture_ext(game.renderer, texture, (int)parent.get_component<Transform>().position.x, (int)parent.get_component<Transform>().position.y, parent.get_component<Transform>().rotation, parent.get_component<Transform>().scale.x, parent.get_component<Transform>().scale.y, true, draw_origin.CENTER, texture_flip);
         }
     }
 }
