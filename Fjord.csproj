@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <PackageId>Fjord</PackageId>
-    <Version>1.0.7a</Version>
+    <Version>1.0.7</Version>
     <Authors>willmexe</Authors>
     <Company>willmexe</Company>
 
