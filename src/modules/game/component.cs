@@ -13,7 +13,7 @@ namespace Fjord.Modules.Game {
 
     public class Transform : component
     {
-        public V2f position = new V2f(50, 50);
+        public V2f position = new V2f(0, 0);
         public V2f scale = new V2f(1, 1);
         public float rotation = 0f;
     }
