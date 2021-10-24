@@ -13,14 +13,14 @@ namespace Fjord.Modules.Game {
 
     public class Transform : component
     {
-        public V2f position = new V2f(0, 0);
+        public V2f position = new V2f(50, 50);
         public V2f scale = new V2f(1, 1);
         public float rotation = 0f;
     }
 
     public class Sprite_Renderer : component {
         public IntPtr texture = texture_handler.default_texture;
-        public V2 texture_size;
+        public V2 texture_size = new V2(0, 0);
 
         public V2 texture_origin = new V2(0, 0);
 
