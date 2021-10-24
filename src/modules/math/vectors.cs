@@ -1,5 +1,5 @@
 namespace Fjord.Modules.Mathf {
-    public struct V2 : IFormattable {
+    public class V2 : IFormattable {
         public int x;
         public int y;
 
@@ -44,7 +44,7 @@ namespace Fjord.Modules.Mathf {
         }
     }
     
-    public struct V2f : IFormattable {
+    public class V2f : IFormattable {
         public float x;
         public float y;
 
@@ -89,7 +89,7 @@ namespace Fjord.Modules.Mathf {
         }
     } 
 
-    public struct V3 : IFormattable {
+    public class V3 : IFormattable {
         public int x;
         public int y;
         public int z;
@@ -137,7 +137,7 @@ namespace Fjord.Modules.Mathf {
         }
     }
     
-    public struct V3f : IFormattable {
+    public class V3f : IFormattable {
         public float x;
         public float y;
         public float z;
@@ -185,7 +185,7 @@ namespace Fjord.Modules.Mathf {
         }
     }
     
-    public struct V4 : IFormattable {
+    public class V4 : IFormattable {
         public int x;
         public int y;
         public int z;
@@ -236,7 +236,7 @@ namespace Fjord.Modules.Mathf {
         }
     }
     
-    public struct V4f : IFormattable {
+    public class V4f : IFormattable {
         public float x;
         public float y;
         public float z;

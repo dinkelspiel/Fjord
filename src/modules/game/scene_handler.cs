@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using Fjord.Modules.Debug;
 
 namespace Fjord.Modules.Game {
-    public class scene {
-        public virtual void update() {}
-        public virtual void render() {}
+    public abstract class scene {
+        public abstract void update();
+        public abstract void render();
         public virtual void on_load() {}
         public virtual void on_unload() {}
     }

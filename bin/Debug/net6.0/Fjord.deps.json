@@ -6,7 +6,7 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v6.0": {
-      "Fjord/1.0.5": {
+      "Fjord/1.0.6": {
         "dependencies": {
           "Newtonsoft.Json": "13.0.1",
           "WebSocketServer": "1.0.8",
@@ -43,7 +43,7 @@
     }
   },
   "libraries": {
-    "Fjord/1.0.5": {
+    "Fjord/1.0.6": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

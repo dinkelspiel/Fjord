@@ -53,6 +53,7 @@ namespace Fjord.Modules.Debug {
             var sf = st.GetFrame(1);
 
             send(message, sf.GetMethod().Name, "Error");
+            game.stop();
         }
 
         public static void warn(dynamic message) {
