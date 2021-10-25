@@ -46,7 +46,7 @@ namespace Fjord.Game {
 
             game.set_asset_pack("MiniJam88");
             Tilemap.atlas_str = "atlas.png";
-            atlas = texture_handler.load_texture("atlas.png", game.renderer);
+            atlas = texture_handler.load_texture("atlas.png");
 
             game.set_asset_pack("general");
             font_handler.load_font("font", "FiraCode", 22);
@@ -56,7 +56,7 @@ namespace Fjord.Game {
             if(input.get_key_just_pressed(input.key_r)) {
                 if(input.get_key_pressed(input.key_lshift) && input.get_key_pressed(input.key_lctrl)) {
                     game.set_asset_pack("MiniJam88");
-                    atlas = texture_handler.load_texture("atlas.png", game.renderer);
+                    atlas = texture_handler.load_texture("atlas.png");
                 }
             }
 
@@ -217,11 +217,11 @@ namespace Fjord.Game {
                     rect.y = j * (int)(Tilemap.grid_h * zoom) + (grid_y);
                     rect.w = (int)(Tilemap.grid_w * zoom);
                     rect.h = (int)(Tilemap.grid_h * zoom);
-                    draw.rect(game.renderer, rect, 255, 255, 255, 255, false);
+                    draw.rect(rect, 255, 255, 255, 255, false);
 
-                    draw.texture_atlas(game.renderer, atlas, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].x * Tilemap.atlas_gridw, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].y * Tilemap.atlas_gridh, 8, 8, rect.x, rect.y, 0, rect.w, rect.h, new SDL_Point(0, 0), false, draw_origin.CENTER, flip_type.none);
+                    draw.texture_atlas(atlas, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].x * Tilemap.atlas_gridw, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].y * Tilemap.atlas_gridh, 8, 8, rect.x, rect.y, 0, rect.w, rect.h, new SDL_Point(0, 0), false, draw_origin.CENTER, flip_type.none);
                     if(Tilemap.collision_map[tilemap_funcs.create_pos(i, j)])
-                        draw.rect(game.renderer, rect, 255, 0, 0, 50, true, false);
+                        draw.rect(rect, 255, 0, 0, 50, true, false);
                 }
             }
 
@@ -232,16 +232,16 @@ namespace Fjord.Game {
             rect1.y = 0;
             rect1.w = 250;
             rect1.h = 1280;
-            draw.rect(game.renderer, rect1, 0, 0, 0, 200, true);
+            draw.rect(rect1, 0, 0, 0, 200, true);
 
             // Draws atlas
 
-            draw.texture_ext(game.renderer, atlas, 10, 10, 0, 230, 575, false);
+            draw.texture_ext(atlas, 10, 10, 0, 230, 575, false);
 
             if(Math.Round(mouse.x/ 58f) < 4 && Math.Round(mouse.y / 58f) < 10)
-                draw.rect(game.renderer, new SDL_Rect(10 + (int)(Math.Round((mouse.x- 29) / 58f) * 58f), 10 + (int)(Math.Round((mouse.y - 29) / 58f) * 58f), 58, 58), 0, 255, 0, 255, false);
+                draw.rect(new SDL_Rect(10 + (int)(Math.Round((mouse.x- 29) / 58f) * 58f), 10 + (int)(Math.Round((mouse.y - 29) / 58f) * 58f), 58, 58), 0, 255, 0, 255, false);
 
-            draw.rect(game.renderer, new SDL_Rect(10 + (int)selected_tile.x* 58, 10 + (int)selected_tile.y * 58, 58, 58), 119, 172, 241, 100, true);
+            draw.rect(new SDL_Rect(10 + (int)selected_tile.x* 58, 10 + (int)selected_tile.y * 58, 58, 58), 119, 172, 241, 100, true);
 
             // Draws ui
 
