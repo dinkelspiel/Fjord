@@ -131,7 +131,7 @@ namespace Fjord
 
                 event_handler.handle_events();
                 try {
-                     game.update();
+                    game.update();
                 } catch (Exception e) {
                     game.stop(e);
 
@@ -139,7 +139,7 @@ namespace Fjord
                 }
                     
                 try {
-                     game.render();
+                    game.render();
                 } catch (Exception e) {
                     game.stop(e);
 
