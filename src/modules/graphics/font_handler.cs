@@ -34,7 +34,7 @@ namespace Fjord.Modules.Graphics
             return false;
         }
 
-        public static void get_texture(IntPtr renderer, string text, string font_id, out IntPtr texture, int x = 0, int y = 0, byte r = 255, byte g = 255, byte b = 255, byte a = 255) {
+        public static void get_texture(string text, string font_id, out IntPtr texture, int x = 0, int y = 0, byte r = 255, byte g = 255, byte b = 255, byte a = 255) {
             var key_ = hash.HashString(text + font_id);
             if(!texts.ContainsKey(key_)) {
                 IntPtr surface;
@@ -46,7 +46,7 @@ namespace Fjord.Modules.Graphics
                 textColor.a = a;    
 
                 surface = TTF_RenderText_Solid(font, text, textColor);
-                var texture_ = SDL_CreateTextureFromSurface(renderer, surface);
+                var texture_ = SDL_CreateTextureFromSurface(game.renderer, surface);
                 SDL_FreeSurface(surface);
 
                 texts.Add(key_, texture_);

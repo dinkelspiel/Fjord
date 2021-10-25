@@ -62,7 +62,7 @@ namespace Fjord.Modules.Game {
             string ass = game.asset_pack;
             game.set_asset_pack(asset_pack);
 
-            atlas = texture_handler.load_texture(atlas_str, game.renderer);
+            atlas = texture_handler.load_texture(atlas_str);
             
             game.set_asset_pack(ass);
         }
@@ -112,7 +112,7 @@ namespace Fjord.Modules.Game {
 
                         // SDL.SDL_RenderCopyEx(game.renderer, atlas, ref src_rect, ref dest_rect, 0, ref point, SDL.SDL_RendererFlip.SDL_FLIP_NONE);
 
-                        draw.texture_atlas(game.renderer, atlas, (int)map[tilemap_funcs.create_pos(i, j)].x * 8, (int)map[tilemap_funcs.create_pos(i, j)].y * 8, 8, 8, (int)(position.x + (i * grid_w) * zoom),  (int)(position.y + (j * grid_h) * zoom), 0, (int)(grid_w * zoom), (int)(grid_h * zoom), new SDL_Point(0, 0), true);
+                        draw.texture_atlas(atlas, (int)map[tilemap_funcs.create_pos(i, j)].x * 8, (int)map[tilemap_funcs.create_pos(i, j)].y * 8, 8, 8, (int)(position.x + (i * grid_w) * zoom),  (int)(position.y + (j * grid_h) * zoom), 0, (int)(grid_w * zoom), (int)(grid_h * zoom), new SDL_Point(0, 0), true);
                         //draw.texture_ext(game.renderer, textures_intptr[map[i, j] - 1], (int)(position.x + (i * grid_w) * zoom), (int)(position.y + (j * grid_h) * zoom), 0, (int)(grid_w * zoom), (int)(grid_h * zoom), point, true);
                     }
                 }

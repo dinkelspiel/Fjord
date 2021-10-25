@@ -50,7 +50,7 @@ namespace Fjord.Modules.Graphics {
             return new V2(x_, y_);
         }
 
-        public static void rect(IntPtr renderer, SDL_Rect rect, byte r, byte g, byte b, byte a, bool fill, bool relative = false) {
+        public static void rect(SDL_Rect rect, byte r, byte g, byte b, byte a, bool fill, bool relative = false) {
             SDL_Color old_color;
             rect.x -= (relative ? (int)camera.camera_position.x : 0);
             rect.y -= (relative ? (int)camera.camera_position.y : 0);
@@ -67,7 +67,7 @@ namespace Fjord.Modules.Graphics {
             SDL_SetRenderDrawColor(game.renderer, old_color.r, old_color.g, old_color.b, old_color.a);
         }
 
-        public static void round_rect(IntPtr renderer, SDL_Rect rect, byte r, byte g, byte b, byte a, int border_radius, bool fill) {
+        public static void round_rect(SDL_Rect rect, byte r, byte g, byte b, byte a, int border_radius, bool fill) {
             SDL_Color old_color;
             SDL_GetRenderDrawColor(game.renderer, out old_color.r, out old_color.g, out old_color.b, out old_color.a);
             SDL_SetRenderDrawColor(game.renderer, r, g, b, a);
@@ -96,10 +96,10 @@ namespace Fjord.Modules.Graphics {
                 SDL_RenderFillRect(game.renderer, ref vertical1);
                 SDL_RenderFillRect(game.renderer, ref vertical2);
 
-                draw.quarter(game.renderer, rect.x + border_radius, rect.y + border_radius, border_radius, r, g, b, a, 1);
-                draw.quarter(game.renderer, rect.x + rect.w - border_radius - 1, rect.y + border_radius, border_radius, r, g, b, a, 2);
-                draw.quarter(game.renderer, rect.x + rect.w - border_radius - 1, rect.y + rect.h - border_radius - 1, border_radius, r, g, b, a, 3);
-                draw.quarter(game.renderer, rect.x + border_radius, rect.y + rect.h - border_radius - 1, border_radius, r, g, b, a, 4);
+                draw.quarter(rect.x + border_radius, rect.y + border_radius, border_radius, r, g, b, a, 1);
+                draw.quarter(rect.x + rect.w - border_radius - 1, rect.y + border_radius, border_radius, r, g, b, a, 2);
+                draw.quarter(rect.x + rect.w - border_radius - 1, rect.y + rect.h - border_radius - 1, border_radius, r, g, b, a, 3);
+                draw.quarter(rect.x + border_radius, rect.y + rect.h - border_radius - 1, border_radius, r, g, b, a, 4);
 
             } else {
                 SDL_RenderDrawRect(game.renderer, ref rect);
@@ -108,10 +108,10 @@ namespace Fjord.Modules.Graphics {
             SDL_SetRenderDrawColor(game.renderer, old_color.r, old_color.g, old_color.b, old_color.a);
         }
 
-        public static void circle(IntPtr renderer, int x, int y, int radius, byte r, byte g, byte b, byte a){
+        public static void circle(int x, int y, int radius, byte r, byte g, byte b, byte a){
             SDL_Color oldcolor;
             SDL_GetRenderDrawColor(game.renderer, out oldcolor.r, out oldcolor.g, out oldcolor.b, out oldcolor.a);
-            SDL_SetRenderDrawColor(renderer, r, g, b, a);
+            SDL_SetRenderDrawColor(game.renderer, r, g, b, a);
             for (int w = 0; w < radius * 2; w++)
             {
                 for (int h = 0; h < radius * 2; h++)
@@ -120,17 +120,17 @@ namespace Fjord.Modules.Graphics {
                     int dy = radius - h; // vertical offset
                     if ((dx*dx + dy*dy) <= (radius * radius))
                     {
-                        SDL_RenderDrawPoint(renderer, x + dx, y + dy);
+                        SDL_RenderDrawPoint(game.renderer, x + dx, y + dy);
                     }
                 }
             }
-            SDL_SetRenderDrawColor(renderer, oldcolor.r, oldcolor.g, oldcolor.b, oldcolor.a);
+            SDL_SetRenderDrawColor(game.renderer, oldcolor.r, oldcolor.g, oldcolor.b, oldcolor.a);
         }  
 
-        public static void quarter(IntPtr renderer, int x, int y, int radius, byte r, byte g, byte b, byte a, int side){
+        public static void quarter(int x, int y, int radius, byte r, byte g, byte b, byte a, int side){
             SDL_Color oldcolor;
             SDL_GetRenderDrawColor(game.renderer, out oldcolor.r, out oldcolor.g, out oldcolor.b, out oldcolor.a);
-            SDL_SetRenderDrawColor(renderer, r, g, b, a);
+            SDL_SetRenderDrawColor(game.renderer, r, g, b, a);
             for (int w = 0; w < radius * 2; w++)
             {
                 for (int h = 0; h < radius * 2; h++)
@@ -140,24 +140,24 @@ namespace Fjord.Modules.Graphics {
                     if ((dx*dx + dy*dy) <= (radius * radius))
                     {
                         if(w > radius && h > radius && side == 1) {
-                            SDL_RenderDrawPoint(renderer, x + dx, y + dy);
+                            SDL_RenderDrawPoint(game.renderer, x + dx, y + dy);
                         }
                         else if(w < radius && h > radius && side == 2) {
-                            SDL_RenderDrawPoint(renderer, x + dx, y + dy);
+                            SDL_RenderDrawPoint(game.renderer, x + dx, y + dy);
                         }
                         else if(w < radius && h < radius && side == 3) {
-                            SDL_RenderDrawPoint(renderer, x + dx, y + dy);
+                            SDL_RenderDrawPoint(game.renderer, x + dx, y + dy);
                         }
                         else if(w > radius && h < radius && side == 4) {
-                            SDL_RenderDrawPoint(renderer, x + dx, y + dy);
+                            SDL_RenderDrawPoint(game.renderer, x + dx, y + dy);
                         }
                     }
                 }
             }
-            SDL_SetRenderDrawColor(renderer, oldcolor.r, oldcolor.g, oldcolor.b, oldcolor.a);
+            SDL_SetRenderDrawColor(game.renderer, oldcolor.r, oldcolor.g, oldcolor.b, oldcolor.a);
         } 
     
-        public static void texture(IntPtr renderer, IntPtr texture, int x, int y, double angle, bool relative=false, draw_origin Origin=draw_origin.TOP_LEFT, flip_type flip=flip_type.none) {
+        public static void texture(IntPtr texture, int x, int y, double angle, bool relative=false, draw_origin Origin=draw_origin.TOP_LEFT, flip_type flip=flip_type.none) {
             SDL_Point size;
             uint format;
             int access;
@@ -190,10 +190,10 @@ namespace Fjord.Modules.Graphics {
                 flip_sdl = SDL_RendererFlip.SDL_FLIP_VERTICAL;
             }
 
-            SDL_RenderCopyEx(renderer, texture, ref src, ref dest, angle, ref center, flip_sdl);
+            SDL_RenderCopyEx(game.renderer, texture, ref src, ref dest, angle, ref center, flip_sdl);
         }
 
-        public static void texture_ext(IntPtr renderer, IntPtr texture, int x, int y, double angle, double x_scale, double y_scale, bool relative=false, draw_origin origin_=draw_origin.TOP_LEFT, flip_type flip=flip_type.none) {
+        public static void texture_ext(IntPtr texture, int x, int y, double angle, double x_scale, double y_scale, bool relative=false, draw_origin origin_=draw_origin.TOP_LEFT, flip_type flip=flip_type.none) {
             uint f;
             int a, w, h;
             SDL_Point origin = new SDL_Point(0, 0);
@@ -217,10 +217,10 @@ namespace Fjord.Modules.Graphics {
                 flip_sdl = SDL_RendererFlip.SDL_FLIP_VERTICAL;
             }
 
-            SDL_RenderCopyEx(renderer, texture, ref src, ref dest, 0, ref origin, flip_sdl);
+            SDL_RenderCopyEx(game.renderer, texture, ref src, ref dest, 0, ref origin, flip_sdl);
         }
 
-        public static void texture_atlas(IntPtr renderer, IntPtr texture_atlas, int atlas_x, int atlas_y, int atlas_w, int atlas_h, int x, int y, double angle, int dest_w, int dest_h, SDL_Point origin_, bool relative=false, draw_origin Origin=draw_origin.TOP_LEFT, flip_type flip=flip_type.none) {
+        public static void texture_atlas(IntPtr texture_atlas, int atlas_x, int atlas_y, int atlas_w, int atlas_h, int x, int y, double angle, int dest_w, int dest_h, SDL_Point origin_, bool relative=false, draw_origin Origin=draw_origin.TOP_LEFT, flip_type flip=flip_type.none) {
 
             SDL_Rect src_rect = new SDL_Rect(atlas_x, atlas_y, atlas_w, atlas_h);
             SDL_Rect dest_rect = new SDL_Rect(x - (relative ? (int)camera.camera_position.x : 0), y - (relative ? (int)camera.camera_position.y : 0), dest_w, dest_h);
@@ -235,10 +235,10 @@ namespace Fjord.Modules.Graphics {
                 flip_sdl = SDL_RendererFlip.SDL_FLIP_VERTICAL;
             }
 
-            SDL_RenderCopyEx(renderer, texture_atlas, ref src_rect, ref dest_rect, angle, ref origin_, flip_sdl);
+            SDL_RenderCopyEx(game.renderer, texture_atlas, ref src_rect, ref dest_rect, angle, ref origin_, flip_sdl);
         }
 
-        public static void line(IntPtr renderer, int x, int y, int x2, int y2, byte r, byte g, byte b, byte a) {
+        public static void line(int x, int y, int x2, int y2, byte r, byte g, byte b, byte a) {
             SDL_Color old_color;
             SDL_GetRenderDrawColor(game.renderer, out old_color.r, out old_color.g, out old_color.b, out old_color.a);
             SDL_SetRenderDrawColor(game.renderer, r, g, b, a);
@@ -250,7 +250,7 @@ namespace Fjord.Modules.Graphics {
 
         // TODO: Make this work ffs
 
-        public static void thick_line(IntPtr renderer, int x, int y, int x2, int y2, int width, byte r, byte g, byte b, byte a) {
+        public static void thick_line(int x, int y, int x2, int y2, int width, byte r, byte g, byte b, byte a) {
             SDL_Color old_color;
             SDL_GetRenderDrawColor(game.renderer, out old_color.r, out old_color.g, out old_color.b, out old_color.a);
             SDL_SetRenderDrawColor(game.renderer, r, g, b, a);
@@ -264,21 +264,21 @@ namespace Fjord.Modules.Graphics {
 
             IntPtr line = SDL_CreateRGBSurface(0, width, (int)Mathf.Mathf.get_hypot(new V2(x, y), new V2(x2, y2)), 32, rmask, gmask, bmask, amask);
             IntPtr texture = SDL_CreateTextureFromSurface(game.renderer, line);
-            draw.texture_ext(game.renderer, texture, x, y, Mathf.Mathf.get_dir(new V2(x, y), new V2(x2, y2)), 1, 1, false);
+            draw.texture_ext(texture, x, y, Mathf.Mathf.get_dir(new V2(x, y), new V2(x2, y2)), 1, 1, false);
 
             SDL_SetRenderDrawColor(game.renderer, old_color.r, old_color.g, old_color.b, old_color.a);            
         }
 
-        public static void text(IntPtr renderer, int x, int y, string font, int font_size, string text, byte r=255, byte g=255, byte b=255, byte a=255) {
+        public static void text(int x, int y, string font, int font_size, string text, byte r=255, byte g=255, byte b=255, byte a=255) {
             IntPtr texture; 
-            font_handler.get_texture(renderer, text, font, out texture, 0, 0, r, g, b, a);
+            font_handler.get_texture(text, font, out texture, 0, 0, r, g, b, a);
 
             SDL_Rect src;
             src.x = src.y = 0;
 
             double scale = (double)font_size / (double)font_handler.get_font_size(font);
 
-            draw.texture_ext(renderer, texture, x, y, 0, scale, scale);
+            draw.texture_ext(texture, x, y, 0, scale, scale);
         }
     }
 }

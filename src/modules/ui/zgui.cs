@@ -25,21 +25,21 @@ namespace Fjord.Modules.Ui
             rect1.y = rect.y - 3;
             rect1.w = rect.w + 6;
             rect1.h = rect.h + 6;
-            draw.rect(game.renderer, rect1, o3.r, o3.g, o3.b, o3.a, false);
+            draw.rect(rect1, o3.r, o3.g, o3.b, o3.a, false);
 
             rect1.x = rect.x - 2;
             rect1.y = rect.y - 2;
             rect1.w = rect.w + 4;
             rect1.h = rect.h + 4;
-            draw.rect(game.renderer, rect1, o2.r, o2.g, o2.b, o2.a, false);
+            draw.rect(rect1, o2.r, o2.g, o2.b, o2.a, false);
 
             rect1.x = rect.x - 1;
             rect1.y = rect.y - 1;
             rect1.w = rect.w + 2;
             rect1.h = rect.h + 2;
-            draw.rect(game.renderer, rect1, o1.r, o1.g, o1.b, o1.a, false);
+            draw.rect(rect1, o1.r, o1.g, o1.b, o1.a, false);
 
-            draw.rect(game.renderer, rect, bg.r, bg.g, bg.b, bg.a, true);
+            draw.rect(rect, bg.r, bg.g, bg.b, bg.a, true);
 
             if (show_label) {
                 // render::text(x + 13, y - 5, font, string, false, color::black());
@@ -47,16 +47,16 @@ namespace Fjord.Modules.Ui
                 IntPtr texture;
                 SDL_Rect dest;
 
-                font_handler.get_texture(game.renderer, title, font, out texture, 0, 0, 0, 0, 0, 255);
-                //draw.texture_ext(game.renderer, texture, rect.x + 13, rect.y - 5, 0);
+                font_handler.get_texture(title, font, out texture, 0, 0, 0, 0, 0, 255);
+                //draw.texture_ext(texture, rect.x + 13, rect.y - 5, 0);
                 dest.x = rect.x + 13;
                 dest.y = rect.y - 5;
                 dest.w = rect1.w;
                 dest.h = rect1.h;
                 SDL_RenderCopy(game.renderer, texture, ref rect1, ref dest);
 
-                font_handler.get_texture(game.renderer, title, font, out texture);
-                //draw.texture_ext(game.renderer, texture, rect.x + 11, rect.y - 7, 0);
+                font_handler.get_texture(title, font, out texture);
+                //draw.texture_ext(texture, rect.x + 11, rect.y - 7, 0);
                 dest.x = rect.x + 11;
                 dest.y = rect.y - 7;
                 dest.w = rect1.w;
@@ -81,9 +81,9 @@ namespace Fjord.Modules.Ui
             rect.w = width;
             rect.h = 6;
 
-            draw.rect(game.renderer, rect, 36, 36, 36, 255, true);
+            draw.rect(rect, 36, 36, 36, 255, true);
             rect.w = (int)(value * ((float)width / (float)max_value)); 
-            draw.rect(game.renderer, rect, 52, 134, 235, 255, true);
+            draw.rect(rect, 52, 134, 235, 255, true);
         }
 
         public static void check_box(int x, int y, ref bool value) {
@@ -99,9 +99,9 @@ namespace Fjord.Modules.Ui
             rect.h = h;
 
             if(value) {
-                draw.rect(game.renderer, rect, 52, 134, 235, 255, true);
+                draw.rect(rect, 52, 134, 235, 255, true);
             } else {
-                draw.rect(game.renderer, rect, 36, 36, 36, 255, true);
+                draw.rect(rect, 36, 36, 36, 255, true);
             }
         }
 
@@ -116,14 +116,14 @@ namespace Fjord.Modules.Ui
             rect.h = h;
 
             if(value) {
-                draw.rect(game.renderer, rect, 52, 134, 235, 255, true);
+                draw.rect(rect, 52, 134, 235, 255, true);
             } else {
-                draw.rect(game.renderer, rect, 36, 36, 36, 255, true);
+                draw.rect(rect, 36, 36, 36, 255, true);
             }
 
             IntPtr tex;
-            font_handler.get_texture(game.renderer, text, font, out tex);
-            draw.texture(game.renderer, tex, x + w / 2, y + h / 2, 0);
+            font_handler.get_texture(text, font, out tex);
+            draw.texture(tex, x + w / 2, y + h / 2, 0);
         }
 
         public static void input_box (int x, int y, int w, int h, string font, ref string value, string default_value, string input_state) {
@@ -160,9 +160,9 @@ namespace Fjord.Modules.Ui
             uint i;
             int j, wi, hi;
             if(value != "") {
-                font_handler.get_texture(game.renderer, value, font, out tex, 0, 0);
+                font_handler.get_texture(value, font, out tex, 0, 0);
             } else {
-                font_handler.get_texture(game.renderer, default_value, font, out tex, 0, 0);
+                font_handler.get_texture(default_value, font, out tex, 0, 0);
             }
             SDL_QueryTexture(tex, out i, out j, out wi, out hi);
 
@@ -173,12 +173,12 @@ namespace Fjord.Modules.Ui
             rect.h = h;
 
             if(input.input_state == input_state) {
-                draw.rect(game.renderer, rect, 52, 134, 235, 255, true);
+                draw.rect(rect, 52, 134, 235, 255, true);
             } else {
-                draw.rect(game.renderer, rect, 36, 36, 36, 255, true);
+                draw.rect(rect, 36, 36, 36, 255, true);
             }
 
-            draw.texture(game.renderer, tex, x + wi / 2 + 5, y + hi / 2 + 2, 0);
+            draw.texture(tex, x + wi / 2 + 5, y + hi / 2 + 2, 0);
         }
 
         public static void text_box (int x, int y, int w, int h, string font, ref string value) {
@@ -186,7 +186,7 @@ namespace Fjord.Modules.Ui
             uint i;
             int j, wi, hi;
             
-            font_handler.get_texture(game.renderer, value, font, out tex, 0, 0);
+            font_handler.get_texture(value, font, out tex, 0, 0);
             
             SDL_QueryTexture(tex, out i, out j, out wi, out hi);
 
@@ -196,7 +196,7 @@ namespace Fjord.Modules.Ui
             rect.w = wi < w ? w : wi + 10;
             rect.h = h;
 
-            draw.texture(game.renderer, tex, x + wi / 2 + 5, y + hi / 2 + 2, 0);
+            draw.texture(tex, x + wi / 2 + 5, y + hi / 2 + 2, 0);
         }
 
         public static void window_movement(ref int x, ref int y, ref int w, ref int h) {
