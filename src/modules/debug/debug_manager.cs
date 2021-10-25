@@ -48,12 +48,14 @@ namespace Fjord.Modules.Debug {
             last_message = message;       
         }
 
-        public static void error(dynamic message) {
+        public static void error(dynamic message, bool stop=true) {
             var st = new StackTrace();
             var sf = st.GetFrame(1);
 
             send(message, sf.GetMethod().Name, "Error");
-            game.stop();
+            
+            if(stop)
+                game.stop();
         }
 
         public static void warn(dynamic message) {
