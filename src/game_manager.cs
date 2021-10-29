@@ -2,6 +2,7 @@ using System;
 using static SDL2.SDL;
 using static SDL2.SDL_image;
 using static SDL2.SDL_ttf;
+using static SDL2.SDL_mixer;
 using Fjord.Modules.Debug;
 using Fjord.Modules.Ui;
 using Fjord.Modules.Input;
@@ -75,6 +76,8 @@ namespace Fjord
                 renderer = SDL_CreateRenderer(window, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
                 SDL_SetRenderDrawBlendMode(renderer, SDL_BlendMode.SDL_BLENDMODE_BLEND);
                 
+                Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 );
+
                 Debug.send("Renderer created without errors");
 
                 is_running = true;
@@ -116,6 +119,7 @@ namespace Fjord
 
             try {
                 game.init("Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false, sys_args);
+
                 start_scene.on_load();
             } catch (Exception e) {
                 Debug.send("Init error!");
@@ -197,6 +201,8 @@ namespace Fjord
             SDL_DestroyWindow(window);
             SDL_DestroyRenderer(renderer);
             SDL_Quit();
+            IMG_Quit();
+            Mix_Quit();
 
             Debug.send("Game cleaned");
 
