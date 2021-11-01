@@ -100,7 +100,10 @@ namespace Fjord.Modules.Input {
             }
         }
 
-        public static int get_any_key_pressed() {
+        public static int get_any_key_pressed(string input_state_check=null) {
+            if(input_state_check != null)
+                return -1;
+
             for(var i = 0; i < pressed_keys.Length; i++) {
                 if(pressed_keys[i]) {
                     return i;
@@ -109,7 +112,10 @@ namespace Fjord.Modules.Input {
             return -1;
         }
 
-        public static int get_any_key_just_pressed() {
+        public static int get_any_key_just_pressed(string input_state_check=null) {
+            if(input_state_check != null)
+                return -1;
+
             for(var i = 0; i < pressed_keys.Length; i++) {
                 if(pressed_keys[i] && !last_frame[i]) {
                     return i;
