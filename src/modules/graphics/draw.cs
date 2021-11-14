@@ -8,18 +8,6 @@ using Fjord.Modules.Mathf;
 using System.Runtime.InteropServices;
 
 namespace Fjord.Modules.Graphics {
-    public enum draw_origin {
-        TOP_LEFT,
-        TOP_MIDDLE,
-        TOP_RIGHT,
-        BOTTOM_RIGHT,
-        BOTTOM_MIDDLE,
-        BOTTOM_LEFT,
-        MIDDLE_LEFT,
-        MIDDLE_RIGHT,
-        CENTER
-    }
-
     public enum flip_type {
         none = 0,
         horizontal = 1,
@@ -28,28 +16,6 @@ namespace Fjord.Modules.Graphics {
     }
 
     public static class draw {
-        public static V2 get_origin_value(int x, int y, int w, int h, double x_scale, double y_scale, draw_origin origin_) {
-            int x_, y_;
-
-            switch(origin_) {
-                case draw_origin.CENTER:
-                    x_ = x - (int)(w * x_scale) / 2;
-                    y_ = y - (int)(h * y_scale) / 2;
-                    break;
-                case draw_origin.TOP_LEFT:
-                    x_ = x;
-                    y_ = y;
-                    break;
-                
-                default:
-                    x_ = x;
-                    y_ = y;
-                    break;
-            }
-
-            return new V2(x_, y_);
-        }
-
         public static void rect(SDL_Rect rect, byte r, byte g, byte b, byte a, bool fill, bool relative = false) {
             SDL_Color old_color;
             rect.x -= (relative ? (int)camera.camera_position.x : 0);
@@ -157,7 +123,7 @@ namespace Fjord.Modules.Graphics {
             SDL_SetRenderDrawColor(game.renderer, oldcolor.r, oldcolor.g, oldcolor.b, oldcolor.a);
         } 
     
-        public static void texture(IntPtr texture, int x, int y, double angle, bool relative=false, draw_origin Origin=draw_origin.TOP_LEFT, flip_type flip=flip_type.none) {
+        public static void texture(IntPtr texture, int x, int y, double angle, byte alpha=255, bool relative=false, flip_type flip=flip_type.none) {
             SDL_Point size;
             uint format;
             int access;
@@ -190,10 +156,12 @@ namespace Fjord.Modules.Graphics {
                 flip_sdl = SDL_RendererFlip.SDL_FLIP_VERTICAL;
             }
 
+            SDL_SetTextureAlphaMod(texture, alpha);
+
             SDL_RenderCopyEx(game.renderer, texture, ref src, ref dest, angle, ref center, flip_sdl);
         }
 
-        public static void texture_ext(IntPtr texture, int x, int y, double angle, double x_scale, double y_scale, bool relative=false, draw_origin origin_=draw_origin.TOP_LEFT, flip_type flip=flip_type.none) {
+        public static void texture_ext(IntPtr texture, int x, int y, double angle, double x_scale, double y_scale, byte alpha=255, bool relative=false, flip_type flip=flip_type.none) {
             uint f;
             int a, w, h;
             SDL_Point origin = new SDL_Point(0, 0);
@@ -202,10 +170,7 @@ namespace Fjord.Modules.Graphics {
 
             SDL_Rect src = new SDL_Rect(0, 0, w, h);
 
-            V2 vec = draw.get_origin_value(x, y, w, h, x_scale, y_scale, origin_);
-            int x_ = (int)vec.x, y_ = (int)vec.y;
-            
-            SDL_Rect dest = new SDL_Rect(x_ - (relative ? (int)camera.camera_position.x : 0), y_ - (relative ? (int)camera.camera_position.y : 0), (int)(w * x_scale), (int)(h * y_scale));
+            SDL_Rect dest = new SDL_Rect(relative ? (int)camera.camera_position.x : 0, relative ? (int)camera.camera_position.y : 0, (int)(w * x_scale), (int)(h * y_scale));
 
             SDL_RendererFlip flip_sdl = SDL_RendererFlip.SDL_FLIP_NONE; 
             
@@ -217,10 +182,12 @@ namespace Fjord.Modules.Graphics {
                 flip_sdl = SDL_RendererFlip.SDL_FLIP_VERTICAL;
             }
 
+            SDL_SetTextureAlphaMod(texture, alpha);
+
             SDL_RenderCopyEx(game.renderer, texture, ref src, ref dest, 0, ref origin, flip_sdl);
         }
 
-        public static void texture_atlas(IntPtr texture_atlas, int atlas_x, int atlas_y, int atlas_w, int atlas_h, int x, int y, double angle, int dest_w, int dest_h, SDL_Point origin_, bool relative=false, draw_origin Origin=draw_origin.TOP_LEFT, flip_type flip=flip_type.none) {
+        public static void texture_atlas(IntPtr texture_atlas, int atlas_x, int atlas_y, int atlas_w, int atlas_h, int x, int y, double angle, int dest_w, int dest_h, SDL_Point origin_, bool relative=false, flip_type flip=flip_type.none) {
 
             SDL_Rect src_rect = new SDL_Rect(atlas_x, atlas_y, atlas_w, atlas_h);
             SDL_Rect dest_rect = new SDL_Rect(x - (relative ? (int)camera.camera_position.x : 0), y - (relative ? (int)camera.camera_position.y : 0), dest_w, dest_h);
@@ -246,27 +213,6 @@ namespace Fjord.Modules.Graphics {
             SDL_RenderDrawLine(game.renderer, x, y, x2, y2);
 
             SDL_SetRenderDrawColor(game.renderer, old_color.r, old_color.g, old_color.b, old_color.a);
-        }
-
-        // TODO: Make this work ffs
-
-        public static void thick_line(int x, int y, int x2, int y2, int width, byte r, byte g, byte b, byte a) {
-            SDL_Color old_color;
-            SDL_GetRenderDrawColor(game.renderer, out old_color.r, out old_color.g, out old_color.b, out old_color.a);
-            SDL_SetRenderDrawColor(game.renderer, r, g, b, a);
-
-            UInt32 rmask, gmask, bmask, amask;
-
-            rmask = 0xff000000;
-            gmask = 0x00ff0000;
-            bmask = 0x0000ff00;
-            amask = 0x000000ff;
-
-            IntPtr line = SDL_CreateRGBSurface(0, width, (int)Mathf.Mathf.get_hypot(new V2(x, y), new V2(x2, y2)), 32, rmask, gmask, bmask, amask);
-            IntPtr texture = SDL_CreateTextureFromSurface(game.renderer, line);
-            draw.texture_ext(texture, x, y, Mathf.Mathf.get_dir(new V2(x, y), new V2(x2, y2)), 1, 1, false);
-
-            SDL_SetRenderDrawColor(game.renderer, old_color.r, old_color.g, old_color.b, old_color.a);            
         }
 
         public static void text(int x, int y, string font, int font_size, string text, byte r=255, byte g=255, byte b=255, byte a=255) {

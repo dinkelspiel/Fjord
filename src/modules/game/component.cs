@@ -63,7 +63,7 @@ namespace Fjord.Modules.Game {
             origin.y = (int)texture_origin.y;
 
             if(visible)
-                draw.texture_ext(texture, (int)parent.get_component<Transform>().position.x, (int)parent.get_component<Transform>().position.y, parent.get_component<Transform>().rotation, parent.get_component<Transform>().scale.x, parent.get_component<Transform>().scale.y, true, draw_origin.CENTER, texture_flip);
+                draw.texture_ext(texture, (int)parent.get_component<Transform>().position.x, (int)parent.get_component<Transform>().position.y, parent.get_component<Transform>().rotation, parent.get_component<Transform>().scale.x, parent.get_component<Transform>().scale.y, 255, true, texture_flip);
         }
     }
 }
