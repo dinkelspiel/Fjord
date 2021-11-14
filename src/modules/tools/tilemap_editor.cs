@@ -219,7 +219,7 @@ namespace Fjord.Game {
                     rect.h = (int)(Tilemap.grid_h * zoom);
                     draw.rect(rect, 255, 255, 255, 255, false);
 
-                    draw.texture_atlas(atlas, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].x * Tilemap.atlas_gridw, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].y * Tilemap.atlas_gridh, 8, 8, rect.x, rect.y, 0, rect.w, rect.h, new SDL_Point(0, 0), false, draw_origin.CENTER, flip_type.none);
+                    draw.texture_atlas(atlas, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].x * Tilemap.atlas_gridw, (int)Tilemap.map[tilemap_funcs.create_pos(i, j)].y * Tilemap.atlas_gridh, 8, 8, rect.x, rect.y, 0, rect.w, rect.h, new SDL_Point(0, 0), false, flip_type.none);
                     if(Tilemap.collision_map[tilemap_funcs.create_pos(i, j)])
                         draw.rect(rect, 255, 0, 0, 50, true, false);
                 }
@@ -236,7 +236,7 @@ namespace Fjord.Game {
 
             // Draws atlas
 
-            draw.texture_ext(atlas, 10, 10, 0, 230, 575, false);
+            draw.texture_ext(atlas, 10, 10, 0, 230, 575, 255, false);
 
             if(Math.Round(mouse.x/ 58f) < 4 && Math.Round(mouse.y / 58f) < 10)
                 draw.rect(new SDL_Rect(10 + (int)(Math.Round((mouse.x- 29) / 58f) * 58f), 10 + (int)(Math.Round((mouse.y - 29) / 58f) * 58f), 58, 58), 0, 255, 0, 255, false);
