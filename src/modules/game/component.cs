@@ -1,6 +1,7 @@
 using Fjord.Modules.Mathf;
 using Fjord.Modules.Graphics;
 using static SDL2.SDL;
+using System;
 
 namespace Fjord.Modules.Game {
     public abstract class component {

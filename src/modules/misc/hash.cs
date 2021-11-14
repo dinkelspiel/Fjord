@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using System;
 
 public static class hash {
     public static string HashString(string text)

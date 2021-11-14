@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Fjord.Modules.Input {
     public static class input {
         public static bool[] pressed_keys = new bool[77];

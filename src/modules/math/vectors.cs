@@ -1,3 +1,5 @@
+using System;
+
 namespace Fjord.Modules.Mathf {
     public class V2 : IFormattable {
         public int x;
