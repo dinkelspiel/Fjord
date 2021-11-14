@@ -1,4 +1,5 @@
 using System.Numerics;
+using System;
 
 namespace Fjord.Modules.Noise {
     public static class Noise {

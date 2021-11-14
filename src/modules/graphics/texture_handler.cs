@@ -1,6 +1,7 @@
 using static SDL2.SDL;
 using static SDL2.SDL_image;
 using System;
+using System.IO;
 
 namespace Fjord.Modules.Graphics {
     public static class texture_handler {
