@@ -170,7 +170,7 @@ namespace Fjord.Modules.Graphics {
 
             SDL_Rect src = new SDL_Rect(0, 0, w, h);
 
-            SDL_Rect dest = new SDL_Rect(relative ? (int)camera.camera_position.x : 0, relative ? (int)camera.camera_position.y : 0, (int)(w * x_scale), (int)(h * y_scale));
+            SDL_Rect dest = new SDL_Rect(x - (relative ? (int)camera.camera_position.x : 0), y - (relative ? (int)camera.camera_position.y : 0), (int)(w * x_scale), (int)(h * y_scale));
 
             SDL_RendererFlip flip_sdl = SDL_RendererFlip.SDL_FLIP_NONE; 
             
