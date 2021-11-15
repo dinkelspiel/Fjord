@@ -69,7 +69,7 @@ namespace Fjord.Modules.Ui
             SDL_RenderSetLogicalSize(game.renderer, (int)game.resolution.x, (int)game.resolution.y);
         }
 
-        public static void slider(int x, int y, int width, ref float value, float min_value, float max_value) {
+        public static void slider(int x, int y, int width, int height, ref float value, float min_value, float max_value) {
             int ix = x + 100;
             int yi = y + 4;
 
@@ -80,15 +80,15 @@ namespace Fjord.Modules.Ui
             rect.x = ix;
             rect.y = yi;
             rect.w = width;
-            rect.h = 6;
+            rect.h = height;
 
             draw.rect(rect, 36, 36, 36, 255, true);
             rect.w = (int)(value * ((float)width / (float)max_value)); 
             draw.rect(rect, 52, 134, 235, 255, true);
         }
 
-        public static void check_box(int x, int y, ref bool value) {
-            int w = 10, h = 10;
+        public static void check_box(int x, int y, int width, int height, ref bool value) {
+            int w = width, h = height;
 
             if ((mouse.x > x) && (mouse.x < x + w) && (mouse.y > y) && (mouse.y < y + h) && mouse.button_just_pressed(0))
 		        value = !value;
