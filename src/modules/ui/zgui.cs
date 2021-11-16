@@ -1,10 +1,13 @@
-using Fjord.Modules.Graphics;
-using Fjord.Modules.Input;
-using Fjord.Modules.Debug;
-using Fjord.Modules.Mathf;
-using static SDL2.SDL;
 using System;
 using System.Linq;
+using Fjord;
+using Fjord.Modules.Debug;
+using Fjord.Modules.Game;
+using Fjord.Modules.Graphics;
+using Fjord.Modules.Input;
+using Fjord.Modules.Mathf;
+using Fjord.Modules.Sound;
+using static SDL2.SDL;
 
 namespace Fjord.Modules.Ui
 {
@@ -18,206 +21,205 @@ namespace Fjord.Modules.Ui
             font_handler.load_font("text", "Cozette", 12);
         }
 
-        public static void window(SDL_Rect rect, SDL_Color bg, SDL_Color o1, SDL_Color o2, SDL_Color o3, string font, string title, bool show_label) {
-            SDL_RenderSetLogicalSize(game.renderer, (int)game.window_resolution.x, (int)game.window_resolution.y);
+        private static string selected_input = "";
+
+        private static V4 on_color = new V4(192, 175, 250, 255);
+        private static V4 off_color = new V4(255, 255, 255, 255);
+        private static V4 text_color = new V4(0, 0, 0, 255);
+
+        public static void slider(SDL_Rect rect, ref int value, int max, V4 off, V4 on) {
+            if (helpers.mouse_inside(rect, 2) && (mouse.button_pressed(0))) {
+		        value = (int)((mouse.x - rect.x) / ((float)rect.w / max));
+            }
+
+            value = Math.Clamp(value, 1, max);
+
+            draw.rect(rect, (byte)off.x, (byte)off.y, (byte)off.z, (byte)off.w, true);
+            rect.w = (int)(value * ((float)rect.w / (float)max)); 
+            draw.rect(rect, (byte)on.x, (byte)on.y, (byte)on.z, (byte)on.w, true);
+        }
+
+        public static void slider(SDL_Rect rect, ref int value, int max) {
+            if (helpers.mouse_inside(rect, 2) && (mouse.button_pressed(0))) {
+		        value = (int)((mouse.x - rect.x) / ((float)rect.w / max));
+            }
+
+            value = Math.Clamp(value, 1, max);
+
+            draw.rect(rect, (byte)off_color.x, (byte)off_color.y, (byte)off_color.z, (byte)off_color.w, true);
+            rect.w = (int)(value * ((float)rect.w / (float)max)); 
+            draw.rect(rect, (byte)on_color.x, (byte)on_color.y, (byte)on_color.z, (byte)on_color.w, true);
+        }
+
+        public static void button(SDL_Rect rect, ref bool value, string font, string text, V4 off, V4 on, V4 text_color) {
+            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(0))) 
+                value = !value;
+
+            if(!value)
+                draw.rect(rect, (byte)off.x, (byte)off.y, (byte)off.z, (byte)off.w, true);
+            else 
+                draw.rect(rect, (byte)on.x, (byte)on.y, (byte)on.z, (byte)on.w, true);
+
+            draw.text(rect.x + 5, rect.y + 5, font, rect.h - 10, text, (byte)text_color.x, (byte)text_color.y, (byte)text_color.z, (byte)text_color.w);
+        }
+
+        public static void button(SDL_Rect rect, ref bool value, string font, string text) {
             
-            SDL_Rect rect1;
-            rect1.x = rect.x - 3;
-            rect1.y = rect.y - 3;
-            rect1.w = rect.w + 6;
-            rect1.h = rect.h + 6;
-            draw.rect(rect1, o3.r, o3.g, o3.b, o3.a, false);
+            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(0))) 
+                value = !value;
 
-            rect1.x = rect.x - 2;
-            rect1.y = rect.y - 2;
-            rect1.w = rect.w + 4;
-            rect1.h = rect.h + 4;
-            draw.rect(rect1, o2.r, o2.g, o2.b, o2.a, false);
+            if(!value)
+                draw.rect(rect, (byte)off_color.x, (byte)off_color.y, (byte)off_color.z, (byte)off_color.w, true);
+            else 
+                draw.rect(rect, (byte)on_color.x, (byte)on_color.y, (byte)on_color.z, (byte)on_color.w, true);
 
-            rect1.x = rect.x - 1;
-            rect1.y = rect.y - 1;
-            rect1.w = rect.w + 2;
-            rect1.h = rect.h + 2;
-            draw.rect(rect1, o1.r, o1.g, o1.b, o1.a, false);
+            draw.text(rect.x + 5, rect.y + 5, font, rect.h - 10, text, (byte)text_color.x, (byte)text_color.y, (byte)text_color.z, (byte)text_color.w);
+        }
 
-            draw.rect(rect, bg.r, bg.g, bg.b, bg.a, true);
+        public static void num_input_box(SDL_Rect rect, ref int value, string id, string font, V4 off, V4 on, V4 text_color) {
+            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(0))) 
+                selected_input = selected_input == id ? "" : id;
 
-            if (show_label) {
-                // render::text(x + 13, y - 5, font, string, false, color::black());
-                // render::text(x + 11, y - 7, font, string, false, color::white());
-                IntPtr texture;
-                SDL_Rect dest;
-
-                font_handler.get_texture(title, font, out texture, 0, 0, 0, 0, 0, 255);
-                //draw.texture_ext(texture, rect.x + 13, rect.y - 5, 0);
-                dest.x = rect.x + 13;
-                dest.y = rect.y - 5;
-                dest.w = rect1.w;
-                dest.h = rect1.h;
-                SDL_RenderCopy(game.renderer, texture, ref rect1, ref dest);
-
-                font_handler.get_texture(title, font, out texture);
-                //draw.texture_ext(texture, rect.x + 11, rect.y - 7, 0);
-                dest.x = rect.x + 11;
-                dest.y = rect.y - 7;
-                dest.w = rect1.w;
-                dest.h = rect1.h;
-                SDL_RenderCopy(game.renderer, texture, ref rect1, ref dest);
-                
+            if(selected_input == id) {
+                switch(input.get_any_key_just_pressed()) {
+                    case input.key_backspace:
+                        Int32.TryParse(value.ToString().Length > 0 ? value.ToString().Substring(0, value.ToString().Length - 1) : "0", out value);
+                        break;
+                    case input.key_0:
+                        Int32.TryParse(value.ToString() + "0", out value);
+                        break;
+                    case input.key_1:
+                        Int32.TryParse(value.ToString() + "1", out value);
+                        break;
+                    case input.key_2:
+                        Int32.TryParse(value.ToString() + "2", out value);
+                        break;
+                    case input.key_3:
+                        Int32.TryParse(value.ToString() + "3", out value);
+                        break;
+                    case input.key_4:
+                        Int32.TryParse(value.ToString() + "4", out value);
+                        break;
+                    case input.key_5:
+                        Int32.TryParse(value.ToString() + "5", out value);
+                        break;
+                    case input.key_6:
+                        Int32.TryParse(value.ToString() + "6", out value);
+                        break;
+                    case input.key_7:
+                        Int32.TryParse(value.ToString() + "7", out value);
+                        break;
+                    case input.key_8:
+                        Int32.TryParse(value.ToString() + "8", out value);
+                        break;
+                    case input.key_9:
+                        Int32.TryParse(value.ToString() + "9", out value);
+                        break;
+                }
             }
 
-            SDL_RenderSetLogicalSize(game.renderer, (int)game.resolution.x, (int)game.resolution.y);
+            if(selected_input != id)
+                draw.rect(rect, (byte)off.x, (byte)off.y, (byte)off.z, (byte)off.w, true);
+            else 
+                draw.rect(rect, (byte)on.x, (byte)on.y, (byte)on.z, (byte)on.w, true);
+
+            draw.text(rect.x + 5, rect.y + 5, font, rect.h - 10, value.ToString(), (byte)text_color.x, (byte)text_color.y, (byte)text_color.z, (byte)text_color.w);
         }
 
-        public static void slider(int x, int y, int width, int height, ref float value, float min_value, float max_value) {
-            int ix = x + 100;
-            int yi = y + 4;
+        public static void num_input_box(SDL_Rect rect, ref int value, string id, string font) {
+            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(0))) 
+                selected_input = selected_input == id ? "" : id;
 
-            if ((mouse.x > ix) && (mouse.x < ix + width) && (mouse.y > yi) && (mouse.y < yi + 6) && (mouse.button_pressed(0)))
-		        value = (mouse.x - ix) / ((float)width / (float)max_value);
-
-            SDL_Rect rect;
-            rect.x = ix;
-            rect.y = yi;
-            rect.w = width;
-            rect.h = height;
-
-            draw.rect(rect, 36, 36, 36, 255, true);
-            rect.w = (int)(value * ((float)width / (float)max_value)); 
-            draw.rect(rect, 52, 134, 235, 255, true);
-        }
-
-        public static void check_box(int x, int y, int width, int height, ref bool value) {
-            int w = width, h = height;
-
-            if ((mouse.x > x) && (mouse.x < x + w) && (mouse.y > y) && (mouse.y < y + h) && mouse.button_just_pressed(0))
-		        value = !value;
-
-            SDL_Rect rect;
-            rect.x = x;
-            rect.y = y;
-            rect.w = w;
-            rect.h = h;
-
-            if(value) {
-                draw.rect(rect, 52, 134, 235, 255, true);
-            } else {
-                draw.rect(rect, 36, 36, 36, 255, true);
-            }
-        }
-
-        public static void button(int x, int y, int w, int h, ref bool value, string font, string text) {
-            if ((mouse.x > x) && (mouse.x < x + w) && (mouse.y > y) && (mouse.y < y + h) && mouse.button_just_pressed(0))
-		        value = !value;
-
-            SDL_Rect rect;
-            rect.x = x;
-            rect.y = y;
-            rect.w = w;
-            rect.h = h;
-
-            if(value) {
-                draw.rect(rect, 52, 134, 235, 255, true);
-            } else {
-                draw.rect(rect, 36, 36, 36, 255, true);
+            if(selected_input == id) {
+                switch(input.get_any_key_just_pressed()) {
+                    case input.key_backspace:
+                        Int32.TryParse(value.ToString().Length > 0 ? value.ToString().Substring(0, value.ToString().Length - 1) : "0", out value);
+                        break;
+                    case input.key_0:
+                        Int32.TryParse(value.ToString() + "0", out value);
+                        break;
+                    case input.key_1:
+                        Int32.TryParse(value.ToString() + "1", out value);
+                        break;
+                    case input.key_2:
+                        Int32.TryParse(value.ToString() + "2", out value);
+                        break;
+                    case input.key_3:
+                        Int32.TryParse(value.ToString() + "3", out value);
+                        break;
+                    case input.key_4:
+                        Int32.TryParse(value.ToString() + "4", out value);
+                        break;
+                    case input.key_5:
+                        Int32.TryParse(value.ToString() + "5", out value);
+                        break;
+                    case input.key_6:
+                        Int32.TryParse(value.ToString() + "6", out value);
+                        break;
+                    case input.key_7:
+                        Int32.TryParse(value.ToString() + "7", out value);
+                        break;
+                    case input.key_8:
+                        Int32.TryParse(value.ToString() + "8", out value);
+                        break;
+                    case input.key_9:
+                        Int32.TryParse(value.ToString() + "9", out value);
+                        break;
+                }
             }
 
-            IntPtr tex;
-            font_handler.get_texture(text, font, out tex);
-            draw.texture(tex, x + w / 2, y + h / 2, 0);
+            if(selected_input != id)
+                draw.rect(rect, (byte)off_color.x, (byte)off_color.y, (byte)off_color.z, (byte)off_color.w, true);
+            else 
+                draw.rect(rect, (byte)on_color.x, (byte)on_color.y, (byte)on_color.z, (byte)on_color.w, true);
+
+            draw.text(rect.x + 5, rect.y + 5, font, rect.h - 10, value.ToString(), (byte)text_color.x, (byte)text_color.y, (byte)text_color.z, (byte)text_color.w);
         }
 
-        public static void input_box (int x, int y, int w, int h, string font, ref string value, string default_value, string input_state) {
+        public static void input_box (SDL_Rect rect, string font, ref string value, string input_state, string id, V4 off, V4 on, V4 text_color) {
             if(value == null) 
                 return;
 
-            if(input.input_state == input_state && input.get_any_key_just_pressed() > -1) { 
-                if(input.get_key(input.get_any_key_just_pressed()).Length == 1) {
-                    value += !input.get_key_pressed(input.key_lshift) ? input.get_key(input.get_any_key_just_pressed()) : input.get_key(input.get_any_key_just_pressed()).ToUpper();
-                } else if(input.get_key_just_pressed(input.key_backspace)) {
-                    if(!input.get_key_pressed(input.key_lctrl)) {
-                        if(value.Length > 0) {
-                            value = value.Substring(0, value.Length - 1);
-                        }
-                    } else {
-                        if(value.Length > 0) {
-                            var valarr = value.Split(" ");
-                            if(valarr.Any()) {
-                                valarr = valarr.SkipLast(1).ToArray();
+            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(0))) 
+                selected_input = selected_input == id ? "" : id;
+
+            if(input.get_any_key_just_pressed(input_state) > -1) { 
+                switch(input.get_any_key_just_pressed()) {
+                    case input.key_backspace:
+                        if(!input.get_key_pressed(input.key_lctrl))
+                            if(value.Length > 0)
+                                value = value.Substring(0, value.Length - 1);
+                        else {
+                            if(value.Length > 0) {
+                                var valarr = value.Split(" ");
+                                if(valarr.Any())
+                                    valarr = valarr.SkipLast(1).ToArray();
+                                value = String.Join(" ", valarr);
                             }
-                            value = String.Join(" ", valarr);
                         }
-                    }
-                } else if(input.get_key_just_pressed(input.key_space)) {
-                    value += " ";
-                } else if(input.get_key_just_pressed(input.key_backslash)) {
-                    value += "/";
-                } else if(input.get_key_just_pressed(input.key_period)) {
-                    value += ".";
+                        break;
+                    case input.key_space:
+                        value += " ";
+                        break;
+                    case input.key_backslash:
+                        value += "\\";
+                        break;
+                    case input.key_period:
+                        value += ".";
+                        break;
+                    default:
+                        if(input.get_key(input.get_any_key_just_pressed()).Length == 1)
+                            value += !input.get_key_pressed(input.key_lshift) ? input.get_key(input.get_any_key_just_pressed()) : input.get_key(input.get_any_key_just_pressed()).ToUpper();
+                        break;
                 }
             }
 
-            IntPtr tex;
-            uint i;
-            int j, wi, hi;
-            if(value != "") {
-                font_handler.get_texture(value, font, out tex, 0, 0);
-            } else {
-                font_handler.get_texture(default_value, font, out tex, 0, 0);
-            }
-            SDL_QueryTexture(tex, out i, out j, out wi, out hi);
+            if(selected_input != id)
+                draw.rect(rect, (byte)off.x, (byte)off.y, (byte)off.z, (byte)off.w, true);
+            else 
+                draw.rect(rect, (byte)on.x, (byte)on.y, (byte)on.z, (byte)on.w, true);
 
-            SDL_Rect rect;
-            rect.x = x;
-            rect.y = y;
-            rect.w = wi < w ? w : wi + 10;
-            rect.h = h;
-
-            if(input.input_state == input_state) {
-                draw.rect(rect, 52, 134, 235, 255, true);
-            } else {
-                draw.rect(rect, 36, 36, 36, 255, true);
-            }
-
-            draw.texture(tex, x + wi / 2 + 5, y + hi / 2 + 2, 0);
-        }
-
-        public static void text_box (int x, int y, int w, int h, string font, ref string value) {
-            IntPtr tex;
-            uint i;
-            int j, wi, hi;
-            
-            font_handler.get_texture(value, font, out tex, 0, 0);
-            
-            SDL_QueryTexture(tex, out i, out j, out wi, out hi);
-
-            SDL_Rect rect;
-            rect.x = x;
-            rect.y = y;
-            rect.w = wi < w ? w : wi + 10;
-            rect.h = h;
-
-            draw.texture(tex, x + wi / 2 + 5, y + hi / 2 + 2, 0);
-        }
-
-        public static void window_movement(ref int x, ref int y, ref int w, ref int h) {
-            if(mouse.button_just_pressed(0)) {
-                corrected_pos.x = mouse.x - x;
-			    corrected_pos.y = mouse.y - y;
-                if(mouse.x > x && mouse.x < x + w) {
-                    if(mouse.y > y && mouse.y < y + h) {
-                        drag = true;
-                    }
-                }
-            }
-            if(mouse.button_pressed(0)) {
-                if(drag) {
-                    x = mouse.x - (int)corrected_pos.x;
-                    y = mouse.y - (int)corrected_pos.y;
-                }
-            } else {
-                drag = false;
-            }
+            draw.text(rect.x + 5, rect.y + 5, font, rect.h - 10, value, (byte)text_color.x, (byte)text_color.y, (byte)text_color.z, (byte)text_color.w);
         }
     }
 }
