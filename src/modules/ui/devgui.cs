@@ -217,5 +217,51 @@ namespace Fjord.Modules.Ui
 
             draw.text(rect.x + 5, rect.y + 5, font, rect.h - 10, value != "" ? value : default_value, (byte)text_color.x, (byte)text_color.y, (byte)text_color.z, (byte)text_color.w);
         }
+
+        public static void input_box (SDL_Rect rect, string font, ref string value, string input_state, string id, string default_value) {
+            if(value == null) 
+                return;
+
+            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(0))) 
+                selected_input = selected_input == id ? "" : id;
+
+            if(input.get_any_key_just_pressed(input_state) > -1) { 
+                switch(input.get_any_key_just_pressed()) {
+                    case input.key_backspace:
+                        if(!input.get_key_pressed(input.key_lctrl))
+                            if(value.Length > 0)
+                                value = value.Substring(0, value.Length - 1);
+                        else {
+                            if(value.Length > 0) {
+                                var valarr = value.Split(" ");
+                                if(valarr.Any())
+                                    valarr = valarr.SkipLast(1).ToArray();
+                                value = String.Join(" ", valarr);
+                            }
+                        }
+                        break;
+                    case input.key_space:
+                        value += " ";
+                        break;
+                    case input.key_backslash:
+                        value += "\\";
+                        break;
+                    case input.key_period:
+                        value += ".";
+                        break;
+                    default:
+                        if(input.get_key(input.get_any_key_just_pressed()).Length == 1)
+                            value += !input.get_key_pressed(input.key_lshift) ? input.get_key(input.get_any_key_just_pressed()) : input.get_key(input.get_any_key_just_pressed()).ToUpper();
+                        break;
+                }
+            }
+
+            if(selected_input != id)
+                draw.rect(rect, (byte)off_color.x, (byte)off_color.y, (byte)off_color.z, (byte)off_color.w, true);
+            else 
+                draw.rect(rect, (byte)on_color.x, (byte)on_color.y, (byte)on_color.z, (byte)on_color.w, true);
+
+            draw.text(rect.x + 5, rect.y + 5, font, rect.h - 10, value != "" ? value : default_value, (byte)text_color.x, (byte)text_color.y, (byte)text_color.z, (byte)text_color.w);
+        }
     }
 }
