@@ -245,13 +245,13 @@ namespace Fjord.Game {
 
             // Draws ui
 
-            zgui.input_box(260, 10, 200, 30, "font", ref load_texture_string, "texture path", "load_texture");
-            zgui.button(260, 50, 80, 30, ref load_tex_button, "font", "Load");
+            devgui.input_box(new SDL_Rect(260, 10, 200, 30), "font", ref load_texture_string, "texture path", "load_texture", "load_texture");
+            devgui.button(new SDL_Rect(260, 50, 80, 30), ref load_tex_button, "font", "Load");
 
-            zgui.input_box(260, 100, 200, 30, "font", ref export_file_string, "export path", "export_tilemap");
-            zgui.button(260, 140, 100, 30, ref export_file_button, "font", "Export");
+            devgui.input_box(new SDL_Rect(260, 100, 200, 30), "font", ref export_file_string, "export path", "export_tilemap", "export_tilemap");
+            devgui.button(new SDL_Rect(260, 140, 100, 30), ref export_file_button, "font", "Export");
 
-            zgui.input_box(470, 10, 200, 30, "font", ref asset_pack, "", "set_asset_pack");
+            devgui.input_box(new SDL_Rect(470, 10, 200, 30), "font", ref asset_pack, "", "set_asset_pack", "set_asset_pack");
         }
     }
 }
