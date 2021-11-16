@@ -172,7 +172,7 @@ namespace Fjord.Modules.Ui
             draw.text(rect.x + 5, rect.y + 5, font, rect.h - 10, value.ToString(), (byte)text_color.x, (byte)text_color.y, (byte)text_color.z, (byte)text_color.w);
         }
 
-        public static void input_box (SDL_Rect rect, string font, ref string value, string input_state, string id, V4 off, V4 on, V4 text_color) {
+        public static void input_box (SDL_Rect rect, string font, ref string value, string input_state, string id, string default_value, V4 off, V4 on, V4 text_color) {
             if(value == null) 
                 return;
 
@@ -215,7 +215,7 @@ namespace Fjord.Modules.Ui
             else 
                 draw.rect(rect, (byte)on.x, (byte)on.y, (byte)on.z, (byte)on.w, true);
 
-            draw.text(rect.x + 5, rect.y + 5, font, rect.h - 10, value, (byte)text_color.x, (byte)text_color.y, (byte)text_color.z, (byte)text_color.w);
+            draw.text(rect.x + 5, rect.y + 5, font, rect.h - 10, value != "" ? value : default_value, (byte)text_color.x, (byte)text_color.y, (byte)text_color.z, (byte)text_color.w);
         }
     }
 }
