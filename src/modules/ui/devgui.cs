@@ -11,12 +11,8 @@ using static SDL2.SDL;
 
 namespace Fjord.Modules.Ui
 {
-    public static class zgui
+    public static class devgui
     {
-
-        static V2 corrected_pos = new V2(0, 0);
-        static bool drag = false;
-
         public static void init() {
             font_handler.load_font("text", "Cozette", 12);
         }
