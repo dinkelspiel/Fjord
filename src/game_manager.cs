@@ -93,7 +93,7 @@ namespace Fjord
 
             set_render_background(26, 26, 28, 255);
 
-            zgui.init();
+            devgui.init();
             texture_handler.init();
             font_handler.init();
 
