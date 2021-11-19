@@ -139,6 +139,7 @@ namespace Fjord
                 try {
                     game.update();
                 } catch (Exception e) {
+                    Debug.send("-- Update Error --");
                     game.stop(e);
 
                     throw;
@@ -147,6 +148,7 @@ namespace Fjord
                 try {
                     game.render();
                 } catch (Exception e) {
+                    Debug.send("-- Render Error --");
                     game.stop(e);
 
                     throw;
