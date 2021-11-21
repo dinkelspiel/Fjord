@@ -46,23 +46,26 @@ namespace Fjord.Modules.Graphics {
             this.sdl_texture = texture;
         }
 
-        public void set_texture(IntPtr tex) {
+        public texture set_texture(IntPtr tex) {
             sdl_texture = tex;
+            return this;
         }
 
         public IntPtr get_texture() {
             return sdl_texture;
         }
 
-        public void set_origin(V2 origin) {
+        public texture set_origin(V2 origin) {
             this.origin = origin;
+            return this;
         }
 
-        public void set_origin(int x, int y) {
+        public texture set_origin(int x, int y) {
             this.origin = new V2(x, y);
+            return this;
         }
 
-        public void set_origin(draw_origin set_origin) {
+        public texture set_origin(draw_origin set_origin) {
             V2 texture_size = get_size();
 
             switch(set_origin) {
@@ -94,42 +97,49 @@ namespace Fjord.Modules.Graphics {
                     this.origin = new V2(texture_size.x / 2, texture_size.y / 2);
                     break;  
             }
+
+            return this;
         } 
 
         public V2 get_origin() {
             return origin;
         }
 
-        public void set_scale(V2f scale) {
+        public texture set_scale(V2f scale) {
             this.scale = scale;
+            return this;
         }
 
-        public void set_scale(float w, float h) {
+        public texture set_scale(float w, float h) {
             this.scale = new V2f(w, h);
+            return this;
         }
 
         public V2f get_scale() {
             return scale;
         }
 
-        public void set_fliptype(flip_type flip) {
+        public texture set_fliptype(flip_type flip) {
             this.flip = flip;
+            return this;
         }
 
         public flip_type get_fliptype() {
             return flip;
         }
 
-        public void set_angle(double angle) {
+        public texture set_angle(double angle) {
             this.angle = angle;
+            return this;
         }
 
         public double get_angle() {
             return angle;
         }
 
-        public void set_alpha(int alpha) {
+        public texture set_alpha(int alpha) {
             this.alpha = alpha;
+            return this;
         }
 
         public int get_alpha() {
