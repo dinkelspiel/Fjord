@@ -9,5 +9,13 @@ namespace Fjord.Modules.Mathf {
             else
                 return false;
         }
+
+        public static SDL_Rect v4_to_sdl(V4 rect) {
+            return new SDL_Rect(rect.x, rect.y, rect.z, rect.w);
+        }
+
+        public static V4 sdl_to_v4(SDL_Rect rect) {
+            return new V4(rect.x, rect.y, rect.w, rect.h);
+        }
     }
 }
