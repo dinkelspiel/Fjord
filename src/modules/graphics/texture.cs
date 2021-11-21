@@ -27,6 +27,10 @@ namespace Fjord.Modules.Graphics {
             sdl_texture = texture_handler.default_texture;
         }
 
+        public texture(string path) {
+            set_texture(path);
+        }
+
         public void set_texture(string path) {
             IntPtr tmp_surface = IMG_Load(game.get_resource_folder() + "/" + game.asset_pack + "/assets/images/" + path);
             IntPtr texture = texture_handler.default_texture;
