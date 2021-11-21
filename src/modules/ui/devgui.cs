@@ -30,9 +30,9 @@ namespace Fjord.Modules.Ui
 
             value = Math.Clamp(value, 1, max);
 
-            draw.rect(rect, (byte)off.x, (byte)off.y, (byte)off.z, (byte)off.w, true);
+            draw.rect(helpers.sdl_to_v4(rect), off);
             rect.w = (int)(value * ((float)rect.w / (float)max)); 
-            draw.rect(rect, (byte)on.x, (byte)on.y, (byte)on.z, (byte)on.w, true);
+            draw.rect(helpers.sdl_to_v4(rect), on);
         }
 
         public static void slider(SDL_Rect rect, ref int value, int max) {
@@ -42,9 +42,9 @@ namespace Fjord.Modules.Ui
 
             value = Math.Clamp(value, 1, max);
 
-            draw.rect(rect, (byte)off_color.x, (byte)off_color.y, (byte)off_color.z, (byte)off_color.w, true);
+            draw.rect(helpers.sdl_to_v4(rect), off_color);
             rect.w = (int)(value * ((float)rect.w / (float)max)); 
-            draw.rect(rect, (byte)on_color.x, (byte)on_color.y, (byte)on_color.z, (byte)on_color.w, true);
+            draw.rect(helpers.sdl_to_v4(rect), on_color);
         }
 
         public static void button(SDL_Rect rect, ref bool value, string font, string text, V4 off, V4 on, V4 text_color) {
@@ -52,11 +52,11 @@ namespace Fjord.Modules.Ui
                 value = !value;
 
             if(!value)
-                draw.rect(rect, (byte)off.x, (byte)off.y, (byte)off.z, (byte)off.w, true);
+                draw.rect(helpers.sdl_to_v4(rect), off);
             else 
-                draw.rect(rect, (byte)on.x, (byte)on.y, (byte)on.z, (byte)on.w, true);
+                draw.rect(helpers.sdl_to_v4(rect), on);
 
-            draw.text(rect.x + 5, rect.y + 5, font, rect.h - 10, text, (byte)text_color.x, (byte)text_color.y, (byte)text_color.z, (byte)text_color.w);
+            draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.h - 10, text, text_color);
         }
 
         public static void button(SDL_Rect rect, ref bool value, string font, string text) {
@@ -65,11 +65,11 @@ namespace Fjord.Modules.Ui
                 value = !value;
 
             if(!value)
-                draw.rect(rect, (byte)off_color.x, (byte)off_color.y, (byte)off_color.z, (byte)off_color.w, true);
+                draw.rect(helpers.sdl_to_v4(rect), off_color);
             else 
-                draw.rect(rect, (byte)on_color.x, (byte)on_color.y, (byte)on_color.z, (byte)on_color.w, true);
+                draw.rect(helpers.sdl_to_v4(rect), on_color);
 
-            draw.text(rect.x + 5, rect.y + 5, font, rect.h - 10, text, (byte)text_color.x, (byte)text_color.y, (byte)text_color.z, (byte)text_color.w);
+            draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.h - 10, text, text_color);
         }
 
         public static void num_input_box(SDL_Rect rect, ref int value, string id, string font, V4 off, V4 on, V4 text_color) {
@@ -115,11 +115,11 @@ namespace Fjord.Modules.Ui
             }
 
             if(selected_input != id)
-                draw.rect(rect, (byte)off.x, (byte)off.y, (byte)off.z, (byte)off.w, true);
+                draw.rect(helpers.sdl_to_v4(rect), off);
             else 
-                draw.rect(rect, (byte)on.x, (byte)on.y, (byte)on.z, (byte)on.w, true);
+                draw.rect(helpers.sdl_to_v4(rect), on);
 
-            draw.text(rect.x + 5, rect.y + 5, font, rect.h - 10, value.ToString(), (byte)text_color.x, (byte)text_color.y, (byte)text_color.z, (byte)text_color.w);
+            draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.h - 10, value.ToString(), text_color);
         }
 
         public static void num_input_box(SDL_Rect rect, ref int value, string id, string font) {
@@ -165,11 +165,11 @@ namespace Fjord.Modules.Ui
             }
 
             if(selected_input != id)
-                draw.rect(rect, (byte)off_color.x, (byte)off_color.y, (byte)off_color.z, (byte)off_color.w, true);
+                draw.rect(helpers.sdl_to_v4(rect), off_color);
             else 
-                draw.rect(rect, (byte)on_color.x, (byte)on_color.y, (byte)on_color.z, (byte)on_color.w, true);
+                draw.rect(helpers.sdl_to_v4(rect), on_color);
 
-            draw.text(rect.x + 5, rect.y + 5, font, rect.h - 10, value.ToString(), (byte)text_color.x, (byte)text_color.y, (byte)text_color.z, (byte)text_color.w);
+            draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.h - 10, value.ToString(), text_color);
         }
 
         public static void input_box (SDL_Rect rect, string font, ref string value, string input_state, string id, string default_value, V4 off, V4 on, V4 text_color) {
@@ -211,11 +211,11 @@ namespace Fjord.Modules.Ui
             }
 
             if(selected_input != id)
-                draw.rect(rect, (byte)off.x, (byte)off.y, (byte)off.z, (byte)off.w, true);
+                draw.rect(helpers.sdl_to_v4(rect), off);
             else 
-                draw.rect(rect, (byte)on.x, (byte)on.y, (byte)on.z, (byte)on.w, true);
+                draw.rect(helpers.sdl_to_v4(rect), on);
 
-            draw.text(rect.x + 5, rect.y + 5, font, rect.h - 10, value != "" ? value : default_value, (byte)text_color.x, (byte)text_color.y, (byte)text_color.z, (byte)text_color.w);
+            draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.h - 10, value != "" ? value : default_value, text_color);
         }
 
         public static void input_box (SDL_Rect rect, string font, ref string value, string input_state, string id, string default_value) {
@@ -257,11 +257,11 @@ namespace Fjord.Modules.Ui
             }
 
             if(selected_input != id)
-                draw.rect(rect, (byte)off_color.x, (byte)off_color.y, (byte)off_color.z, (byte)off_color.w, true);
+                draw.rect(helpers.sdl_to_v4(rect), off_color);
             else 
-                draw.rect(rect, (byte)on_color.x, (byte)on_color.y, (byte)on_color.z, (byte)on_color.w, true);
+                draw.rect(helpers.sdl_to_v4(rect), on_color);
 
-            draw.text(rect.x + 5, rect.y + 5, font, rect.h - 10, value != "" ? value : default_value, (byte)text_color.x, (byte)text_color.y, (byte)text_color.z, (byte)text_color.w);
+            draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.h - 10, value != "" ? value : default_value, text_color);
         }
     }
 }
