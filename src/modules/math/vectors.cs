@@ -44,6 +44,10 @@ namespace Fjord.Modules.Mathf {
         public static bool operator !=(V2 c1, V2 c2) {
             return !(c1.x == c2.x && c1.y == c2.y);
         }
+
+        public static implicit operator V2(V2f input) {
+            return new V2((int)input.x, (int)input.y);
+        }
     }
     
     public class V2f : IFormattable {
@@ -88,6 +92,10 @@ namespace Fjord.Modules.Mathf {
 
         public static bool operator !=(V2f c1, V2f c2) {
             return !(c1.x == c2.x && c1.y == c2.y);
+        }
+
+        public static implicit operator V2f(V2 input) {
+            return new V2f(input.x, input.y);
         }
     } 
 
@@ -137,6 +145,10 @@ namespace Fjord.Modules.Mathf {
         public static bool operator !=(V3 c1, V3 c2) {
             return !(c1.x == c2.x && c1.y == c2.y && c1.z == c2.z);
         }
+
+        public static implicit operator V3(V3f input) {
+            return new V3((int)input.x, (int)input.y, (int)input.z);
+        }
     }
     
     public class V3f : IFormattable {
@@ -184,6 +196,10 @@ namespace Fjord.Modules.Mathf {
 
         public static bool operator !=(V3f c1, V3f c2) {
             return !(c1.x == c2.x && c1.y == c2.y && c1.z == c2.z);
+        }
+
+        public static implicit operator V3f(V3 input) {
+            return new V3f((int)input.x, (int)input.y, (int)input.z);
         }
     }
     
@@ -236,6 +252,10 @@ namespace Fjord.Modules.Mathf {
         public static bool operator !=(V4 c1, V4 c2) {
             return !(c1.x == c2.x && c1.y == c2.y && c1.z == c2.z && c1.w == c2.w);
         }
+
+        public static implicit operator V4(V4f input) {
+            return new V4((int)input.x, (int)input.y, (int)input.z, (int)input.w);
+        }
     }
     
     public class V4f : IFormattable {
@@ -286,6 +306,10 @@ namespace Fjord.Modules.Mathf {
 
         public static bool operator !=(V4f c1, V4f c2) {
             return !(c1.x == c2.x && c1.y == c2.y && c1.z == c2.z && c1.w == c2.w);
+        }
+
+        public static implicit operator V4f(V4 input) {
+            return new V4f((int)input.x, (int)input.y, (int)input.z, (int)input.w);
         }
     }
     
