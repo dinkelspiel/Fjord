@@ -30,8 +30,6 @@ namespace Fjord
 
         public static SDL_Color bg_color;
 
-        private static bool draw_debug = false;
-
         public static ulong frame_now = SDL_GetPerformanceCounter();
         public static ulong frame_last = 0;
 
@@ -172,9 +170,6 @@ namespace Fjord
 
             scene_handler.render();
 
-            if(draw_debug)
-                debug_gui.draw_fps();
-
             SDL_RenderPresent(renderer);
 
             mouse.llmb = mouse.lmb;
@@ -187,12 +182,9 @@ namespace Fjord
 
         public static void stop(Exception e) {
 
-            Debug.error(e.Message + e.StackTrace.Split('\n')[0].Replace(" at ", " In ").Replace("  ", "").Replace("\n", ""), false);
+            Debug.send(e.Message + e.StackTrace.Split('\n')[0].Replace(" at ", " In ").Replace("  ", "").Replace("\n", ""));
 
-            log.Add(e.Message);
-            log.Add("Stacktrace: " + e.StackTrace.Replace("   ", ""));
-            log.Add("Source: " + e.Source);
-            log.Add("Targetsite: " + e.TargetSite);
+            Debug.send(e.Message);
 
             stop();
         }
@@ -239,10 +231,6 @@ namespace Fjord
             if (frame_delay > game.delta_time_ms) {
                 SDL_Delay((uint)(frame_delay - game.delta_time_ms));
             }
-        }
-
-        public static void draw_debug_gui() {
-            draw_debug = !draw_debug;
         }
 
         public static void set_render_resolution(IntPtr renderer, int width, int height) {
