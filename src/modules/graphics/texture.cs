@@ -98,6 +98,8 @@ namespace Fjord.Modules.Graphics {
                     break;  
             }
 
+            this.origin = new V2((int)(this.origin.x * this.scale.x), (int)(this.origin.y * this.scale.y));
+
             return this;
         } 
 
@@ -107,6 +109,7 @@ namespace Fjord.Modules.Graphics {
 
         public texture set_scale(V2f scale) {
             this.scale = scale;
+            this.origin = new V2((int)(origin.x * scale.x), (int)(origin.y * scale.y));
             return this;
         }
 
