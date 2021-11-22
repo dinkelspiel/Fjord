@@ -67,6 +67,7 @@ namespace Fjord.Modules.Graphics {
 
         public texture set_origin(draw_origin set_origin) {
             V2 texture_size = get_size();
+            texture_size = new V2((int)(texture_size.x * scale.x), (int)(texture_size.y * scale.y));
 
             switch(set_origin) {
                 case draw_origin.TOP_LEFT:
@@ -97,8 +98,6 @@ namespace Fjord.Modules.Graphics {
                     this.origin = new V2(texture_size.x / 2, texture_size.y / 2);
                     break;  
             }
-
-            this.origin = new V2((int)(this.origin.x * this.scale.x), (int)(this.origin.y * this.scale.y));
 
             return this;
         } 
