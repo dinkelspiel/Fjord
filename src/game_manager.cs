@@ -182,12 +182,9 @@ namespace Fjord
 
         public static void stop(Exception e) {
 
-            Debug.error(e.Message + e.StackTrace.Split('\n')[0].Replace(" at ", " In ").Replace("  ", "").Replace("\n", ""), false);
+            Debug.send(e.Message + e.StackTrace.Split('\n')[0].Replace(" at ", " In ").Replace("  ", "").Replace("\n", ""));
 
-            log.Add(e.Message);
-            log.Add("Stacktrace: " + e.StackTrace.Replace("   ", ""));
-            log.Add("Source: " + e.Source);
-            log.Add("Targetsite: " + e.TargetSite);
+            Debug.send(e.Message);
 
             stop();
         }
