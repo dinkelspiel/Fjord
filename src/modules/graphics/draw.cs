@@ -45,25 +45,62 @@ namespace Fjord.Modules.Graphics {
             SDL_SetRenderDrawColor(game.renderer, old_color.r, old_color.g, old_color.b, old_color.a);
         }
 
-        public static void circle(V2 position, int radius, V4 color) {
+        public static void circle(V2 position, int radius, V4 color, bool fill=true) {
+            if(fill) {
+                filled_circle(position, radius, color);
+            } else {
+                outlined_circle(position, radius, color);
+            }
+        }
+
+        private static void filled_circle(V2 position, int radius, V4 color) {
             int x = radius;
             int y = 0;
             int err = 0;
         
             while (x >= y)
             {
+                draw.line(new V2(position.x + x, position.y + y), new V2(position.x + x, position.y - y), color);
+                draw.line(new V2(position.x - x, position.y + y), new V2(position.x - x, position.y - y), color);
+                draw.line(new V2(position.x - y, position.y + x), new V2(position.x - y, position.y - x), color);
+                draw.line(new V2(position.x + y, position.y + x), new V2(position.x + y, position.y - x), color);
 
-                draw.line(new V2(position.x + x, position.y + y), new V2(position.x + y, position.y + x), color);
-                draw.line(new V2(position.x - y, position.y + x), new V2(position.x - x, position.y + y), color);
-                draw.line(new V2(position.x - x, position.y - y), new V2(position.x - y, position.y - x), color);
-                draw.line(new V2(position.x + y, position.y - x), new V2(position.x + x, position.y - y), color);
+                if (err <= 0)
+                {
+                    y += 1;
+                    err += 2*y + 1;
+                }
+                
+                if (err > 0)
+                {
+                    x -= 1;
+                    err -= 2*x + 1;
+                }
+            }
+        }
+
+        private static void outlined_circle(V2 position, int radius, V4 color) {
+            int x = radius;
+            int y = 0;
+            int err = 0;
+        
+            while (x >= y)
+            {
+                draw.rect(new V4(position.x + x, position.y + y, 1, 1), color);
+                draw.rect(new V4(position.x + y, position.y + x, 1, 1), color);
+                draw.rect(new V4(position.x - y, position.y + x, 1, 1), color);
+                draw.rect(new V4(position.x - x, position.y + y, 1, 1), color);
+                draw.rect(new V4(position.x - x, position.y - y, 1, 1), color);
+                draw.rect(new V4(position.x - y, position.y - x, 1, 1), color);
+                draw.rect(new V4(position.x + y, position.y - x, 1, 1), color);
+                draw.rect(new V4(position.x + x, position.y - y, 1, 1), color);
                 
                 if (err <= 0)
                 {
                     y += 1;
                     err += 2*y + 1;
                 }
-
+                
                 if (err > 0)
                 {
                     x -= 1;
@@ -73,13 +110,28 @@ namespace Fjord.Modules.Graphics {
         }
 
         public static void line(V2 position, V2 position_2, V4 color) {
-            SDL_Color old_color;
-            SDL_GetRenderDrawColor(game.renderer, out old_color.r, out old_color.g, out old_color.b, out old_color.a);
-            SDL_SetRenderDrawColor(game.renderer, (byte)color.x, (byte)color.y, (byte)color.z, (byte)color.w);
+            // calculate dx , dy
+            int dx = position_2.x - position.x;
+            int dy = position_2.y - position.y;
 
-            SDL_RenderDrawLine(game.renderer, position.x, position.y, position_2.x, position_2.y);
+            // Depending upon absolute value of dx & dy
+            // choose number of steps to put pixel as
+            // steps = abs(dx) > abs(dy) ? abs(dx) : abs(dy) 
+            int steps = Math.Abs(dx) > Math.Abs(dy) ? Math.Abs(dx) : Math.Abs(dy);
 
-            SDL_SetRenderDrawColor(game.renderer, old_color.r, old_color.g, old_color.b, old_color.a);
+            // calculate increment in x & y for each steps
+            float Xinc = dx / (float) steps;
+            float Yinc = dy / (float) steps;
+
+            // Put pixel for each step
+            float X = position.x;
+            float Y = position.y;
+            for (int i = 0; i <= steps; i++)
+            {
+                draw.rect( new V4((int)Math.Round((decimal)X), (int)Math.Round((decimal)Y), 1, 1) , color);
+                X += Xinc;
+                Y += Yinc;
+            }
         }
 
         public static void texture(V2 position, texture tex) {
