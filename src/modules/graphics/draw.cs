@@ -119,7 +119,7 @@ namespace Fjord.Modules.Graphics {
 
             // Draw
 
-            SDL_Point center = new SDL_Point(0, 0);
+            SDL_Point center = new SDL_Point(tex.get_origin().x, tex.get_origin().y);
             SDL_RenderCopyEx(game.renderer, final_texture, ref src, ref dest, tex.get_angle(), ref center, flip_sdl);    
         }
 
