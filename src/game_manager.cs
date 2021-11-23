@@ -118,7 +118,7 @@ namespace Fjord
             }
 
             try {
-                game.init("Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false, sys_args);
+                game.init("Fjord Project", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false, sys_args);
 
                 start_scene.on_load();
             } catch (Exception e) {
