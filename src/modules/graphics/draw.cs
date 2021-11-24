@@ -52,7 +52,8 @@ namespace Fjord.Modules.Graphics {
                 outlined_circle(position, radius, color);
             }
         }
-
+        
+        // Reference: https://stackoverflow.com/questions/1201200/fast-algorithm-for-drawing-filled-circles
         private static void filled_circle(V2 position, int radius, V4 color) {
             int x = radius;
             int y = 0;
@@ -79,6 +80,7 @@ namespace Fjord.Modules.Graphics {
             }
         }
 
+        // Reference: Circle drawing algorithm https://www.geeksforgeeks.org/bresenhams-circle-drawing-algorithm/ 
         private static void outlined_circle(V2 position, int radius, V4 color) {
             int x = radius;
             int y = 0;
@@ -109,6 +111,7 @@ namespace Fjord.Modules.Graphics {
             }
         }
 
+        // Reference: https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
         public static void line(V2 position, V2 position_2, V4 color) {
             // calculate dx , dy
             int dx = position_2.x - position.x;
