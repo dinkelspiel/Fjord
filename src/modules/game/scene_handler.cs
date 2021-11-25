@@ -23,6 +23,7 @@ namespace Fjord.Modules.Game {
                 scenes[current_scene].on_unload();
 
             current_scene = id;
+            scenes[current_scene].on_load();
 
             Debug.Debug.send("Loaded scene '" + id + "' successfully!");
 
