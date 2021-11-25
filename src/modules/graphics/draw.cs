@@ -28,8 +28,23 @@ namespace Fjord.Modules.Graphics {
         CENTER
     }
 
+    public enum draw_quarter {
+        TOP_LEFT,
+        TOP_RIGHT,
+        BOTTOM_LEFT,
+        BOTTOM_RIGHT
+    }
+
     public static class draw {
-        public static void rect(V4 rect, V4 color, bool fill=true) {
+        public static void rect(V4 rect, V4 color, bool fill=true, int border_radius=0) {
+            if(border_radius == 0) {
+                draw.rectangle(rect, color, fill);
+            } else {
+                draw.round_rectangle(rect, color, fill, border_radius);
+            }
+        }
+
+        private static void rectangle(V4 rect, V4 color, bool fill=true) {
             SDL_Color old_color;
             SDL_GetRenderDrawColor(game.renderer, out old_color.r, out old_color.g, out old_color.b, out old_color.a);
             SDL_SetRenderDrawColor(game.renderer, (byte)color.x, (byte)color.y, (byte)color.z, (byte)color.w);
@@ -43,6 +58,36 @@ namespace Fjord.Modules.Graphics {
             }
 
             SDL_SetRenderDrawColor(game.renderer, old_color.r, old_color.g, old_color.b, old_color.a);
+        }
+
+        private static void round_rectangle(V4 rect, V4 color, bool fill=true, int border_radius=0) {
+            SDL_Color old_color;
+            SDL_GetRenderDrawColor(game.renderer, out old_color.r, out old_color.g, out old_color.b, out old_color.a);
+            SDL_SetRenderDrawColor(game.renderer, (byte)color.x, (byte)color.y, (byte)color.z, (byte)color.w);
+
+            SDL_Rect main_rect = new SDL_Rect(rect.x, rect.y + border_radius, rect.z, rect.w - border_radius * 2);
+            SDL_Rect top_rect = new SDL_Rect(rect.x + border_radius, rect.y, rect.z - border_radius * 2, border_radius);
+            SDL_Rect bottom_rect = new SDL_Rect(rect.x + border_radius, rect.y + rect.z - border_radius, rect.z - border_radius * 2, border_radius);
+
+            if(fill) {
+                SDL_RenderFillRect(game.renderer, ref main_rect);
+                SDL_RenderFillRect(game.renderer, ref top_rect);
+                SDL_RenderFillRect(game.renderer, ref bottom_rect);
+                draw.quarter(new V2(rect.x + border_radius, rect.y + border_radius), border_radius, draw_quarter.TOP_LEFT, color, fill);
+                draw.quarter(new V2(rect.x + rect.z - border_radius, rect.y + border_radius), border_radius, draw_quarter.TOP_RIGHT, color, fill);
+                draw.quarter(new V2(rect.x + border_radius, rect.y + rect.w - border_radius), border_radius, draw_quarter.BOTTOM_LEFT, color, fill);
+                draw.quarter(new V2(rect.x + rect.z - border_radius, rect.y + rect.w - border_radius), border_radius, draw_quarter.BOTTOM_RIGHT, color, fill);
+            } else {
+                SDL_RenderDrawRect(game.renderer, ref main_rect);
+                SDL_RenderDrawRect(game.renderer, ref top_rect);
+                SDL_RenderDrawRect(game.renderer, ref bottom_rect);
+                draw.quarter(new V2(rect.x + border_radius, rect.y + border_radius), border_radius, draw_quarter.TOP_LEFT, color, fill);
+                draw.quarter(new V2(rect.x + rect.z - border_radius, rect.y + border_radius), border_radius, draw_quarter.TOP_RIGHT, color, fill);
+                draw.quarter(new V2(rect.x + border_radius, rect.y + rect.w - border_radius), border_radius, draw_quarter.BOTTOM_LEFT, color, fill);
+                draw.quarter(new V2(rect.x + rect.z - border_radius, rect.y + rect.w - border_radius), border_radius, draw_quarter.BOTTOM_RIGHT, color, fill);
+            }
+
+            SDL_SetRenderDrawColor(game.renderer, old_color.r, old_color.g, old_color.b, old_color.a);  
         }
 
         public static void circle(V2 position, int radius, V4 color, bool fill=true) {
@@ -96,6 +141,95 @@ namespace Fjord.Modules.Graphics {
                 draw.rect(new V4(position.x - y, position.y - x, 1, 1), color);
                 draw.rect(new V4(position.x + y, position.y - x, 1, 1), color);
                 draw.rect(new V4(position.x + x, position.y - y, 1, 1), color);
+                
+                if (err <= 0)
+                {
+                    y += 1;
+                    err += 2*y + 1;
+                }
+                
+                if (err > 0)
+                {
+                    x -= 1;
+                    err -= 2*x + 1;
+                }
+            }
+        }
+
+        public static void quarter(V2 position, int radius, draw_quarter quarter, V4 color, bool fill=true) {
+            if(fill) {
+                filled_quarter(position, radius, quarter, color);
+            } else {
+                outlined_quarter(position, radius, quarter, color);
+            }
+        }
+
+        private static void filled_quarter(V2 position, int radius, draw_quarter quarter, V4 color) {
+            int x = radius;
+            int y = 0;
+            int err = 0;
+        
+            while (x >= y)
+            {
+                switch(quarter) {
+                    case draw_quarter.TOP_LEFT:
+                        draw.line(new V2(position.x - x, position.y - y), new V2(position.x - x, position.y), color);
+                        draw.line(new V2(position.x - y, position.y - x), new V2(position.x - y, position.y), color);              
+                        break;
+                    case draw_quarter.TOP_RIGHT:
+                        draw.line(new V2(position.x + x, position.y - y), new V2(position.x + x, position.y), color);
+                        draw.line(new V2(position.x + y, position.y - x), new V2(position.x + y, position.y), color);   
+                        break;
+                    case draw_quarter.BOTTOM_LEFT:
+                        draw.line(new V2(position.x - x, position.y + y), new V2(position.x - x, position.y), color);
+                        draw.line(new V2(position.x - y, position.y + x), new V2(position.x - y, position.y), color);                 
+                        break;
+                    case draw_quarter.BOTTOM_RIGHT:
+                        draw.line(new V2(position.x + x, position.y + y), new V2(position.x + x, position.y), color);
+                        draw.line(new V2(position.x + y, position.y + x), new V2(position.x + y, position.y), color);            
+                        break;
+                }
+
+                if (err <= 0)
+                {
+                    y += 1;
+                    err += 2*y + 1;
+                }
+                
+                if (err > 0)
+                {
+                    x -= 1;
+                    err -= 2*x + 1;
+                }
+            }
+        }
+
+        // Reference: Circle drawing algorithm https://www.geeksforgeeks.org/bresenhams-circle-drawing-algorithm/ 
+        private static void outlined_quarter(V2 position, int radius, draw_quarter quarter, V4 color) {
+            int x = radius;
+            int y = 0;
+            int err = 0;
+        
+            while (x >= y)
+            {
+                switch(quarter) {
+                    case draw_quarter.TOP_LEFT:
+                        draw.rect(new V4(position.x - x, position.y - y, 1, 1), color);
+                        draw.rect(new V4(position.x - y, position.y - x, 1, 1), color);
+                        break;  
+                    case draw_quarter.TOP_RIGHT:
+                        draw.rect(new V4(position.x + y, position.y - x, 1, 1), color);
+                        draw.rect(new V4(position.x + x, position.y - y, 1, 1), color);
+                        break;
+                    case draw_quarter.BOTTOM_LEFT:
+                        draw.rect(new V4(position.x - y, position.y + x, 1, 1), color);
+                        draw.rect(new V4(position.x - x, position.y + y, 1, 1), color);
+                        break;
+                    case draw_quarter.BOTTOM_RIGHT:
+                        draw.rect(new V4(position.x + x, position.y + y, 1, 1), color);
+                        draw.rect(new V4(position.x + y, position.y + x, 1, 1), color);
+                        break;
+                }
                 
                 if (err <= 0)
                 {
