@@ -24,14 +24,16 @@ namespace Fjord.Modules.Game
             return components[0];
         }
 
-        public void add_component(component Comp, dynamic parent) {
+        public entity add_component(component Comp, dynamic parent) {
             Comp.parent = parent;
             Comp.on_load();
             components.Add(Comp);
+            return this;
         }
 
-        public void remove_component(component Comp) {
+        public entity remove_component(component Comp) {
             components.Remove(Comp);
+            return this;
         }
 
         public virtual void update() {
