@@ -30,6 +30,12 @@ namespace Fjord.Modules.Game
             components.Add(Comp);
         }
 
+        public void add_component(component Comp) {
+            Comp.parent = this;
+            Comp.on_load();
+            components.Add(Comp);
+        }
+
         public void remove_component(component Comp) {
             components.Remove(Comp);
         }
