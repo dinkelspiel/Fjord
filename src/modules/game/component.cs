@@ -22,7 +22,6 @@ namespace Fjord.Modules.Game {
     public class Sprite_Renderer : component {
         public texture sprite = new texture();
 
-        public int depth = 0;
         public bool visible = true;
 
         public override void update()

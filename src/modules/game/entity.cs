@@ -11,6 +11,8 @@ namespace Fjord.Modules.Game
     {
         public List<component> components = new List<component>();
 
+        public int depth = 0;
+
         public entity() {
             this.add_component(new Transform());
             this.add_component(new Sprite_Renderer());
