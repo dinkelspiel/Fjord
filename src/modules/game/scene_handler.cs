@@ -12,7 +12,7 @@ namespace Fjord.Modules.Game {
 
         public virtual void update() { foreach(entity e in entities) { e.update(); } }
         public virtual void render() { 
-            List<entity> sorted_entities = entities.OrderBy(e => e.get_component<Sprite_Renderer>().depth).ToList();
+            List<entity> sorted_entities = entities.OrderBy(e => e.depth).ToList();
             foreach(entity e in sorted_entities) { 
                 e.render(); 
             } 
