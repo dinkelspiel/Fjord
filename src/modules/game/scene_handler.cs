@@ -1,10 +1,22 @@
 using System.Collections.Generic;
+using System.Linq;
 using Fjord.Modules.Debug;
 
 namespace Fjord.Modules.Game {
     public abstract class scene {
-        public abstract void update();
-        public abstract void render();
+        List<entity> entities = new List<entity>();
+
+        public void add_entity(entity e) {
+            entities.Add(e);
+        }
+
+        public virtual void update() { foreach(entity e in entities) { e.update(); } }
+        public virtual void render() { 
+            List<entity> sorted_entities = entities.OrderBy(e => e.get_component<Sprite_Renderer>().depth).ToList();
+            foreach(entity e in sorted_entities) { 
+                e.render(); 
+            } 
+        }
         public virtual void on_load() {}
         public virtual void on_unload() {}
     }
