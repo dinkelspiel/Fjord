@@ -31,13 +31,6 @@ namespace Fjord.Modules.Game
             return this;
         }
 
-        public entity add_component(component Comp) {
-            Comp.parent = this;
-            Comp.on_load();
-            components.Add(Comp);
-            return this;
-        }
-
         public entity remove_component(component Comp) {
             components.Remove(Comp);
             return this;
