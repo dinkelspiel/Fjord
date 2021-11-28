@@ -9,9 +9,12 @@ namespace Fjord.Modules.Game
 {
     public class entity
     {
-        public Transform transform = new Transform();
-
         public List<component> components = new List<component>();
+
+        public entity() {
+            this.add_component(new Transform());
+            this.add_component(new Sprite_Renderer());
+        }
 
         public dynamic get_component<T>() {
             for(var i = 0; i < components.Count; i++) {
