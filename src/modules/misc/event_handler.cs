@@ -13,7 +13,8 @@ namespace Fjord.Modules.Misc {
                     game.is_running = false;
                     break;
                 case SDL_EventType.SDL_MOUSEMOTION:
-                    SDL_GetMouseState(out mouse.x, out mouse.y);
+                    SDL_GetMouseState(out mouse.position.x, out mouse.position.x);
+                    mouse.game_position = mouse.position * (game.window_resolution / game.resolution);
                     break;
                 #region mouse
                 case SDL_EventType.SDL_MOUSEBUTTONDOWN:
