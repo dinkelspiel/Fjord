@@ -2,6 +2,7 @@ using Fjord.Modules.Mathf;
 using Fjord.Modules.Graphics;
 using static SDL2.SDL;
 using System;
+using Fjord.Modules.Camera;
 
 namespace Fjord.Modules.Game {
     public abstract class component {
@@ -33,7 +34,7 @@ namespace Fjord.Modules.Game {
         public override void render()
         {
             if(visible)
-                draw.texture(parent.get_component<Transform>().position, sprite);
+                draw.texture(parent.get_component<Transform>().position - camera.camera_position, sprite);
         }
     }
 }
