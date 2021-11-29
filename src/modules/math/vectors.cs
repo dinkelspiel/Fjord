@@ -49,6 +49,7 @@ namespace Fjord.Modules.Mathf {
             return new V2((int)input.x, (int)input.y);
         }
 
+
         public static V2 operator +(V2 v1, V2 v2) {
             return new V2(v1.x + v2.x, v1.y + v2.y); 
         }
@@ -63,6 +64,23 @@ namespace Fjord.Modules.Mathf {
 
         public static V2 operator /(V2 v1, V2 v2) {
             return new V2(v1.x / v2.x, v1.y / v2.y); 
+        }
+
+
+        public static V2 operator +(V2 v1, int v2) {
+            return new V2(v1.x + v2, v1.y + v2); 
+        }
+
+        public static V2 operator -(V2 v1, int v2) {
+            return new V2(v1.x - v2, v1.y - v2); 
+        }
+
+        public static V2 operator *(V2 v1, int v2) {
+            return new V2(v1.x * v2, v1.y * v2); 
+        }
+
+        public static V2 operator /(V2 v1, int v2) {
+            return new V2(v1.x / v2, v1.y / v2); 
         }
     }
     
@@ -128,6 +146,23 @@ namespace Fjord.Modules.Mathf {
 
         public static V2f operator /(V2f v1, V2f v2) {
             return new V2f(v1.x / v2.x, v1.y / v2.y); 
+        }
+
+    
+        public static V2f operator +(V2f v1, float v2) {
+            return new V2f(v1.x + v2, v1.y + v2); 
+        }
+
+        public static V2f operator -(V2f v1, float v2) {
+            return new V2f(v1.x - v2, v1.y - v2); 
+        }
+
+        public static V2f operator *(V2f v1, float v2) {
+            return new V2f(v1.x * v2, v1.y * v2); 
+        }
+
+        public static V2f operator /(V2f v1, float v2) {
+            return new V2f(v1.x / v2, v1.y / v2); 
         }
     } 
 
@@ -197,6 +232,23 @@ namespace Fjord.Modules.Mathf {
         public static V3 operator /(V3 v1, V3 v2) {
             return new V3(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z); 
         }
+
+
+        public static V3 operator +(V3 v1, int v2) {
+            return new V3(v1.x + v2, v1.y + v2, v1.z + v2); 
+        }
+
+        public static V3 operator -(V3 v1, int v2) {
+            return new V3(v1.x - v2, v1.y - v2, v1.z - v2); 
+        }
+
+        public static V3 operator *(V3 v1, int v2) {
+            return new V3(v1.x * v2, v1.y * v2, v1.z * v2); 
+        }
+
+        public static V3 operator /(V3 v1, int v2) {
+            return new V3(v1.x / v2, v1.y / v2, v1.z / v2); 
+        }
     }
     
     public class V3f : IFormattable {
@@ -264,6 +316,23 @@ namespace Fjord.Modules.Mathf {
 
         public static V3f operator /(V3f v1, V3f v2) {
             return new V3f(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z); 
+        }
+
+
+        public static V3f operator +(V3f v1, float v2) {
+            return new V3f(v1.x + v2, v1.y + v2, v1.z + v2); 
+        }
+
+        public static V3f operator -(V3f v1, float v2) {
+            return new V3f(v1.x - v2, v1.y - v2, v1.z - v2); 
+        }
+
+        public static V3f operator *(V3f v1, float v2) {
+            return new V3f(v1.x * v2, v1.y * v2, v1.z * v2); 
+        }
+
+        public static V3f operator /(V3f v1, float v2) {
+            return new V3f(v1.x / v2, v1.y / v2, v1.z / v2); 
         }
     }
     
@@ -336,6 +405,23 @@ namespace Fjord.Modules.Mathf {
         public static V4 operator /(V4 v1, V4 v2) {
             return new V4(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z, v1.w / v2.w); 
         }
+
+
+        public static V4 operator +(V4 v1, int v2) {
+            return new V4(v1.x + v2, v1.y + v2, v1.z + v2, v1.w + v2); 
+        }
+
+        public static V4 operator -(V4 v1, int v2) {
+            return new V4(v1.x - v2, v1.y - v2, v1.z - v2, v1.w - v2); 
+        }
+
+        public static V4 operator *(V4 v1, int v2) {
+            return new V4(v1.x * v2, v1.y * v2, v1.z * v2, v1.w * v2); 
+        }
+
+        public static V4 operator /(V4 v1, int v2) {
+            return new V4(v1.x / v2, v1.y / v2, v1.z / v2, v1.w / v2); 
+        }
     }
     
     public class V4f : IFormattable {
@@ -406,6 +492,23 @@ namespace Fjord.Modules.Mathf {
 
         public static V4f operator /(V4f v1, V4f v2) {
             return new V4f(v1.x / v2.x, v1.y / v2.y, v1.z / v2.z, v1.w / v2.w); 
+        }
+
+
+        public static V4f operator +(V4f v1, float v2) {
+            return new V4f(v1.x + v2, v1.y + v2, v1.z + v2, v1.w + v2); 
+        }
+
+        public static V4f operator -(V4f v1, float v2) {
+            return new V4f(v1.x - v2, v1.y - v2, v1.z - v2, v1.w - v2); 
+        }
+
+        public static V4f operator *(V4f v1, float v2) {
+            return new V4f(v1.x * v2, v1.y * v2, v1.z * v2, v1.w * v2); 
+        }
+
+        public static V4f operator /(V4f v1, float v2) {
+            return new V4f(v1.x / v2, v1.y / v2, v1.z / v2, v1.w / v2); 
         }
     }
     
