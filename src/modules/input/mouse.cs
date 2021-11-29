@@ -1,26 +1,35 @@
+using Fjord.Modules.Mathf;
+
 namespace Fjord.Modules.Input {
+    public enum mb {
+        left,
+        right
+    }
+
     public static class mouse {
-        public static int x, y;
+        public static V2 position = new V2(0, 0);
+        public static V2 game_position = new V2(0, 0);
+        
         public static bool lmb, rmb;
         public static bool llmb, lrmb;
         
         public static bool wheel_up, wheel_down;
 
-        public static bool button_pressed(int button) {
+        public static bool button_pressed(mb button) {
             switch(button) {
-                case 0:
+                case mb.left:
                     return lmb;
-                case 1:
+                case mb.right:
                     return rmb;
             }
             return false;
         }
 
-        public static bool button_just_pressed(int button) {
+        public static bool button_just_pressed(mb button) {
             switch(button) {
-                case 0:
+                case mb.left:
                     return lmb && !llmb;
-                case 1:
+                case mb.right:
                     return rmb && !lrmb;
             }
             return false;            

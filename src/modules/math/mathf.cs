@@ -50,13 +50,6 @@ namespace Fjord.Modules.Mathf {
             return (System.Math.PI / 180) * degrees;
         }
 
-        public static bool mouse_inside(int x, int y, int w, int h) {
-            if((mouse.x > x) && (mouse.x < x + w) && (mouse.y > y) && (mouse.y < y + h)) {
-                return true;
-            }
-            return false;
-        }
-
         public static int angle_difference(int angle1, int angle2) {
             var a = angle2 - angle1;
             a += (a>180) ? -360 : (a<-180) ? 360 : 0;
