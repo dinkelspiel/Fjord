@@ -30,6 +30,7 @@ namespace Fjord
 
         public static SDL_Color bg_color;
 
+        public static int MAX_FPS = 144;
         public static ulong frame_now = SDL_GetPerformanceCounter();
         public static ulong frame_last = 0;
 
@@ -151,6 +152,12 @@ namespace Fjord
 
                     throw;
                 }
+
+                double frame_delay = 1000 / MAX_FPS;
+
+                if (frame_delay > game.delta_time_ms) {
+                    SDL_Delay((uint)(frame_delay - game.delta_time_ms));
+                }
             }
 
             game.stop();
@@ -221,15 +228,6 @@ namespace Fjord
 
         public static int get_fps_exact() {
             return (int)(1000 / delta_time_ms);
-        }
-
-        [Obsolete("\"tick_fps(int FPS)\" is deprecated. Use \"delta_time\" multiplied to your framerate dependant variables.")]
-        public static void tick_fps(int FPS) {
-            double frame_delay = 1000 / FPS;
-
-            if (frame_delay > game.delta_time_ms) {
-                SDL_Delay((uint)(frame_delay - game.delta_time_ms));
-            }
         }
 
         public static void set_render_resolution(IntPtr renderer, int width, int height) {
