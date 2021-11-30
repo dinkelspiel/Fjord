@@ -234,7 +234,6 @@ namespace Fjord
             SDL_RenderSetLogicalSize(renderer, width, height);
             resolution.x = width;
             resolution.y = height;
-            //SDL_RenderSetLogicalSize(game.renderer, 300, 169);
         }
 
         public static void set_render_background(byte r, byte g, byte b, byte a) {
