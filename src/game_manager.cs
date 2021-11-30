@@ -252,6 +252,10 @@ namespace Fjord
             asset_pack = asset_pack_set;
         }
 
+        public static void set_title(string title) {
+            SDL_SetWindowTitle(window, title);
+        }
+
         public static void load_icon() {
             IntPtr icon = IMG_Load(game.get_resource_folder() +"/" + game.asset_pack + "/assets/images/icon.png");
             SDL_SetWindowIcon(game.window, icon);
