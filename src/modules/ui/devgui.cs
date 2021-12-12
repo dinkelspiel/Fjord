@@ -14,7 +14,7 @@ namespace Fjord.Modules.Ui
     public static class devgui
     {
         public static void init() {
-            font_handler.load_font("text", "Cozette", 12);
+
         }
 
         private static string selected_input = "";
