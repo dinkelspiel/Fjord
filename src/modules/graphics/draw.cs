@@ -1,8 +1,10 @@
 using static SDL2.SDL;
 using static SDL2.SDL_image;
+using static SDL2.SDL_ttf;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Fjord.Modules.Camera;
 using Fjord.Modules.Mathf;
 using System.Runtime.InteropServices;
@@ -36,6 +38,9 @@ namespace Fjord.Modules.Graphics {
     }
 
     public static class draw {
+
+        private static Dictionary<string, IntPtr> fonts = new Dictionary<string, IntPtr>();
+
         public static void rect(V4 rect, V4 color, bool fill=true, int border_radius=0) {
             if(border_radius == 0) {
                 draw.rectangle(rect, color, fill);
@@ -312,30 +317,102 @@ namespace Fjord.Modules.Graphics {
             SDL_RenderCopyEx(game.renderer, final_texture, ref src, ref dest, tex.get_angle(), ref center, flip_sdl);    
         }
 
-        public static void text(V2 position, string font, int font_size, string text) {
-            IntPtr tex; 
-            font_handler.get_texture(text, font, out tex, 0, 0, 255, 255, 255, 255);
+        public static void text(V2 position, string font_id, int font_size, string text) {
+            IntPtr font;
+            
+            if(!fonts.ContainsKey(font_id)) {
+                string path = game.executable_path.Replace("\\", "/") + "/" + game.get_resource_folder() + "/" + game.asset_pack + "/assets/fonts/" + font_id + ".ttf";
+                font = TTF_OpenFont(path, 255);
+                fonts.Add(font_id, font);
+            } else {
+                font = fonts[font_id];
+            }
 
-            float scale = font_size / font_handler.get_font_size(font);
+            // this is the color in rgb format,
+            // maxing out all would give you the color white,
+            // and it will be your text's color
+            SDL_Color White = new SDL_Color(255, 255, 255, 255);
 
-            texture final_tex = new texture();
-            final_tex.set_texture(tex);
-            final_tex.set_scale(new V2f(scale, scale));
+            // as TTF_RenderText_Solid could only be used on
+            // SDL_Surface then you have to create the surface first
+            IntPtr surfaceMessage = TTF_RenderText_Solid(font, text, White); 
 
-            draw.texture(position, final_tex);
+            // now you can convert it into a texture
+            IntPtr Message = SDL_CreateTextureFromSurface(game.renderer, surfaceMessage);
+
+            SDL_Rect Message_rect; //create a rect
+            Message_rect.x = position.x;  //controls the rect's x coordinate 
+            Message_rect.y = position.y; // controls the rect's y coordinte
+
+            uint f; int a;
+            SDL_Rect src = new SDL_Rect();
+            src.x = 0;
+            src.y = 0;
+
+            SDL_QueryTexture(Message, out f, out a, out src.w, out src.h);
+
+            float scale = 255 / font_size;
+            Message_rect.w = (int)(src.w / scale);
+            Message_rect.h = (int)(src.h / scale);
+
+            SDL_RenderCopy(game.renderer, Message, ref src, ref Message_rect);
+
+            // Don't forget to free your surface and texture
+            SDL_FreeSurface(surfaceMessage);
+            SDL_DestroyTexture(Message);
         }
 
-        public static void text(V2 position, string font, int font_size, string text, V4 color) {
-            IntPtr tex; 
-            font_handler.get_texture(text, font, out tex, 0, 0, (byte)color.x, (byte)color.y, (byte)color.z, (byte)color.w);
+        public static void text(V2 position, string font_id, int font_size, string text, V4 color) {
+            IntPtr font;
+            
+            if(!fonts.ContainsKey(font_id)) {
+                string path = game.executable_path.Replace("\\", "/") + "/" + game.get_resource_folder() + "/" + game.asset_pack + "/assets/fonts/" + font_id + ".ttf";
+                font = TTF_OpenFont(path, 255);
+                fonts.Add(font_id, font);
+            } else {
+                font = fonts[font_id];
+            }
 
-            float scale = font_size / font_handler.get_font_size(font);
+            // this is the color in rgb format,
+            // maxing out all would give you the color white,
+            // and it will be your text's color
+            SDL_Color White = new SDL_Color((byte)color.x, (byte)color.y, (byte)color.z, (byte)color.w);
 
-            texture final_tex = new texture();
-            final_tex.set_texture(tex);
-            final_tex.set_scale(new V2f(scale, scale));
+            // as TTF_RenderText_Solid could only be used on
+            // SDL_Surface then you have to create the surface first
+            IntPtr surfaceMessage = TTF_RenderText_Solid(font, text, White); 
 
-            draw.texture(position, final_tex);
+            // now you can convert it into a texture
+            IntPtr Message = SDL_CreateTextureFromSurface(game.renderer, surfaceMessage);
+
+            SDL_Rect Message_rect; //create a rect
+            Message_rect.x = position.x;  //controls the rect's x coordinate 
+            Message_rect.y = position.y; // controls the rect's y coordinte
+
+            uint f; int a;
+            SDL_Rect src = new SDL_Rect();
+            src.x = 0;
+            src.y = 0;
+
+            SDL_QueryTexture(Message, out f, out a, out src.w, out src.h);
+
+            float scale = 255 / font_size;
+            Message_rect.w = (int)(src.w / scale);
+            Message_rect.h = (int)(src.h / scale);
+
+            SDL_RenderCopy(game.renderer, Message, ref src, ref Message_rect);
+
+            // Don't forget to free your surface and texture
+            SDL_FreeSurface(surfaceMessage);
+            SDL_DestroyTexture(Message);
+        }
+
+        public static void load_font(string font_id) {
+            if(!fonts.ContainsKey(font_id)) {
+                string path = game.executable_path.Replace("\\", "/") + "/" + game.get_resource_folder() + "/" + game.asset_pack + "/assets/fonts/" + font_id + ".ttf";
+                IntPtr font = TTF_OpenFont(path, 255);
+                fonts.Add(font_id, font);
+            }
         }
     }
 }

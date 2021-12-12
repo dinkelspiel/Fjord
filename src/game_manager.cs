@@ -94,13 +94,10 @@ namespace Fjord
 
             devgui.init();
             texture_handler.init();
-            font_handler.init();
 
             // scene game_;
             // game_ = new game();
             // game_.on_load();
-
-            font_handler.load_font("default", "Sans", 42);
         }
 
         public static void set_resource_folder(string folder) {
@@ -135,23 +132,26 @@ namespace Fjord
                 game.delta_time = (double)((game.frame_now - game.frame_last)*10 / (double)SDL_GetPerformanceFrequency());
 
                 event_handler.handle_events();
-                try {
-                    game.update();
-                } catch (Exception e) {
-                    Debug.send("-- Update Error --");
-                    game.stop(e);
+                // try {
+                //     game.update();
+                // } catch (Exception e) {
+                //     Debug.send("-- Update Error --");
+                //     game.stop(e);
 
-                    throw;
-                }
+                //     throw;
+                // }
                     
-                try {
-                    game.render();
-                } catch (Exception e) {
-                    Debug.send("-- Render Error --");
-                    game.stop(e);
+                // try {
+                //     game.render();
+                // } catch (Exception e) {
+                //     Debug.send("-- Render Error --");
+                //     game.stop(e);
 
-                    throw;
-                }
+                //     throw;
+                // }
+
+                game.update();
+                game.render();
 
                 double frame_delay = 1000 / MAX_FPS;
 
