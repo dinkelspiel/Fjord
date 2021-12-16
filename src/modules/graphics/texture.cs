@@ -158,5 +158,14 @@ namespace Fjord.Modules.Graphics {
             texture_size.y = (int)(texture_size.y * scale.y); 
             return texture_size;
         }
+
+        public V2 get_texture_size() {
+            V2 texture_size = new V2();
+            uint format;
+            int access;
+            SDL_QueryTexture(sdl_texture, out format, out access, out texture_size.x, out texture_size.y);
+            
+            return texture_size;
+        }
     }
 }

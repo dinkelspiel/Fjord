@@ -283,7 +283,7 @@ namespace Fjord.Modules.Graphics {
 
             SDL_Rect src, dest;
 
-            src = new SDL_Rect(0, 0, tex.get_size().x, tex.get_size().y);
+            src = new SDL_Rect(0, 0, tex.get_texture_size().x, tex.get_texture_size().y);
             dest = new SDL_Rect(position.x, position.y, tex.get_size().x, tex.get_size().y);
 
             // Origin Handling
