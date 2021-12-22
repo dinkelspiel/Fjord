@@ -34,7 +34,7 @@ namespace Fjord.Modules.Game {
         public override void render()
         {
             if(visible)
-                draw.texture(parent.get_component<Transform>().position - camera.camera_position, sprite);
+                draw.texture(parent.get_component<Transform>().position - camera.get(), sprite);
         }
     }
 }

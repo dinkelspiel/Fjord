@@ -14,11 +14,11 @@ namespace Fjord.Modules.Game
         public int depth = 0;
 
         public entity() {
-            this.add_component(new Transform());
-            this.add_component(new Sprite_Renderer());
+            this.use(new Transform());
+            this.use(new Sprite_Renderer());
         }
 
-        public dynamic get_component<T>() {
+        public dynamic get<T>() {
             for(var i = 0; i < components.Count; i++) {
                 if(components[i].GetType() == typeof(T)) {
                     return components[i];
@@ -29,21 +29,21 @@ namespace Fjord.Modules.Game
             return components[0];
         }
 
-        public entity add_component(component Comp, dynamic parent) {
+        public entity use(component Comp, dynamic parent) {
             Comp.parent = parent;
             Comp.on_load();
             components.Add(Comp);
             return this;
         }
 
-        public entity add_component(component Comp) {
+        public entity use(component Comp) {
             Comp.parent = this;
             Comp.on_load();
             components.Add(Comp);
             return this;
         }
 
-        public entity remove_component(component Comp) {
+        public entity pop(component Comp) {
             components.Remove(Comp);
             return this;
         }
