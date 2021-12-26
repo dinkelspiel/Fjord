@@ -15,13 +15,14 @@ namespace Fjord.Modules.Graphics {
         }
     }
 
-    public class texture {
+    public class texture : ICloneable {
         private IntPtr sdl_texture;
         private V2 origin = new V2(0, 0);
         private flip_type flip = flip_type.none;
         private double angle = 0;
         private V2f scale = new V2f(1, 1);
         private int alpha = 255;
+        private int depth = 0;
 
         public texture() {
             sdl_texture = texture_handler.default_texture;
@@ -148,6 +149,15 @@ namespace Fjord.Modules.Graphics {
             return alpha;
         }
 
+        public texture set_depth(int depth) {
+            this.depth = depth;
+            return this;
+        }
+
+        public int get_depth() {
+            return this.depth;
+        }
+
         public V2 get_size() {
             V2 texture_size = new V2();
             uint format;
@@ -167,5 +177,14 @@ namespace Fjord.Modules.Graphics {
             
             return texture_size;
         }
+
+        #region ICloneable Members
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
+
+        #endregion
     }
 }

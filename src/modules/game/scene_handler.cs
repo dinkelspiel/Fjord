@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Fjord.Modules.Debug;
+using Fjord.Modules.Graphics;
 
 namespace Fjord.Modules.Game {
     public abstract class scene {
@@ -12,6 +13,8 @@ namespace Fjord.Modules.Game {
 
         public virtual void update() { foreach(entity e in entities) { e.update(); } }
         public virtual void render() { 
+            draw.sorted_texture_buffer();
+            draw.clean_texture_buffer();
             List<entity> sorted_entities = entities.OrderBy(e => e.depth).ToList();
             foreach(entity e in sorted_entities) { 
                 e.render(); 
