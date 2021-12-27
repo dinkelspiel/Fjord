@@ -327,6 +327,13 @@ namespace Fjord.Modules.Graphics {
 
             SDL_SetTextureAlphaMod(final_texture, (byte)tex.get_alpha());
 
+            // Camera Relative Handling
+
+            if(tex.get_relative()) {
+                dest.x -= (int)camera.get().x;
+                dest.y -= (int)camera.get().y;
+            }
+
             // Draw
 
             SDL_Point center = new SDL_Point(tex.get_origin().x, tex.get_origin().y);
