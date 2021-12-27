@@ -2,6 +2,7 @@ using static SDL2.SDL;
 using static SDL2.SDL_image;
 using static SDL2.SDL_ttf;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -39,8 +40,18 @@ namespace Fjord.Modules.Graphics {
 
     public static class draw {
 
+        public class texture_buffer {
+            public texture tex;
+            public V2 position;
+            public texture_buffer(texture tex, V2 position) {
+                this.tex = tex;
+                this.position = position;
+            }
+        }
+
         private static Dictionary<string, IntPtr> fonts = new Dictionary<string, IntPtr>();
         private static Dictionary<string, IntPtr> texture_cache = new Dictionary<string, IntPtr>();
+        private static List<texture_buffer> draw_texture_buffer = new List<texture_buffer>();
 
         public static void rect(V4 rect, V4 color, bool fill=true, int border_radius=0) {
             if(border_radius == 0) {
@@ -278,6 +289,10 @@ namespace Fjord.Modules.Graphics {
         }
 
         public static void texture(V2 position, texture tex) {
+            draw_texture_buffer.Add(new texture_buffer((texture) tex.Clone(), position));
+        }
+
+        public static void texture_direct(V2 position, texture tex) {
             
             IntPtr final_texture = tex.get_texture();
 
@@ -316,6 +331,14 @@ namespace Fjord.Modules.Graphics {
 
             SDL_Point center = new SDL_Point(tex.get_origin().x, tex.get_origin().y);
             SDL_RenderCopyEx(game.renderer, final_texture, ref src, ref dest, tex.get_angle(), ref center, flip_sdl);    
+        }
+
+        public static List<texture_buffer> get_texture_buffer() {
+            return draw_texture_buffer;
+        }
+
+        public static void clean_texture_buffer() {
+            draw_texture_buffer = new List<texture_buffer>();
         }
 
         public static void text(V2 position, string font_id, int font_size, string text) {

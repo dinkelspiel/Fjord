@@ -27,14 +27,14 @@ namespace Fjord.Modules.Game {
 
         public override void update()
         {
-            sprite.set_scale(parent.get_component<Transform>().scale);
-            sprite.set_angle(parent.get_component<Transform>().rotation);
+            sprite.set_scale(parent.get<Transform>().scale);
+            sprite.set_angle(parent.get<Transform>().rotation);
         }
 
         public override void render()
         {
             if(visible)
-                draw.texture(parent.get_component<Transform>().position - camera.get(), sprite);
+                draw.texture(parent.get<Transform>().position - camera.get(), sprite);
         }
     }
 }

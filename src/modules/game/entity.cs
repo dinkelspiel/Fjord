@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Fjord.Modules.Game
 {
-    public class entity
+    public class entity 
     {
         public List<component> components = new List<component>();
 
