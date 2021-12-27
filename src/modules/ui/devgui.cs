@@ -23,57 +23,57 @@ namespace Fjord.Modules.Ui
         private static V4 off_color = new V4(255, 255, 255, 255);
         private static V4 text_color = new V4(0, 0, 0, 255);
 
-        public static void slider(SDL_Rect rect, ref int value, int max, V4 off, V4 on) {
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_pressed(0))) {
+        public static void slider(V4 rect, ref int value, int max, V4 off, V4 on) {
+            if (helpers.mouse_inside(helpers.v4_to_sdl(rect), 2) && (mouse.button_pressed(0))) {
 		        value = (int)((mouse.position.x - rect.x) / ((float)rect.w / max));
             }
 
             value = Math.Clamp(value, 1, max);
 
-            draw.rect(helpers.sdl_to_v4(rect), off);
+            draw.rect(rect, off);
             rect.w = (int)(value * ((float)rect.w / (float)max)); 
-            draw.rect(helpers.sdl_to_v4(rect), on);
+            draw.rect(rect, on);
         }
 
-        public static void slider(SDL_Rect rect, ref int value, int max) {
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_pressed(0))) {
+        public static void slider(V4 rect, ref int value, int max) {
+            if (helpers.mouse_inside(helpers.v4_to_sdl(rect), 2) && (mouse.button_pressed(0))) {
 		        value = (int)((mouse.position.x - rect.x) / ((float)rect.w / max));
             }
 
             value = Math.Clamp(value, 1, max);
 
-            draw.rect(helpers.sdl_to_v4(rect), off_color);
+            draw.rect(rect, off_color);
             rect.w = (int)(value * ((float)rect.w / (float)max)); 
-            draw.rect(helpers.sdl_to_v4(rect), on_color);
+            draw.rect(rect, on_color);
         }
 
-        public static void button(SDL_Rect rect, ref bool value, string font, string text, V4 off, V4 on, V4 text_color) {
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(0))) 
+        public static void button(V4 rect, ref bool value, string font, string text, V4 off, V4 on, V4 text_color) {
+            if (helpers.mouse_inside(helpers.v4_to_sdl(rect), 2) && (mouse.button_just_pressed(0))) 
                 value = !value;
 
             if(!value)
-                draw.rect(helpers.sdl_to_v4(rect), off);
+                draw.rect(rect, off);
             else 
-                draw.rect(helpers.sdl_to_v4(rect), on);
+                draw.rect(rect, on);
 
-            draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.h - 10, text, text_color);
+            draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.w - 10, text, text_color);
         }
 
-        public static void button(SDL_Rect rect, ref bool value, string font, string text) {
+        public static void button(V4 rect, ref bool value, string font, string text) {
             
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(0))) 
+            if (helpers.mouse_inside(helpers.v4_to_sdl(rect), 2) && (mouse.button_just_pressed(0))) 
                 value = !value;
 
             if(!value)
-                draw.rect(helpers.sdl_to_v4(rect), off_color);
+                draw.rect(rect, off_color);
             else 
-                draw.rect(helpers.sdl_to_v4(rect), on_color);
+                draw.rect(rect, on_color);
 
-            draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.h - 10, text, text_color);
+            draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.w - 10, text, text_color);
         }
 
-        public static void num_input_box(SDL_Rect rect, ref int value, string id, string font, V4 off, V4 on, V4 text_color) {
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(0))) 
+        public static void num_input_box(V4 rect, ref int value, string id, string font, V4 off, V4 on, V4 text_color) {
+            if (helpers.mouse_inside(helpers.v4_to_sdl(rect), 2) && (mouse.button_just_pressed(0))) 
                 selected_input = selected_input == id ? "" : id;
 
             if(selected_input == id) {
@@ -115,15 +115,15 @@ namespace Fjord.Modules.Ui
             }
 
             if(selected_input != id)
-                draw.rect(helpers.sdl_to_v4(rect), off);
+                draw.rect(rect, off);
             else 
-                draw.rect(helpers.sdl_to_v4(rect), on);
+                draw.rect(rect, on);
 
-            draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.h - 10, value.ToString(), text_color);
+            draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.w - 10, value.ToString(), text_color);
         }
 
-        public static void num_input_box(SDL_Rect rect, ref int value, string id, string font) {
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(0))) 
+        public static void num_input_box(V4 rect, ref int value, string id, string font) {
+            if (helpers.mouse_inside(helpers.v4_to_sdl(rect), 2) && (mouse.button_just_pressed(0))) 
                 selected_input = selected_input == id ? "" : id;
 
             if(selected_input == id) {
@@ -165,18 +165,18 @@ namespace Fjord.Modules.Ui
             }
 
             if(selected_input != id)
-                draw.rect(helpers.sdl_to_v4(rect), off_color);
+                draw.rect(rect, off_color);
             else 
-                draw.rect(helpers.sdl_to_v4(rect), on_color);
+                draw.rect(rect, on_color);
 
-            draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.h - 10, value.ToString(), text_color);
+            draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.w - 10, value.ToString(), text_color);
         }
 
-        public static void input_box (SDL_Rect rect, string font, ref string value, string input_state, string id, string default_value, V4 off, V4 on, V4 text_color) {
+        public static void input_box (V4 rect, string font, ref string value, string input_state, string id, string default_value, V4 off, V4 on, V4 text_color) {
             if(value == null) 
                 return;
 
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(0))) 
+            if (helpers.mouse_inside(helpers.v4_to_sdl(rect), 2) && (mouse.button_just_pressed(0))) 
                 selected_input = selected_input == id ? "" : id;
 
             if(input.get_any_key_just_pressed(input_state) > -1) { 
@@ -211,18 +211,18 @@ namespace Fjord.Modules.Ui
             }
 
             if(selected_input != id)
-                draw.rect(helpers.sdl_to_v4(rect), off);
+                draw.rect(rect, off);
             else 
-                draw.rect(helpers.sdl_to_v4(rect), on);
+                draw.rect(rect, on);
 
-            draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.h - 10, value != "" ? value : default_value, text_color);
+            draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.w - 10, value != "" ? value : default_value, text_color);
         }
 
-        public static void input_box (SDL_Rect rect, string font, ref string value, string input_state, string id, string default_value) {
+        public static void input_box (V4 rect, string font, ref string value, string input_state, string id, string default_value) {
             if(value == null) 
                 return;
 
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(0))) 
+            if (helpers.mouse_inside(helpers.v4_to_sdl(rect), 2) && (mouse.button_just_pressed(0))) 
                 selected_input = selected_input == id ? "" : id;
 
             if(input.get_any_key_just_pressed(input_state) > -1) { 
@@ -257,11 +257,11 @@ namespace Fjord.Modules.Ui
             }
 
             if(selected_input != id)
-                draw.rect(helpers.sdl_to_v4(rect), off_color);
+                draw.rect(rect, off_color);
             else 
-                draw.rect(helpers.sdl_to_v4(rect), on_color);
+                draw.rect(rect, on_color);
 
-            draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.h - 10, value != "" ? value : default_value, text_color);
+            draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.w - 10, value != "" ? value : default_value, text_color);
         }
     }
 }
