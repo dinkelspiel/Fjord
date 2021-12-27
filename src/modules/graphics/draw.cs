@@ -40,7 +40,7 @@ namespace Fjord.Modules.Graphics {
 
     public static class draw {
 
-        private class texture_buffer {
+        public class texture_buffer {
             public texture tex;
             public V2 position;
             public texture_buffer(texture tex, V2 position) {
@@ -292,7 +292,7 @@ namespace Fjord.Modules.Graphics {
             draw_texture_buffer.Add(new texture_buffer((texture) tex.Clone(), position));
         }
 
-        private static void texture_direct(V2 position, texture tex) {
+        public static void texture_direct(V2 position, texture tex) {
             
             IntPtr final_texture = tex.get_texture();
 
@@ -333,14 +333,8 @@ namespace Fjord.Modules.Graphics {
             SDL_RenderCopyEx(game.renderer, final_texture, ref src, ref dest, tex.get_angle(), ref center, flip_sdl);    
         }
 
-        public static void sorted_texture_buffer() {
-            List<texture_buffer> sorted_texture_buffer = draw_texture_buffer.OrderBy(e => e.tex.get_depth()).ToList();
-            foreach(texture_buffer e in sorted_texture_buffer) { 
-                texture_direct(e.position, e.tex);
-            } 
-            // foreach(texture_buffer e in draw_texture_buffer) {
-            //     texture_direct(e.position, e.tex);
-            // }
+        public static List<texture_buffer> get_texture_buffer() {
+            return draw_texture_buffer;
         }
 
         public static void clean_texture_buffer() {

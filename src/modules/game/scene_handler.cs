@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 using System.Linq;
 using Fjord.Modules.Debug;
 using Fjord.Modules.Graphics;
@@ -12,13 +13,32 @@ namespace Fjord.Modules.Game {
         }
 
         public virtual void update() { foreach(entity e in entities) { e.update(); } }
+
         public virtual void render() { 
-            draw.sorted_texture_buffer();
+            List<dynamic> sorted = new List<dynamic>();
+            sorted.AddRange(entities);
+            sorted.AddRange(draw.get_texture_buffer());
+            sorted = sorted.OrderBy(e => e is entity ? e.depth : e.tex.get_depth()).ToList();
+            foreach(dynamic e in sorted) {
+                if(e is entity) {
+                    Console.WriteLine("Hello");
+                    e.render();
+                } else {
+                    draw.texture_direct(e.position, e.tex);
+                }
+            }
+
+            // List<entity> sorted_entities = entities.OrderBy(e => e.depth).ToList();
+            // foreach(entity e in entities) { 
+            //     e.render(); 
+            // } 
+
+            // List<texture_buffer> sorted_texture_buffer = draw_texture_buffer.OrderBy(e => e.tex.get_depth()).ToList();
+            // foreach(texture_buffer e in sorted_texture_buffer) { 
+            //     texture_direct(e.position, e.tex);
+            // } 
+
             draw.clean_texture_buffer();
-            List<entity> sorted_entities = entities.OrderBy(e => e.depth).ToList();
-            foreach(entity e in sorted_entities) { 
-                e.render(); 
-            } 
         }
         public virtual void on_load() {}
         public virtual void on_unload() {}
