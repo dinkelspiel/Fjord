@@ -23,6 +23,7 @@ namespace Fjord.Modules.Graphics {
         private V2f scale = new V2f(1, 1);
         private int alpha = 255;
         private int depth = 0;
+        private bool camera_relative = false;
 
         public texture() {
             sdl_texture = texture_handler.default_texture;
@@ -156,6 +157,15 @@ namespace Fjord.Modules.Graphics {
 
         public int get_depth() {
             return this.depth;
+        }
+
+        public texture set_camera_relative(bool relative) {
+            this.camera_relative = relative;
+            return this;
+        }
+
+        public bool get_relative() {
+            return this.camera_relative;
         }
 
         public V2 get_size() {
