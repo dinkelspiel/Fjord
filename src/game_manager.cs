@@ -192,10 +192,10 @@ namespace Fjord
             //Debug.send(e.Message + e.StackTrace.Split('\n')[0].Replace(" at ", " In ").Replace("  ", "").Replace("\n", ""));
             Debug.send("\n" + e.Message + "\n" + e.StackTrace);
 
-            stop();
+            stop(1);
         }
 
-        public static void stop() {
+        public static void stop(int exit_code=0) {
 
             //debug_web.listener.Close();
             scene_handler.stop();
@@ -215,7 +215,7 @@ namespace Fjord
             Directory.CreateDirectory("logs/" + time);
             File.WriteAllLines(file, log);
 
-            System.Environment.Exit(0);
+            System.Environment.Exit(exit_code);
         }
 
         public static int get_ticks() {

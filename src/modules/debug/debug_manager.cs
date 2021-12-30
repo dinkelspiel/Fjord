@@ -55,7 +55,7 @@ namespace Fjord.Modules.Debug {
             send(message, sf.GetMethod().Name, "Error");
             
             if(stop)
-                game.stop();
+                game.stop(1);
         }
 
         public static void warn(dynamic message) {
