@@ -1,4 +1,6 @@
 using System;
+using System.Numerics;
+using System.Windows;
 
 namespace Fjord.Modules.Mathf {
     public class V2 : IFormattable {
@@ -82,6 +84,11 @@ namespace Fjord.Modules.Mathf {
         public static V2 operator /(V2 v1, int v2) {
             return new V2(v1.x / v2, v1.y / v2); 
         }
+
+        public V2f normalized() {
+            float distance = (float)Math.Sqrt(this.x * this.x + this.y * this.y);
+            return new V2f(this.x / distance, this.y / distance);
+        }
     }
     
     public class V2f : IFormattable {
@@ -163,6 +170,11 @@ namespace Fjord.Modules.Mathf {
 
         public static V2f operator /(V2f v1, float v2) {
             return new V2f(v1.x / v2, v1.y / v2); 
+        }
+
+        public V2f normalized() {
+            float distance = (float)Math.Sqrt(this.x * this.x + this.y * this.y);
+            return new V2f(this.x / distance, this.y / distance);
         }
     } 
 
