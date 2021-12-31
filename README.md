@@ -22,3 +22,7 @@ Help with the engine can be found at [the wiki](https://github.com/willmexe/Fjor
 
 [Get the last](https://github.com/willmexe/Mini-Jam-88) - A game made for the Mini Jam 88 Game Jam.<br/>
 [Flappy Bird](https://github.com/willmexe/Flappy_Bird) - A Flappy Bird clone made in Fjord.
+
+## Credits
+
+SDL2 
