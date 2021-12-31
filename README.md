@@ -25,4 +25,4 @@ Help with the engine can be found at [the wiki](https://github.com/willmexe/Fjor
 
 ## Credits
 
-SDL2 
+SDL2 © https://github.com/libsdl-org/SDL
