@@ -84,7 +84,7 @@ namespace Fjord.Modules.Graphics {
 
             SDL_Rect main_rect = new SDL_Rect(rect.x, rect.y + border_radius, rect.z, rect.w - border_radius * 2);
             SDL_Rect top_rect = new SDL_Rect(rect.x + border_radius, rect.y, rect.z - border_radius * 2, border_radius);
-            SDL_Rect bottom_rect = new SDL_Rect(rect.x + border_radius, rect.y + rect.z - border_radius, rect.z - border_radius * 2, border_radius);
+            SDL_Rect bottom_rect = new SDL_Rect(rect.x + border_radius, rect.y + rect.w - border_radius, rect.z - border_radius * 2, border_radius);
 
             if(fill) {
                 SDL_RenderFillRect(game.renderer, ref main_rect);
