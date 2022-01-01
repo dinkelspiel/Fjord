@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace Fjord.Modules.Input {
     public static class input {
-        public static bool[] pressed_keys = new bool[77];
-        public static bool[] last_frame = new bool[77];
-        private static List<string> key_references = new List<string>{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12", "escape", "backquote", "minus", "equals", "backspace", "tab", "leftbracket", "rightbracket", "backslash", "capslock", "semicolon", "quote", "return", "lshift", "comma", "period", "rshift", "lctrl", "lalt", "space", "ralt", "application", "rctrl", "up", "down", "left", "right"};
+        public static bool[] pressed_keys = new bool[78];
+        public static bool[] last_frame = new bool[78];
+        private static List<string> key_references = new List<string>{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12", "escape", "backquote", "minus", "equals", "backspace", "tab", "leftbracket", "rightbracket", "backslash", "capslock", "semicolon", "quote", "return", "lshift", "comma", "period", "slash", "rshift", "lctrl", "lalt", "space", "ralt", "application", "rctrl", "up", "down", "left", "right"};
 
         public static string input_state = "general";
 
@@ -73,17 +73,18 @@ namespace Fjord.Modules.Input {
         public const int key_lshift = 61;
         public const int key_comma = 62;
         public const int key_period = 63;
-        public const int key_rshift = 64;
-        public const int key_lctrl = 65;
-        public const int key_lalt = 66;
-        public const int key_space = 67;
-        public const int key_ralt = 68;
-        public const int key_application = 69;
-        public const int key_rctrl = 70;
-        public const int key_up = 71;
-        public const int key_down = 72;
-        public const int key_left = 73;
-        public const int key_right = 74;
+        public const int key_slash = 64;
+        public const int key_rshift = 65;
+        public const int key_lctrl = 66;
+        public const int key_lalt = 67;
+        public const int key_space = 68;
+        public const int key_ralt = 69;
+        public const int key_application = 70;
+        public const int key_rctrl = 71;
+        public const int key_up = 72;
+        public const int key_down = 73;
+        public const int key_left = 74;
+        public const int key_right = 75;
         #endregion
 
         public static bool get_key_pressed(int key, string input_state_check=null) {
@@ -184,6 +185,8 @@ namespace Fjord.Modules.Input {
                             return "+";
                         case input.key_backslash:
                             return "|";
+                        case input.key_slash:
+                            return "?";
                         default:
                             if(input.get_key(input.get_any_key_just_pressed()).Length == 1)
                                 return input.get_key(input.get_any_key_just_pressed()).ToUpper();
@@ -215,6 +218,8 @@ namespace Fjord.Modules.Input {
                             return "=";
                         case input.key_backslash:
                             return "\\";
+                        case input.key_slash:
+                            return "/";
                         default: 
                             if(input.get_key(input.get_any_key_just_pressed()).Length == 1)
                                 return input.get_key(input.get_any_key_just_pressed()).ToLower();

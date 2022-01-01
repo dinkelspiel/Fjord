@@ -243,6 +243,9 @@ namespace Fjord.Modules.Misc {
                         case SDL_Keycode.SDLK_PERIOD:
                             input.pressed_keys[input.key_period] = true;
                             break;
+                        case SDL_Keycode.SDLK_SLASH:
+                            input.pressed_keys[input.key_slash] = true;
+                            break;
                         case SDL_Keycode.SDLK_RSHIFT:
                             input.pressed_keys[input.key_rshift] = true;
                             break;
@@ -471,6 +474,9 @@ namespace Fjord.Modules.Misc {
                             break;
                         case SDL_Keycode.SDLK_PERIOD:
                             input.pressed_keys[input.key_period] = false;
+                            break;
+                        case SDL_Keycode.SDLK_SLASH:
+                            input.pressed_keys[input.key_slash] = false;
                             break;
                         case SDL_Keycode.SDLK_RSHIFT:
                             input.pressed_keys[input.key_rshift] = false;
