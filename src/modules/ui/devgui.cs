@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Linq.Expressions;
 using Fjord;
 using Fjord.Modules.Debug;
 using Fjord.Modules.Game;
@@ -13,8 +14,13 @@ namespace Fjord.Modules.Ui
 {
     public static class devgui
     {
-        public static void init() {
-
+        private static class MemberInfoGetting
+        {
+            public static string GetMemberName<T>(Expression<Func<T>> memberExpression)
+            {
+                MemberExpression expressionBody = (MemberExpression)memberExpression.Body;
+                return expressionBody.Member.Name;
+            }
         }
 
         private static string selected_input = "";
@@ -176,37 +182,23 @@ namespace Fjord.Modules.Ui
             if(value == null) 
                 return;
 
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(mb.left))) 
+            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(mb.left))) {
                 selected_input = selected_input == id ? "" : id;
 
-            if(input.get_any_key_just_pressed(input_state) > -1) { 
-                switch(input.get_any_key_just_pressed()) {
-                    case input.key_backspace:
-                        if(!input.get_key_pressed(input.key_lctrl))
-                            if(value.Length > 0)
-                                value = value.Substring(0, value.Length - 1);
-                        else {
-                            if(value.Length > 0) {
-                                var valarr = value.Split(" ");
-                                if(valarr.Any())
-                                    valarr = valarr.SkipLast(1).ToArray();
-                                value = String.Join(" ", valarr);
-                            }
+                if(input.get_key_just_pressed(input.key_backspace)) {
+                    if(!input.get_key_pressed(input.key_lctrl))
+                        if(value.Length > 0)
+                            value = value.Substring(0, value.Length - 1);
+                    else {
+                        if(value.Length > 0) {
+                            var valarr = value.Split(" ");
+                            if(valarr.Any())
+                                valarr = valarr.SkipLast(1).ToArray();
+                            value = String.Join(" ", valarr);
                         }
-                        break;
-                    case input.key_space:
-                        value += " ";
-                        break;
-                    case input.key_backslash:
-                        value += "\\";
-                        break;
-                    case input.key_period:
-                        value += ".";
-                        break;
-                    default:
-                        if(input.get_key(input.get_any_key_just_pressed()).Length == 1)
-                            value += !input.get_key_pressed(input.key_lshift) ? input.get_key(input.get_any_key_just_pressed()) : input.get_key(input.get_any_key_just_pressed()).ToUpper();
-                        break;
+                    }
+                } else {
+                    value += input.get_human_input();
                 }
             }
 
@@ -222,37 +214,23 @@ namespace Fjord.Modules.Ui
             if(value == null) 
                 return;
 
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(mb.left))) 
+            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(mb.left))) {
                 selected_input = selected_input == id ? "" : id;
 
-            if(input.get_any_key_just_pressed(input_state) > -1) { 
-                switch(input.get_any_key_just_pressed()) {
-                    case input.key_backspace:
-                        if(!input.get_key_pressed(input.key_lctrl))
-                            if(value.Length > 0)
-                                value = value.Substring(0, value.Length - 1);
-                        else {
-                            if(value.Length > 0) {
-                                var valarr = value.Split(" ");
-                                if(valarr.Any())
-                                    valarr = valarr.SkipLast(1).ToArray();
-                                value = String.Join(" ", valarr);
-                            }
+                if(input.get_key_just_pressed(input.key_backspace)) {
+                    if(!input.get_key_pressed(input.key_lctrl))
+                        if(value.Length > 0)
+                            value = value.Substring(0, value.Length - 1);
+                    else {
+                        if(value.Length > 0) {
+                            var valarr = value.Split(" ");
+                            if(valarr.Any())
+                                valarr = valarr.SkipLast(1).ToArray();
+                            value = String.Join(" ", valarr);
                         }
-                        break;
-                    case input.key_space:
-                        value += " ";
-                        break;
-                    case input.key_backslash:
-                        value += "\\";
-                        break;
-                    case input.key_period:
-                        value += ".";
-                        break;
-                    default:
-                        if(input.get_key(input.get_any_key_just_pressed()).Length == 1)
-                            value += !input.get_key_pressed(input.key_lshift) ? input.get_key(input.get_any_key_just_pressed()) : input.get_key(input.get_any_key_just_pressed()).ToUpper();
-                        break;
+                    }
+                } else {
+                    value += input.get_human_input();
                 }
             }
 
