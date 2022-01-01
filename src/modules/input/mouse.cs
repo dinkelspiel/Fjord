@@ -3,7 +3,9 @@ using Fjord.Modules.Mathf;
 namespace Fjord.Modules.Input {
     public enum mb {
         left,
-        right
+        right,
+        scroll_up,
+        scroll_down
     }
 
     public static class mouse {
@@ -22,6 +24,10 @@ namespace Fjord.Modules.Input {
                         return lmb;
                     case mb.right:
                         return rmb;
+                    case mb.scroll_up:
+                        return wheel_up;
+                    case mb.scroll_down:
+                        return wheel_down;
                 }
                 return false;
             } else if(input_state == input.get_input_state()) { 
@@ -30,6 +36,10 @@ namespace Fjord.Modules.Input {
                         return lmb;
                     case mb.right:
                         return rmb;
+                    case mb.scroll_up:
+                        return wheel_up;
+                    case mb.scroll_down:
+                        return wheel_down;
                 }
                 return false;
             } 
@@ -62,23 +72,6 @@ namespace Fjord.Modules.Input {
                 return lmb || rmb;
             else
                 return (lmb || rmb) && input_state == input.get_input_state();
-        }
-
-        public static bool scrolling(int key) {
-            switch(key) {
-                case 0:
-                    if(wheel_up) {
-                        return true;
-                    } 
-                    return false;
-                case 1:
-                    if(wheel_down) {
-                        return true;
-                    }
-                    return false;
-                default:
-                    return false;
-            }
         }
     }
 }
