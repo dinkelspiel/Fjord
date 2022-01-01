@@ -216,7 +216,9 @@ namespace Fjord.Modules.Ui
 
             if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(mb.left))) {
                 selected_input = selected_input == id ? "" : id;
+            }
 
+            if(selected_input == id) {
                 if(input.get_key_just_pressed(input.key_backspace)) {
                     if(!input.get_key_pressed(input.key_lctrl))
                         if(value.Length > 0)
