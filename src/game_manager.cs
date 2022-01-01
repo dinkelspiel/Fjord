@@ -92,7 +92,6 @@ namespace Fjord
 
             set_render_background(26, 26, 28, 255);
 
-            devgui.init();
             texture_handler.init();
 
             // scene game_;

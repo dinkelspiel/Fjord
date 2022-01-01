@@ -141,5 +141,88 @@ namespace Fjord.Modules.Input {
         public static int get_key(string key) {
             return key_references.IndexOf(key);
         }
+
+        public static string get_human_input() {
+            if(input.get_key_pressed(input.key_lshift)) {
+                if(input.get_any_key_just_pressed() != -1) {
+                    switch(input.get_any_key_just_pressed()) {
+                        case input.key_1:
+                            return "!";
+                        case input.key_2:
+                            return "@";
+                        case input.key_3:
+                            return "#";
+                        case input.key_4:
+                            return "$";
+                        case input.key_5:
+                            return "%";
+                        case input.key_6:
+                            return "^";
+                        case input.key_7:
+                            return "&";
+                        case input.key_8:
+                            return "*";
+                        case input.key_9:
+                            return "(";
+                        case input.key_0:
+                            return ")";
+                        case input.key_leftbracket:
+                            return "{";
+                        case input.key_rightbracket:
+                            return "}";
+                        case input.key_semicolon:
+                            return ":";
+                        case input.key_quote:
+                            return "\"";
+                        case input.key_minus:
+                            return "_";
+                        case input.key_period:
+                            return ">";
+                        case input.key_comma:
+                            return "<";
+                        case input.key_equals:
+                            return "+";
+                        case input.key_backslash:
+                            return "|";
+                        default:
+                            if(input.get_key(input.get_any_key_just_pressed()).Length == 1)
+                                return input.get_key(input.get_any_key_just_pressed()).ToUpper();
+                            break;
+                    }
+                }
+            } else {
+                if(input.get_any_key_just_pressed() != -1) {
+                    switch(input.get_any_key_just_pressed()) {
+                        case input.key_space:
+                            return " ";
+                        case input.key_tab:
+                            return "    ";
+                        case input.key_leftbracket:
+                            return "[";
+                        case input.key_rightbracket:
+                            return "]";
+                        case input.key_semicolon:
+                            return";";
+                        case input.key_quote:
+                            return "'";
+                        case input.key_minus:
+                            return "-";
+                        case input.key_period:
+                            return ".";
+                        case input.key_comma:
+                            return ",";
+                        case input.key_equals:
+                            return "=";
+                        case input.key_backslash:
+                            return "\\";
+                        default: 
+                            if(input.get_key(input.get_any_key_just_pressed()).Length == 1)
+                                return input.get_key(input.get_any_key_just_pressed()).ToLower();
+                            break;
+                    }
+                }
+            }
+            return "";
+        }
     }
 }
