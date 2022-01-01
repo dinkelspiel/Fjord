@@ -3,8 +3,8 @@ using Fjord.Modules.Input;
 
 namespace Fjord.Modules.Mathf {
     public static class helpers {
-        public static bool mouse_inside(SDL_Rect rect, int margin=0) {
-            if ((mouse.position.x > rect.x - margin && mouse.position.x < rect.x + rect.w + margin) && (mouse.position.y > rect.y - margin && mouse.position.y < rect.y + rect.h + margin))
+        public static bool mouse_inside(V4 rect, int margin=0) {
+            if ((mouse.position.x > rect.x - margin && mouse.position.x < rect.x + rect.z + margin) && (mouse.position.y > rect.y - margin && mouse.position.y < rect.y + rect.w + margin))
                 return true;
             else
                 return false;
