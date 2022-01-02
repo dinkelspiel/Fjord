@@ -78,45 +78,17 @@ namespace Fjord.Modules.Ui
             draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.w - 10, text, text_color);
         }
 
-        public static void num_input_box(V4 rect, ref int value, string id, string font, V4 off, V4 on, V4 text_color) {
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(mb.left))) 
+        public static void num_input_box (V4 rect, string font, ref int value, string input_state, string id, V4 off, V4 on, V4 text_color) {
+            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(mb.left))) {
                 selected_input = selected_input == id ? "" : id;
 
-            if(selected_input == id) {
-                switch(input.get_any_key_just_pressed()) {
-                    case input.key_backspace:
-                        Int32.TryParse(value.ToString().Length > 0 ? value.ToString().Substring(0, value.ToString().Length - 1) : "0", out value);
-                        break;
-                    case input.key_0:
-                        Int32.TryParse(value.ToString() + "0", out value);
-                        break;
-                    case input.key_1:
-                        Int32.TryParse(value.ToString() + "1", out value);
-                        break;
-                    case input.key_2:
-                        Int32.TryParse(value.ToString() + "2", out value);
-                        break;
-                    case input.key_3:
-                        Int32.TryParse(value.ToString() + "3", out value);
-                        break;
-                    case input.key_4:
-                        Int32.TryParse(value.ToString() + "4", out value);
-                        break;
-                    case input.key_5:
-                        Int32.TryParse(value.ToString() + "5", out value);
-                        break;
-                    case input.key_6:
-                        Int32.TryParse(value.ToString() + "6", out value);
-                        break;
-                    case input.key_7:
-                        Int32.TryParse(value.ToString() + "7", out value);
-                        break;
-                    case input.key_8:
-                        Int32.TryParse(value.ToString() + "8", out value);
-                        break;
-                    case input.key_9:
-                        Int32.TryParse(value.ToString() + "9", out value);
-                        break;
+                if(input.get_key_just_pressed(input.key_backspace)) {
+                    if(value.ToString().Length > 0)
+                        Int32.TryParse(value.ToString().Substring(0, value.ToString().Length - 1), out value);
+                } else if(input.get_key_just_pressed(input.key_minus)) {
+                    value = -value;
+                } else {
+                    Int32.TryParse(value.ToString() + input.get_human_input(), out value);
                 }
             }
 
@@ -128,45 +100,17 @@ namespace Fjord.Modules.Ui
             draw.text(new V2(rect.x + 5, rect.y + 5), font, rect.w - 10, value.ToString(), text_color);
         }
 
-        public static void num_input_box(V4 rect, ref int value, string id, string font) {
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(mb.left))) 
+        public static void num_input_box (V4 rect, string font, ref int value, string input_state, string id) {
+            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(mb.left))) {
                 selected_input = selected_input == id ? "" : id;
 
-            if(selected_input == id) {
-                switch(input.get_any_key_just_pressed()) {
-                    case input.key_backspace:
-                        Int32.TryParse(value.ToString().Length > 0 ? value.ToString().Substring(0, value.ToString().Length - 1) : "0", out value);
-                        break;
-                    case input.key_0:
-                        Int32.TryParse(value.ToString() + "0", out value);
-                        break;
-                    case input.key_1:
-                        Int32.TryParse(value.ToString() + "1", out value);
-                        break;
-                    case input.key_2:
-                        Int32.TryParse(value.ToString() + "2", out value);
-                        break;
-                    case input.key_3:
-                        Int32.TryParse(value.ToString() + "3", out value);
-                        break;
-                    case input.key_4:
-                        Int32.TryParse(value.ToString() + "4", out value);
-                        break;
-                    case input.key_5:
-                        Int32.TryParse(value.ToString() + "5", out value);
-                        break;
-                    case input.key_6:
-                        Int32.TryParse(value.ToString() + "6", out value);
-                        break;
-                    case input.key_7:
-                        Int32.TryParse(value.ToString() + "7", out value);
-                        break;
-                    case input.key_8:
-                        Int32.TryParse(value.ToString() + "8", out value);
-                        break;
-                    case input.key_9:
-                        Int32.TryParse(value.ToString() + "9", out value);
-                        break;
+                if(input.get_key_just_pressed(input.key_backspace)) {
+                    if(value.ToString().Length > 0)
+                        Int32.TryParse(value.ToString().Substring(0, value.ToString().Length - 1), out value);
+                } else if(input.get_key_just_pressed(input.key_minus)) {
+                    value = -value;
+                } else {
+                    Int32.TryParse(value.ToString() + input.get_human_input(), out value);
                 }
             }
 
