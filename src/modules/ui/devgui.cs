@@ -14,20 +14,17 @@ namespace Fjord.Modules.Ui
 {
     public static class devgui
     {
-        private static class MemberInfoGetting
-        {
-            public static string GetMemberName<T>(Expression<Func<T>> memberExpression)
-            {
-                MemberExpression expressionBody = (MemberExpression)memberExpression.Body;
-                return expressionBody.Member.Name;
-            }
-        }
-
         private static string selected_input = "";
 
         private static V4 on_color = new V4(192, 175, 250, 255);
         private static V4 off_color = new V4(255, 255, 255, 255);
         private static V4 text_color = new V4(0, 0, 0, 255);
+
+        public static void set_defaults(V4 on, V4 off, V4 text) {
+            on_color = on;
+            off_color = off;
+            text_color = text;
+        }
 
         public static void slider(V4 rect, ref int value, int max, V4 off, V4 on) {
             if (helpers.mouse_inside(rect, 2) && (mouse.button_pressed(0))) {
