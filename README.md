@@ -20,8 +20,9 @@ Help with the engine can be found at [the wiki](https://github.com/willmexe/Fjor
 
 ## Projects that use Fjord
 
-[Get the last](https://github.com/willmexe/Mini-Jam-88) - A game made for the Mini Jam 88 Game Jam.<br/>
-[Flappy Bird](https://github.com/willmexe/Flappy_Bird) - A Flappy Bird clone made in Fjord.
+[Get the last](https://github.com/willmexe/Mini-Jam-88) - A game made for the Mini Jam 88 Game Jam.  
+[Flappy Bird](https://github.com/willmexe/Flappy_Bird) - A Flappy Bird clone made in Fjord.  
+[Glacier](https://github.com/willmexe/Glacier) - The Fjord Tilemap Editor.  
 
 ## Credits
 
