@@ -81,14 +81,51 @@ namespace Fjord.Modules.Ui
         public static void num_input_box (V4 rect, string font, ref int value, string input_state, string id, V4 off, V4 on, V4 text_color) {
             if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(mb.left))) {
                 selected_input = selected_input == id ? "" : id;
+            }
 
+            if(selected_input == id) {
                 if(input.get_key_just_pressed(input.key_backspace)) {
                     if(value.ToString().Length > 0)
                         Int32.TryParse(value.ToString().Substring(0, value.ToString().Length - 1), out value);
                 } else if(input.get_key_just_pressed(input.key_minus)) {
                     value = -value;
                 } else {
-                    Int32.TryParse(value.ToString() + input.get_human_input(), out value);
+                    try {
+                        switch(input.get_any_key_just_pressed()) {
+                            case input.key_0:
+                                value = Convert.ToInt32(value.ToString() + "0");
+                                break;
+                            case input.key_1:
+                                value = Convert.ToInt32(value.ToString() + "1");
+                                break;
+                            case input.key_2:
+                                value = Convert.ToInt32(value.ToString() + "2");
+                                break;
+                            case input.key_3:
+                                value = Convert.ToInt32(value.ToString() + "3");
+                                break;
+                            case input.key_4:
+                                value = Convert.ToInt32(value.ToString() + "4");
+                                break;
+                            case input.key_5:
+                                value = Convert.ToInt32(value.ToString() + "5");
+                                break;
+                            case input.key_6:
+                                value = Convert.ToInt32(value.ToString() + "6");
+                                break;
+                            case input.key_7:
+                                value = Convert.ToInt32(value.ToString() + "7");
+                                break;
+                            case input.key_8:
+                                value = Convert.ToInt32(value.ToString() + "8");
+                                break;
+                            case input.key_9:
+                                value = Convert.ToInt32(value.ToString() + "9");
+                                break;
+                        }
+                    } catch(OverflowException) {
+                        
+                    }
                 }
             }
 
@@ -101,16 +138,53 @@ namespace Fjord.Modules.Ui
         }
 
         public static void num_input_box (V4 rect, string font, ref int value, string input_state, string id) {
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(mb.left))) {
+           if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(mb.left))) {
                 selected_input = selected_input == id ? "" : id;
+            }
 
+            if(selected_input == id) {
                 if(input.get_key_just_pressed(input.key_backspace)) {
                     if(value.ToString().Length > 0)
                         Int32.TryParse(value.ToString().Substring(0, value.ToString().Length - 1), out value);
                 } else if(input.get_key_just_pressed(input.key_minus)) {
                     value = -value;
                 } else {
-                    Int32.TryParse(value.ToString() + input.get_human_input(), out value);
+                    try {
+                        switch(input.get_any_key_just_pressed()) {
+                            case input.key_0:
+                                value = Convert.ToInt32(value.ToString() + "0");
+                                break;
+                            case input.key_1:
+                                value = Convert.ToInt32(value.ToString() + "1");
+                                break;
+                            case input.key_2:
+                                value = Convert.ToInt32(value.ToString() + "2");
+                                break;
+                            case input.key_3:
+                                value = Convert.ToInt32(value.ToString() + "3");
+                                break;
+                            case input.key_4:
+                                value = Convert.ToInt32(value.ToString() + "4");
+                                break;
+                            case input.key_5:
+                                value = Convert.ToInt32(value.ToString() + "5");
+                                break;
+                            case input.key_6:
+                                value = Convert.ToInt32(value.ToString() + "6");
+                                break;
+                            case input.key_7:
+                                value = Convert.ToInt32(value.ToString() + "7");
+                                break;
+                            case input.key_8:
+                                value = Convert.ToInt32(value.ToString() + "8");
+                                break;
+                            case input.key_9:
+                                value = Convert.ToInt32(value.ToString() + "9");
+                                break;
+                        }
+                    } catch(OverflowException) {
+
+                    }
                 }
             }
 
