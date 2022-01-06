@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using System;
 using System.Diagnostics;
 
@@ -6,6 +7,12 @@ namespace Fjord.Modules.Debug {
     {
         public static string last_message = "";
         public static int last_message_streak = 0;
+
+        public static void assert(bool condition, string message) {
+            if(!condition) {
+                error(message, true);
+            }
+        }
 
         public static void send(dynamic message, string funcoverride=null, string prefix=null) {
             message = message.ToString();
