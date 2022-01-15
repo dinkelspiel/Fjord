@@ -53,9 +53,9 @@ namespace Fjord
             return is_running;
         }
 
-        public static void init(string title, int xpos, int ypos, int width, int height, bool fullscreen, string[] sys_args) {
+        public static void init(string title, int xpos, int ypos, int width, int height, bool fullscreen) {
 
-            game.sys_args = sys_args;
+            game.sys_args = Environment.GetCommandLineArgs();
 
             window_resolution = new V2(width, height);
             resolution = new V2(width, height);
@@ -115,7 +115,7 @@ namespace Fjord
             }
 
             try {
-                game.init(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false, sys_args);
+                game.init(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false);
 
                 start_scene.on_load();
             } catch (Exception e) {
