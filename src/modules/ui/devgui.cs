@@ -12,6 +12,7 @@ using static SDL2.SDL;
 
 namespace Fjord.Modules.Ui
 {
+    [Obsolete("'devgui' module is deprecated and will not be maintained. Please use the 'fui' module.")]
     public static class devgui
     {
         private static string selected_input = "";
