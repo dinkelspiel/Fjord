@@ -1,3 +1,5 @@
+using System.Reflection;
+using System.ComponentModel;
 using System.Collections.Immutable;
 using System.Security.AccessControl;
 using System;
@@ -102,7 +104,7 @@ namespace Fjord.Modules.Ui {
             windows[current_window].offset.y += draw.get_text_rect(windows[current_window].offset, font_id, font_size, text).w + 10;
             
             if(windows[current_window].offset.y > windows[current_window].size.y - 20)
-                windows[current_window].offset.y += 40;
+                windows[current_window].size.y = windows[current_window].offset.y;
         }
 
         public static bool button(string text) {
@@ -113,9 +115,10 @@ namespace Fjord.Modules.Ui {
                              draw.get_text_rect(windows[current_window].offset, font_id, font_size - 12, text).w + 20);
             
             V4 color = windows[current_window].color_foreground;
-            if(helpers.mouse_inside(rect) && mouse.button_pressed(mb.left))
+            if(helpers.mouse_inside(rect) && mouse.button_pressed(mb.left)) {
                 color = windows[current_window].color_darkerforeground;
-            else if(helpers.mouse_inside(rect)) 
+                selected_input = "";
+            } else if(helpers.mouse_inside(rect)) 
                 color = new V4(windows[current_window].color_foreground.x + 20, windows[current_window].color_foreground.y + 20, windows[current_window].color_foreground.z + 20, 255); 
 
             draw.rect(rect, color);
@@ -123,7 +126,7 @@ namespace Fjord.Modules.Ui {
 
             windows[current_window].offset.y += rect.w + 10;
             if(windows[current_window].offset.y > windows[current_window].size.y - 20)
-                windows[current_window].size.y += 40;
+                windows[current_window].size.y = windows[current_window].offset.y;
 
             if(rect.z + 40 > windows[current_window].size.x)
                 windows[current_window].size.x = rect.z + 40;
@@ -166,6 +169,10 @@ namespace Fjord.Modules.Ui {
                 }
             }
 
+            if(mouse.button_just_pressed(mb.left) && selected_input == title && !helpers.mouse_inside(rect)) {
+                selected_input = "";
+            }
+
             V4 color = windows[current_window].color_foreground;
             if(selected_input == title)
                 color = windows[current_window].color_darkerforeground;
@@ -177,10 +184,10 @@ namespace Fjord.Modules.Ui {
 
             windows[current_window].offset.y += rect.w + 10;
             if(windows[current_window].offset.y > windows[current_window].size.y - 10)
-                windows[current_window].size.y += 20;
+                windows[current_window].size.y = windows[current_window].offset.y;
 
             if(rect.z + 20 > windows[current_window].size.x)
-                windows[current_window].size.x = rect.z + 20;
+                windows[current_window].size.x = rect.z + 40;
         }
 
         public static void slider_int(string title, ref int value, V2 range) {
@@ -192,7 +199,7 @@ namespace Fjord.Modules.Ui {
                              draw.get_text_rect(windows[current_window].offset, font_id, font_size - 12, "value").w + 20);
 
             if(helpers.mouse_inside(rect) && mouse.button_just_pressed(mb.left))
-                selected_input = selected_input == title ? "" : title;
+                selected_input = title;
 
             V4 color = windows[current_window].color_foreground;
             if(selected_input == title)
@@ -201,32 +208,115 @@ namespace Fjord.Modules.Ui {
                 color = new V4(windows[current_window].color_foreground.x + 20, windows[current_window].color_foreground.y + 20, windows[current_window].color_foreground.z + 20, 255); 
 
             draw.rect(rect, color);
-
             int width = draw.get_text_rect(new V2(windows[current_window].offset.x + windows[current_window].position.x + 4, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, value.ToString()).z;
             draw.text(new V2(windows[current_window].offset.x + windows[current_window].position.x + (rect.z / 2) - (width / 2) + 4, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, value.ToString(), windows[current_window].color_text);
 
-            int normalize_val = 0;
-            if(range.x != Math.Abs(range.x)) {
-                normalize_val = range.x;
+            // Calculate handle
+
+            V2 range_norm_zero = new V2(0, 0);
+
+            int offset = 0;
+            int normalize_value = 0;
+
+            if(Math.Abs(range.x) != range.x) {
+                offset = Math.Abs(range.x);
             } else {
-                normalize_val = -range.x;
+                offset = -range.x;
             }
 
-            V2 new_range = new V2(range.x + normalize_val, range.y + normalize_val);
-            int new_value = value;
+            range_norm_zero.y = range.y + offset;
+            normalize_value = (range_norm_zero.y / 100);
+            range_norm_zero /= normalize_value;
 
-            new_value += normalize_val;
+            int value_norm = value;
 
-            int multiplier = (new_range.y / 100);
+            value_norm += offset;
+            value_norm /= normalize_value;
 
-            new_range.y = new_range.y / multiplier;
-            new_value /= multiplier;
+            draw.rect(new V4(rect.x + (int)(value_norm * 3.2 - 2), rect.y, 4, rect.w), windows[current_window].color_text);
 
-            new_value = (int)(new_value * 3.2f);
+            // Calculate click
+
+            if(mouse.button_just_pressed(mb.left) && selected_input == title && !helpers.mouse_inside(rect)) {
+                selected_input = "";
+            }
+
+            if(mouse.button_pressed(mb.left) && selected_input == title) {
+                V2 fixed_mousepos = new V2(mouse.position.x - rect.x, mouse.position.y - rect.y);
+                fixed_mousepos.x = (int)(fixed_mousepos.x / 3.2f);
+                value = (fixed_mousepos.x * normalize_value) - offset;
+                value = Math.Clamp(value, range.x, range.y);
+            }
 
             windows[current_window].offset.y += rect.w + 10;
             if(windows[current_window].offset.y > windows[current_window].size.y - 10)
-                windows[current_window].size.y += 20;
+                windows[current_window].size.y = windows[current_window].offset.y;
+
+            if(rect.z + 20 > windows[current_window].size.x)
+                windows[current_window].size.x = rect.z + 20;
+        }
+
+        public static void slider_float(string title, ref float value, V2f range) {
+            Debug.Debug.assert(current_window != "", "Window must be set in 'fui.slider_float'!");
+
+            V4 rect = new V4(windows[current_window].offset.x + windows[current_window].position.x, 
+                             windows[current_window].offset.y + windows[current_window].position.y, 
+                             320, 
+                             draw.get_text_rect(windows[current_window].offset, font_id, font_size - 12, "value").w + 20);
+
+            if(helpers.mouse_inside(rect) && mouse.button_just_pressed(mb.left))
+                selected_input = title;
+
+            V4 color = windows[current_window].color_foreground;
+            if(selected_input == title)
+                color = windows[current_window].color_darkerforeground;
+            else if(helpers.mouse_inside(rect)) 
+                color = new V4(windows[current_window].color_foreground.x + 20, windows[current_window].color_foreground.y + 20, windows[current_window].color_foreground.z + 20, 255); 
+
+            draw.rect(rect, color);
+            int width = draw.get_text_rect(new V2(windows[current_window].offset.x + windows[current_window].position.x + 4, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, value.ToString()).z;
+            draw.text(new V2(windows[current_window].offset.x + windows[current_window].position.x + (rect.z / 2) - (width / 2) + 4, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, value.ToString(), windows[current_window].color_text);
+
+            // Calculate handle
+
+            V2 range_norm_zero = new V2(0, 0);
+
+            int offset = 0;
+            int normalize_value = 0;
+
+            if(Math.Abs(range.x) != range.x) {
+                offset = Math.Abs((int)range.x);
+            } else {
+                offset = -(int)range.x;
+            }
+
+            range_norm_zero.y = (int)range.y + offset;
+            normalize_value = (range_norm_zero.y / 100);
+            range_norm_zero /= normalize_value;
+
+            float value_norm = value;
+
+            value_norm += offset;
+            value_norm /= normalize_value;
+
+            draw.rect(new V4(rect.x + (int)(value_norm * 3.2 - 2), rect.y, 4, rect.w), windows[current_window].color_text);
+
+            // Calculate click
+
+            if(mouse.button_just_pressed(mb.left) && selected_input == title && !helpers.mouse_inside(rect)) {
+                selected_input = "";
+            }
+
+            if(mouse.button_pressed(mb.left) && selected_input == title) {
+                V2f fixed_mousepos = new V2f(mouse.position.x - rect.x, mouse.position.y - rect.y);
+                fixed_mousepos.x = (fixed_mousepos.x / 3.2f);
+                value = (fixed_mousepos.x * normalize_value) - offset;
+                value = Math.Clamp(value, range.x, range.y);
+            }
+
+            windows[current_window].offset.y += rect.w + 10;
+            if(windows[current_window].offset.y > windows[current_window].size.y - 10)
+                windows[current_window].size.y = windows[current_window].offset.y;
 
             if(rect.z + 20 > windows[current_window].size.x)
                 windows[current_window].size.x = rect.z + 20;
