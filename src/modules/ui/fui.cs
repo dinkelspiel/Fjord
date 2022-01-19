@@ -115,9 +115,11 @@ namespace Fjord.Modules.Ui {
                              draw.get_text_rect(windows[current_window].offset, font_id, font_size - 12, text).w + 20);
             
             V4 color = windows[current_window].color_foreground;
-            if(helpers.mouse_inside(rect) && mouse.button_pressed(mb.left)) {
+            if(helpers.mouse_inside(rect) && mouse.button_pressed(mb.left) && (selected_input == "" || selected_input == text)) {
                 color = windows[current_window].color_darkerforeground;
-                selected_input = "";
+                selected_input = text;
+            } else if(helpers.mouse_inside(rect) && mouse.button_just_pressed(mb.left)) {
+                selected_input = text;
             } else if(helpers.mouse_inside(rect)) 
                 color = new V4(windows[current_window].color_foreground.x + 20, windows[current_window].color_foreground.y + 20, windows[current_window].color_foreground.z + 20, 255); 
 
@@ -131,7 +133,7 @@ namespace Fjord.Modules.Ui {
             if(rect.z + 40 > windows[current_window].size.x)
                 windows[current_window].size.x = rect.z + 40;
 
-            if(mouse.llmb && !mouse.lmb)
+            if(selected_input == text)
                 return true;
             else
                 return false;
@@ -182,6 +184,10 @@ namespace Fjord.Modules.Ui {
             draw.rect(rect, color);
             draw.text(new V2(windows[current_window].offset.x + windows[current_window].position.x + 4, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, value, windows[current_window].color_text);
             draw.text(new V2(rect.x + rect.z + 10, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, title, windows[current_window].color_text);
+
+            V4 text_rect = draw.get_text_rect(new V2(windows[current_window].offset.x + windows[current_window].position.x + 4, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, value);
+            if(selected_input == title)
+                draw.rect(new V4(windows[current_window].offset.x + windows[current_window].position.x + text_rect.z + 6, windows[current_window].offset.y + windows[current_window].position.y + 2, 4, rect.w - 4), windows[current_window].color_text);
 
             if(windows[current_window].size.x - 20 < rect.z + 10 + draw.get_text_rect(new V2(0, 0), font_id, font_size, title).z)
                 windows[current_window].size.x = rect.z + 30 + draw.get_text_rect(new V2(0, 0), font_id, font_size, title).z;
@@ -242,7 +248,8 @@ namespace Fjord.Modules.Ui {
             value_norm += offset;
             value_norm = (int)(value_norm / normalize_value);
 
-            draw.rect(new V4(rect.x + (int)(value_norm * 3.2 - 2), rect.y, 4, rect.w), windows[current_window].color_text);
+            if(selected_input == title)
+                draw.rect(new V4(rect.x + (int)(value_norm * 3.2 - 2), rect.y, 4, rect.w), windows[current_window].color_text);
 
             // Calculate click
             // TODO: Allow values between 0 and 100
@@ -338,7 +345,8 @@ namespace Fjord.Modules.Ui {
             value_norm += offset;
             value_norm /= normalize_value;
 
-            draw.rect(new V4(rect.x + (int)(value_norm * 3.2 - 2), rect.y, 4, rect.w), windows[current_window].color_text);
+            if(selected_input == title)
+                draw.rect(new V4(rect.x + (int)(value_norm * 3.2 - 2), rect.y, 4, rect.w), windows[current_window].color_text);
 
             // Calculate click
             // TODO: Allow values between 0 and 100
