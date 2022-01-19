@@ -181,6 +181,10 @@ namespace Fjord.Modules.Ui {
 
             draw.rect(rect, color);
             draw.text(new V2(windows[current_window].offset.x + windows[current_window].position.x + 4, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, value, windows[current_window].color_text);
+            draw.text(new V2(rect.x + rect.z + 10, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, title, windows[current_window].color_text);
+
+            if(windows[current_window].size.x - 20 < rect.z + 10 + draw.get_text_rect(new V2(0, 0), font_id, font_size, title).z)
+                windows[current_window].size.x = rect.z + 30 + draw.get_text_rect(new V2(0, 0), font_id, font_size, title).z;
 
             windows[current_window].offset.y += rect.w + 10;
             if(windows[current_window].offset.y > windows[current_window].size.y - 10)
@@ -210,6 +214,10 @@ namespace Fjord.Modules.Ui {
             draw.rect(rect, color);
             int width = draw.get_text_rect(new V2(windows[current_window].offset.x + windows[current_window].position.x + 4, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, value.ToString()).z;
             draw.text(new V2(windows[current_window].offset.x + windows[current_window].position.x + (rect.z / 2) - (width / 2) + 4, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, value.ToString(), windows[current_window].color_text);
+            draw.text(new V2(rect.x + rect.z + 10, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, title, windows[current_window].color_text);
+
+            if(windows[current_window].size.x - 20 < rect.z + 10 + draw.get_text_rect(new V2(0, 0), font_id, font_size, title).z)
+                windows[current_window].size.x = rect.z + 30 + draw.get_text_rect(new V2(0, 0), font_id, font_size, title).z;
 
             // Calculate handle
 
@@ -276,6 +284,10 @@ namespace Fjord.Modules.Ui {
             draw.rect(rect, color);
             int width = draw.get_text_rect(new V2(windows[current_window].offset.x + windows[current_window].position.x + 4, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, value.ToString()).z;
             draw.text(new V2(windows[current_window].offset.x + windows[current_window].position.x + (rect.z / 2) - (width / 2) + 4, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, value.ToString(), windows[current_window].color_text);
+            draw.text(new V2(rect.x + rect.z + 10, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, title, windows[current_window].color_text);
+
+            if(windows[current_window].size.x - 20 < rect.z + 10 + draw.get_text_rect(new V2(0, 0), font_id, font_size, title).z)
+                windows[current_window].size.x = rect.z + 30 + draw.get_text_rect(new V2(0, 0), font_id, font_size, title).z;
 
             // Calculate handle
 
