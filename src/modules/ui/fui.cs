@@ -171,7 +171,7 @@ namespace Fjord.Modules.Ui {
 
             if(mouse.button_just_pressed(mb.left) && selected_input == title && !helpers.mouse_inside(rect)) {
                 selected_input = "";
-            }
+            }                                                                                                                                                               
 
             V4 color = windows[current_window].color_foreground;
             if(selected_input == title)
@@ -220,11 +220,12 @@ namespace Fjord.Modules.Ui {
                 windows[current_window].size.x = rect.z + 30 + draw.get_text_rect(new V2(0, 0), font_id, font_size, title).z;
 
             // Calculate handle
+            // TODO: Allow values between 0 and 100
 
             V2 range_norm_zero = new V2(0, 0);
 
             int offset = 0;
-            int normalize_value = 0;
+            float normalize_value = 0;
 
             if(Math.Abs(range.x) != range.x) {
                 offset = Math.Abs(range.x);
@@ -234,16 +235,17 @@ namespace Fjord.Modules.Ui {
 
             range_norm_zero.y = range.y + offset;
             normalize_value = (range_norm_zero.y / 100);
-            range_norm_zero /= normalize_value;
+            range_norm_zero = new V2((int)(range_norm_zero.x / normalize_value), (int)(range_norm_zero.y / normalize_value));
 
             int value_norm = value;
 
             value_norm += offset;
-            value_norm /= normalize_value;
+            value_norm = (int)(value_norm / normalize_value);
 
             draw.rect(new V4(rect.x + (int)(value_norm * 3.2 - 2), rect.y, 4, rect.w), windows[current_window].color_text);
 
             // Calculate click
+            // TODO: Allow values between 0 and 100
 
             if(mouse.button_just_pressed(mb.left) && selected_input == title && !helpers.mouse_inside(rect)) {
                 selected_input = "";
@@ -252,7 +254,7 @@ namespace Fjord.Modules.Ui {
             if(mouse.button_pressed(mb.left) && selected_input == title) {
                 V2 fixed_mousepos = new V2(mouse.position.x - rect.x, mouse.position.y - rect.y);
                 fixed_mousepos.x = (int)(fixed_mousepos.x / 3.2f);
-                value = (fixed_mousepos.x * normalize_value) - offset;
+                value = (int)(fixed_mousepos.x * normalize_value) - offset;
                 value = Math.Clamp(value, range.x, range.y);
             }
 
@@ -264,7 +266,7 @@ namespace Fjord.Modules.Ui {
                 windows[current_window].size.x = rect.z + 20;
         }
 
-        public static void slider_float(string title, ref float value, V2f range) {
+        public static void slider_float(string title, ref float value, V2f range, int decimal_points = 2) {
             Debug.Debug.assert(current_window != "", "Window must be set in 'fui.slider_float'!");
 
             V4 rect = new V4(windows[current_window].offset.x + windows[current_window].position.x, 
@@ -282,14 +284,39 @@ namespace Fjord.Modules.Ui {
                 color = new V4(windows[current_window].color_foreground.x + 20, windows[current_window].color_foreground.y + 20, windows[current_window].color_foreground.z + 20, 255); 
 
             draw.rect(rect, color);
-            int width = draw.get_text_rect(new V2(windows[current_window].offset.x + windows[current_window].position.x + 4, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, value.ToString()).z;
-            draw.text(new V2(windows[current_window].offset.x + windows[current_window].position.x + (rect.z / 2) - (width / 2) + 4, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, value.ToString(), windows[current_window].color_text);
+            string new_value = value.ToString();
+            if(decimal_points > 0) {
+                if(value.ToString().Contains(".")) {
+                    new_value = value.ToString().Split(".")[0] + ".";
+                    string decimal_val = value.ToString().Split(".")[1];
+                    while(decimal_val.Length < decimal_points + 1) {
+                        decimal_val += "0";
+                    }
+                    decimal_val = decimal_val.Substring(0, decimal_points);
+                    new_value += decimal_val;
+                } else {
+                    new_value += ".";
+                    for(var i = 0; i < decimal_points; i ++) {
+                        new_value += "0";
+                    }
+                }
+            } else {
+                if(value.ToString().Contains(".")) {
+                    new_value = value.ToString().Split()[0];
+                }
+            }
+
+            int width = draw.get_text_rect(new V2(windows[current_window].offset.x + windows[current_window].position.x + 4, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, new_value.ToString()).z;
+
+            draw.text(new V2(windows[current_window].offset.x + windows[current_window].position.x + (rect.z / 2) - (width / 2) + 4, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, new_value, windows[current_window].color_text);
+            
             draw.text(new V2(rect.x + rect.z + 10, windows[current_window].offset.y + windows[current_window].position.y + 2), font_id, font_size, title, windows[current_window].color_text);
 
             if(windows[current_window].size.x - 20 < rect.z + 10 + draw.get_text_rect(new V2(0, 0), font_id, font_size, title).z)
                 windows[current_window].size.x = rect.z + 30 + draw.get_text_rect(new V2(0, 0), font_id, font_size, title).z;
 
             // Calculate handle
+            // TODO: Allow values between 0 and 100
 
             V2 range_norm_zero = new V2(0, 0);
 
@@ -314,6 +341,7 @@ namespace Fjord.Modules.Ui {
             draw.rect(new V4(rect.x + (int)(value_norm * 3.2 - 2), rect.y, 4, rect.w), windows[current_window].color_text);
 
             // Calculate click
+            // TODO: Allow values between 0 and 100
 
             if(mouse.button_just_pressed(mb.left) && selected_input == title && !helpers.mouse_inside(rect)) {
                 selected_input = "";
