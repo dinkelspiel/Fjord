@@ -139,7 +139,7 @@ namespace Fjord.Modules.Ui {
                 return false;
         }
 
-        public static void input_box(string title, ref string value) {
+        public static void input_box(string title, ref string value, string id=null) {
             Debug.Debug.assert(current_window != "", "Window must be set in 'fui.input_box'!");
 
             if(value == null)
@@ -151,9 +151,9 @@ namespace Fjord.Modules.Ui {
                              draw.get_text_rect(windows[current_window].offset, font_id, font_size - 12, "value").w + 20);
 
             if(helpers.mouse_inside(rect) && mouse.button_just_pressed(mb.left))
-                selected_input = selected_input == title ? "" : title;
+                selected_input = selected_input == (id == null ? title : id) ? "" : (id == null ? title : id);
 
-            if(selected_input == title) {
+            if(selected_input == (id == null ? title : id)) {
                 if(input.get_key_just_pressed(input.key_backspace)) {
                     if(!input.get_key_pressed(input.key_lctrl))
                         if(value.Length > 0)
@@ -171,12 +171,12 @@ namespace Fjord.Modules.Ui {
                 }
             }
 
-            if(mouse.button_just_pressed(mb.left) && selected_input == title && !helpers.mouse_inside(rect)) {
+            if(mouse.button_just_pressed(mb.left) && selected_input == (id == null ? title : id) && !helpers.mouse_inside(rect)) {
                 selected_input = "";
             }                                                                                                                                                               
 
             V4 color = windows[current_window].color_foreground;
-            if(selected_input == title)
+            if(selected_input == (id == null ? title : id))
                 color = windows[current_window].color_darkerforeground;
             else if(helpers.mouse_inside(rect)) 
                 color = new V4(windows[current_window].color_foreground.x + 20, windows[current_window].color_foreground.y + 20, windows[current_window].color_foreground.z + 20, 255); 
@@ -200,7 +200,7 @@ namespace Fjord.Modules.Ui {
                 windows[current_window].size.x = rect.z + 40;
         }
 
-        public static void slider_int(string title, ref int value, V2 range) {
+        public static void slider_int(string title, ref int value, V2 range, string id=null) {
             Debug.Debug.assert(current_window != "", "Window must be set in 'fui.slider_int'!");
 
             V4 rect = new V4(windows[current_window].offset.x + windows[current_window].position.x, 
@@ -209,10 +209,10 @@ namespace Fjord.Modules.Ui {
                              draw.get_text_rect(windows[current_window].offset, font_id, font_size - 12, "value").w + 20);
 
             if(helpers.mouse_inside(rect) && mouse.button_just_pressed(mb.left))
-                selected_input = title;
+                selected_input = id == null ? title : id;
 
             V4 color = windows[current_window].color_foreground;
-            if(selected_input == title)
+            if(selected_input == (id == null ? title : id))
                 color = windows[current_window].color_darkerforeground;
             else if(helpers.mouse_inside(rect)) 
                 color = new V4(windows[current_window].color_foreground.x + 20, windows[current_window].color_foreground.y + 20, windows[current_window].color_foreground.z + 20, 255); 
@@ -254,11 +254,11 @@ namespace Fjord.Modules.Ui {
             // Calculate click
             // TODO: Allow values between 0 and 100
 
-            if(mouse.button_just_pressed(mb.left) && selected_input == title && !helpers.mouse_inside(rect)) {
+            if(mouse.button_just_pressed(mb.left) && selected_input == (id == null ? title : id) && !helpers.mouse_inside(rect)) {
                 selected_input = "";
             }
 
-            if(mouse.button_pressed(mb.left) && selected_input == title) {
+            if(mouse.button_pressed(mb.left) && selected_input == (id == null ? title : id)) {
                 V2 fixed_mousepos = new V2(mouse.position.x - rect.x, mouse.position.y - rect.y);
                 fixed_mousepos.x = (int)(fixed_mousepos.x / 3.2f);
                 value = (int)(fixed_mousepos.x * normalize_value) - offset;
@@ -273,7 +273,7 @@ namespace Fjord.Modules.Ui {
                 windows[current_window].size.x = rect.z + 20;
         }
 
-        public static void slider_float(string title, ref float value, V2f range, int decimal_points = 2) {
+        public static void slider_float(string title, ref float value, V2f range, int decimal_points = 2, string id=null) {
             Debug.Debug.assert(current_window != "", "Window must be set in 'fui.slider_float'!");
 
             V4 rect = new V4(windows[current_window].offset.x + windows[current_window].position.x, 
@@ -282,10 +282,10 @@ namespace Fjord.Modules.Ui {
                              draw.get_text_rect(windows[current_window].offset, font_id, font_size - 12, "value").w + 20);
 
             if(helpers.mouse_inside(rect) && mouse.button_just_pressed(mb.left))
-                selected_input = title;
+                selected_input = (id == null ? title : id);
 
             V4 color = windows[current_window].color_foreground;
-            if(selected_input == title)
+            if(selected_input == (id == null ? title : id))
                 color = windows[current_window].color_darkerforeground;
             else if(helpers.mouse_inside(rect)) 
                 color = new V4(windows[current_window].color_foreground.x + 20, windows[current_window].color_foreground.y + 20, windows[current_window].color_foreground.z + 20, 255); 
@@ -345,17 +345,17 @@ namespace Fjord.Modules.Ui {
             value_norm += offset;
             value_norm /= normalize_value;
 
-            if(selected_input == title)
+            if(selected_input == (id == null ? title : id))
                 draw.rect(new V4(rect.x + (int)(value_norm * 3.2 - 2), rect.y, 4, rect.w), windows[current_window].color_text);
 
             // Calculate click
             // TODO: Allow values between 0 and 100
 
-            if(mouse.button_just_pressed(mb.left) && selected_input == title && !helpers.mouse_inside(rect)) {
+            if(mouse.button_just_pressed(mb.left) && selected_input == (id == null ? title : id) && !helpers.mouse_inside(rect)) {
                 selected_input = "";
             }
 
-            if(mouse.button_pressed(mb.left) && selected_input == title) {
+            if(mouse.button_pressed(mb.left) && selected_input == (id == null ? title : id)) {
                 V2f fixed_mousepos = new V2f(mouse.position.x - rect.x, mouse.position.y - rect.y);
                 fixed_mousepos.x = (fixed_mousepos.x / 3.2f);
                 value = (fixed_mousepos.x * normalize_value) - offset;
