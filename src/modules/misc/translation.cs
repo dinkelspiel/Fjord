@@ -16,7 +16,7 @@ namespace Fjord.Modules.Misc {
 
             string file_path = game.executable_path + "\\" + game.get_resource_folder() + "\\" + game.asset_pack + "\\data\\lang\\" + language + ".lang";
             if(!File.Exists(file_path)) {
-                Debug.Debug.send("Couldn't find lang_file '" + language + "' in asset_pack '" + game.asset_pack + "' aborting.");
+                Debug.Debug.send("Couldn't find lang_file '" + language + "' in asset_pack '" + game.asset_pack + "' ignoring.");
                 return;
             }
             string[] array = File.ReadAllLines(file_path);
