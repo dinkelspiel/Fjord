@@ -48,6 +48,7 @@ namespace Fjord.Modules.Ui {
 
         private static string selected_input = "";
 
+        public static int header_size = 32;
         public static int font_size = 24;
         public static string font_id = "";
 
@@ -96,6 +97,15 @@ namespace Fjord.Modules.Ui {
         public static void set_input_state(string input_state) {
             Debug.Debug.assert(current_window != "", "Window must be set in 'fui.set_input_state'!");
             windows[current_window].input_state = input_state;
+        }
+
+        public static void header(string text, string id=null) {
+            Debug.Debug.assert(current_window != "", "Window must be set in 'fui.header'!");
+            draw.text(windows[current_window].offset + windows[current_window].position, font_id, header_size, text, windows[current_window].color_text);
+            windows[current_window].offset.y += draw.get_text_rect(windows[current_window].offset, font_id, header_size, text).w + 10;
+            
+            if(windows[current_window].offset.y > windows[current_window].size.y - 20)
+                windows[current_window].size.y = windows[current_window].offset.y;
         }
 
         public static void text(string text, string id=null) {
