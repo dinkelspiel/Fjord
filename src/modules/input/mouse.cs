@@ -67,6 +67,27 @@ namespace Fjord.Modules.Input {
             return false;
         }
 
+        public static bool button_just_released(mb button, string input_state=null) {
+            if(input_state == null) {
+                switch(button) {
+                    case mb.left:
+                        return !lmb && llmb;
+                    case mb.right:
+                        return !rmb && lrmb;
+                }
+                return false;    
+            } else if(input_state == input.get_input_state()) { 
+                switch(button) {
+                    case mb.left:
+                        return !lmb && llmb;
+                    case mb.right:
+                        return !rmb && lrmb;
+                }
+                return false;    
+            }
+            return false;
+        }
+
         public static bool any_button_pressed(string input_state=null) {
             if(input_state == null)
                 return lmb || rmb;
