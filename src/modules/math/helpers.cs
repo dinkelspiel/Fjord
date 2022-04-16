@@ -40,7 +40,7 @@ namespace Fjord.Modules.Mathf {
             return (Dx * Dx + Dy * Dy) <= radius * radius;
         }
 
-        static bool rect_overlap_rect(V4 rect1, V4 rect2) {
+        public static bool rect_overlap_rect(V4 rect1, V4 rect2) {
             // If one rectangle is on left side of other
             if (rect1.x >= rect2.x + rect2.z || rect2.x >= rect1.x + rect1.z)
             {
