@@ -53,28 +53,74 @@ namespace Fjord.Modules.Graphics {
         private static Dictionary<string, IntPtr> texture_cache = new Dictionary<string, IntPtr>();
         private static List<texture_buffer> draw_texture_buffer = new List<texture_buffer>();
 
-        public static void rect(V4 rect, V4 color, bool fill=true, int border_radius=0) {
+        public static void rect(V4 rect, V4 color, bool fill=true, int border_radius=0, double angle=0, draw_origin origin=draw_origin.CENTER) {
             if(border_radius == 0) {
-                draw.rectangle(rect, color, fill);
+                draw.rectangle(rect, color, fill, angle, origin);
             } else {
                 draw.round_rectangle(rect, color, fill, border_radius);
+                if(angle != 0) {
+                    Debug.Debug.warn("Rotation isn't supported with border-radius yet.");
+                }
             }
         }
 
-        private static void rectangle(V4 rect, V4 color, bool fill=true) {
-            SDL_Color old_color;
-            SDL_GetRenderDrawColor(game.renderer, out old_color.r, out old_color.g, out old_color.b, out old_color.a);
-            SDL_SetRenderDrawColor(game.renderer, (byte)color.x, (byte)color.y, (byte)color.z, (byte)color.w);
+        private static void rectangle(V4 rect, V4 color, bool fill=true, double angle=0, draw_origin origin=draw_origin.CENTER) {
+            IntPtr target_texture = SDL_CreateTexture(game.renderer, SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, rect.z, rect.w);
+            SDL_SetRenderTarget(game.renderer, target_texture);
 
-            SDL_Rect converted_rect = new SDL_Rect(rect.x, rect.y, rect.z, rect.w);
+            V4 old_color = SDL_GetRenderDrawColor(game.renderer);
+            SDL_SetRenderDrawColor(game.renderer, color);
+
+            SDL_Rect converted_rect = helpers.v4_to_sdl(rect);
+            SDL_Rect draw_rect = new SDL_Rect(0, 0, rect.z, rect.w);
 
             if(fill) {
-                SDL_RenderFillRect(game.renderer, ref converted_rect);
+                SDL_RenderFillRect(game.renderer, ref draw_rect);
             } else {
-                SDL_RenderDrawRect(game.renderer, ref converted_rect);
+                SDL_RenderDrawRect(game.renderer, ref draw_rect);
             }
 
-            SDL_SetRenderDrawColor(game.renderer, old_color.r, old_color.g, old_color.b, old_color.a);
+            SDL_SetRenderTarget(game.renderer, (IntPtr)0);
+            SDL_SetRenderDrawColor(game.renderer, old_color);
+
+            SDL_Point point;
+            switch(origin) {
+                case draw_origin.TOP_LEFT:
+                    point = new SDL_Point(0, 0);
+                    break;
+                case draw_origin.TOP_MIDDLE:
+                    point = new SDL_Point(rect.z / 2, 0);
+                    break;
+                case draw_origin.TOP_RIGHT:
+                    point = new SDL_Point(rect.z, 0);
+                    break;
+
+                case draw_origin.MIDDLE_LEFT:
+                    point = new SDL_Point(0, rect.w / 2);
+                    break;
+                case draw_origin.CENTER:
+                    point = new SDL_Point(rect.z / 2, rect.w / 2);
+                    break;
+                case draw_origin.MIDDLE_RIGHT:
+                    point = new SDL_Point(rect.z, rect.w / 2);
+                    break;
+
+                case draw_origin.BOTTOM_LEFT:
+                    point = new SDL_Point(0, rect.w);
+                    break;
+                case draw_origin.BOTTOM_MIDDLE:
+                    point = new SDL_Point(rect.z / 2, rect.w);
+                    break;
+                case draw_origin.BOTTOM_RIGHT:
+                    point = new SDL_Point(rect.z, rect.w);
+                    break;
+                
+                default:
+                    point = new SDL_Point(rect.z / 2, rect.w / 2);
+                    break; 
+            }
+
+            SDL_RenderCopyEx(game.renderer, target_texture, ref draw_rect, ref converted_rect, angle, ref point, SDL_RendererFlip.SDL_FLIP_NONE);
         }
 
         private static void round_rectangle(V4 rect, V4 color, bool fill=true, int border_radius=0) {
