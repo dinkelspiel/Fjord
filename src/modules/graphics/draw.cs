@@ -68,8 +68,8 @@ namespace Fjord.Modules.Graphics {
             IntPtr target_texture = SDL_CreateTexture(game.renderer, SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, rect.z, rect.w);
             SDL_SetRenderTarget(game.renderer, target_texture);
 
-            V4 old_color = SDL_GetRenderDrawColorV4(game.renderer);
-            SDL_SetRenderDrawColorV4(game.renderer, color);
+            V4 old_color = SDL_GetRenderDrawColor(game.renderer);
+            SDL_SetRenderDrawColor(game.renderer, color);
 
             SDL_Rect converted_rect = helpers.v4_to_sdl(rect);
             SDL_Rect draw_rect = new SDL_Rect(0, 0, rect.z, rect.w);
@@ -81,7 +81,7 @@ namespace Fjord.Modules.Graphics {
             }
 
             SDL_SetRenderTarget(game.renderer, (IntPtr)0);
-            SDL_SetRenderDrawColorV4(game.renderer, old_color);
+            SDL_SetRenderDrawColor(game.renderer, old_color);
 
             SDL_Point point;
             switch(origin) {
