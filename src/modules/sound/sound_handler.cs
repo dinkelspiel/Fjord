@@ -1,7 +1,6 @@
 using static SDL2.SDL_mixer;
 using System.Collections.Generic;
 using System;
-using System.IO;
 
 namespace Fjord.Modules.Sound {
     public static class Sound {

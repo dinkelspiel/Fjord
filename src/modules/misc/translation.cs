@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System;
 using System.IO;
-using Fjord.Modules.Debug;
 
 namespace Fjord.Modules.Misc {
     public static class Language {

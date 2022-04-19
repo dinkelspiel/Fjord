@@ -2,13 +2,9 @@ using static SDL2.SDL;
 using static SDL2.SDL_image;
 using static SDL2.SDL_ttf;
 using System;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using Fjord.Modules.Camera;
 using Fjord.Modules.Mathf;
-using System.Runtime.InteropServices;
 
 namespace Fjord.Modules.Graphics {
 
