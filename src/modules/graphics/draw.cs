@@ -65,62 +65,63 @@ namespace Fjord.Modules.Graphics {
         }
 
         private static void rectangle(V4 rect, V4 color, bool fill=true, double angle=0, draw_origin origin=draw_origin.CENTER) {
-            IntPtr target_texture = SDL_CreateTexture(game.renderer, SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, rect.z, rect.w);
-            SDL_SetRenderTarget(game.renderer, target_texture);
+            // IntPtr target_texture = SDL_CreateTexture(game.renderer, SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, rect.z, rect.w);
+            // SDL_SetRenderTarget(game.renderer, target_texture);
 
             V4 old_color = SDL_GetRenderDrawColor(game.renderer);
             SDL_SetRenderDrawColor(game.renderer, color);
 
             SDL_Rect converted_rect = helpers.v4_to_sdl(rect);
-            SDL_Rect draw_rect = new SDL_Rect(0, 0, rect.z, rect.w);
+            // SDL_Rect draw_rect = new SDL_Rect(0, 0, rect.z, rect.w);
 
             if(fill) {
-                SDL_RenderFillRect(game.renderer, ref draw_rect);
+                SDL_RenderFillRect(game.renderer, ref converted_rect);
             } else {
-                SDL_RenderDrawRect(game.renderer, ref draw_rect);
+                SDL_RenderDrawRect(game.renderer, ref converted_rect);
             }
 
-            SDL_SetRenderTarget(game.renderer, (IntPtr)0);
+            // SDL_SetRenderTarget(game.renderer, (IntPtr)0);
             SDL_SetRenderDrawColor(game.renderer, old_color);
 
-            SDL_Point point;
-            switch(origin) {
-                case draw_origin.TOP_LEFT:
-                    point = new SDL_Point(0, 0);
-                    break;
-                case draw_origin.TOP_MIDDLE:
-                    point = new SDL_Point(rect.z / 2, 0);
-                    break;
-                case draw_origin.TOP_RIGHT:
-                    point = new SDL_Point(rect.z, 0);
-                    break;
+            // SDL_Point point;
+            // switch(origin) {
+            //     case draw_origin.TOP_LEFT:
+            //         point = new SDL_Point(0, 0);
+            //         break;
+            //     case draw_origin.TOP_MIDDLE:
+            //         point = new SDL_Point(rect.z / 2, 0);
+            //         break;
+            //     case draw_origin.TOP_RIGHT:
+            //         point = new SDL_Point(rect.z, 0);
+            //         break;
 
-                case draw_origin.MIDDLE_LEFT:
-                    point = new SDL_Point(0, rect.w / 2);
-                    break;
-                case draw_origin.CENTER:
-                    point = new SDL_Point(rect.z / 2, rect.w / 2);
-                    break;
-                case draw_origin.MIDDLE_RIGHT:
-                    point = new SDL_Point(rect.z, rect.w / 2);
-                    break;
+            //     case draw_origin.MIDDLE_LEFT:
+            //         point = new SDL_Point(0, rect.w / 2);
+            //         break;
+            //     case draw_origin.CENTER:
+            //         point = new SDL_Point(rect.z / 2, rect.w / 2);
+            //         break;
+            //     case draw_origin.MIDDLE_RIGHT:
+            //         point = new SDL_Point(rect.z, rect.w / 2);
+            //         break;
 
-                case draw_origin.BOTTOM_LEFT:
-                    point = new SDL_Point(0, rect.w);
-                    break;
-                case draw_origin.BOTTOM_MIDDLE:
-                    point = new SDL_Point(rect.z / 2, rect.w);
-                    break;
-                case draw_origin.BOTTOM_RIGHT:
-                    point = new SDL_Point(rect.z, rect.w);
-                    break;
+            //     case draw_origin.BOTTOM_LEFT:
+            //         point = new SDL_Point(0, rect.w);
+            //         break;
+            //     case draw_origin.BOTTOM_MIDDLE:
+            //         point = new SDL_Point(rect.z / 2, rect.w);
+            //         break;
+            //     case draw_origin.BOTTOM_RIGHT:
+            //         point = new SDL_Point(rect.z, rect.w);
+            //         break;
                 
-                default:
-                    point = new SDL_Point(rect.z / 2, rect.w / 2);
-                    break; 
-            }
+            //     default:
+            //         point = new SDL_Point(rect.z / 2, rect.w / 2);
+            //         break; 
+            // }
 
-            SDL_RenderCopyEx(game.renderer, target_texture, ref draw_rect, ref converted_rect, angle, ref point, SDL_RendererFlip.SDL_FLIP_NONE);
+            // SDL_RenderCopyEx(game.renderer, target_texture, ref draw_rect, ref converted_rect, angle, ref point, SDL_RendererFlip.SDL_FLIP_NONE);
+            // SDL_DestroyTexture(target_texture);
         }
 
         private static void round_rectangle(V4 rect, V4 color, bool fill=true, int border_radius=0) {
@@ -169,10 +170,10 @@ namespace Fjord.Modules.Graphics {
         
             while (x >= y)
             {
-                draw.line(new V2(position.x + x, position.y + y), new V2(position.x + x, position.y - y), color);
-                draw.line(new V2(position.x - x, position.y + y), new V2(position.x - x, position.y - y), color);
-                draw.line(new V2(position.x - y, position.y + x), new V2(position.x - y, position.y - x), color);
-                draw.line(new V2(position.x + y, position.y + x), new V2(position.x + y, position.y - x), color);
+                draw.new_line(new V2(position.x + x, position.y + y), new V2(position.x + x, position.y - y), color);
+                draw.new_line(new V2(position.x - x, position.y + y), new V2(position.x - x, position.y - y), color);
+                draw.new_line(new V2(position.x - y, position.y + x), new V2(position.x - y, position.y - x), color);
+                draw.new_line(new V2(position.x + y, position.y + x), new V2(position.x + y, position.y - x), color);
 
                 if (err <= 0)
                 {
@@ -331,7 +332,157 @@ namespace Fjord.Modules.Graphics {
                 draw.rect( new V4((int)Math.Round((decimal)X), (int)Math.Round((decimal)Y), 1, 1) , color);
                 X += Xinc;
                 Y += Yinc;
+            } 
+        }
+
+        public static void new_line(V2 p1, V2 p2, V4 color, V4 reset_color) {
+            V2 new_p1 = new V2();
+            V2 new_p2 = new V2();
+
+            if(Math.Abs(p1.x) != p1.x || Math.Abs(p2.x) != p2.x) {
+                if(p1.x < p2.x) {
+                    int offset = Math.Abs(p1.x);
+                    new_p1.x = 0;
+                    new_p2.x = p2.x + offset;
+                } else {
+                    int offset = Math.Abs(p2.x);
+                    new_p2.x = 0;
+                    new_p1.x = p1.x + offset;
+                }
+            } else {
+                if(p1.x < p2.x) {
+                    int offset = Math.Abs(p1.x);
+                    new_p1.x = 0;
+                    new_p2.x = p2.x - offset;
+                } else {
+                    int offset = Math.Abs(p2.x);
+                    new_p2.x = 0;
+                    new_p1.x = p1.x - offset;
+                }
             }
+
+            if(Math.Abs(p1.y) != p1.y || Math.Abs(p2.y) != p2.y) {
+                if(p1.y < p2.y) {
+                    int offset = Math.Abs(p1.y);
+                    new_p1.y = 0;
+                    new_p2.y = p2.y + offset;
+                } else {
+                    int offset = Math.Abs(p2.y);
+                    new_p2.y = 0;
+                    new_p1.y = p1.y + offset;
+                }
+            } else {
+                if(p1.y < p2.y) {
+                    int offset = Math.Abs(p1.y);
+                    new_p1.y = 0;
+                    new_p2.y = p2.y - offset;
+                } else {
+                    int offset = Math.Abs(p2.y);
+                    new_p2.y = 0;
+                    new_p1.y = p1.y - offset;
+                }
+            }
+
+            int w = new_p1.x > new_p2.x ? new_p1.x : new_p2.x;
+            int h = new_p1.y > new_p2.y ? new_p1.y : new_p2.y;
+
+            IntPtr tex = SDL_CreateTexture(game.renderer, SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, w, h);
+            SDL_SetRenderTarget(game.renderer, tex);
+            SDL_SetTextureBlendMode(tex, SDL_BlendMode.SDL_BLENDMODE_BLEND);
+            V4 old_color = SDL_GetRenderDrawColor(game.renderer);
+            SDL_SetRenderDrawColor(game.renderer, reset_color);
+            SDL_RenderClear(game.renderer);
+
+            SDL_Rect rec = new SDL_Rect(0, 0, w, h);
+
+            int x = p1.x < p2.x ? p1.x : p2.x;
+            int y = p1.y < p2.y ? p1.y : p2.y;
+
+            SDL_Rect dest = new SDL_Rect(x, y, w, h);
+            SDL_SetRenderDrawColor(game.renderer, color);
+
+            SDL_RenderDrawLine(game.renderer, new_p1.x, new_p1.y, new_p2.x, new_p2.y);
+
+            SDL_SetRenderTarget(game.renderer, (IntPtr)0);
+            SDL_SetRenderDrawColor(game.renderer, old_color);
+            SDL_Point point = new SDL_Point(0, 0);
+            SDL_RenderCopyEx(game.renderer, tex, ref rec, ref dest, 0, ref point, SDL_RendererFlip.SDL_FLIP_NONE);
+            SDL_DestroyTexture(tex);
+        }
+
+        public static void new_line(V2 p1, V2 p2, V4 color) {
+            V2 new_p1 = new V2();
+            V2 new_p2 = new V2();
+
+            if(Math.Abs(p1.x) != p1.x || Math.Abs(p2.x) != p2.x) {
+                if(p1.x < p2.x) {
+                    int offset = Math.Abs(p1.x);
+                    new_p1.x = 0;
+                    new_p2.x = p2.x + offset;
+                } else {
+                    int offset = Math.Abs(p2.x);
+                    new_p2.x = 0;
+                    new_p1.x = p1.x + offset;
+                }
+            } else {
+                if(p1.x < p2.x) {
+                    int offset = Math.Abs(p1.x);
+                    new_p1.x = 0;
+                    new_p2.x = p2.x - offset;
+                } else {
+                    int offset = Math.Abs(p2.x);
+                    new_p2.x = 0;
+                    new_p1.x = p1.x - offset;
+                }
+            }
+
+            if(Math.Abs(p1.y) != p1.y || Math.Abs(p2.y) != p2.y) {
+                if(p1.y < p2.y) {
+                    int offset = Math.Abs(p1.y);
+                    new_p1.y = 0;
+                    new_p2.y = p2.y + offset;
+                } else {
+                    int offset = Math.Abs(p2.y);
+                    new_p2.y = 0;
+                    new_p1.y = p1.y + offset;
+                }
+            } else {
+                if(p1.y < p2.y) {
+                    int offset = Math.Abs(p1.y);
+                    new_p1.y = 0;
+                    new_p2.y = p2.y - offset;
+                } else {
+                    int offset = Math.Abs(p2.y);
+                    new_p2.y = 0;
+                    new_p1.y = p1.y - offset;
+                }
+            }
+
+            int w = new_p1.x > new_p2.x ? new_p1.x : new_p2.x;
+            int h = new_p1.y > new_p2.y ? new_p1.y : new_p2.y;
+
+            IntPtr tex = SDL_CreateTexture(game.renderer, SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, w, h);
+            SDL_SetRenderTarget(game.renderer, tex);
+            SDL_SetTextureBlendMode(tex, SDL_BlendMode.SDL_BLENDMODE_BLEND);
+            V4 old_color = SDL_GetRenderDrawColor(game.renderer);
+            SDL_SetRenderDrawColor(game.renderer, new V4(0, 0, 0, 0));
+            SDL_RenderClear(game.renderer);
+
+            SDL_Rect rec = new SDL_Rect(0, 0, w, h);
+
+            int x = p1.x < p2.x ? p1.x : p2.x;
+            int y = p1.y < p2.y ? p1.y : p2.y;
+
+            SDL_Rect dest = new SDL_Rect(x, y, w, h);
+            SDL_SetRenderDrawColor(game.renderer, color);
+
+            SDL_RenderDrawLine(game.renderer, new_p1.x, new_p1.y, new_p2.x, new_p2.y);
+
+            SDL_SetRenderTarget(game.renderer, (IntPtr)0);
+            SDL_SetRenderDrawColor(game.renderer, old_color);
+            SDL_Point point = new SDL_Point(0, 0);
+            SDL_RenderCopyEx(game.renderer, tex, ref rec, ref dest, 0, ref point, SDL_RendererFlip.SDL_FLIP_NONE);
+            SDL_DestroyTexture(tex);
         }
 
         public static void texture(V2 position, texture tex) {
