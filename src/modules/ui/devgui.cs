@@ -1,14 +1,8 @@
 using System;
 using System.Linq;
-using System.Linq.Expressions;
-using Fjord;
-using Fjord.Modules.Debug;
-using Fjord.Modules.Game;
 using Fjord.Modules.Graphics;
 using Fjord.Modules.Input;
 using Fjord.Modules.Mathf;
-using Fjord.Modules.Sound;
-using static SDL2.SDL;
 
 namespace Fjord.Modules.Ui
 {

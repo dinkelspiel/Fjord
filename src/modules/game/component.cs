@@ -1,7 +1,5 @@
 using Fjord.Modules.Mathf;
 using Fjord.Modules.Graphics;
-using static SDL2.SDL;
-using System;
 using Fjord.Modules.Camera;
 
 namespace Fjord.Modules.Game {

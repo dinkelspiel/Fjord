@@ -1,6 +1,5 @@
 using static SDL2.SDL;
 using Fjord.Modules.Input;
-using Fjord.Modules.Debug;
 
 namespace Fjord.Modules.Misc {
     static class event_handler {

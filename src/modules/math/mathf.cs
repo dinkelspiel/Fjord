@@ -1,6 +1,4 @@
-using System.Numerics;
 using System;
-using Fjord.Modules.Input;
 
 namespace Fjord.Modules.Mathf {
     public static class Mathf {

@@ -1,8 +1,3 @@
-using Fjord.Modules.Mathf;
-using Fjord.Modules.Graphics;
-using Fjord.Modules.Debug;
-using static SDL2.SDL;
-using System;
 using System.Collections.Generic;
 
 namespace Fjord.Modules.Game
