@@ -170,10 +170,10 @@ namespace Fjord.Modules.Graphics {
         
             while (x >= y)
             {
-                draw.new_line(new V2(position.x + x, position.y + y), new V2(position.x + x, position.y - y), color);
-                draw.new_line(new V2(position.x - x, position.y + y), new V2(position.x - x, position.y - y), color);
-                draw.new_line(new V2(position.x - y, position.y + x), new V2(position.x - y, position.y - x), color);
-                draw.new_line(new V2(position.x + y, position.y + x), new V2(position.x + y, position.y - x), color);
+                draw.line(new V2(position.x + x, position.y + y), new V2(position.x + x, position.y - y), color);
+                draw.line(new V2(position.x - x, position.y + y), new V2(position.x - x, position.y - y), color);
+                draw.line(new V2(position.x - y, position.y + x), new V2(position.x - y, position.y - x), color);
+                draw.line(new V2(position.x + y, position.y + x), new V2(position.x + y, position.y - x), color);
 
                 if (err <= 0)
                 {
