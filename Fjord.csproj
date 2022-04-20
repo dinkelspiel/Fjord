@@ -10,4 +10,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'"/>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>bin/Debug/net6.0/Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
 </Project>
