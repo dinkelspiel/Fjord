@@ -12,9 +12,7 @@ namespace Fjord.Modules.Game {
     public abstract class scene {
         List<entity> entities = new List<entity>();
         
-        #nullable enable
-        public tilemap? tiles; 
-        #nullable disable
+        public tilemap tiles; 
 
         public void add_entity(entity e) {
             entities.Add(e);
@@ -104,15 +102,28 @@ namespace Fjord.Modules.Game {
                 return;
             }
 
-            #nullable enable
-            tilemap? format = JsonConvert.DeserializeObject<tilemap>(JsonString);
-            #nullable disable
+            tilemap format = JsonConvert.DeserializeObject<tilemap>(JsonString);
 
             foreach(string key in format.tiles.Keys) {
                 format.tiles[key].tex.set_texture(format.tiles[key].path);
             }
             
             scenes[id].tiles = format;
+        }
+
+        public static Dictionary<string, dynamic> get_tile(V2 pos) {
+            V2 fixed_pos = new V2();
+            fixed_pos.x = pos.x / scenes[current_scene].tiles.tile_size.x;
+            fixed_pos.y = pos.y / scenes[current_scene].tiles.tile_size.y;
+
+            if(!(fixed_pos.x >= 0 && fixed_pos.x < scenes[current_scene].tiles.grid_size.x)) {
+                return scenes[current_scene].tiles.tile_map[0][0];
+            }
+            if(!(fixed_pos.y >= 0 && fixed_pos.y < scenes[current_scene].tiles.grid_size.y)) {
+                return scenes[current_scene].tiles.tile_map[0][0];
+            }
+
+            return scenes[current_scene].tiles.tile_map[fixed_pos.x][fixed_pos.y];
         }
 
         public static void stop() {
