@@ -15,8 +15,87 @@ namespace Fjord.Modules.Ui {
         }
 
         public class window_options {
-            public bool window_bar = false;
-            public window_type type = window_type.static_window;
+            private window_type _type = window_type.static_window;
+            private V2 _position = new V2(0, 0);
+            private V2 _size = new V2(100, 100);
+            private string _input_state = "general";
+
+            private V4 _color_background = new V4(20, 20, 20, 255);
+            private V4 _color_text =  new V4(255, 255, 255, 255);
+            private V4 _color_foreground = new V4(40, 75, 120, 255);
+            private V4 _color_darkerforeground = new V4(30, 50, 80, 255);
+
+            public window_options() {
+                if(windows.Keys.Contains(current_window)) {
+                    _color_background = windows[current_window].color_background;
+                    _color_darkerforeground = windows[current_window].color_darkerforeground;
+                    _color_foreground = windows[current_window].color_foreground;
+                    _color_text = windows[current_window].color_text;
+
+                    _type = windows[current_window].type;
+                    _position = windows[current_window].position;
+                    _size = windows[current_window].size;
+                    _input_state = windows[current_window].input_state;
+                } 
+            }
+
+            public window_options type(window_type type) {
+                this._type = type;
+                return this;
+            }
+
+            public window_options position(V2 position) {
+                this._position = position;
+                return this;
+            }
+
+            public window_options size(V2 size) {
+                this._size = size;
+                return this;
+            }
+
+            public window_options input_state(string input_state) {
+                this._input_state = input_state;
+                return this;
+            }
+
+            public window_options background(V4 color) {
+                this._color_background = color;
+                return this;
+            }   
+
+            public window_options text(V4 color) {
+                this._color_text = color;
+                return this;
+            }
+
+            public window_options foreground(V4 color) {
+                this._color_foreground = color;
+                return this;
+            }
+
+            public window_options darkerforeground(V4 color) {
+                this._color_darkerforeground = color;
+                return this;
+            }
+
+            public void assign() {
+                if(!windows.Keys.Contains(current_window)) {
+                    return;
+                } 
+
+                Debug.Debug.assert(current_window != "", "Window must be set when changing options!");
+
+                windows[current_window].color_background = this._color_background;
+                windows[current_window].color_darkerforeground = this._color_darkerforeground;
+                windows[current_window].color_foreground = this._color_foreground;
+                windows[current_window].color_text = this._color_text;
+
+                windows[current_window].type = this._type;
+                windows[current_window].position = this._position;
+                windows[current_window].size = this._size;
+                windows[current_window].input_state = this._input_state;
+            }
         }
 
         class window {
@@ -44,21 +123,20 @@ namespace Fjord.Modules.Ui {
         public static int font_size = 24;
         public static string font_id = "";
 
-        public static void begin(string title, window_options options) {
+        public static void begin(string title, bool window_bar=true) {
             Debug.Debug.assert(current_window == "", "Window must not be set when calling 'fui.begin'!");
 
             current_window = title;
             if(!windows.Keys.ToImmutableArray().Contains(title)) {
                 windows.Add(title, new window() {
-                    title = title,
-                    type = options.type
+                    title = title
                 });
             } else {
                 windows[title].offset = new V2(10, 10);
             }
 
             draw.rect(new V4(windows[current_window].position.x, windows[current_window].position.y, windows[current_window].size.x, windows[current_window].size.y), windows[current_window].color_background);
-            if(options.window_bar) {
+            if(window_bar) {
                 int window_bar_height = font_size + 6;
 
                 V4 rect = new V4(windows[current_window].position.x, windows[current_window].position.y - window_bar_height, windows[current_window].size.x, window_bar_height);
@@ -72,11 +150,18 @@ namespace Fjord.Modules.Ui {
             current_window = "";
         }
 
+        public static window_options options() {
+            Debug.Debug.assert(current_window != "", "Window must be set in 'fui.options'!");
+            return new window_options();
+        }
+
+        [Obsolete("Using the 'set_' functions in Fjord Ui is Obselete! Use the window_options class.")]
         public static void set_position(V2 position) {
             Debug.Debug.assert(current_window != "", "Window must be set in 'fui.set_position'!");
             windows[current_window].position = position;
         }
-
+        
+        [Obsolete("Using the 'set_' functions in Fjord Ui is Obselete! Use the window_options class.")]
         public static void set_size(V2 size) {
             Debug.Debug.assert(current_window != "", "Window must be set in 'fui.set_size'!");
             windows[current_window].size = size;
@@ -86,6 +171,7 @@ namespace Fjord.Modules.Ui {
             font_id = font;
         }
 
+        [Obsolete("Using the 'set_' functions in Fjord Ui is Obselete! Use the window_options class.")]
         public static void set_input_state(string input_state) {
             Debug.Debug.assert(current_window != "", "Window must be set in 'fui.set_input_state'!");
             windows[current_window].input_state = input_state;
@@ -135,9 +221,10 @@ namespace Fjord.Modules.Ui {
             if(rect.z + 40 > windows[current_window].size.x)
                 windows[current_window].size.x = rect.z + 40;
 
-            if(selected_input == (id == null ? text : id))
+            if(selected_input == (id == null ? text : id)) {
+                selected_input = "";
                 return true;
-            else
+            } else
                 return false;
         }
 
