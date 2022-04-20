@@ -112,7 +112,12 @@ namespace Fjord
                 game.stop();
             }
 
-            game.init(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false);
+            try {
+                game.init(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false);
+            } catch(Exception e) {
+                Debug.send("-- Init Error --");
+                game.stop(e);
+            }
 
             start_scene.on_load();
 
