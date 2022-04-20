@@ -12,7 +12,9 @@ namespace Fjord.Modules.Game {
     public abstract class scene {
         List<entity> entities = new List<entity>();
         
+        #nullable enable
         public tilemap? tiles; 
+        #nullable disable
 
         public void add_entity(entity e) {
             entities.Add(e);
@@ -96,7 +98,9 @@ namespace Fjord.Modules.Game {
                 return;
             }
 
+            #nullable enable
             tilemap? format = JsonConvert.DeserializeObject<tilemap>(JsonString);
+            #nullable disable
 
             foreach(string key in format.tiles.Keys) {
                 format.tiles[key].tex.set_texture(format.tiles[key].path);
