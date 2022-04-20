@@ -9,6 +9,10 @@
 
 A code only game engine i'm writing in C# to make game development easier.
 
+## Release Builds Not Updated
+
+The release builds of Fjord will not be updated from 1.2 for atleast a short while as the engine changes so much currently and it gets so many bug fixes and new features that it's not viable to release a update. The master branch is tested and should be stable enough to support a game and if you have any issues then please report them so i can fix them.
+
 ## Tested Platforms
 
 - Windows 10, 11
