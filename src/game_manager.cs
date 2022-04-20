@@ -112,14 +112,9 @@ namespace Fjord
                 game.stop();
             }
 
-            try {
-                game.init(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false);
+            game.init(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false);
 
-                start_scene.on_load();
-            } catch (Exception e) {
-                Debug.send("Init error!");
-                game.stop(e);
-            }
+            start_scene.on_load();
 
             while(game.running()) {
                 game.frame_last = game.frame_now;
@@ -129,26 +124,26 @@ namespace Fjord
                 game.delta_time = (double)((game.frame_now - game.frame_last)*10 / (double)SDL_GetPerformanceFrequency());
 
                 event_handler.handle_events();
-                // try {
-                //     game.update();
-                // } catch (Exception e) {
-                //     Debug.send("-- Update Error --");
-                //     game.stop(e);
+                try {
+                    game.update();
+                } catch (Exception e) {
+                    Debug.send("-- Update Error --");
+                    game.stop(e);
 
-                //     throw;
-                // }
+                    throw;
+                }
                     
-                // try {
-                //     game.render();
-                // } catch (Exception e) {
-                //     Debug.send("-- Render Error --");
-                //     game.stop(e);
+                try {
+                    game.render();
+                } catch (Exception e) {
+                    Debug.send("-- Render Error --");
+                    game.stop(e);
 
-                //     throw;
-                // }
+                    throw;
+                }
 
-                game.update();
-                game.render();
+                // game.update();
+                // game.render();
 
                 double frame_delay = 1000 / MAX_FPS;
 
@@ -186,7 +181,7 @@ namespace Fjord
 
         public static void stop(Exception e) {
 
-            //Debug.send(e.Message + e.StackTrace.Split('\n')[0].Replace(" at ", " In ").Replace("  ", "").Replace("\n", ""));
+            Debug.send(e.Message + e.StackTrace.Split('\n')[0].Replace(" at ", " In ").Replace("  ", "").Replace("\n", ""));
             Debug.send("\n" + e.Message + "\n" + e.StackTrace);
 
             stop(1);
@@ -212,7 +207,7 @@ namespace Fjord
             Directory.CreateDirectory("logs/" + time);
             File.WriteAllLines(file, log);
 
-            System.Environment.Exit(exit_code);
+            System.Environment.Exit(0);
         }
 
         public static int get_ticks() {
