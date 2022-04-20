@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 
 namespace Fjord.Modules.Game
 {
@@ -25,16 +26,26 @@ namespace Fjord.Modules.Game
         }
 
         public entity use(component Comp, dynamic parent) {
-            Comp.parent = parent;
-            Comp.on_load();
-            components.Add(Comp);
+            try {
+                Comp.parent = parent;
+                Comp.on_load();
+                components.Add(Comp);
+            } catch(Exception e) {
+                Debug.Debug.send("-- Use Component Error --");
+                game.stop(e);
+            }
             return this;
         }
 
         public entity use(component Comp) {
-            Comp.parent = this;
-            Comp.on_load();
-            components.Add(Comp);
+            try {
+                Comp.parent = this;
+                Comp.on_load();
+                components.Add(Comp);
+            } catch(Exception e) {
+                Debug.Debug.send("-- Use Component Error --");
+                game.stop(e);
+            }
             return this;
         }
 
