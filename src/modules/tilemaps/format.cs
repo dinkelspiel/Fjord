@@ -4,6 +4,7 @@ using Fjord.Modules.Graphics;
 
 namespace Fjord.Modules.Tilemaps
 {
+    #nullable enable
     public class tilemap
     {
         public List<property>? properties;
@@ -36,4 +37,5 @@ namespace Fjord.Modules.Tilemaps
             this.tex = new texture(path);
         }
     }
+    #nullable disable
 }
