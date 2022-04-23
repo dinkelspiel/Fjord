@@ -25,7 +25,7 @@ namespace Fjord.Modules.Game {
                 for(var i = 0; i < tiles.grid_size.x; i++) {
                     for(var j = 0; j < tiles.grid_size.y; j++) {
                         V2 pos = new V2((int)(i * tiles.tile_size.x), (int)(j * tiles.tile_size.y));
-                        draw.rect(new V4(pos.x, pos.y, tiles.tile_size.x, tiles.tile_size.y), color.black, false);
+                        // draw.rect(new V4(pos.x, pos.y, tiles.tile_size.x, tiles.tile_size.y), color.black, false); // Draw tilemap outline
 
                         if(tiles.tile_map[i][j].Keys.ToList().Contains("tile_id")) {
                             if(tiles.tiles.Keys.ToList().Contains(tiles.tile_map[i][j]["tile_id"])) {
