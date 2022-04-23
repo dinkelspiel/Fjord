@@ -10,9 +10,9 @@ using Newtonsoft.Json;
 
 namespace Fjord.Modules.Game {
     public abstract class scene {
+        public string id = "";
         List<entity> entities = new List<entity>();
-        
-        public tilemap tiles; 
+        public tilemap tiles;
 
         public void add_entity(entity e) {
             entities.Add(e);
@@ -21,17 +21,17 @@ namespace Fjord.Modules.Game {
         public virtual void update() { foreach(entity e in entities) { e.update(); } }
 
         public virtual void render() { 
-            if(this.tiles != null) {
+            if(!this.tiles.Equals(default(tilemap))) {
                 for(var i = 0; i < tiles.grid_size.x; i++) {
                     for(var j = 0; j < tiles.grid_size.y; j++) {
-                        V2 pos = new V2((int)(i * (tiles.tile_size.x * 1) - camera.get().x), (int)(j * tiles.tile_size.y - camera.get().y));
-                        V2 size = new V2(tiles.tile_size.x, tiles.tile_size.y);
-                        // draw.rect(new V4(pos.x, pos.y, size.x, size.y), color.black, false);
-                        if(tiles.tiles.Keys.ToList().Contains(tiles.tile_map[i][j]["tile_id"])) {
-                            texture tmp =  (texture)tiles.tiles[tiles.tile_map[i][j]["tile_id"]].tex.Clone();
-                            float size_ =(1 / 3.2f + 0.6875f); 
-                            tmp.set_scale(new V2f(size_, size_));
-                            draw.texture(pos, tmp);
+                        V2 pos = new V2((int)(i * tiles.tile_size.x), (int)(j * tiles.tile_size.y));
+                        draw.rect(new V4(pos.x, pos.y, tiles.tile_size.x, tiles.tile_size.y), color.black, false);
+
+                        if(tiles.tile_map[i][j].Keys.ToList().Contains("tile_id")) {
+                            if(tiles.tiles.Keys.ToList().Contains(tiles.tile_map[i][j]["tile_id"])) {
+                                texture tile_texture = (texture)tiles.tiles[tiles.tile_map[i][j]["tile_id"]].tex.Clone();
+                                draw.texture(pos, tile_texture);
+                            }
                         }
                     }
                 }
@@ -88,6 +88,8 @@ namespace Fjord.Modules.Game {
                 game.stop(e);
             }
 
+            scenes[current_scene].id = id;
+
             Debug.Debug.send("Loaded scene '" + id + "' successfully!");
 
             scenes_loaded++;
@@ -95,6 +97,7 @@ namespace Fjord.Modules.Game {
 
         public static void load_tilemap(string id, string tilemap) {
             string JsonString = "";
+
             if(File.Exists(game.get_resource_folder() + "/" + game.asset_pack + "/data/tilemaps/" + tilemap + ".ftm")) {
                 JsonString = File.ReadAllText(game.get_resource_folder() + "/" + game.asset_pack + "/data/tilemaps/" + tilemap + ".ftm");
             } else {
@@ -103,7 +106,6 @@ namespace Fjord.Modules.Game {
             }
 
             tilemap format = JsonConvert.DeserializeObject<tilemap>(JsonString);
-
             foreach(string key in format.tiles.Keys) {
                 format.tiles[key].tex.set_texture(format.tiles[key].path);
             }
