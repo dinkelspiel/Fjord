@@ -11,8 +11,7 @@ namespace Fjord.Modules.Game {
         public virtual void render() {}
     }
 
-    public class Transform : component
-    {
+    public class Transform : component {
         public V2f position = new V2f(0, 0);
         public V2f scale = new V2f(1, 1);
         public float rotation = 0f;
@@ -33,6 +32,120 @@ namespace Fjord.Modules.Game {
         {
             if(visible)
                 draw.texture(parent.get<Transform>().position - camera.get(), sprite);
+        }
+    }
+
+    public class Rigidbody : component {
+        Sprite_Renderer sprite;
+        Transform transform;
+
+        public float gravity = 0.04f;
+        public float max_fall_speed = 20f;
+        public V2f velocity = new V2();
+
+        public bool collide_right = false;
+        public bool collide_left = false;
+        public bool collide_down = false;
+        public bool collide_up = false;
+
+        public override void on_load()
+        {
+            sprite = parent.get<Sprite_Renderer>();
+            sprite.sprite.set_origin(draw_origin.BOTTOM_MIDDLE);
+            transform = parent.get<Transform>();
+            
+            base.on_load();
+        }
+
+        public override void update()
+        {   
+            #nullable enable
+            collide_down = collide_left = collide_right = collide_up = false;
+
+            velocity.y += gravity;
+            if(velocity.y > max_fall_speed) {
+                velocity.y = max_fall_speed;
+            }
+
+            for(var i = 0; i < sprite.sprite.get_size().x; i++) {
+                int velyoffset = velocity.y < -1 ? -1 : 1; 
+                if(scene_handler.get_tile(new V2((int)(transform.position.x - sprite.sprite.get_size().x / 2 + i),  (int)(transform.position.y + velyoffset)))["collision"] == true) {
+                    collide_down = true;
+                }
+            }
+
+            if(collide_down) {
+                velocity.y = 0;
+            }
+
+            for(var i = 0; i < sprite.sprite.get_size().x; i++) {
+                int velyoffset = velocity.y < -1 ? 0 : 1; 
+                if(scene_handler.get_tile(new V2((int)(transform.position.x - sprite.sprite.get_size().x / 2 + i),  (int)(transform.position.y - sprite.sprite.get_size().y + velyoffset)))["collision"] == true) {
+                    collide_up = true;
+                }
+            }
+
+            if(collide_up) {
+                velocity.y = 0;
+            }
+
+            for(var i = 0; i < sprite.sprite.get_size().y; i++) {
+                int velxoffset = velocity.x > 0.01f ? 2 : -1;
+                if(scene_handler.get_tile(new V2((int)(transform.position.x + sprite.sprite.get_size().x / 2 + velxoffset),  (int)(transform.position.y - sprite.sprite.get_size().y + i)))["collision"] == true) {
+                    collide_right = true;
+                }
+            }
+
+            if(collide_right) {
+                velocity.x = 0;
+            }
+
+            for(var i = 0; i < sprite.sprite.get_size().y - 1; i++) {
+                int velxoffset = velocity.x < -0.01f ? -1 : 1;
+                if(scene_handler.get_tile(new V2((int)(transform.position.x - sprite.sprite.get_size().x / 2 + velxoffset),  (int)(transform.position.y - sprite.sprite.get_size().y + i)))["collision"] == true)  {
+                    collide_left = true;
+                }
+            }
+
+            if(collide_left) {
+                velocity.x = 0;
+            }
+            
+            transform.position.y += velocity.y * (float)game.delta_time;
+            transform.position.x += velocity.x;
+
+            base.update();
+        }
+
+        public override void render()
+        {
+            // draw.rect(new V4(, sprite.sprite.get_size().x, 1), color.green);
+
+            // for(var i = 0; i < sprite.sprite.get_size().x; i++) {
+            //     int velyoffset = velocity.y < -1 ? -1 : 1; 
+            //     draw.rect(new V4((int)(transform.position.x - sprite.sprite.get_size().x / 2 - camera.get().x + i),  (int)(transform.position.y + velyoffset - camera.get().y), 1, 1), color.green);
+            // }
+
+            // for(var i = 0; i < sprite.sprite.get_size().x; i++) {
+            //     int velyoffset = velocity.y < -1 ? -1 : 1; 
+            //     draw.rect(new V4((int)(transform.position.x - sprite.sprite.get_size().x / 2 - camera.get().x + i),  (int)(transform.position.y - sprite.sprite.get_size().y + velyoffset - camera.get().y), 1, 1), color.green);
+            // }
+
+            // for(var i = 0; i < sprite.sprite.get_size().y; i++) {
+            //     // int velyoffset = velocity.y < -1 ? -1 : 1; 
+            //     int velxoffset = velocity.x > 0.01f ? 2 : -1;
+            //     draw.rect(new V4((int)(transform.position.x + sprite.sprite.get_size().x / 2 + velxoffset - camera.get().x),  (int)(transform.position.y - sprite.sprite.get_size().y - camera.get().y + i), 1, 1), color.green);
+            // }
+
+            // for(var i = 0; i < sprite.sprite.get_size().y; i++) {
+            //     // int velyoffset = velocity.y < -1 ? -1 : 1; 
+            //     int velxoffset = velocity.x < -0.01f ? -1 : 1;
+            //     draw.rect(new V4((int)(transform.position.x - sprite.sprite.get_size().x / 2 + velxoffset - camera.get().x),  (int)(transform.position.y - sprite.sprite.get_size().y - camera.get().y + i), 1, 1), color.green);
+            // }
+            // draw.rect(new V4((int)(transform.position.x - sprite.sprite.get_size().x / 2 - camera.get().x), (int)(transform.position.y - sprite.sprite.get_size().y - camera.get().y), sprite.sprite.get_size().x, sprite.sprite.get_size().y), color.black);
+
+
+            base.render();
         }
     }
 }
