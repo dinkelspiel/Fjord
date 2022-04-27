@@ -39,6 +39,9 @@ namespace Fjord.Modules.Game {
         Sprite_Renderer sprite;
         Transform transform;
 
+        string collide_with = "collision";
+        dynamic collide_check = true;
+
         public float gravity = 0.04f;
         public float max_fall_speed = 20f;
         public V2f velocity = new V2();
@@ -47,6 +50,11 @@ namespace Fjord.Modules.Game {
         public bool collide_left = false;
         public bool collide_down = false;
         public bool collide_up = false;
+
+        public void collision(string collide_id, dynamic collide_check) {
+            this.collide_with = collide_id;
+            this.collide_check = collide_check;
+        }
 
         public override void on_load()
         {
@@ -69,7 +77,7 @@ namespace Fjord.Modules.Game {
 
             for(var i = 0; i < sprite.sprite.get_size().x; i++) {
                 int velyoffset = velocity.y < -1 ? -1 : 1; 
-                if(scene_handler.get_tile(new V2((int)(transform.position.x - sprite.sprite.get_size().x / 2 + i),  (int)(transform.position.y + velyoffset)))["collision"] == true) {
+                if(scene_handler.get_tile(new V2((int)(transform.position.x - sprite.sprite.get_size().x / 2 + i),  (int)(transform.position.y + velyoffset)))[collide_with] == collide_check) {
                     collide_down = true;
                 }
             }
@@ -80,7 +88,7 @@ namespace Fjord.Modules.Game {
 
             for(var i = 0; i < sprite.sprite.get_size().x; i++) {
                 int velyoffset = velocity.y < -1 ? 0 : 1; 
-                if(scene_handler.get_tile(new V2((int)(transform.position.x - sprite.sprite.get_size().x / 2 + i),  (int)(transform.position.y - sprite.sprite.get_size().y + velyoffset)))["collision"] == true) {
+                if(scene_handler.get_tile(new V2((int)(transform.position.x - sprite.sprite.get_size().x / 2 + i),  (int)(transform.position.y - sprite.sprite.get_size().y + velyoffset)))[collide_with] == collide_check) {
                     collide_up = true;
                 }
             }
@@ -91,7 +99,7 @@ namespace Fjord.Modules.Game {
 
             for(var i = 0; i < sprite.sprite.get_size().y; i++) {
                 int velxoffset = velocity.x > 0.01f ? 2 : -1;
-                if(scene_handler.get_tile(new V2((int)(transform.position.x + sprite.sprite.get_size().x / 2 + velxoffset),  (int)(transform.position.y - sprite.sprite.get_size().y + i)))["collision"] == true) {
+                if(scene_handler.get_tile(new V2((int)(transform.position.x + sprite.sprite.get_size().x / 2 + velxoffset),  (int)(transform.position.y - sprite.sprite.get_size().y + i)))[collide_with] == collide_check) {
                     collide_right = true;
                 }
             }
@@ -102,7 +110,7 @@ namespace Fjord.Modules.Game {
 
             for(var i = 0; i < sprite.sprite.get_size().y - 1; i++) {
                 int velxoffset = velocity.x < -0.01f ? -1 : 1;
-                if(scene_handler.get_tile(new V2((int)(transform.position.x - sprite.sprite.get_size().x / 2 + velxoffset),  (int)(transform.position.y - sprite.sprite.get_size().y + i)))["collision"] == true)  {
+                if(scene_handler.get_tile(new V2((int)(transform.position.x - sprite.sprite.get_size().x / 2 + velxoffset),  (int)(transform.position.y - sprite.sprite.get_size().y + i)))[collide_with] == collide_check)  {
                     collide_left = true;
                 }
             }
