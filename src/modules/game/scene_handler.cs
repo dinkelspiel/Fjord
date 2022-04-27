@@ -24,7 +24,7 @@ namespace Fjord.Modules.Game {
             if(!this.tiles.Equals(default(tilemap))) {
                 for(var i = 0; i < tiles.grid_size.x; i++) {
                     for(var j = 0; j < tiles.grid_size.y; j++) {
-                        V2 pos = new V2((int)(i * tiles.tile_size.x), (int)(j * tiles.tile_size.y));
+                        V2 pos = new V2((int)(i * tiles.tile_size.x - camera.get().x), (int)(j * tiles.tile_size.y - camera.get().y));
                         // draw.rect(new V4(pos.x, pos.y, tiles.tile_size.x, tiles.tile_size.y), color.black, false); // Draw tilemap outline
 
                         if(tiles.tile_map[i][j].Keys.ToList().Contains("tile_id")) {
