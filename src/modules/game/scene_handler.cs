@@ -14,6 +14,7 @@ namespace Fjord.Modules.Game {
         private tilemap tiles;
         private List<entity> entities = new List<entity>();
         private V4 background_color = new V4(26, 26, 28, 255);
+        private V2 resolution = new V2(1920, 1080);
 
         public tilemap get_tiles() {
             return tiles;
@@ -49,6 +50,18 @@ namespace Fjord.Modules.Game {
 
         public V4 get_background() {
             return background_color;
+        }
+
+        public void set_resolution(int w, int h) {
+            resolution = new V2(w, h);
+        }
+
+        public void set_resolution(V2 resolution) {
+            this.resolution = resolution;
+        }
+
+        public V2 get_resolution() {
+            return resolution;
         }
 
         public virtual void render() { 
@@ -100,6 +113,7 @@ namespace Fjord.Modules.Game {
                 scenes[current_scene].on_load();
 
                 SDL_SetRenderDrawColor(game.renderer, scenes[current_scene].get_background());
+                SDL_RenderSetLogicalSize(game.renderer, scenes[current_scene].get_resolution().x, scenes[current_scene].get_resolution().y);
             } catch(Exception e) {
                 Debug.Debug.send("-- OnLoad Error --");
                 game.stop(e);

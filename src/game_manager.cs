@@ -225,6 +225,7 @@ namespace Fjord
             return (int)(1000 / delta_time_ms);
         }
 
+        [Obsolete("'set_render_resolution' is Obselete. Use the scene 'set_resolution' method.")]
         public static void set_render_resolution(IntPtr renderer, int width, int height) {
             SDL_RenderSetLogicalSize(renderer, width, height);
             resolution.x = width;
