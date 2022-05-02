@@ -10,15 +10,30 @@ using Newtonsoft.Json;
 
 namespace Fjord.Modules.Game {
     public abstract class scene {
-        public string id = "";
-        List<entity> entities = new List<entity>();
-        public tilemap tiles;
+        private tilemap tiles;
+        private List<entity> entities = new List<entity>();
+
+        public tilemap get_tiles() {
+            return tiles;
+        }
+
+        public void set_tiles(tilemap tiles) {
+            this.tiles = tiles;
+        }
+
+        public List<entity> get_entities() {
+            return entities;
+        }
 
         public void add_entity(entity e) {
             entities.Add(e);
         }
 
-        public virtual void update() { foreach(entity e in entities) { e.update(); } }
+        public virtual void update() {
+            foreach(entity e in entities) {
+                e.update();
+            }
+        }
 
         public virtual void render() { 
             if(!this.tiles.Equals(default(tilemap))) {
@@ -37,28 +52,12 @@ namespace Fjord.Modules.Game {
                 }
             }
 
-            List<dynamic> sorted = new List<dynamic>();
-            sorted.AddRange(entities);
-            sorted.AddRange(draw.get_texture_buffer());
-            sorted = sorted.OrderBy(e => e is entity ? e.depth : e.tex.get_depth()).ToList();
-            foreach(dynamic e in sorted) {
-                if(e is entity) {
-                    Console.WriteLine("Hello");
-                    e.render();
-                } else {
-                    draw.texture_direct(e.position, e.tex);
-                }
+            List<entity> sorted_entities = new List<entity>();
+            sorted_entities = entities.OrderBy(e => e.depth).ToList();
+
+            foreach(entity e in sorted_entities) {
+                e.render();
             }
-
-            // List<entity> sorted_entities = entities.OrderBy(e => e.depth).ToList();
-            // foreach(entity e in entities) { 
-            //     e.render(); 
-            // } 
-
-            // List<texture_buffer> sorted_texture_buffer = draw_texture_buffer.OrderBy(e => e.tex.get_depth()).ToList();
-            // foreach(texture_buffer e in sorted_texture_buffer) { 
-            //     texture_direct(e.position, e.tex);
-            // } 
 
             draw.clean_texture_buffer();
         }
@@ -88,8 +87,6 @@ namespace Fjord.Modules.Game {
                 game.stop(e);
             }
 
-            scenes[current_scene].id = id;
-
             Debug.Debug.send("Loaded scene '" + id + "' successfully!");
 
             scenes_loaded++;
@@ -110,22 +107,22 @@ namespace Fjord.Modules.Game {
                 format.tiles[key].tex.set_texture(format.tiles[key].path);
             }
             
-            scenes[id].tiles = format;
+            scenes[id].set_tiles(format);
         }
 
         public static Dictionary<string, dynamic> get_tile(V2 pos) {
             V2 fixed_pos = new V2();
-            fixed_pos.x = pos.x / scenes[current_scene].tiles.tile_size.x;
-            fixed_pos.y = pos.y / scenes[current_scene].tiles.tile_size.y;
+            fixed_pos.x = pos.x / scenes[current_scene].get_tiles().tile_size.x;
+            fixed_pos.y = pos.y / scenes[current_scene].get_tiles().tile_size.y;
 
-            if(!(fixed_pos.x >= 0 && fixed_pos.x < scenes[current_scene].tiles.grid_size.x)) {
-                return scenes[current_scene].tiles.tile_map[0][0];
+            if(!(fixed_pos.x >= 0 && fixed_pos.x < scenes[current_scene].get_tiles().grid_size.x)) {
+                return scenes[current_scene].get_tiles().tile_map[0][0];
             }
-            if(!(fixed_pos.y >= 0 && fixed_pos.y < scenes[current_scene].tiles.grid_size.y)) {
-                return scenes[current_scene].tiles.tile_map[0][0];
+            if(!(fixed_pos.y >= 0 && fixed_pos.y < scenes[current_scene].get_tiles().grid_size.y)) {
+                return scenes[current_scene].get_tiles().tile_map[0][0];
             }
 
-            return scenes[current_scene].tiles.tile_map[fixed_pos.x][fixed_pos.y];
+            return scenes[current_scene].get_tiles().tile_map[fixed_pos.x][fixed_pos.y];
         }
 
         public static void stop() {
