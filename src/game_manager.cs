@@ -233,6 +233,7 @@ namespace Fjord
             resolution.y = height;
         }
 
+        [Obsolete("'set_render_background' is Obselete. Use the scene 'set_background' method.")]
         public static void set_render_background(byte r, byte g, byte b, byte a) {
             SDL_Color color;
             color.r = r;

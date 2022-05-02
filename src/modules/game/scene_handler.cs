@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.IO;
+using static SDL2.SDL;
 using Fjord.Modules.Graphics;
 using Fjord.Modules.Mathf;
 using Fjord.Modules.Camera;
@@ -12,6 +13,7 @@ namespace Fjord.Modules.Game {
     public abstract class scene {
         private tilemap tiles;
         private List<entity> entities = new List<entity>();
+        private V4 background_color = new V4();
 
         public tilemap get_tiles() {
             return tiles;
@@ -33,6 +35,20 @@ namespace Fjord.Modules.Game {
             foreach(entity e in entities) {
                 e.update();
             }
+        }
+
+        public void set_background(V4 color) {
+            background_color = color;
+        }
+
+        public void set_background(int r, int g, int b) {
+            background_color.x = r;
+            background_color.y = g;
+            background_color.z = b;
+        }
+
+        public V4 get_background() {
+            return background_color;
         }
 
         public virtual void render() { 
@@ -82,6 +98,8 @@ namespace Fjord.Modules.Game {
             
             try {
                 scenes[current_scene].on_load();
+
+                SDL_SetRenderDrawColor(game.renderer, scenes[current_scene].get_background());
             } catch(Exception e) {
                 Debug.Debug.send("-- OnLoad Error --");
                 game.stop(e);
