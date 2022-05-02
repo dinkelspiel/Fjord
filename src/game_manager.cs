@@ -88,8 +88,6 @@ namespace Fjord
 
             Language.load_langfile("en_US");
 
-            set_render_background(26, 26, 28, 255);
-
             texture_handler.init();
 
             // scene game_;

@@ -13,7 +13,7 @@ namespace Fjord.Modules.Game {
     public abstract class scene {
         private tilemap tiles;
         private List<entity> entities = new List<entity>();
-        private V4 background_color = new V4();
+        private V4 background_color = new V4(26, 26, 28, 255);
 
         public tilemap get_tiles() {
             return tiles;
