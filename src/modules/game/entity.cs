@@ -56,13 +56,13 @@ namespace Fjord.Modules.Game
 
         public virtual void update() {
             foreach(dynamic i in components) {
-                i.update();
+                i.updatecall();
             }
         }
 
         public virtual void render() {
             foreach(dynamic i in components) {
-                i.render();
+                i.rendercall();
             }
         }
     }
