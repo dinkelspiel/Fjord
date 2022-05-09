@@ -87,7 +87,7 @@ namespace Fjord.Modules.Input {
         public const int key_right = 75;
         #endregion
 
-        public static bool get_key_pressed(int key, string input_state_check=null) {
+        public static bool key_pressed(int key, string input_state_check=null) {
             if(input_state_check == null) {
                 return pressed_keys[key];
             } else {
@@ -95,7 +95,7 @@ namespace Fjord.Modules.Input {
             }
         }
 
-        public static bool get_key_just_pressed(int key, string input_state_check=null) {
+        public static bool key_just_pressed(int key, string input_state_check=null) {
             if(input_state_check == null) {
                 return pressed_keys[key] && !last_frame[key];
             } else {
@@ -103,7 +103,7 @@ namespace Fjord.Modules.Input {
             }
         }
 
-        public static int get_any_key_pressed(string input_state_check=null) {
+        public static int any_key_pressed(string input_state_check=null) {
             if(input_state_check != null && input_state_check != input_state)
                 return -1;
 
@@ -115,7 +115,7 @@ namespace Fjord.Modules.Input {
             return -1;
         }
 
-        public static int get_any_key_just_pressed(string input_state_check=null) {
+        public static int any_key_just_pressed(string input_state_check=null) {
             if(input_state_check != null && input_state_check != input_state)
                 return -1;
 
@@ -143,10 +143,10 @@ namespace Fjord.Modules.Input {
             return key_references.IndexOf(key);
         }
 
-        public static string get_human_input() {
-            if(input.get_key_pressed(input.key_lshift)) {
-                if(input.get_any_key_just_pressed() != -1) {
-                    switch(input.get_any_key_just_pressed()) {
+        public static string human_input() {
+            if(input.key_pressed(input.key_lshift)) {
+                if(input.any_key_just_pressed() != -1) {
+                    switch(input.any_key_just_pressed()) {
                         case input.key_1:
                             return "!";
                         case input.key_2:
@@ -188,14 +188,14 @@ namespace Fjord.Modules.Input {
                         case input.key_slash:
                             return "?";
                         default:
-                            if(input.get_key(input.get_any_key_just_pressed()).Length == 1)
-                                return input.get_key(input.get_any_key_just_pressed()).ToUpper();
+                            if(input.get_key(input.any_key_just_pressed()).Length == 1)
+                                return input.get_key(input.any_key_just_pressed()).ToUpper();
                             break;
                     }
                 }
             } else {
-                if(input.get_any_key_just_pressed() != -1) {
-                    switch(input.get_any_key_just_pressed()) {
+                if(input.any_key_just_pressed() != -1) {
+                    switch(input.any_key_just_pressed()) {
                         case input.key_space:
                             return " ";
                         case input.key_tab:
@@ -221,8 +221,8 @@ namespace Fjord.Modules.Input {
                         case input.key_slash:
                             return "/";
                         default: 
-                            if(input.get_key(input.get_any_key_just_pressed()).Length == 1)
-                                return input.get_key(input.get_any_key_just_pressed()).ToLower();
+                            if(input.get_key(input.any_key_just_pressed()).Length == 1)
+                                return input.get_key(input.any_key_just_pressed()).ToLower();
                             break;
                     }
                 }

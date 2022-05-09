@@ -243,8 +243,8 @@ namespace Fjord.Modules.Ui {
                 selected_input = selected_input == (id == null ? title : id) ? "" : (id == null ? title : id);
 
             if(selected_input == (id == null ? title : id)) {
-                if(input.get_key_just_pressed(input.key_backspace)) {
-                    if(!input.get_key_pressed(input.key_lctrl))
+                if(input.key_just_pressed(input.key_backspace)) {
+                    if(!input.key_pressed(input.key_lctrl))
                         if(value.Length > 0)
                             value = value.Substring(0, value.Length - 1);
                     else {
@@ -256,7 +256,7 @@ namespace Fjord.Modules.Ui {
                         }
                     }
                 } else {
-                    value += input.get_human_input();
+                    value += input.human_input();
                 }
             }
 

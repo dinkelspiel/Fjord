@@ -76,14 +76,14 @@ namespace Fjord.Modules.Ui
             }
 
             if(selected_input == id) {
-                if(input.get_key_just_pressed(input.key_backspace)) {
+                if(input.key_just_pressed(input.key_backspace)) {
                     if(value.ToString().Length > 0)
                         Int32.TryParse(value.ToString().Substring(0, value.ToString().Length - 1), out value);
-                } else if(input.get_key_just_pressed(input.key_minus)) {
+                } else if(input.key_just_pressed(input.key_minus)) {
                     value = -value;
                 } else {
                     try {
-                        switch(input.get_any_key_just_pressed()) {
+                        switch(input.any_key_just_pressed()) {
                             case input.key_0:
                                 value = Convert.ToInt32(value.ToString() + "0");
                                 break;
@@ -135,14 +135,14 @@ namespace Fjord.Modules.Ui
             }
 
             if(selected_input == id) {
-                if(input.get_key_just_pressed(input.key_backspace)) {
+                if(input.key_just_pressed(input.key_backspace)) {
                     if(value.ToString().Length > 0)
                         Int32.TryParse(value.ToString().Substring(0, value.ToString().Length - 1), out value);
-                } else if(input.get_key_just_pressed(input.key_minus)) {
+                } else if(input.key_just_pressed(input.key_minus)) {
                     value = -value;
                 } else {
                     try {
-                        switch(input.get_any_key_just_pressed()) {
+                        switch(input.any_key_just_pressed()) {
                             case input.key_0:
                                 value = Convert.ToInt32(value.ToString() + "0");
                                 break;
@@ -195,8 +195,8 @@ namespace Fjord.Modules.Ui
             if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(mb.left))) {
                 selected_input = selected_input == id ? "" : id;
 
-                if(input.get_key_just_pressed(input.key_backspace)) {
-                    if(!input.get_key_pressed(input.key_lctrl))
+                if(input.key_just_pressed(input.key_backspace)) {
+                    if(!input.key_pressed(input.key_lctrl))
                         if(value.Length > 0)
                             value = value.Substring(0, value.Length - 1);
                     else {
@@ -208,7 +208,7 @@ namespace Fjord.Modules.Ui
                         }
                     }
                 } else {
-                    value += input.get_human_input();
+                    value += input.human_input();
                 }
             }
 
@@ -229,8 +229,8 @@ namespace Fjord.Modules.Ui
             }
 
             if(selected_input == id) {
-                if(input.get_key_just_pressed(input.key_backspace)) {
-                    if(!input.get_key_pressed(input.key_lctrl))
+                if(input.key_just_pressed(input.key_backspace)) {
+                    if(!input.key_pressed(input.key_lctrl))
                         if(value.Length > 0)
                             value = value.Substring(0, value.Length - 1);
                     else {
@@ -242,7 +242,7 @@ namespace Fjord.Modules.Ui
                         }
                     }
                 } else {
-                    value += input.get_human_input();
+                    value += input.human_input();
                 }
             }
 
