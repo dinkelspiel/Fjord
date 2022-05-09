@@ -107,11 +107,11 @@ namespace Fjord.Modules.Game {
         private static string current_scene; 
         private static int scenes_loaded = 0;
 
-        public static void add_scene(string id, scene scene_add) {
+        public static void add(string id, scene scene_add) {
             scenes.Add(id, scene_add);
         }
         
-        public static void load_scene(string id) {
+        public static void load(string id) {
             if(current_scene != null)
                 scenes[current_scene].on_unload();
 
@@ -190,7 +190,7 @@ namespace Fjord.Modules.Game {
             return scenes[current_scene];
         }
 
-        public static scene get_scene(string id) {
+        public static scene get(string id) {
             return scenes[id];
         }
     }
