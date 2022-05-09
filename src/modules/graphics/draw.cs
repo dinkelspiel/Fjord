@@ -542,6 +542,8 @@ namespace Fjord.Modules.Graphics {
         }
 
         public static void text(V2 position, string font_id, int font_size, string text) {
+            draw.load_font(font_id);
+
             IntPtr font;
             
             if(!fonts.ContainsKey(font_id)) {
