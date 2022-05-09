@@ -107,7 +107,7 @@ namespace Fjord.Modules.Game {
         private static string current_scene; 
         private static int scenes_loaded = 0;
 
-        public static void add(string id, scene scene_add) {
+        public static void register(string id, scene scene_add) {
             scenes.Add(id, scene_add);
         }
         
