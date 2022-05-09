@@ -32,12 +32,6 @@ namespace Fjord.Modules.Game {
             entities.Add(e);
         }
 
-        public virtual void update() {
-            foreach(entity e in entities) {
-                e.update();
-            }
-        }
-
         public void set_background(V4 color) {
             background_color = color;
         }
@@ -64,7 +58,21 @@ namespace Fjord.Modules.Game {
             return resolution;
         }
 
-        public virtual void render() { 
+        public virtual void update() {}
+
+        public void updatecall() {
+            update();
+
+            foreach(entity e in entities) {
+                e.update();
+            }
+        }
+
+        public virtual void render() {}
+
+        public void rendercall() { 
+            render();
+
             if(!this.tiles.Equals(default(tilemap))) {
                 for(var i = 0; i < tiles.grid_size.x; i++) {
                     for(var j = 0; j < tiles.grid_size.y; j++) {
@@ -164,13 +172,13 @@ namespace Fjord.Modules.Game {
 
         public static void update() {
             if(scenes.Count > 0) {
-                scenes[current_scene].update();
+                scenes[current_scene].updatecall();
             }
         }
 
         public static void render() {
             if(scenes.Count > 0) {
-                scenes[current_scene].render();
+                scenes[current_scene].rendercall();
             }
         }
 
