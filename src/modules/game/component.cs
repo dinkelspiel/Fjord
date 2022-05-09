@@ -1,6 +1,8 @@
 using Fjord.Modules.Mathf;
 using Fjord.Modules.Graphics;
 using Fjord.Modules.Camera;
+using System.Collections.Generic;
+using System;
 
 namespace Fjord.Modules.Game {
     public abstract class component {
@@ -9,6 +11,35 @@ namespace Fjord.Modules.Game {
         public virtual void on_load() {}
         public virtual void update() {}
         public virtual void render() {}
+
+        public static entity entity_place(V2 pos) {
+            List<entity> entities = scene_handler.get_current_scene().get_entities();
+
+            foreach(entity e in entities) {
+                Sprite_Renderer sprite = e.get<Sprite_Renderer>();
+                V2 origin = sprite.sprite.get_origin();
+                if(helpers.point_inside(pos, new V4(pos.x - origin.x, pos.y - origin.y, sprite.sprite.get_draw_size().x, sprite.sprite.get_draw_size().y))) {
+                    return e;
+                }
+            }
+            return null;
+        }
+
+        public static entity entity_place(V2 pos, Type t) {
+            List<entity> entities = scene_handler.get_current_scene().get_entities();
+
+            foreach(entity e in entities) {
+                Sprite_Renderer sprite = e.get<Sprite_Renderer>();
+                V2 origin = sprite.sprite.get_origin();
+                Type t2 = e.GetType();
+                if(helpers.point_inside(pos, new V4(pos.x - origin.x, pos.y - origin.y, sprite.sprite.get_draw_size().x, sprite.sprite.get_draw_size().y))) {
+                    if(t.Equals(e)) {
+                        return e;
+                    }
+                }
+            }
+            return null;
+        }
     }
 
     public class Transform : component {
@@ -75,9 +106,9 @@ namespace Fjord.Modules.Game {
                 velocity.y = max_fall_speed;
             }
 
-            for(var i = 0; i < sprite.sprite.get_size().x; i++) {
+            for(var i = 0; i < sprite.sprite.get_draw_size().x; i++) {
                 int velyoffset = velocity.y < -1 ? -1 : 1; 
-                if(scene_handler.get_tile(new V2((int)(transform.position.x - sprite.sprite.get_size().x / 2 + i),  (int)(transform.position.y + velyoffset)))[collide_with] == collide_check) {
+                if(scene_handler.get_tile(new V2((int)(transform.position.x - sprite.sprite.get_draw_size().x / 2 + i),  (int)(transform.position.y + velyoffset)))[collide_with] == collide_check) {
                     collide_down = true;
                 }
             }
@@ -86,9 +117,9 @@ namespace Fjord.Modules.Game {
                 velocity.y = 0;
             }
 
-            for(var i = 0; i < sprite.sprite.get_size().x; i++) {
+            for(var i = 0; i < sprite.sprite.get_draw_size().x; i++) {
                 int velyoffset = velocity.y < -1 ? 0 : 1; 
-                if(scene_handler.get_tile(new V2((int)(transform.position.x - sprite.sprite.get_size().x / 2 + i),  (int)(transform.position.y - sprite.sprite.get_size().y + velyoffset)))[collide_with] == collide_check) {
+                if(scene_handler.get_tile(new V2((int)(transform.position.x - sprite.sprite.get_draw_size().x / 2 + i),  (int)(transform.position.y - sprite.sprite.get_draw_size().y + velyoffset)))[collide_with] == collide_check) {
                     collide_up = true;
                 }
             }
@@ -97,9 +128,9 @@ namespace Fjord.Modules.Game {
                 velocity.y = 0;
             }
 
-            for(var i = 0; i < sprite.sprite.get_size().y; i++) {
+            for(var i = 0; i < sprite.sprite.get_draw_size().y; i++) {
                 int velxoffset = velocity.x > 0.01f ? 2 : -1;
-                if(scene_handler.get_tile(new V2((int)(transform.position.x + sprite.sprite.get_size().x / 2 + velxoffset),  (int)(transform.position.y - sprite.sprite.get_size().y + i)))[collide_with] == collide_check) {
+                if(scene_handler.get_tile(new V2((int)(transform.position.x + sprite.sprite.get_draw_size().x / 2 + velxoffset),  (int)(transform.position.y - sprite.sprite.get_draw_size().y + i)))[collide_with] == collide_check) {
                     collide_right = true;
                 }
             }
@@ -108,9 +139,9 @@ namespace Fjord.Modules.Game {
                 velocity.x = 0;
             }
 
-            for(var i = 0; i < sprite.sprite.get_size().y - 1; i++) {
+            for(var i = 0; i < sprite.sprite.get_draw_size().y - 1; i++) {
                 int velxoffset = velocity.x < -0.01f ? -1 : 1;
-                if(scene_handler.get_tile(new V2((int)(transform.position.x - sprite.sprite.get_size().x / 2 + velxoffset),  (int)(transform.position.y - sprite.sprite.get_size().y + i)))[collide_with] == collide_check)  {
+                if(scene_handler.get_tile(new V2((int)(transform.position.x - sprite.sprite.get_draw_size().x / 2 + velxoffset),  (int)(transform.position.y - sprite.sprite.get_draw_size().y + i)))[collide_with] == collide_check)  {
                     collide_left = true;
                 }
             }
@@ -127,30 +158,30 @@ namespace Fjord.Modules.Game {
 
         public override void render()
         {
-            // draw.rect(new V4(, sprite.sprite.get_size().x, 1), color.green);
+            // draw.rect(new V4(, sprite.sprite.get_draw_size().x, 1), color.green);
 
-            // for(var i = 0; i < sprite.sprite.get_size().x; i++) {
+            // for(var i = 0; i < sprite.sprite.get_draw_size().x; i++) {
             //     int velyoffset = velocity.y < -1 ? -1 : 1; 
-            //     draw.rect(new V4((int)(transform.position.x - sprite.sprite.get_size().x / 2 - camera.get().x + i),  (int)(transform.position.y + velyoffset - camera.get().y), 1, 1), color.green);
+            //     draw.rect(new V4((int)(transform.position.x - sprite.sprite.get_draw_size().x / 2 - camera.get().x + i),  (int)(transform.position.y + velyoffset - camera.get().y), 1, 1), color.green);
             // }
 
-            // for(var i = 0; i < sprite.sprite.get_size().x; i++) {
+            // for(var i = 0; i < sprite.sprite.get_draw_size().x; i++) {
             //     int velyoffset = velocity.y < -1 ? -1 : 1; 
-            //     draw.rect(new V4((int)(transform.position.x - sprite.sprite.get_size().x / 2 - camera.get().x + i),  (int)(transform.position.y - sprite.sprite.get_size().y + velyoffset - camera.get().y), 1, 1), color.green);
+            //     draw.rect(new V4((int)(transform.position.x - sprite.sprite.get_draw_size().x / 2 - camera.get().x + i),  (int)(transform.position.y - sprite.sprite.get_draw_size().y + velyoffset - camera.get().y), 1, 1), color.green);
             // }
 
-            // for(var i = 0; i < sprite.sprite.get_size().y; i++) {
+            // for(var i = 0; i < sprite.sprite.get_draw_size().y; i++) {
             //     // int velyoffset = velocity.y < -1 ? -1 : 1; 
             //     int velxoffset = velocity.x > 0.01f ? 2 : -1;
-            //     draw.rect(new V4((int)(transform.position.x + sprite.sprite.get_size().x / 2 + velxoffset - camera.get().x),  (int)(transform.position.y - sprite.sprite.get_size().y - camera.get().y + i), 1, 1), color.green);
+            //     draw.rect(new V4((int)(transform.position.x + sprite.sprite.get_draw_size().x / 2 + velxoffset - camera.get().x),  (int)(transform.position.y - sprite.sprite.get_draw_size().y - camera.get().y + i), 1, 1), color.green);
             // }
 
-            // for(var i = 0; i < sprite.sprite.get_size().y; i++) {
+            // for(var i = 0; i < sprite.sprite.get_draw_size().y; i++) {
             //     // int velyoffset = velocity.y < -1 ? -1 : 1; 
             //     int velxoffset = velocity.x < -0.01f ? -1 : 1;
-            //     draw.rect(new V4((int)(transform.position.x - sprite.sprite.get_size().x / 2 + velxoffset - camera.get().x),  (int)(transform.position.y - sprite.sprite.get_size().y - camera.get().y + i), 1, 1), color.green);
+            //     draw.rect(new V4((int)(transform.position.x - sprite.sprite.get_draw_size().x / 2 + velxoffset - camera.get().x),  (int)(transform.position.y - sprite.sprite.get_draw_size().y - camera.get().y + i), 1, 1), color.green);
             // }
-            // draw.rect(new V4((int)(transform.position.x - sprite.sprite.get_size().x / 2 - camera.get().x), (int)(transform.position.y - sprite.sprite.get_size().y - camera.get().y), sprite.sprite.get_size().x, sprite.sprite.get_size().y), color.black);
+            // draw.rect(new V4((int)(transform.position.x - sprite.sprite.get_draw_size().x / 2 - camera.get().x), (int)(transform.position.y - sprite.sprite.get_draw_size().y - camera.get().y), sprite.sprite.get_draw_size().x, sprite.sprite.get_draw_size().y), color.black);
 
 
             base.render();

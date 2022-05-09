@@ -5,7 +5,7 @@ namespace Fjord.Modules.Game
 {
     public class entity 
     {
-        public List<component> components = new List<component>();
+        public List<dynamic> components = new List<dynamic>();
 
         public int depth = 0;
 
@@ -14,7 +14,7 @@ namespace Fjord.Modules.Game
             this.use(new Sprite_Renderer());
         }
 
-        public dynamic get<T>() {
+        public T get<T>() {
             for(var i = 0; i < components.Count; i++) {
                 if(components[i].GetType() == typeof(T)) {
                     return components[i];
@@ -25,7 +25,7 @@ namespace Fjord.Modules.Game
             return components[0];
         }
 
-        public entity use(component Comp, dynamic parent) {
+        public entity use(component Comp, entity parent) {
             try {
                 Comp.parent = parent;
                 Comp.on_load();

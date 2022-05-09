@@ -174,8 +174,16 @@ namespace Fjord.Modules.Game {
             }
         }
 
-        public static bool get_scene(string id) {
+        public static bool scene_exists(string id) {
             return scenes.ContainsKey(id);
+        }
+
+        public static scene get_current_scene() {
+            return scenes[current_scene];
+        }
+
+        public static scene get_scene(string id) {
+            return scenes[id];
         }
     }
 }
