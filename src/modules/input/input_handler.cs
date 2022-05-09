@@ -143,7 +143,7 @@ namespace Fjord.Modules.Input {
             return key_references.IndexOf(key);
         }
 
-        public static string human_input() {
+        public static string keyboard_input() {
             if(input.key_pressed(input.key_lshift)) {
                 if(input.any_key_just_pressed() != -1) {
                     switch(input.any_key_just_pressed()) {

@@ -256,7 +256,7 @@ namespace Fjord.Modules.Ui {
                         }
                     }
                 } else {
-                    value += input.human_input();
+                    value += input.keyboard_input();
                 }
             }
 
