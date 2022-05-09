@@ -68,7 +68,7 @@ namespace Fjord.Modules.Graphics {
         }
 
         public texture set_origin(draw_origin set_origin) {
-            V2 texture_size = get_size();
+            V2 texture_size = get_draw_size();
             texture_size = new V2((int)(texture_size.x * scale.x), (int)(texture_size.y * scale.y));
 
             switch(set_origin) {
@@ -168,7 +168,7 @@ namespace Fjord.Modules.Graphics {
             return this.camera_relative;
         }
 
-        public V2 get_size() {
+        public V2 get_draw_size() {
             V2 texture_size = new V2();
             uint format;
             int access;
@@ -179,7 +179,7 @@ namespace Fjord.Modules.Graphics {
             return texture_size;
         }
 
-        public V2 get_texture_size() {
+        public V2 get_original_size() {
             V2 texture_size = new V2();
             uint format;
             int access;
