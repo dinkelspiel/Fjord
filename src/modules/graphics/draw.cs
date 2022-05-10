@@ -669,7 +669,7 @@ namespace Fjord.Modules.Graphics {
             if(!fonts.ContainsKey(font_id)) {
                 string path = game.executable_path.Replace("\\", "/") + "/" + game.get_resource_folder() + "/" + game.asset_pack + "/assets/fonts/" + font_id + ".ttf";
                 IntPtr font = TTF_OpenFont(path, 255);
-                fonts.Add(font_id, font);
+                fonts.Add(font_id, font);a
             }
         }
     }
