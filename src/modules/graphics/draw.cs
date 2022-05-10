@@ -2,6 +2,7 @@ using static SDL2.SDL;
 using static SDL2.SDL_image;
 using static SDL2.SDL_ttf;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using Fjord.Modules.Camera;
 using Fjord.Modules.Mathf;
@@ -660,6 +661,11 @@ namespace Fjord.Modules.Graphics {
         }
 
         public static void load_font(string font_id) {
+            if(!File.Exists(game.get_resource_folder() + "/" + game.asset_pack + "/assets/fonts/" + font_id + ".ttf")) {
+                Debug.Debug.error("Font not found: " + game.get_resource_folder() + "/" + game.asset_pack + "/assets/fonts/" + font_id + ".ttf");
+                game.stop();
+                return;
+            }
             if(!fonts.ContainsKey(font_id)) {
                 string path = game.executable_path.Replace("\\", "/") + "/" + game.get_resource_folder() + "/" + game.asset_pack + "/assets/fonts/" + font_id + ".ttf";
                 IntPtr font = TTF_OpenFont(path, 255);
