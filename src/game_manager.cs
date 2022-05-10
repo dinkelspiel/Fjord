@@ -64,6 +64,9 @@ namespace Fjord
             }
 
             if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
+                SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_MULTISAMPLEBUFFERS, 1);
+                SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_MULTISAMPLESAMPLES, 4);
+
                 Debug.send("SDL initialized without errors");
                 
                 window = SDL_CreateWindow(title, xpos, ypos, width, height, flags);
