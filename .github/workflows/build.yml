@@ -42,4 +42,8 @@ jobs:
       - name: Build
         run: dotnet build
       
+      - uses: actions/upload-artifact@v3
+        with:
+          name: Fjord
+          path: bin/Debug/net6.0/Fjord.dll
 
