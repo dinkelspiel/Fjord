@@ -111,7 +111,7 @@ namespace Fjord.Modules.Game {
             scenes.Add(id, scene_add);
         }
         
-        public static void load(string id) {
+        public static void start(string id) {
             if(current_scene != null)
                 scenes[current_scene].on_unload();
 

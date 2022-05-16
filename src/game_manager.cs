@@ -60,12 +60,13 @@ namespace Fjord
 
             SDL_WindowFlags flags = 0;
             if (fullscreen) {
-                flags = SDL_WindowFlags.SDL_WINDOW_FULLSCREEN;
+                flags = SDL_WindowFlags.SDL_WINDOW_FULLSCREEN | SDL_WindowFlags.SDL_WINDOW_OPENGL;
             }
 
             if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
                 SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_MULTISAMPLEBUFFERS, 1);
                 SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_MULTISAMPLESAMPLES, 4);
+                SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
 
                 Debug.send("SDL initialized without errors");
                 
@@ -75,7 +76,7 @@ namespace Fjord
 
                 TTF_Init();
 
-                renderer = SDL_CreateRenderer(window, -1, SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
+                renderer = SDL_CreateRenderer(window, 0, SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
                 SDL_SetRenderDrawBlendMode(renderer, SDL_BlendMode.SDL_BLENDMODE_BLEND);
                 
                 Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 );
