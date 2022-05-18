@@ -53,14 +53,22 @@ namespace Fjord.Modules.Game {
 
         public bool visible = true;
 
-        public override void update()
+        public override void update() {}
+
+        public override void render() {}
+
+        public void updatecall()
         {
+            update();
+
             sprite.set_scale(parent.get<Transform>().scale);
             sprite.set_angle(parent.get<Transform>().rotation);
         }
 
-        public override void render()
+        public void rendercall()
         {
+            render();
+
             if(visible)
                 draw.texture_direct(parent.get<Transform>().position - camera.get(), sprite);
         }
