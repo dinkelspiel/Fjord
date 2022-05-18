@@ -12,6 +12,14 @@ namespace Fjord.Modules.Game {
         public virtual void update() {}
         public virtual void render() {}
 
+        public void updatecall() {
+            update();
+        }
+
+        public void rendercall() {
+            render();
+        }
+
         public static entity entity_place(V2 pos) {
             List<entity> entities = scene_handler.get_current_scene().get_entities();
 
@@ -53,22 +61,14 @@ namespace Fjord.Modules.Game {
 
         public bool visible = true;
 
-        public override void update() {}
-
-        public override void render() {}
-
-        public void updatecall()
+        public override void update()
         {
-            update();
-
             sprite.set_scale(parent.get<Transform>().scale);
             sprite.set_angle(parent.get<Transform>().rotation);
         }
 
-        public void rendercall()
+        public override void render()
         {
-            render();
-
             if(visible)
                 draw.texture_direct(parent.get<Transform>().position - camera.get(), sprite);
         }
