@@ -5,7 +5,7 @@ using System;
 namespace Fjord.Modules.Mathf {
     public static class helpers {
         public static bool mouse_inside(V4 rect, int margin=0) {
-            if ((mouse.position.x > rect.x - margin && mouse.position.x < rect.x + rect.z + margin) && (mouse.position.y > rect.y - margin && mouse.position.y < rect.y + rect.w + margin))
+            if ((mouse.screen_position.x > rect.x - margin && mouse.screen_position.x < rect.x + rect.z + margin) && (mouse.screen_position.y > rect.y - margin && mouse.screen_position.y < rect.y + rect.w + margin))
                 return true;
             else
                 return false;

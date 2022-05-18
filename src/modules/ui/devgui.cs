@@ -23,7 +23,7 @@ namespace Fjord.Modules.Ui
 
         public static void slider(V4 rect, ref int value, int max, V4 off, V4 on) {
             if (helpers.mouse_inside(rect, 2) && (mouse.button_pressed(0))) {
-		        value = (int)((mouse.position.x - rect.x) / ((float)rect.w / max));
+		        value = (int)((mouse.screen_position.x - rect.x) / ((float)rect.w / max));
             }
 
             value = Math.Clamp(value, 1, max);
@@ -35,7 +35,7 @@ namespace Fjord.Modules.Ui
 
         public static void slider(V4 rect, ref int value, int max) {
             if (helpers.mouse_inside(rect, 2) && (mouse.button_pressed(0))) {
-		        value = (int)((mouse.position.x - rect.x) / ((float)rect.w / max));
+		        value = (int)((mouse.screen_position.x - rect.x) / ((float)rect.w / max));
             }
 
             value = Math.Clamp(value, 1, max);

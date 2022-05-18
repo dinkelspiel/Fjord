@@ -9,7 +9,7 @@ namespace Fjord.Modules.Input {
     }
 
     public static class mouse {
-        public static V2 position = new V2(0, 0);
+        public static V2 screen_position = new V2(0, 0);
         public static V2 game_position = new V2(0, 0);
         
         public static bool lmb, rmb;

@@ -348,7 +348,7 @@ namespace Fjord.Modules.Ui {
             }
 
             if(mouse.button_pressed(mb.left) && selected_input == (id == null ? title : id)) {
-                V2 fixed_mousepos = new V2(mouse.position.x - rect.x, mouse.position.y - rect.y);
+                V2 fixed_mousepos = new V2(mouse.screen_position.x - rect.x, mouse.screen_position.y - rect.y);
                 fixed_mousepos.x = (int)(fixed_mousepos.x / 3.2f);
                 value = (int)(fixed_mousepos.x * normalize_value) - offset;
                 value = Math.Clamp(value, range.x, range.y);
@@ -445,7 +445,7 @@ namespace Fjord.Modules.Ui {
             }
 
             if(mouse.button_pressed(mb.left) && selected_input == (id == null ? title : id)) {
-                V2f fixed_mousepos = new V2f(mouse.position.x - rect.x, mouse.position.y - rect.y);
+                V2f fixed_mousepos = new V2f(mouse.screen_position.x - rect.x, mouse.screen_position.y - rect.y);
                 fixed_mousepos.x = (fixed_mousepos.x / 3.2f);
                 value = (fixed_mousepos.x * normalize_value) - offset;
                 value = Math.Clamp(value, range.x, range.y);
