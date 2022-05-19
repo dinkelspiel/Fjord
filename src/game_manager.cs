@@ -51,7 +51,7 @@ namespace Fjord
             return is_running;
         }
 
-        public static void init(string title, int xpos, int ypos, int width, int height, bool fullscreen) {
+        public static void init(string title, int xpos, int ypos, int width, int height, bool fullscreen, bool anti_aliasing) {
 
             game.sys_args = Environment.GetCommandLineArgs();
 
@@ -64,9 +64,11 @@ namespace Fjord
             }
 
             if (SDL_Init(SDL_INIT_EVERYTHING) == 0) {
-                SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_MULTISAMPLEBUFFERS, 1);
-                SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_MULTISAMPLESAMPLES, 4);
-                SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
+                if(anti_aliasing) {
+                    SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_MULTISAMPLEBUFFERS, 1);
+                    SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_MULTISAMPLESAMPLES, 4);
+                    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
+                }
 
                 Debug.send("SDL initialized without errors");
                 
@@ -107,7 +109,7 @@ namespace Fjord
             return resources_folder;
         }
 
-        public static void run(scene start_scene, string title="Fjord Project") {
+        public static void run(scene start_scene, string title="Fjord Project", bool anti_aliasing=true) {
 
             if(resources_folder == null) {
                 Debug.send("You must set the resource folder location before initializing the game!", "stop", "Error");
@@ -115,7 +117,7 @@ namespace Fjord
             }
 
             try {
-                game.init(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false);
+                game.init(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false, anti_aliasing);
             } catch(Exception e) {
                 Debug.send("-- Init Error --");
                 game.stop(e);
