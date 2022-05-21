@@ -87,6 +87,10 @@ namespace Fjord.Modules.Mathf {
             float distance = (float)Math.Sqrt(this.x * this.x + this.y * this.y);
             return new V2f(this.x / distance, this.y / distance);
         }
+
+        public V2 clone() {
+            return new V2(x, y);
+        }
     }
     
     public class V2f : IFormattable {
@@ -174,6 +178,10 @@ namespace Fjord.Modules.Mathf {
             float distance = (float)Math.Sqrt(this.x * this.x + this.y * this.y);
             return new V2f(this.x / distance, this.y / distance);
         }
+
+        public V2f clone() {
+            return new V2f(x, y);
+        }
     } 
 
     public class V3 : IFormattable {
@@ -259,6 +267,10 @@ namespace Fjord.Modules.Mathf {
         public static V3 operator /(V3 v1, int v2) {
             return new V3(v1.x / v2, v1.y / v2, v1.z / v2); 
         }
+
+        public V3 clone() {
+            return new V3(x, y, z);
+        }
     }
     
     public class V3f : IFormattable {
@@ -343,6 +355,10 @@ namespace Fjord.Modules.Mathf {
 
         public static V3f operator /(V3f v1, float v2) {
             return new V3f(v1.x / v2, v1.y / v2, v1.z / v2); 
+        }
+
+        public V3f clone() {
+            return new V3f(x, y, z);
         }
     }
     
@@ -432,6 +448,10 @@ namespace Fjord.Modules.Mathf {
         public static V4 operator /(V4 v1, int v2) {
             return new V4(v1.x / v2, v1.y / v2, v1.z / v2, v1.w / v2); 
         }
+
+        public V4 clone() {
+            return new V4(x, y, z, w);
+        }
     }
     
     public class V4f : IFormattable {
@@ -519,6 +539,10 @@ namespace Fjord.Modules.Mathf {
 
         public static V4f operator /(V4f v1, float v2) {
             return new V4f(v1.x / v2, v1.y / v2, v1.z / v2, v1.w / v2); 
+        }
+
+        public V4f clone() {
+            return new V4f(x, y, z, w);
         }
     }
     
