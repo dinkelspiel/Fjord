@@ -6,12 +6,23 @@ namespace Fjord.Modules.Game
     public class entity 
     {
         public List<dynamic> components = new List<dynamic>();
+        public scene parent;
 
         public int depth = 0;
+
+        public entity(scene parent) {
+            this.parent = parent;
+            this.use(new Transform());
+            this.use(new Sprite_Renderer());
+        }
 
         public entity() {
             this.use(new Transform());
             this.use(new Sprite_Renderer());
+        }
+
+        public void set_parent(scene parent) {
+            this.parent = parent;
         }
 
         public T get<T>() {

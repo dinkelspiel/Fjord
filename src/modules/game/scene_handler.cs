@@ -29,6 +29,7 @@ namespace Fjord.Modules.Game {
         }
 
         public void add_entity(entity e) {
+            e.set_parent(this);
             entities.Add(e);
         }
 
