@@ -203,10 +203,10 @@ namespace Fjord.Modules.Ui {
                              draw.get_text_rect(windows[current_window].offset, font_id, font_size - 12, text).w + 20);
             
             V4 color = windows[current_window].color_foreground;
-            if(helpers.mouse_inside(rect) && mouse.button_pressed(mb.left) && (selected_input == "" || selected_input == (id == null ? text : id))) {
+            if(helpers.mouse_inside(rect) && mouse.pressed(mb.left) && (selected_input == "" || selected_input == (id == null ? text : id))) {
                 color = windows[current_window].color_darkerforeground;
                 selected_input = (id == null ? text : id);
-            } else if(helpers.mouse_inside(rect) && mouse.button_just_pressed(mb.left)) {
+            } else if(helpers.mouse_inside(rect) && mouse.just_pressed(mb.left)) {
                 selected_input = (id == null ? text : id);
             } else if(helpers.mouse_inside(rect)) 
                 color = new V4(windows[current_window].color_foreground.x + 20, windows[current_window].color_foreground.y + 20, windows[current_window].color_foreground.z + 20, 255); 
@@ -239,7 +239,7 @@ namespace Fjord.Modules.Ui {
                              Math.Clamp(draw.get_text_rect(windows[current_window].offset, font_id, font_size - 12, value).z + 20, 320, 600), 
                              draw.get_text_rect(windows[current_window].offset, font_id, font_size - 12, "value").w + 20);
 
-            if(helpers.mouse_inside(rect) && mouse.button_just_pressed(mb.left))
+            if(helpers.mouse_inside(rect) && mouse.just_pressed(mb.left))
                 selected_input = selected_input == (id == null ? title : id) ? "" : (id == null ? title : id);
 
             if(selected_input == (id == null ? title : id)) {
@@ -260,7 +260,7 @@ namespace Fjord.Modules.Ui {
                 }
             }
 
-            if(mouse.button_just_pressed(mb.left) && selected_input == (id == null ? title : id) && !helpers.mouse_inside(rect)) {
+            if(mouse.just_pressed(mb.left) && selected_input == (id == null ? title : id) && !helpers.mouse_inside(rect)) {
                 selected_input = "";
             }                                                                                                                                                               
 
@@ -297,7 +297,7 @@ namespace Fjord.Modules.Ui {
                              320, 
                              draw.get_text_rect(windows[current_window].offset, font_id, font_size - 12, "value").w + 20);
 
-            if(helpers.mouse_inside(rect) && mouse.button_just_pressed(mb.left))
+            if(helpers.mouse_inside(rect) && mouse.just_pressed(mb.left))
                 selected_input = (id == null ? title : id);
 
             V4 color = windows[current_window].color_foreground;
@@ -343,11 +343,11 @@ namespace Fjord.Modules.Ui {
             // Calculate click
             // TODO: Allow values between 0 and 100
 
-            if(mouse.button_just_pressed(mb.left) && selected_input == (id == null ? title : id) && !helpers.mouse_inside(rect)) {
+            if(mouse.just_pressed(mb.left) && selected_input == (id == null ? title : id) && !helpers.mouse_inside(rect)) {
                 selected_input = "";
             }
 
-            if(mouse.button_pressed(mb.left) && selected_input == (id == null ? title : id)) {
+            if(mouse.pressed(mb.left) && selected_input == (id == null ? title : id)) {
                 V2 fixed_mousepos = new V2(mouse.screen_position.x - rect.x, mouse.screen_position.y - rect.y);
                 fixed_mousepos.x = (int)(fixed_mousepos.x / 3.2f);
                 value = (int)(fixed_mousepos.x * normalize_value) - offset;
@@ -370,7 +370,7 @@ namespace Fjord.Modules.Ui {
                              320, 
                              draw.get_text_rect(windows[current_window].offset, font_id, font_size - 12, "value").w + 20);
 
-            if(helpers.mouse_inside(rect) && mouse.button_just_pressed(mb.left))
+            if(helpers.mouse_inside(rect) && mouse.just_pressed(mb.left))
                 selected_input = (id == null ? title : id);
 
             V4 color = windows[current_window].color_foreground;
@@ -440,11 +440,11 @@ namespace Fjord.Modules.Ui {
             // Calculate click
             // TODO: Allow values between 0 and 100
 
-            if(mouse.button_just_pressed(mb.left) && selected_input == (id == null ? title : id) && !helpers.mouse_inside(rect)) {
+            if(mouse.just_pressed(mb.left) && selected_input == (id == null ? title : id) && !helpers.mouse_inside(rect)) {
                 selected_input = "";
             }
 
-            if(mouse.button_pressed(mb.left) && selected_input == (id == null ? title : id)) {
+            if(mouse.pressed(mb.left) && selected_input == (id == null ? title : id)) {
                 V2f fixed_mousepos = new V2f(mouse.screen_position.x - rect.x, mouse.screen_position.y - rect.y);
                 fixed_mousepos.x = (fixed_mousepos.x / 3.2f);
                 value = (fixed_mousepos.x * normalize_value) - offset;

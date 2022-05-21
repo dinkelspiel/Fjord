@@ -22,7 +22,7 @@ namespace Fjord.Modules.Ui
         }
 
         public static void slider(V4 rect, ref int value, int max, V4 off, V4 on) {
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_pressed(0))) {
+            if (helpers.mouse_inside(rect, 2) && (mouse.pressed(0))) {
 		        value = (int)((mouse.screen_position.x - rect.x) / ((float)rect.w / max));
             }
 
@@ -34,7 +34,7 @@ namespace Fjord.Modules.Ui
         }
 
         public static void slider(V4 rect, ref int value, int max) {
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_pressed(0))) {
+            if (helpers.mouse_inside(rect, 2) && (mouse.pressed(0))) {
 		        value = (int)((mouse.screen_position.x - rect.x) / ((float)rect.w / max));
             }
 
@@ -46,7 +46,7 @@ namespace Fjord.Modules.Ui
         }
 
         public static void button(V4 rect, ref bool value, string font, string text, V4 off, V4 on, V4 text_color) {
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(mb.left))) 
+            if (helpers.mouse_inside(rect, 2) && (mouse.just_pressed(mb.left))) 
                 value = !value;
 
             if(!value)
@@ -59,7 +59,7 @@ namespace Fjord.Modules.Ui
 
         public static void button(V4 rect, ref bool value, string font, string text) {
             
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(mb.left))) 
+            if (helpers.mouse_inside(rect, 2) && (mouse.just_pressed(mb.left))) 
                 value = !value;
 
             if(!value)
@@ -71,7 +71,7 @@ namespace Fjord.Modules.Ui
         }
 
         public static void num_input_box (V4 rect, string font, ref int value, string input_state, string id, V4 off, V4 on, V4 text_color) {
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(mb.left))) {
+            if (helpers.mouse_inside(rect, 2) && (mouse.just_pressed(mb.left))) {
                 selected_input = selected_input == id ? "" : id;
             }
 
@@ -130,7 +130,7 @@ namespace Fjord.Modules.Ui
         }
 
         public static void num_input_box (V4 rect, string font, ref int value, string input_state, string id) {
-           if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(mb.left))) {
+           if (helpers.mouse_inside(rect, 2) && (mouse.just_pressed(mb.left))) {
                 selected_input = selected_input == id ? "" : id;
             }
 
@@ -192,7 +192,7 @@ namespace Fjord.Modules.Ui
             if(value == null) 
                 return;
 
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(mb.left))) {
+            if (helpers.mouse_inside(rect, 2) && (mouse.just_pressed(mb.left))) {
                 selected_input = selected_input == id ? "" : id;
 
                 if(keyboard.just_pressed(keyboard.key_backspace)) {
@@ -224,7 +224,7 @@ namespace Fjord.Modules.Ui
             if(value == null) 
                 return;
 
-            if (helpers.mouse_inside(rect, 2) && (mouse.button_just_pressed(mb.left))) {
+            if (helpers.mouse_inside(rect, 2) && (mouse.just_pressed(mb.left))) {
                 selected_input = selected_input == id ? "" : id;
             }
 

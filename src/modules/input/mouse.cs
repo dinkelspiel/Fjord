@@ -17,7 +17,7 @@ namespace Fjord.Modules.Input {
         
         public static bool wheel_up, wheel_down;
 
-        public static bool button_pressed(mb button, string input_state=null) {
+        public static bool pressed(mb button, string input_state=null) {
             if(input_state == null) {
                 switch(button) {
                     case mb.left:
@@ -46,7 +46,7 @@ namespace Fjord.Modules.Input {
             return false;
         }
 
-        public static bool button_just_pressed(mb button, string input_state=null) {
+        public static bool just_pressed(mb button, string input_state=null) {
             if(input_state == null) {
                 switch(button) {
                     case mb.left:
@@ -67,7 +67,7 @@ namespace Fjord.Modules.Input {
             return false;
         }
 
-        public static bool button_just_released(mb button, string input_state=null) {
+        public static bool just_released(mb button, string input_state=null) {
             if(input_state == null) {
                 switch(button) {
                     case mb.left:
@@ -88,7 +88,7 @@ namespace Fjord.Modules.Input {
             return false;
         }
 
-        public static bool any_button_pressed(string input_state=null) {
+        public static bool any_pressed(string input_state=null) {
             if(input_state == null)
                 return lmb || rmb;
             else
