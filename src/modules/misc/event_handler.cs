@@ -1,5 +1,6 @@
 using static SDL2.SDL;
 using Fjord.Modules.Input;
+using Fjord.Modules.Game;
 
 namespace Fjord.Modules.Misc {
     static class event_handler {
@@ -14,7 +15,7 @@ namespace Fjord.Modules.Misc {
                 case SDL_EventType.SDL_MOUSEMOTION:
                     SDL_GetMouseState(out mouse.screen_position.x, out mouse.screen_position.y);
                     double window_res = game.window_resolution.x;
-                    double game_res = game.resolution.x;
+                    double game_res = scene_handler.get_current_scene().get_resolution().x;
                     double offset = window_res / game_res;
                     mouse.game_position.x = (int)(mouse.screen_position.x / offset);
                     mouse.game_position.y = (int)(mouse.screen_position.y / offset);
