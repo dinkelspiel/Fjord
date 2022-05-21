@@ -1,12 +1,10 @@
 using System.Collections.Generic;
 
 namespace Fjord.Modules.Input {
-    public static class input {
+    public static class keyboard {
         public static bool[] pressed_keys = new bool[78];
         public static bool[] last_frame = new bool[78];
         private static List<string> key_references = new List<string>{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12", "escape", "backquote", "minus", "equals", "backspace", "tab", "leftbracket", "rightbracket", "backslash", "capslock", "semicolon", "quote", "return", "lshift", "comma", "period", "slash", "rshift", "lctrl", "lalt", "space", "ralt", "application", "rctrl", "up", "down", "left", "right"};
-
-        public static string input_state = "general";
 
         #region keys
         public const int key_a = 0;
@@ -87,24 +85,24 @@ namespace Fjord.Modules.Input {
         public const int key_right = 75;
         #endregion
 
-        public static bool key_pressed(int key, string input_state_check=null) {
+        public static bool pressed(int key, string input_state_check=null) {
             if(input_state_check == null) {
                 return pressed_keys[key];
             } else {
-                return pressed_keys[key] && input_state == input_state_check;
+                return pressed_keys[key] && input.input_state == input_state_check;
             }
         }
 
-        public static bool key_just_pressed(int key, string input_state_check=null) {
+        public static bool just_pressed(int key, string input_state_check=null) {
             if(input_state_check == null) {
                 return pressed_keys[key] && !last_frame[key];
             } else {
-                return pressed_keys[key] && !last_frame[key] && input_state == input_state_check;
+                return pressed_keys[key] && !last_frame[key] && input.input_state == input_state_check;
             }
         }
 
-        public static int any_key_pressed(string input_state_check=null) {
-            if(input_state_check != null && input_state_check != input_state)
+        public static int any_pressed(string input_state_check=null) {
+            if(input_state_check != null && input_state_check != input.input_state)
                 return -1;
 
             for(var i = 0; i < pressed_keys.Length; i++) {
@@ -115,8 +113,8 @@ namespace Fjord.Modules.Input {
             return -1;
         }
 
-        public static int any_key_just_pressed(string input_state_check=null) {
-            if(input_state_check != null && input_state_check != input_state)
+        public static int any_just_pressed(string input_state_check=null) {
+            if(input_state_check != null && input_state_check != input.input_state)
                 return -1;
 
             for(var i = 0; i < pressed_keys.Length; i++) {
@@ -126,15 +124,7 @@ namespace Fjord.Modules.Input {
             }
             return -1;
         }
-
-        public static void set_input_state(string input_state_set) {
-            input_state = input_state_set;
-        }
-
-        public static string get_input_state() {
-            return input_state;
-        }
-
+        
         public static string get_key(int key) {
             return key_references[key];
         }
@@ -144,85 +134,85 @@ namespace Fjord.Modules.Input {
         }
 
         public static string keyboard_input() {
-            if(input.key_pressed(input.key_lshift)) {
-                if(input.any_key_just_pressed() != -1) {
-                    switch(input.any_key_just_pressed()) {
-                        case input.key_1:
+            if(keyboard.pressed(keyboard.key_lshift)) {
+                if(keyboard.any_just_pressed() != -1) {
+                    switch(keyboard.any_just_pressed()) {
+                        case keyboard.key_1:
                             return "!";
-                        case input.key_2:
+                        case keyboard.key_2:
                             return "@";
-                        case input.key_3:
+                        case keyboard.key_3:
                             return "#";
-                        case input.key_4:
+                        case keyboard.key_4:
                             return "$";
-                        case input.key_5:
+                        case keyboard.key_5:
                             return "%";
-                        case input.key_6:
+                        case keyboard.key_6:
                             return "^";
-                        case input.key_7:
+                        case keyboard.key_7:
                             return "&";
-                        case input.key_8:
+                        case keyboard.key_8:
                             return "*";
-                        case input.key_9:
+                        case keyboard.key_9:
                             return "(";
-                        case input.key_0:
+                        case keyboard.key_0:
                             return ")";
-                        case input.key_leftbracket:
+                        case keyboard.key_leftbracket:
                             return "{";
-                        case input.key_rightbracket:
+                        case keyboard.key_rightbracket:
                             return "}";
-                        case input.key_semicolon:
+                        case keyboard.key_semicolon:
                             return ":";
-                        case input.key_quote:
+                        case keyboard.key_quote:
                             return "\"";
-                        case input.key_minus:
+                        case keyboard.key_minus:
                             return "_";
-                        case input.key_period:
+                        case keyboard.key_period:
                             return ">";
-                        case input.key_comma:
+                        case keyboard.key_comma:
                             return "<";
-                        case input.key_equals:
+                        case keyboard.key_equals:
                             return "+";
-                        case input.key_backslash:
+                        case keyboard.key_backslash:
                             return "|";
-                        case input.key_slash:
+                        case keyboard.key_slash:
                             return "?";
                         default:
-                            if(input.get_key(input.any_key_just_pressed()).Length == 1)
-                                return input.get_key(input.any_key_just_pressed()).ToUpper();
+                            if(keyboard.get_key(keyboard.any_just_pressed()).Length == 1)
+                                return keyboard.get_key(keyboard.any_just_pressed()).ToUpper();
                             break;
                     }
                 }
             } else {
-                if(input.any_key_just_pressed() != -1) {
-                    switch(input.any_key_just_pressed()) {
-                        case input.key_space:
+                if(keyboard.any_just_pressed() != -1) {
+                    switch(keyboard.any_just_pressed()) {
+                        case keyboard.key_space:
                             return " ";
-                        case input.key_tab:
+                        case keyboard.key_tab:
                             return "    ";
-                        case input.key_leftbracket:
+                        case keyboard.key_leftbracket:
                             return "[";
-                        case input.key_rightbracket:
+                        case keyboard.key_rightbracket:
                             return "]";
-                        case input.key_semicolon:
+                        case keyboard.key_semicolon:
                             return";";
-                        case input.key_quote:
+                        case keyboard.key_quote:
                             return "'";
-                        case input.key_minus:
+                        case keyboard.key_minus:
                             return "-";
-                        case input.key_period:
+                        case keyboard.key_period:
                             return ".";
-                        case input.key_comma:
+                        case keyboard.key_comma:
                             return ",";
-                        case input.key_equals:
+                        case keyboard.key_equals:
                             return "=";
-                        case input.key_backslash:
+                        case keyboard.key_backslash:
                             return "\\";
-                        case input.key_slash:
+                        case keyboard.key_slash:
                             return "/";
                         default: 
-                            if(input.get_key(input.any_key_just_pressed()).Length == 1)
-                                return input.get_key(input.any_key_just_pressed()).ToLower();
+                            if(keyboard.get_key(keyboard.any_just_pressed()).Length == 1)
+                                return keyboard.get_key(keyboard.any_just_pressed()).ToLower();
                             break;
                     }
                 }

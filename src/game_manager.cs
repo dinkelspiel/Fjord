@@ -183,8 +183,8 @@ namespace Fjord
             mouse.llmb = mouse.lmb;
             mouse.lrmb = mouse.rmb;
 
-            for(var i = 0; i < input.pressed_keys.Length; i++) {
-                input.last_frame[i] = input.pressed_keys[i];
+            for(var i = 0; i < keyboard.pressed_keys.Length; i++) {
+                keyboard.last_frame[i] = keyboard.pressed_keys[i];
             }
         }
 

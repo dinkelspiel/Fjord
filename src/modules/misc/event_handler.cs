@@ -52,464 +52,464 @@ namespace Fjord.Modules.Misc {
                 case SDL_EventType.SDL_KEYDOWN:
                     switch(events.key.keysym.sym) {
                         case SDL_Keycode.SDLK_a:
-                            input.pressed_keys[input.key_a] = true;
+                            keyboard.pressed_keys[keyboard.key_a] = true;
                             break;
                         case SDL_Keycode.SDLK_b:
-                            input.pressed_keys[input.key_b] = true;
+                            keyboard.pressed_keys[keyboard.key_b] = true;
                             break;
                         case SDL_Keycode.SDLK_c:
-                            input.pressed_keys[input.key_c] = true;
+                            keyboard.pressed_keys[keyboard.key_c] = true;
                             break;
                         case SDL_Keycode.SDLK_d:
-                            input.pressed_keys[input.key_d] = true;
+                            keyboard.pressed_keys[keyboard.key_d] = true;
                             break;
                         case SDL_Keycode.SDLK_e:
-                            input.pressed_keys[input.key_e] = true;
+                            keyboard.pressed_keys[keyboard.key_e] = true;
                             break;
                         case SDL_Keycode.SDLK_f:
-                            input.pressed_keys[input.key_f] = true;
+                            keyboard.pressed_keys[keyboard.key_f] = true;
                             break;
                         case SDL_Keycode.SDLK_g:
-                            input.pressed_keys[input.key_g] = true;
+                            keyboard.pressed_keys[keyboard.key_g] = true;
                             break;
                         case SDL_Keycode.SDLK_h:
-                            input.pressed_keys[input.key_h] = true;
+                            keyboard.pressed_keys[keyboard.key_h] = true;
                             break;
                         case SDL_Keycode.SDLK_i:
-                            input.pressed_keys[input.key_i] = true;
+                            keyboard.pressed_keys[keyboard.key_i] = true;
                             break;
                         case SDL_Keycode.SDLK_j:
-                            input.pressed_keys[input.key_j] = true;
+                            keyboard.pressed_keys[keyboard.key_j] = true;
                             break;
                         case SDL_Keycode.SDLK_k:
-                            input.pressed_keys[input.key_k] = true;
+                            keyboard.pressed_keys[keyboard.key_k] = true;
                             break;
                         case SDL_Keycode.SDLK_l:
-                            input.pressed_keys[input.key_l] = true;
+                            keyboard.pressed_keys[keyboard.key_l] = true;
                             break;
                         case SDL_Keycode.SDLK_m:
-                            input.pressed_keys[input.key_m] = true;
+                            keyboard.pressed_keys[keyboard.key_m] = true;
                             break;
                         case SDL_Keycode.SDLK_n:
-                            input.pressed_keys[input.key_n] = true;
+                            keyboard.pressed_keys[keyboard.key_n] = true;
                             break;
                         case SDL_Keycode.SDLK_o:
-                            input.pressed_keys[input.key_o] = true;
+                            keyboard.pressed_keys[keyboard.key_o] = true;
                             break;
                         case SDL_Keycode.SDLK_p:
-                            input.pressed_keys[input.key_p] = true;
+                            keyboard.pressed_keys[keyboard.key_p] = true;
                             break;
                         case SDL_Keycode.SDLK_q:
-                            input.pressed_keys[input.key_q] = true;
+                            keyboard.pressed_keys[keyboard.key_q] = true;
                             break;
                         case SDL_Keycode.SDLK_r:
-                            input.pressed_keys[input.key_r] = true;
+                            keyboard.pressed_keys[keyboard.key_r] = true;
                             break;
                         case SDL_Keycode.SDLK_s:
-                            input.pressed_keys[input.key_s] = true;
+                            keyboard.pressed_keys[keyboard.key_s] = true;
                             break;
                         case SDL_Keycode.SDLK_t:
-                            input.pressed_keys[input.key_t] = true;
+                            keyboard.pressed_keys[keyboard.key_t] = true;
                             break;
                         case SDL_Keycode.SDLK_u:
-                            input.pressed_keys[input.key_u] = true;
+                            keyboard.pressed_keys[keyboard.key_u] = true;
                             break;
                         case SDL_Keycode.SDLK_v:
-                            input.pressed_keys[input.key_v] = true;
+                            keyboard.pressed_keys[keyboard.key_v] = true;
                             break;
                         case SDL_Keycode.SDLK_w:
-                            input.pressed_keys[input.key_w] = true;
+                            keyboard.pressed_keys[keyboard.key_w] = true;
                             break;
                         case SDL_Keycode.SDLK_x:
-                            input.pressed_keys[input.key_x] = true;
+                            keyboard.pressed_keys[keyboard.key_x] = true;
                             break;
                         case SDL_Keycode.SDLK_y:
-                            input.pressed_keys[input.key_y] = true;
+                            keyboard.pressed_keys[keyboard.key_y] = true;
                             break;
                         case SDL_Keycode.SDLK_z:
-                            input.pressed_keys[input.key_z] = true;
+                            keyboard.pressed_keys[keyboard.key_z] = true;
                             break;
                         case SDL_Keycode.SDLK_1:
-                            input.pressed_keys[input.key_1] = true;
+                            keyboard.pressed_keys[keyboard.key_1] = true;
                             break;
                         case SDL_Keycode.SDLK_2:
-                            input.pressed_keys[input.key_2] = true;
+                            keyboard.pressed_keys[keyboard.key_2] = true;
                             break;
                         case SDL_Keycode.SDLK_3:
-                            input.pressed_keys[input.key_3] = true;
+                            keyboard.pressed_keys[keyboard.key_3] = true;
                             break;
                         case SDL_Keycode.SDLK_4:
-                            input.pressed_keys[input.key_4] = true;
+                            keyboard.pressed_keys[keyboard.key_4] = true;
                             break;
                         case SDL_Keycode.SDLK_5:
-                            input.pressed_keys[input.key_5] = true;
+                            keyboard.pressed_keys[keyboard.key_5] = true;
                             break;
                         case SDL_Keycode.SDLK_6:
-                            input.pressed_keys[input.key_6] = true;
+                            keyboard.pressed_keys[keyboard.key_6] = true;
                             break;
                         case SDL_Keycode.SDLK_7:
-                            input.pressed_keys[input.key_7] = true;
+                            keyboard.pressed_keys[keyboard.key_7] = true;
                             break;
                         case SDL_Keycode.SDLK_8:
-                            input.pressed_keys[input.key_8] = true;
+                            keyboard.pressed_keys[keyboard.key_8] = true;
                             break;
                         case SDL_Keycode.SDLK_9:
-                            input.pressed_keys[input.key_9] = true;
+                            keyboard.pressed_keys[keyboard.key_9] = true;
                             break;
                         case SDL_Keycode.SDLK_0:
-                            input.pressed_keys[input.key_0] = true;
+                            keyboard.pressed_keys[keyboard.key_0] = true;
                             break;
                         case SDL_Keycode.SDLK_F1:
-                            input.pressed_keys[input.key_f1] = true;
+                            keyboard.pressed_keys[keyboard.key_f1] = true;
                             break;
                         case SDL_Keycode.SDLK_F2:
-                            input.pressed_keys[input.key_f2] = true;
+                            keyboard.pressed_keys[keyboard.key_f2] = true;
                             break;
                         case SDL_Keycode.SDLK_F3:
-                            input.pressed_keys[input.key_f3] = true;
+                            keyboard.pressed_keys[keyboard.key_f3] = true;
                             break;
                         case SDL_Keycode.SDLK_F4:
-                            input.pressed_keys[input.key_f4] = true;
+                            keyboard.pressed_keys[keyboard.key_f4] = true;
                             break;
                         case SDL_Keycode.SDLK_F5:
-                            input.pressed_keys[input.key_f5] = true;
+                            keyboard.pressed_keys[keyboard.key_f5] = true;
                             break;
                         case SDL_Keycode.SDLK_F6:
-                            input.pressed_keys[input.key_f6] = true;
+                            keyboard.pressed_keys[keyboard.key_f6] = true;
                             break;
                         case SDL_Keycode.SDLK_F7:
-                            input.pressed_keys[input.key_f7] = true;
+                            keyboard.pressed_keys[keyboard.key_f7] = true;
                             break;
                         case SDL_Keycode.SDLK_F8:
-                            input.pressed_keys[input.key_f8] = true;
+                            keyboard.pressed_keys[keyboard.key_f8] = true;
                             break;
                         case SDL_Keycode.SDLK_F9:
-                            input.pressed_keys[input.key_f9] = true;
+                            keyboard.pressed_keys[keyboard.key_f9] = true;
                             break;
                         case SDL_Keycode.SDLK_F10:
-                            input.pressed_keys[input.key_f10] = true;
+                            keyboard.pressed_keys[keyboard.key_f10] = true;
                             break;
                         case SDL_Keycode.SDLK_F11:
-                            input.pressed_keys[input.key_f11] = true;
+                            keyboard.pressed_keys[keyboard.key_f11] = true;
                             break;
                         case SDL_Keycode.SDLK_F12:
-                            input.pressed_keys[input.key_f12] = true;
+                            keyboard.pressed_keys[keyboard.key_f12] = true;
                             break;
                         case SDL_Keycode.SDLK_ESCAPE:
-                            input.pressed_keys[input.key_escape] = true;
+                            keyboard.pressed_keys[keyboard.key_escape] = true;
                             break;
                         case SDL_Keycode.SDLK_BACKQUOTE:
-                            input.pressed_keys[input.key_backquote] = true;
+                            keyboard.pressed_keys[keyboard.key_backquote] = true;
                             break;
                         case SDL_Keycode.SDLK_MINUS:
-                            input.pressed_keys[input.key_minus] = true;
+                            keyboard.pressed_keys[keyboard.key_minus] = true;
                             break;
                         case SDL_Keycode.SDLK_EQUALS:
-                            input.pressed_keys[input.key_equals] = true;
+                            keyboard.pressed_keys[keyboard.key_equals] = true;
                             break;
                         case SDL_Keycode.SDLK_BACKSPACE:
-                            input.pressed_keys[input.key_backspace] = true;
+                            keyboard.pressed_keys[keyboard.key_backspace] = true;
                             break;
                         case SDL_Keycode.SDLK_TAB:
-                            input.pressed_keys[input.key_tab] = true;
+                            keyboard.pressed_keys[keyboard.key_tab] = true;
                             break;
                         case SDL_Keycode.SDLK_LEFTBRACKET:
-                            input.pressed_keys[input.key_leftbracket] = true;
+                            keyboard.pressed_keys[keyboard.key_leftbracket] = true;
                             break;
                         case SDL_Keycode.SDLK_RIGHTBRACKET:
-                            input.pressed_keys[input.key_rightbracket] = true;
+                            keyboard.pressed_keys[keyboard.key_rightbracket] = true;
                             break;
                         case SDL_Keycode.SDLK_BACKSLASH:
-                            input.pressed_keys[input.key_backslash] = true;
+                            keyboard.pressed_keys[keyboard.key_backslash] = true;
                             break;
                         case SDL_Keycode.SDLK_CAPSLOCK:
-                            input.pressed_keys[input.key_capslock] = true;
+                            keyboard.pressed_keys[keyboard.key_capslock] = true;
                             break;
                         case SDL_Keycode.SDLK_SEMICOLON:
-                            input.pressed_keys[input.key_semicolon] = true;
+                            keyboard.pressed_keys[keyboard.key_semicolon] = true;
                             break;
                         case SDL_Keycode.SDLK_QUOTE:
-                            input.pressed_keys[input.key_quote] = true;
+                            keyboard.pressed_keys[keyboard.key_quote] = true;
                             break;
                         case SDL_Keycode.SDLK_RETURN:
-                            input.pressed_keys[input.key_return] = true;
+                            keyboard.pressed_keys[keyboard.key_return] = true;
                             break;
                         case SDL_Keycode.SDLK_LSHIFT:
-                            input.pressed_keys[input.key_lshift] = true;
+                            keyboard.pressed_keys[keyboard.key_lshift] = true;
                             break;
                         case SDL_Keycode.SDLK_COMMA:
-                            input.pressed_keys[input.key_comma] = true;
+                            keyboard.pressed_keys[keyboard.key_comma] = true;
                             break;
                         case SDL_Keycode.SDLK_PERIOD:
-                            input.pressed_keys[input.key_period] = true;
+                            keyboard.pressed_keys[keyboard.key_period] = true;
                             break;
                         case SDL_Keycode.SDLK_SLASH:
-                            input.pressed_keys[input.key_slash] = true;
+                            keyboard.pressed_keys[keyboard.key_slash] = true;
                             break;
                         case SDL_Keycode.SDLK_RSHIFT:
-                            input.pressed_keys[input.key_rshift] = true;
+                            keyboard.pressed_keys[keyboard.key_rshift] = true;
                             break;
                         case SDL_Keycode.SDLK_LCTRL:
-                            input.pressed_keys[input.key_lctrl] = true;
+                            keyboard.pressed_keys[keyboard.key_lctrl] = true;
                             break;
                         case SDL_Keycode.SDLK_LALT:
-                            input.pressed_keys[input.key_lalt] = true;
+                            keyboard.pressed_keys[keyboard.key_lalt] = true;
                             break;
                         case SDL_Keycode.SDLK_SPACE:
-                            input.pressed_keys[input.key_space] = true;
+                            keyboard.pressed_keys[keyboard.key_space] = true;
                             break;
                         case SDL_Keycode.SDLK_RALT:
-                            input.pressed_keys[input.key_ralt] = true;
+                            keyboard.pressed_keys[keyboard.key_ralt] = true;
                             break;
                         case SDL_Keycode.SDLK_APPLICATION:
-                            input.pressed_keys[input.key_application] = true;
+                            keyboard.pressed_keys[keyboard.key_application] = true;
                             break;
                         case SDL_Keycode.SDLK_RCTRL:
-                            input.pressed_keys[input.key_rctrl] = true;
+                            keyboard.pressed_keys[keyboard.key_rctrl] = true;
                             break;
                         case SDL_Keycode.SDLK_UP:
-                            input.pressed_keys[input.key_up] = true;
+                            keyboard.pressed_keys[keyboard.key_up] = true;
                             break;
                         case SDL_Keycode.SDLK_DOWN:
-                            input.pressed_keys[input.key_down] = true;
+                            keyboard.pressed_keys[keyboard.key_down] = true;
                             break;
                         case SDL_Keycode.SDLK_LEFT:
-                            input.pressed_keys[input.key_left] = true;
+                            keyboard.pressed_keys[keyboard.key_left] = true;
                             break;
                         case SDL_Keycode.SDLK_RIGHT:
-                            input.pressed_keys[input.key_right] = true;
+                            keyboard.pressed_keys[keyboard.key_right] = true;
                             break;
                     }
                     break;
                 case SDL_EventType.SDL_KEYUP:
                     switch(events.key.keysym.sym) {
                         case SDL_Keycode.SDLK_a:
-                            input.pressed_keys[input.key_a] = false;
+                            keyboard.pressed_keys[keyboard.key_a] = false;
                             break;
                         case SDL_Keycode.SDLK_b:
-                            input.pressed_keys[input.key_b] = false;
+                            keyboard.pressed_keys[keyboard.key_b] = false;
                             break;
                         case SDL_Keycode.SDLK_c:
-                            input.pressed_keys[input.key_c] = false;
+                            keyboard.pressed_keys[keyboard.key_c] = false;
                             break;
                         case SDL_Keycode.SDLK_d:
-                            input.pressed_keys[input.key_d] = false;
+                            keyboard.pressed_keys[keyboard.key_d] = false;
                             break;
                         case SDL_Keycode.SDLK_e:
-                            input.pressed_keys[input.key_e] = false;
+                            keyboard.pressed_keys[keyboard.key_e] = false;
                             break;
                         case SDL_Keycode.SDLK_f:
-                            input.pressed_keys[input.key_f] = false;
+                            keyboard.pressed_keys[keyboard.key_f] = false;
                             break;
                         case SDL_Keycode.SDLK_g:
-                            input.pressed_keys[input.key_g] = false;
+                            keyboard.pressed_keys[keyboard.key_g] = false;
                             break;
                         case SDL_Keycode.SDLK_h:
-                            input.pressed_keys[input.key_h] = false;
+                            keyboard.pressed_keys[keyboard.key_h] = false;
                             break;
                         case SDL_Keycode.SDLK_i:
-                            input.pressed_keys[input.key_i] = false;
+                            keyboard.pressed_keys[keyboard.key_i] = false;
                             break;
                         case SDL_Keycode.SDLK_j:
-                            input.pressed_keys[input.key_j] = false;
+                            keyboard.pressed_keys[keyboard.key_j] = false;
                             break;
                         case SDL_Keycode.SDLK_k:
-                            input.pressed_keys[input.key_k] = false;
+                            keyboard.pressed_keys[keyboard.key_k] = false;
                             break;
                         case SDL_Keycode.SDLK_l:
-                            input.pressed_keys[input.key_l] = false;
+                            keyboard.pressed_keys[keyboard.key_l] = false;
                             break;
                         case SDL_Keycode.SDLK_m:
-                            input.pressed_keys[input.key_m] = false;
+                            keyboard.pressed_keys[keyboard.key_m] = false;
                             break;
                         case SDL_Keycode.SDLK_n:
-                            input.pressed_keys[input.key_n] = false;
+                            keyboard.pressed_keys[keyboard.key_n] = false;
                             break;
                         case SDL_Keycode.SDLK_o:
-                            input.pressed_keys[input.key_o] = false;
+                            keyboard.pressed_keys[keyboard.key_o] = false;
                             break;
                         case SDL_Keycode.SDLK_p:
-                            input.pressed_keys[input.key_p] = false;
+                            keyboard.pressed_keys[keyboard.key_p] = false;
                             break;
                         case SDL_Keycode.SDLK_q:
-                            input.pressed_keys[input.key_q] = false;
+                            keyboard.pressed_keys[keyboard.key_q] = false;
                             break;
                         case SDL_Keycode.SDLK_r:
-                            input.pressed_keys[input.key_r] = false;
+                            keyboard.pressed_keys[keyboard.key_r] = false;
                             break;
                         case SDL_Keycode.SDLK_s:
-                            input.pressed_keys[input.key_s] = false;
+                            keyboard.pressed_keys[keyboard.key_s] = false;
                             break;
                         case SDL_Keycode.SDLK_t:
-                            input.pressed_keys[input.key_t] = false;
+                            keyboard.pressed_keys[keyboard.key_t] = false;
                             break;
                         case SDL_Keycode.SDLK_u:
-                            input.pressed_keys[input.key_u] = false;
+                            keyboard.pressed_keys[keyboard.key_u] = false;
                             break;
                         case SDL_Keycode.SDLK_v:
-                            input.pressed_keys[input.key_v] = false;
+                            keyboard.pressed_keys[keyboard.key_v] = false;
                             break;
                         case SDL_Keycode.SDLK_w:
-                            input.pressed_keys[input.key_w] = false;
+                            keyboard.pressed_keys[keyboard.key_w] = false;
                             break;
                         case SDL_Keycode.SDLK_x:
-                            input.pressed_keys[input.key_x] = false;
+                            keyboard.pressed_keys[keyboard.key_x] = false;
                             break;
                         case SDL_Keycode.SDLK_y:
-                            input.pressed_keys[input.key_y] = false;
+                            keyboard.pressed_keys[keyboard.key_y] = false;
                             break;
                         case SDL_Keycode.SDLK_z:
-                            input.pressed_keys[input.key_z] = false;
+                            keyboard.pressed_keys[keyboard.key_z] = false;
                             break;
                         case SDL_Keycode.SDLK_1:
-                            input.pressed_keys[input.key_1] = false;
+                            keyboard.pressed_keys[keyboard.key_1] = false;
                             break;
                         case SDL_Keycode.SDLK_2:
-                            input.pressed_keys[input.key_2] = false;
+                            keyboard.pressed_keys[keyboard.key_2] = false;
                             break;
                         case SDL_Keycode.SDLK_3:
-                            input.pressed_keys[input.key_3] = false;
+                            keyboard.pressed_keys[keyboard.key_3] = false;
                             break;
                         case SDL_Keycode.SDLK_4:
-                            input.pressed_keys[input.key_4] = false;
+                            keyboard.pressed_keys[keyboard.key_4] = false;
                             break;
                         case SDL_Keycode.SDLK_5:
-                            input.pressed_keys[input.key_5] = false;
+                            keyboard.pressed_keys[keyboard.key_5] = false;
                             break;
                         case SDL_Keycode.SDLK_6:
-                            input.pressed_keys[input.key_6] = false;
+                            keyboard.pressed_keys[keyboard.key_6] = false;
                             break;
                         case SDL_Keycode.SDLK_7:
-                            input.pressed_keys[input.key_7] = false;
+                            keyboard.pressed_keys[keyboard.key_7] = false;
                             break;
                         case SDL_Keycode.SDLK_8:
-                            input.pressed_keys[input.key_8] = false;
+                            keyboard.pressed_keys[keyboard.key_8] = false;
                             break;
                         case SDL_Keycode.SDLK_9:
-                            input.pressed_keys[input.key_9] = false;
+                            keyboard.pressed_keys[keyboard.key_9] = false;
                             break;
                         case SDL_Keycode.SDLK_0:
-                            input.pressed_keys[input.key_0] = false;
+                            keyboard.pressed_keys[keyboard.key_0] = false;
                             break;
                         case SDL_Keycode.SDLK_F1:
-                            input.pressed_keys[input.key_f1] = false;
+                            keyboard.pressed_keys[keyboard.key_f1] = false;
                             break;
                         case SDL_Keycode.SDLK_F2:
-                            input.pressed_keys[input.key_f2] = false;
+                            keyboard.pressed_keys[keyboard.key_f2] = false;
                             break;
                         case SDL_Keycode.SDLK_F3:
-                            input.pressed_keys[input.key_f3] = false;
+                            keyboard.pressed_keys[keyboard.key_f3] = false;
                             break;
                         case SDL_Keycode.SDLK_F4:
-                            input.pressed_keys[input.key_f4] = false;
+                            keyboard.pressed_keys[keyboard.key_f4] = false;
                             break;
                         case SDL_Keycode.SDLK_F5:
-                            input.pressed_keys[input.key_f5] = false;
+                            keyboard.pressed_keys[keyboard.key_f5] = false;
                             break;
                         case SDL_Keycode.SDLK_F6:
-                            input.pressed_keys[input.key_f6] = false;
+                            keyboard.pressed_keys[keyboard.key_f6] = false;
                             break;
                         case SDL_Keycode.SDLK_F7:
-                            input.pressed_keys[input.key_f7] = false;
+                            keyboard.pressed_keys[keyboard.key_f7] = false;
                             break;
                         case SDL_Keycode.SDLK_F8:
-                            input.pressed_keys[input.key_f8] = false;
+                            keyboard.pressed_keys[keyboard.key_f8] = false;
                             break;
                         case SDL_Keycode.SDLK_F9:
-                            input.pressed_keys[input.key_f9] = false;
+                            keyboard.pressed_keys[keyboard.key_f9] = false;
                             break;
                         case SDL_Keycode.SDLK_F10:
-                            input.pressed_keys[input.key_f10] = false;
+                            keyboard.pressed_keys[keyboard.key_f10] = false;
                             break;
                         case SDL_Keycode.SDLK_F11:
-                            input.pressed_keys[input.key_f11] = false;
+                            keyboard.pressed_keys[keyboard.key_f11] = false;
                             break;
                         case SDL_Keycode.SDLK_F12:
-                            input.pressed_keys[input.key_f12] = false;
+                            keyboard.pressed_keys[keyboard.key_f12] = false;
                             break;
                         case SDL_Keycode.SDLK_ESCAPE:
-                            input.pressed_keys[input.key_escape] = false;
+                            keyboard.pressed_keys[keyboard.key_escape] = false;
                             break;
                         case SDL_Keycode.SDLK_BACKQUOTE:
-                            input.pressed_keys[input.key_backquote] = false;
+                            keyboard.pressed_keys[keyboard.key_backquote] = false;
                             break;
                         case SDL_Keycode.SDLK_MINUS:
-                            input.pressed_keys[input.key_minus] = false;
+                            keyboard.pressed_keys[keyboard.key_minus] = false;
                             break;
                         case SDL_Keycode.SDLK_EQUALS:
-                            input.pressed_keys[input.key_equals] = false;
+                            keyboard.pressed_keys[keyboard.key_equals] = false;
                             break;
                         case SDL_Keycode.SDLK_BACKSPACE:
-                            input.pressed_keys[input.key_backspace] = false;
+                            keyboard.pressed_keys[keyboard.key_backspace] = false;
                             break;
                         case SDL_Keycode.SDLK_TAB:
-                            input.pressed_keys[input.key_tab] = false;
+                            keyboard.pressed_keys[keyboard.key_tab] = false;
                             break;
                         case SDL_Keycode.SDLK_LEFTBRACKET:
-                            input.pressed_keys[input.key_leftbracket] = false;
+                            keyboard.pressed_keys[keyboard.key_leftbracket] = false;
                             break;
                         case SDL_Keycode.SDLK_RIGHTBRACKET:
-                            input.pressed_keys[input.key_rightbracket] = false;
+                            keyboard.pressed_keys[keyboard.key_rightbracket] = false;
                             break;
                         case SDL_Keycode.SDLK_BACKSLASH:
-                            input.pressed_keys[input.key_backslash] = false;
+                            keyboard.pressed_keys[keyboard.key_backslash] = false;
                             break;
                         case SDL_Keycode.SDLK_CAPSLOCK:
-                            input.pressed_keys[input.key_capslock] = false;
+                            keyboard.pressed_keys[keyboard.key_capslock] = false;
                             break;
                         case SDL_Keycode.SDLK_SEMICOLON:
-                            input.pressed_keys[input.key_semicolon] = false;
+                            keyboard.pressed_keys[keyboard.key_semicolon] = false;
                             break;
                         case SDL_Keycode.SDLK_QUOTE:
-                            input.pressed_keys[input.key_quote] = false;
+                            keyboard.pressed_keys[keyboard.key_quote] = false;
                             break;
                         case SDL_Keycode.SDLK_RETURN:
-                            input.pressed_keys[input.key_return] = false;
+                            keyboard.pressed_keys[keyboard.key_return] = false;
                             break;
                         case SDL_Keycode.SDLK_LSHIFT:
-                            input.pressed_keys[input.key_lshift] = false;
+                            keyboard.pressed_keys[keyboard.key_lshift] = false;
                             break;
                         case SDL_Keycode.SDLK_COMMA:
-                            input.pressed_keys[input.key_comma] = false;
+                            keyboard.pressed_keys[keyboard.key_comma] = false;
                             break;
                         case SDL_Keycode.SDLK_PERIOD:
-                            input.pressed_keys[input.key_period] = false;
+                            keyboard.pressed_keys[keyboard.key_period] = false;
                             break;
                         case SDL_Keycode.SDLK_SLASH:
-                            input.pressed_keys[input.key_slash] = false;
+                            keyboard.pressed_keys[keyboard.key_slash] = false;
                             break;
                         case SDL_Keycode.SDLK_RSHIFT:
-                            input.pressed_keys[input.key_rshift] = false;
+                            keyboard.pressed_keys[keyboard.key_rshift] = false;
                             break;
                         case SDL_Keycode.SDLK_LCTRL:
-                            input.pressed_keys[input.key_lctrl] = false;
+                            keyboard.pressed_keys[keyboard.key_lctrl] = false;
                             break;
                         case SDL_Keycode.SDLK_LALT:
-                            input.pressed_keys[input.key_lalt] = false;
+                            keyboard.pressed_keys[keyboard.key_lalt] = false;
                             break;
                         case SDL_Keycode.SDLK_SPACE:
-                            input.pressed_keys[input.key_space] = false;
+                            keyboard.pressed_keys[keyboard.key_space] = false;
                             break;
                         case SDL_Keycode.SDLK_RALT:
-                            input.pressed_keys[input.key_ralt] = false;
+                            keyboard.pressed_keys[keyboard.key_ralt] = false;
                             break;
                         case SDL_Keycode.SDLK_APPLICATION:
-                            input.pressed_keys[input.key_application] = false;
+                            keyboard.pressed_keys[keyboard.key_application] = false;
                             break;
                         case SDL_Keycode.SDLK_RCTRL:
-                            input.pressed_keys[input.key_rctrl] = false;
+                            keyboard.pressed_keys[keyboard.key_rctrl] = false;
                             break;
                         case SDL_Keycode.SDLK_UP:
-                            input.pressed_keys[input.key_up] = false;
+                            keyboard.pressed_keys[keyboard.key_up] = false;
                             break;
                         case SDL_Keycode.SDLK_DOWN:
-                            input.pressed_keys[input.key_down] = false;
+                            keyboard.pressed_keys[keyboard.key_down] = false;
                             break;
                         case SDL_Keycode.SDLK_LEFT:
-                            input.pressed_keys[input.key_left] = false;
+                            keyboard.pressed_keys[keyboard.key_left] = false;
                             break;
                         case SDL_Keycode.SDLK_RIGHT:
-                            input.pressed_keys[input.key_right] = false;
+                            keyboard.pressed_keys[keyboard.key_right] = false;
                             break;
                     }
                     break;
