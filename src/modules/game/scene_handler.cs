@@ -11,27 +11,10 @@ using Newtonsoft.Json;
 
 namespace Fjord.Modules.Game {
     public abstract class scene {
-        class repeat_function {
-            public Action func;
-            public int frames;
-            public repeat_function(Action func, int frames) {
-                this.func = func;
-                this.frames = frames;
-            }
-        }
-
         private tilemap tiles;
         private List<entity> entities = new List<entity>();
-        private List<repeat_function> repeat_functions = new List<repeat_function>();
         private V4 background_color = new V4(26, 26, 28, 255);
         private V2 resolution = new V2(1920, 1080);
-
-        public void repeat_for_frames(Action func, int frames) {
-            repeat_functions.Add(new repeat_function(
-                func,
-                frames
-            ));
-        }
 
         public tilemap get_tiles() {
             return tiles;
@@ -84,17 +67,6 @@ namespace Fjord.Modules.Game {
             foreach(entity e in entities) {
                 e.update();
             }
-
-            List<repeat_function> new_repeat_functions = new List<repeat_function>(repeat_functions);
-            foreach(repeat_function f in repeat_functions) {
-                if(f.frames-- != 0) {
-                    f.func();
-                } else {
-                    new_repeat_functions.Remove(f);
-                }
-            }
-            repeat_functions = new List<repeat_function>(new_repeat_functions);
-            
         }
 
         public virtual void render() {}
