@@ -6,7 +6,7 @@ using System;
 
 namespace Fjord.Modules.Game {
     public abstract class component {
-        public dynamic parent;
+        public entity parent;
 
         public virtual void on_load() {}
         public virtual void update() {}
