@@ -44,7 +44,7 @@ namespace Fjord.Modules.Debug {
             } else {
                 Console.SetCursorPosition(0, Console.CursorTop -1);
 
-                string msg = String.Format(prefixstr + "[{0}]{1} {2}x {3} -> {4}", time, prefixstr, (last_message_streak + 1).ToString(), method, message);
+                string msg = String.Format(prefixstr + "[{0}]{1} {2}x {3} -> {4}", time, prefixstr, (last_message_streak + 2).ToString(), method, message);
                 Console.WriteLine(msg); 
 
                 game.log[game.log.Count - 1] = msg;

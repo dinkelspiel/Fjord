@@ -159,6 +159,7 @@ namespace Fjord
                 if (frame_delay > game.delta_time_ms) {
                     SDL_Delay((uint)(frame_delay - game.delta_time_ms));
                 }
+                draw.clean_texture_buffer();
             }
 
             game.stop();

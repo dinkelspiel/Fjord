@@ -12,15 +12,15 @@ namespace Fjord.Modules.Camera {
         public static void set(float x, float y) {
             SDL_Rect rect;
             SDL_RenderGetViewport(game.renderer, out rect);
-            camera_position.x = x - rect.w / 2;
-            camera_position.y = y - rect.h / 2;
+            camera_position.x = x;
+            camera_position.y = y;
         }
 
         public static void set(V2f position) {
             SDL_Rect rect;
             SDL_RenderGetViewport(game.renderer, out rect);
-            camera_position.x = position.x - rect.w / 2;
-            camera_position.y = position.y - rect.h / 2;
+            camera_position.x = position.x;
+            camera_position.y = position.y;
         }
 
         public static void add(float x, float y) {

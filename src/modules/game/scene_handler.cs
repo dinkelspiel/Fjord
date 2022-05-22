@@ -90,14 +90,19 @@ namespace Fjord.Modules.Game {
                 }
             }
 
-            List<entity> sorted_entities = new List<entity>();
-            sorted_entities = entities.OrderBy(e => e.depth).ToList();
+            List<entity> sorted_entities = new List<entity>(entities);
+            // sorted_entities = entities.OrderBy(e => e.depth).ToList();
+            sorted_entities = sorted_entities.OrderBy(e => e.depth).ToList();
 
             foreach(entity e in sorted_entities) {
                 e.render();
             }
 
-            draw.clean_texture_buffer();
+            List<draw.texture_buffer> sorted_textures = new List<draw.texture_buffer>(draw.get_texture_buffer());
+            sorted_textures = sorted_textures.OrderBy(e => e.tex.get_depth()).ToList();
+            foreach(draw.texture_buffer e in sorted_textures) {
+                draw.texture_direct((V2)e.position - (V2)camera.get(), e.tex);
+            }
         }
         public virtual void on_load() {}
         public virtual void on_unload() {}

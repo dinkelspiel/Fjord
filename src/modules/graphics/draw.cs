@@ -48,7 +48,7 @@ namespace Fjord.Modules.Graphics {
 
         private static Dictionary<string, IntPtr> fonts = new Dictionary<string, IntPtr>();
         private static Dictionary<string, IntPtr> texture_cache = new Dictionary<string, IntPtr>();
-        private static List<texture_buffer> draw_texture_buffer = new List<texture_buffer>();
+        public static List<texture_buffer> draw_texture_buffer = new List<texture_buffer>();
 
         public static void rect(V4 rect, V4 color, bool fill=true, int border_radius=0, double angle=0, draw_origin origin=draw_origin.CENTER) {
             if(border_radius == 0) {
@@ -535,7 +535,7 @@ namespace Fjord.Modules.Graphics {
         }
 
         public static List<texture_buffer> get_texture_buffer() {
-            return draw_texture_buffer;
+            return new List<texture_buffer>(draw_texture_buffer);
         }
 
         public static void clean_texture_buffer() {
