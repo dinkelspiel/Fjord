@@ -84,6 +84,7 @@ namespace Fjord.Modules.Game {
                             if(tiles.tiles.Keys.ToList().Contains(tiles.tile_map[i][j]["tile_id"])) {
                                 texture tile_texture = (texture)tiles.tiles[tiles.tile_map[i][j]["tile_id"]].tex.Clone();
                                 tile_texture.set_origin(draw_origin.CENTER);
+                                tile_texture.set_depth(-10000);
                                 if(tiles.tile_map[i][j].Keys.ToList().Contains("rotation"))
                                     tile_texture.set_angle(tiles.tile_map[i][j]["rotation"]);
                                 draw.texture(pos, tile_texture);
