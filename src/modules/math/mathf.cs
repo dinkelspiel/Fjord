@@ -40,6 +40,10 @@ namespace Fjord.Modules.Mathf {
             return length * Math.Sin(angle * Math.PI / -180);
         }
 
+        public static V2f lengthdir(double length, double angle) {
+            return new V2f((float)lengthdir_x(length, angle), (float)lengthdir_y(length,angle));
+        }
+
         public static double radtodeg(double radians) {
             return (180 / Math.PI) * radians;
         }
