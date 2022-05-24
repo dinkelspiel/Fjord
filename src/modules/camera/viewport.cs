@@ -3,7 +3,7 @@ using static SDL2.SDL;
 
 namespace Fjord.Modules.Camera {
     public static class camera {
-        private static V2f camera_position = new V2f(0, 0);
+        public static V2f camera_position = new V2f(0, 0);
 
         public static V2f get() {
             return camera_position;
