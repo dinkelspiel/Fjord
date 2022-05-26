@@ -46,30 +46,67 @@ namespace Fjord.Modules.Graphics {
             }
         }
 
+        public class Rectangle {
+            public int depth = 0;
+            public V4 rect;
+            public V4 color;
+            public bool fill;
+            public int border_radius;
+            public draw_origin origin;
+        }
+
+        public class Circle {
+            public int depth = 0;
+            public V2 pos;
+            public int radius;
+            public V4 color;
+            public bool fill;
+        }
+
+        public class Quarter {
+            public int depth = 0;
+            public V2 pos;
+            public int radius;
+            public draw_quarter quarter;
+            public V4 color;
+            public bool fill;
+        }
+
+        public class Line {
+            public int depth = 0;
+            public V2 pos;
+            public V2 pos2;
+            public V4 color;
+        }
+
         private static Dictionary<string, IntPtr> fonts = new Dictionary<string, IntPtr>();
         private static Dictionary<string, IntPtr> texture_cache = new Dictionary<string, IntPtr>();
-        public static List<texture_buffer> draw_texture_buffer = new List<texture_buffer>();
+        public static List<dynamic> draw_buffer = new List<dynamic>();
 
-        public static void rect(V4 rect, V4 color, bool fill=true, int border_radius=0, double angle=0, draw_origin origin=draw_origin.CENTER) {
+        public static void rect(V4 rect, V4 color, bool fill=true, int border_radius=0, int depth=0, draw_origin origin=draw_origin.CENTER) {
+            draw_buffer.Add(new Rectangle() {
+                depth = depth,
+                rect = rect,
+                color = color,
+                fill = fill,
+                border_radius = border_radius,
+                origin = origin
+            });
+        }
+
+        public static void rect_direct(V4 rect, V4 color, bool fill=true, int border_radius=0, draw_origin origin=draw_origin.CENTER) {
             if(border_radius == 0) {
-                draw.rectangle(rect, color, fill, angle, origin);
+                draw.rectangle(rect, color, fill, origin);
             } else {
                 draw.round_rectangle(rect, color, fill, border_radius);
-                if(angle != 0) {
-                    Debug.Debug.warn("Rotation isn't supported with border-radius yet.");
-                }
             }
         }
 
-        private static void rectangle(V4 rect, V4 color, bool fill=true, double angle=0, draw_origin origin=draw_origin.CENTER) {
-            // IntPtr target_texture = SDL_CreateTexture(game.renderer, SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, rect.z, rect.w);
-            // SDL_SetRenderTarget(game.renderer, target_texture);
-
+        private static void rectangle(V4 rect, V4 color, bool fill=true, draw_origin origin=draw_origin.CENTER) {
             V4 old_color = SDL_GetRenderDrawColor(game.renderer);
             SDL_SetRenderDrawColor(game.renderer, color);
 
             SDL_Rect converted_rect = helpers.v4_to_sdl(rect);
-            // SDL_Rect draw_rect = new SDL_Rect(0, 0, rect.z, rect.w);
 
             if(fill) {
                 SDL_RenderFillRect(game.renderer, ref converted_rect);
@@ -77,48 +114,7 @@ namespace Fjord.Modules.Graphics {
                 SDL_RenderDrawRect(game.renderer, ref converted_rect);
             }
 
-            // SDL_SetRenderTarget(game.renderer, (IntPtr)0);
             SDL_SetRenderDrawColor(game.renderer, old_color);
-
-            // SDL_Point point;
-            // switch(origin) {
-            //     case draw_origin.TOP_LEFT:
-            //         point = new SDL_Point(0, 0);
-            //         break;
-            //     case draw_origin.TOP_MIDDLE:
-            //         point = new SDL_Point(rect.z / 2, 0);
-            //         break;
-            //     case draw_origin.TOP_RIGHT:
-            //         point = new SDL_Point(rect.z, 0);
-            //         break;
-
-            //     case draw_origin.MIDDLE_LEFT:
-            //         point = new SDL_Point(0, rect.w / 2);
-            //         break;
-            //     case draw_origin.CENTER:
-            //         point = new SDL_Point(rect.z / 2, rect.w / 2);
-            //         break;
-            //     case draw_origin.MIDDLE_RIGHT:
-            //         point = new SDL_Point(rect.z, rect.w / 2);
-            //         break;
-
-            //     case draw_origin.BOTTOM_LEFT:
-            //         point = new SDL_Point(0, rect.w);
-            //         break;
-            //     case draw_origin.BOTTOM_MIDDLE:
-            //         point = new SDL_Point(rect.z / 2, rect.w);
-            //         break;
-            //     case draw_origin.BOTTOM_RIGHT:
-            //         point = new SDL_Point(rect.z, rect.w);
-            //         break;
-                
-            //     default:
-            //         point = new SDL_Point(rect.z / 2, rect.w / 2);
-            //         break; 
-            // }
-
-            // SDL_RenderCopyEx(game.renderer, target_texture, ref draw_rect, ref converted_rect, angle, ref point, SDL_RendererFlip.SDL_FLIP_NONE);
-            // SDL_DestroyTexture(target_texture);
         }
 
         private static void round_rectangle(V4 rect, V4 color, bool fill=true, int border_radius=0) {
@@ -151,7 +147,17 @@ namespace Fjord.Modules.Graphics {
             SDL_SetRenderDrawColor(game.renderer, old_color.r, old_color.g, old_color.b, old_color.a);  
         }
 
-        public static void circle(V2 position, int radius, V4 color, bool fill=true) {
+        public static void circle(V2 position, int radius, V4 color, bool fill=true, int depth=0) {
+            draw_buffer.Add(new Circle {
+                pos = position,
+                radius = radius,
+                color = color,
+                fill = fill,
+                depth = depth
+            });
+        }
+
+        public static void circle_direct(V2 position, int radius, V4 color, bool fill=true) {
             if(fill) {
                 filled_circle(position, radius, color);
             } else {
@@ -167,10 +173,10 @@ namespace Fjord.Modules.Graphics {
         
             while (x >= y)
             {
-                draw.line(new V2(position.x + x, position.y + y), new V2(position.x + x, position.y - y), color);
-                draw.line(new V2(position.x - x, position.y + y), new V2(position.x - x, position.y - y), color);
-                draw.line(new V2(position.x - y, position.y + x), new V2(position.x - y, position.y - x), color);
-                draw.line(new V2(position.x + y, position.y + x), new V2(position.x + y, position.y - x), color);
+                draw.line_direct(new V2(position.x + x, position.y + y), new V2(position.x + x, position.y - y), color);
+                draw.line_direct(new V2(position.x - x, position.y + y), new V2(position.x - x, position.y - y), color);
+                draw.line_direct(new V2(position.x - y, position.y + x), new V2(position.x - y, position.y - x), color);
+                draw.line_direct(new V2(position.x + y, position.y + x), new V2(position.x + y, position.y - x), color);
 
                 if (err <= 0)
                 {
@@ -194,14 +200,14 @@ namespace Fjord.Modules.Graphics {
         
             while (x >= y)
             {
-                draw.rect(new V4(position.x + x, position.y + y, 1, 1), color);
-                draw.rect(new V4(position.x + y, position.y + x, 1, 1), color);
-                draw.rect(new V4(position.x - y, position.y + x, 1, 1), color);
-                draw.rect(new V4(position.x - x, position.y + y, 1, 1), color);
-                draw.rect(new V4(position.x - x, position.y - y, 1, 1), color);
-                draw.rect(new V4(position.x - y, position.y - x, 1, 1), color);
-                draw.rect(new V4(position.x + y, position.y - x, 1, 1), color);
-                draw.rect(new V4(position.x + x, position.y - y, 1, 1), color);
+                draw.rect_direct(new V4(position.x + x, position.y + y, 1, 1), color);
+                draw.rect_direct(new V4(position.x + y, position.y + x, 1, 1), color);
+                draw.rect_direct(new V4(position.x - y, position.y + x, 1, 1), color);
+                draw.rect_direct(new V4(position.x - x, position.y + y, 1, 1), color);
+                draw.rect_direct(new V4(position.x - x, position.y - y, 1, 1), color);
+                draw.rect_direct(new V4(position.x - y, position.y - x, 1, 1), color);
+                draw.rect_direct(new V4(position.x + y, position.y - x, 1, 1), color);
+                draw.rect_direct(new V4(position.x + x, position.y - y, 1, 1), color);
                 
                 if (err <= 0)
                 {
@@ -217,7 +223,18 @@ namespace Fjord.Modules.Graphics {
             }
         }
 
-        public static void quarter(V2 position, int radius, draw_quarter quarter, V4 color, bool fill=true) {
+        public static void quarter(V2 position, int radius, draw_quarter quarter, V4 color, bool fill=true, int depth=0) {
+            draw_buffer.Add(new Quarter {
+                pos = position,
+                radius = radius,
+                quarter = quarter,
+                color = color,
+                fill = fill,
+                depth = depth
+            });
+        }
+
+        public static void quarter_direct(V2 position, int radius, draw_quarter quarter, V4 color, bool fill=true) {
             if(fill) {
                 filled_quarter(position, radius, quarter, color);
             } else {
@@ -234,20 +251,20 @@ namespace Fjord.Modules.Graphics {
             {
                 switch(quarter) {
                     case draw_quarter.TOP_LEFT:
-                        draw.line(new V2(position.x - x, position.y - y), new V2(position.x - x, position.y), color);
-                        draw.line(new V2(position.x - y, position.y - x), new V2(position.x - y, position.y), color);              
+                        draw.line_direct(new V2(position.x - x, position.y - y), new V2(position.x - x, position.y), color);
+                        draw.line_direct(new V2(position.x - y, position.y - x), new V2(position.x - y, position.y), color);              
                         break;
                     case draw_quarter.TOP_RIGHT:
-                        draw.line(new V2(position.x + x, position.y - y), new V2(position.x + x, position.y), color);
-                        draw.line(new V2(position.x + y, position.y - x), new V2(position.x + y, position.y), color);   
+                        draw.line_direct(new V2(position.x + x, position.y - y), new V2(position.x + x, position.y), color);
+                        draw.line_direct(new V2(position.x + y, position.y - x), new V2(position.x + y, position.y), color);   
                         break;
                     case draw_quarter.BOTTOM_LEFT:
-                        draw.line(new V2(position.x - x, position.y + y), new V2(position.x - x, position.y), color);
-                        draw.line(new V2(position.x - y, position.y + x), new V2(position.x - y, position.y), color);                 
+                        draw.line_direct(new V2(position.x - x, position.y + y), new V2(position.x - x, position.y), color);
+                        draw.line_direct(new V2(position.x - y, position.y + x), new V2(position.x - y, position.y), color);                 
                         break;
                     case draw_quarter.BOTTOM_RIGHT:
-                        draw.line(new V2(position.x + x, position.y + y), new V2(position.x + x, position.y), color);
-                        draw.line(new V2(position.x + y, position.y + x), new V2(position.x + y, position.y), color);            
+                        draw.line_direct(new V2(position.x + x, position.y + y), new V2(position.x + x, position.y), color);
+                        draw.line_direct(new V2(position.x + y, position.y + x), new V2(position.x + y, position.y), color);            
                         break;
                 }
 
@@ -275,20 +292,20 @@ namespace Fjord.Modules.Graphics {
             {
                 switch(quarter) {
                     case draw_quarter.TOP_LEFT:
-                        draw.rect(new V4(position.x - x, position.y - y, 1, 1), color);
-                        draw.rect(new V4(position.x - y, position.y - x, 1, 1), color);
+                        draw.rect_direct(new V4(position.x - x, position.y - y, 1, 1), color);
+                        draw.rect_direct(new V4(position.x - y, position.y - x, 1, 1), color);
                         break;  
                     case draw_quarter.TOP_RIGHT:
-                        draw.rect(new V4(position.x + y, position.y - x, 1, 1), color);
-                        draw.rect(new V4(position.x + x, position.y - y, 1, 1), color);
+                        draw.rect_direct(new V4(position.x + y, position.y - x, 1, 1), color);
+                        draw.rect_direct(new V4(position.x + x, position.y - y, 1, 1), color);
                         break;
                     case draw_quarter.BOTTOM_LEFT:
-                        draw.rect(new V4(position.x - y, position.y + x, 1, 1), color);
-                        draw.rect(new V4(position.x - x, position.y + y, 1, 1), color);
+                        draw.rect_direct(new V4(position.x - y, position.y + x, 1, 1), color);
+                        draw.rect_direct(new V4(position.x - x, position.y + y, 1, 1), color);
                         break;
                     case draw_quarter.BOTTOM_RIGHT:
-                        draw.rect(new V4(position.x + x, position.y + y, 1, 1), color);
-                        draw.rect(new V4(position.x + y, position.y + x, 1, 1), color);
+                        draw.rect_direct(new V4(position.x + x, position.y + y, 1, 1), color);
+                        draw.rect_direct(new V4(position.x + y, position.y + x, 1, 1), color);
                         break;
                 }
                 
@@ -306,8 +323,17 @@ namespace Fjord.Modules.Graphics {
             }
         }
 
+        public static void line(V2 position, V2 position_2, V4 color, int depth=0) {
+            draw_buffer.Add(new Line {
+                pos = position,
+                pos2 = position_2,
+                color = color,
+                depth = depth
+            });
+        } 
+
         // Reference: https://en.wikipedia.org/wiki/Bresenham%27s_line_algorithm
-        public static void line(V2 position, V2 position_2, V4 color) {
+        public static void line_direct(V2 position, V2 position_2, V4 color) {
             // calculate dx , dy
             int dx = position_2.x - position.x;
             int dy = position_2.y - position.y;
@@ -326,7 +352,7 @@ namespace Fjord.Modules.Graphics {
             float Y = position.y;
             for (int i = 0; i <= steps; i++)
             {
-                draw.rect( new V4((int)Math.Round((decimal)X), (int)Math.Round((decimal)Y), 1, 1) , color);
+                draw.rect_direct( new V4((int)Math.Round((decimal)X), (int)Math.Round((decimal)Y), 1, 1) , color);
                 X += Xinc;
                 Y += Yinc;
             } 
@@ -483,7 +509,7 @@ namespace Fjord.Modules.Graphics {
         }
 
         public static void texture(V2 position, texture tex) {
-            draw_texture_buffer.Add(new texture_buffer((texture) tex.Clone(), position));
+            draw_buffer.Add(new texture_buffer((texture) tex.Clone(), position));
         }
 
         public static void texture_direct(V2 position, texture tex) {
@@ -534,12 +560,12 @@ namespace Fjord.Modules.Graphics {
             SDL_RenderCopyEx(game.renderer, final_texture, ref src, ref dest, tex.get_angle(), ref center, flip_sdl);    
         }
 
-        public static List<texture_buffer> get_texture_buffer() {
-            return new List<texture_buffer>(draw_texture_buffer);
+        public static List<dynamic> get_draw_buffer() {
+            return new List<dynamic>(draw_buffer);
         }
 
         public static void clean_texture_buffer() {
-            draw_texture_buffer = new List<texture_buffer>();
+            draw_buffer = new List<dynamic>();
         }
 
         public static void text(V2 position, string font_id, int font_size, string text) {

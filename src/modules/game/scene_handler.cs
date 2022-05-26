@@ -102,10 +102,23 @@ namespace Fjord.Modules.Game {
                 e.render();
             }
 
-            List<draw.texture_buffer> sorted_textures = new List<draw.texture_buffer>(draw.get_texture_buffer());
-            sorted_textures = sorted_textures.OrderBy(e => e.tex.get_depth()).ToList();
-            foreach(draw.texture_buffer e in sorted_textures) {
-                draw.texture_direct((V2)e.position - (V2)camera.get(), e.tex);
+            List<dynamic> sorted_draw_orders = new List<dynamic>(draw.get_draw_buffer());
+            sorted_draw_orders = sorted_draw_orders.OrderBy(e => e.GetType() == typeof(draw.texture_buffer) ? e.tex.get_depth() : e.depth).ToList();
+            
+            foreach(dynamic e in sorted_draw_orders) {
+                if(e.GetType() == typeof(draw.texture_buffer)) {
+                    draw.texture_direct((V2)e.position - (V2)camera.get(), e.tex);
+                } else if(e.GetType() == typeof(draw.Rectangle)) {
+                    draw.rect_direct(e.rect, e.color, e.fill, e.border_radius, e.origin);
+                } else if(e.GetType() == typeof(draw.Circle)) {
+                    draw.circle_direct(e.pos, e.radius, e.color, e.fill);
+                } else if(e.GetType() == typeof(draw.Quarter)) {
+                   draw.quarter_direct(e.pos, e.radius, e.quarter, e.color, e.fill); 
+                } else if(e.GetType() == typeof(draw.Line)) {
+                    draw.line(e.pos, e.pos2, e.color);
+                } else {
+                    Debug.Debug.send("Class '" + e.GetType().ToString() + "' is not handled in 'scene_handler.render'!");
+                }
             }
         }
         public virtual void on_load() {}
@@ -199,9 +212,17 @@ namespace Fjord.Modules.Game {
         public static scene get_current_scene() {
             return scenes[current_scene];
         }
+        
+        public static string get_current_scene_id() {
+            return current_scene;
+        }
 
         public static scene get(string id) {
             return scenes[id];
+        }
+
+        public static Dictionary<string, scene> get_scenes() {
+            return scenes;
         }
     }
 }
