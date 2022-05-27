@@ -109,7 +109,7 @@ namespace Fjord
             return resources_folder;
         }
 
-        public static void run(scene start_scene, string title="Fjord Project", bool anti_aliasing=true) {
+        public static void run(scene start_scene, string title="Fjord Project", int width=1920, int height=1080, bool anti_aliasing=true) {
 
             if(resources_folder == null) {
                 Debug.send("You must set the resource folder location before initializing the game!", "stop", "Error");
@@ -117,7 +117,7 @@ namespace Fjord
             }
 
             try {
-                game.init(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, false, anti_aliasing);
+                game.init(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, false, anti_aliasing);
             } catch(Exception e) {
                 Debug.send("-- Init Error --");
                 game.stop(e);
