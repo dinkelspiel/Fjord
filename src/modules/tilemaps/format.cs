@@ -14,9 +14,11 @@ namespace Fjord.Modules.Tilemaps
         public List<List<Dictionary<string, dynamic>>> tile_map;
 
         public Dictionary<string, dynamic>? get_tile(V2 pos) {
-            if(tile_size == null || grid_size == null || tile_map == null) {
+            #nullable enable
+            if(tile_size is null || grid_size is null || tile_map is null) {
                 return null;
             }
+            #nullable disable
 
             V2 fixed_pos = new V2();
             fixed_pos.x = (int)(pos.x / tile_size.x);

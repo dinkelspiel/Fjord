@@ -48,8 +48,8 @@ namespace Fjord.Modules.Graphics {
 
         public class Rectangle {
             public int depth = 0;
-            public V4 rect;
-            public V4 color;
+            public V4 rect = new V4(0, 0, 0, 0);
+            public V4 color = new V4(0, 0, 0, 0);
             public bool fill;
             public int border_radius;
             public draw_origin origin;
@@ -57,26 +57,26 @@ namespace Fjord.Modules.Graphics {
 
         public class Circle {
             public int depth = 0;
-            public V2 pos;
+            public V2 pos = new V2(0, 0);
             public int radius;
-            public V4 color;
+            public V4 color = new V4(0, 0, 0, 0);
             public bool fill;
         }
 
         public class Quarter {
             public int depth = 0;
-            public V2 pos;
+            public V2 pos = new V2(0, 0);
             public int radius;
             public draw_quarter quarter;
-            public V4 color;
+            public V4 color = new V4(0, 0, 0, 0);
             public bool fill;
         }
 
         public class Line {
             public int depth = 0;
-            public V2 pos;
-            public V2 pos2;
-            public V4 color;
+            public V2 pos = new V2(0, 0);
+            public V2 pos2 = new V2(0, 0);
+            public V4 color = new V4(0, 0, 0, 0);
         }
 
         private static Dictionary<string, IntPtr> fonts = new Dictionary<string, IntPtr>();

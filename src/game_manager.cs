@@ -23,8 +23,8 @@ namespace Fjord
         public static IntPtr window;
         public static IntPtr renderer;
 
-        public static V2 window_resolution;
-        public static V2 resolution;
+        public static V2 window_resolution = new V2();
+        public static V2 resolution = new V2();
 
         public static SDL_Color bg_color;
 
@@ -36,15 +36,17 @@ namespace Fjord
         public static double delta_time = 0;
 
         public static string asset_pack = "main";
-        public static string executable_path;
+        public static string executable_path = "";
 
-        public static string[] sys_args;
+        public static string[] sys_args = {""};
 
         private static int[] fps_avg_arr = new int[120];
         private static int fps_avg_count = 0;
 
-        private static string resources_folder = null;
-
+        #nullable enable
+        private static string? resources_folder = null;
+        #nullable disable
+    
         public static List<string> log = new List<string>();
 
         public static bool running() {
@@ -106,7 +108,12 @@ namespace Fjord
         }
 
         public static string get_resource_folder() {
-            return resources_folder;
+            if(resources_folder != null) 
+                return resources_folder;
+            else {
+                Debug.error("Resource folder is null. Returning empty string.");
+                return "";
+            }
         }
 
         public static void run(scene start_scene, string title="Fjord Project", int width=1920, int height=1080, bool anti_aliasing=true) {

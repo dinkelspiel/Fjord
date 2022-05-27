@@ -9,7 +9,7 @@ using Fjord.Modules.Mathf;
 
 namespace Fjord.Modules.Ui {
     public static class fui {
-
+        #nullable enable
         public enum window_type {
             static_window
         }
@@ -177,7 +177,7 @@ namespace Fjord.Modules.Ui {
             windows[current_window].input_state = input_state;
         }
 
-        public static void header(string text, string id=null) {
+        public static void header(string text, string? id=null) {
             Debug.Debug.assert(current_window != "", "Window must be set in 'fui.header'!");
             draw.text(windows[current_window].offset + windows[current_window].position, font_id, header_size, text, windows[current_window].color_text);
             windows[current_window].offset.y += draw.get_text_rect(windows[current_window].offset, font_id, header_size, text).w + 10;
@@ -186,7 +186,7 @@ namespace Fjord.Modules.Ui {
                 windows[current_window].size.y = windows[current_window].offset.y;
         }
 
-        public static void text(string text, string id=null) {
+        public static void text(string text, string? id=null) {
             Debug.Debug.assert(current_window != "", "Window must be set in 'fui.text'!");
             draw.text(windows[current_window].offset + windows[current_window].position, font_id, font_size, text, windows[current_window].color_text);
             windows[current_window].offset.y += draw.get_text_rect(windows[current_window].offset, font_id, font_size, text).w + 10;
@@ -195,7 +195,7 @@ namespace Fjord.Modules.Ui {
                 windows[current_window].size.y = windows[current_window].offset.y;
         }
 
-        public static bool button(string text, string id=null) {
+        public static bool button(string text, string? id=null) {
             Debug.Debug.assert(current_window != "", "Window must be set in 'fui.button'!");
             V4 rect = new V4(windows[current_window].offset.x + windows[current_window].position.x, 
                              windows[current_window].offset.y + windows[current_window].position.y, 
@@ -228,7 +228,7 @@ namespace Fjord.Modules.Ui {
                 return false;
         }
 
-        public static void input_box(string title, ref string value, string id=null) {
+        public static void input_box(string title, ref string value, string? id=null) {
             Debug.Debug.assert(current_window != "", "Window must be set in 'fui.input_box'!");
 
             if(value == null)
@@ -289,7 +289,7 @@ namespace Fjord.Modules.Ui {
                 windows[current_window].size.x = rect.z + 40;
         }
 
-        public static void slider_int(string title, ref int value, V2 range, string id=null) {
+        public static void slider_int(string title, ref int value, V2 range, string? id=null) {
             Debug.Debug.assert(current_window != "", "Window must be set in 'fui.slider_int'!");
 
             V4 rect = new V4(windows[current_window].offset.x + windows[current_window].position.x, 
@@ -362,7 +362,7 @@ namespace Fjord.Modules.Ui {
                 windows[current_window].size.x = rect.z + 20;
         }
 
-        public static void slider_float(string title, ref float value, V2f range, int decimal_points = 2, string id=null) {
+        public static void slider_float(string title, ref float value, V2f range, int decimal_points = 2, string? id=null) {
             Debug.Debug.assert(current_window != "", "Window must be set in 'fui.slider_float'!");
 
             V4 rect = new V4(windows[current_window].offset.x + windows[current_window].position.x, 
@@ -458,5 +458,6 @@ namespace Fjord.Modules.Ui {
             if(rect.z + 20 > windows[current_window].size.x)
                 windows[current_window].size.x = rect.z + 20;
         }
+        #nullable disable
     }
 }

@@ -6,7 +6,9 @@ namespace Fjord.Modules.Game
     public class entity 
     {
         public List<dynamic> components = new List<dynamic>();
-        public scene parent;
+        #nullable enable
+        public scene? parent;
+        #nullable disable
 
         public int depth = 0;
 

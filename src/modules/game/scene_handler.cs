@@ -126,9 +126,11 @@ namespace Fjord.Modules.Game {
     }
 
     public static class scene_handler {
+        #nullable enable
         private static Dictionary<string, scene> scenes = new Dictionary<string, scene>();
-        private static string current_scene; 
+        private static string? current_scene; 
         private static int scenes_loaded = 0;
+        #nullable disable 
 
         public static void register(string id, scene scene_add) {
             scenes.Add(id, scene_add);

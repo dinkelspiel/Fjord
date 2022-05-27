@@ -13,7 +13,8 @@ namespace Fjord.Modules.Debug {
             }
         }
 
-        public static void send(dynamic message, string funcoverride=null, string prefix=null) {
+        #nullable enable
+        public static void send(dynamic message, string? funcoverride=null, string? prefix=null) {
             message = message.ToString();
             
             var st = new StackTrace();
@@ -22,7 +23,10 @@ namespace Fjord.Modules.Debug {
             string method;
 
             if(funcoverride == null) 
-                method = sf.GetMethod().Name;
+                if(sf is not null)
+                    method = sf.GetMethod()!.Name;
+                else
+                    method = "";
             else
                 method = funcoverride;
             
@@ -53,12 +57,16 @@ namespace Fjord.Modules.Debug {
             }  
             last_message = message;       
         }
+        #nullable disable
 
         public static void error(dynamic message, bool stop=true) {
             var st = new StackTrace();
             var sf = st.GetFrame(1);
-
-            send(message, sf.GetMethod().Name, "Error");
+            
+            if(sf is not null)
+                send(message, sf.GetMethod()!.Name, "Error");
+            else
+                send(message, "", "Error");
             
             if(stop)
                 game.stop(1);
@@ -68,7 +76,10 @@ namespace Fjord.Modules.Debug {
             var st = new StackTrace();
             var sf = st.GetFrame(1);
 
-            send(message, sf.GetMethod().Name, "Warn");
+            if(sf is not null)
+                send(message, sf.GetMethod()!.Name, "Warn");
+            else
+                send(message, "", "Warn");
         }
     }
 }

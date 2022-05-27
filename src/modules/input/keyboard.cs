@@ -2,6 +2,7 @@ using System.Collections.Generic;
 
 namespace Fjord.Modules.Input {
     public static class keyboard {
+        #nullable enable
         public static bool[] pressed_keys = new bool[78];
         public static bool[] last_frame = new bool[78];
         private static List<string> key_references = new List<string>{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10", "f11", "f12", "escape", "backquote", "minus", "equals", "backspace", "tab", "leftbracket", "rightbracket", "backslash", "capslock", "semicolon", "quote", "return", "lshift", "comma", "period", "slash", "rshift", "lctrl", "lalt", "space", "ralt", "application", "rctrl", "up", "down", "left", "right"};
@@ -85,7 +86,7 @@ namespace Fjord.Modules.Input {
         public const int key_right = 75;
         #endregion
 
-        public static bool pressed(int key, string input_state_check=null) {
+        public static bool pressed(int key, string? input_state_check=null) {
             if(input_state_check == null) {
                 return pressed_keys[key];
             } else {
@@ -93,7 +94,7 @@ namespace Fjord.Modules.Input {
             }
         }
 
-        public static bool just_pressed(int key, string input_state_check=null) {
+        public static bool just_pressed(int key, string? input_state_check=null) {
             if(input_state_check == null) {
                 return pressed_keys[key] && !last_frame[key];
             } else {
@@ -101,7 +102,7 @@ namespace Fjord.Modules.Input {
             }
         }
 
-        public static int any_pressed(string input_state_check=null) {
+        public static int any_pressed(string? input_state_check=null) {
             if(input_state_check != null && input_state_check != input.input_state)
                 return -1;
 
@@ -113,7 +114,7 @@ namespace Fjord.Modules.Input {
             return -1;
         }
 
-        public static int any_just_pressed(string input_state_check=null) {
+        public static int any_just_pressed(string? input_state_check=null) {
             if(input_state_check != null && input_state_check != input.input_state)
                 return -1;
 
@@ -219,5 +220,6 @@ namespace Fjord.Modules.Input {
             }
             return "";
         }
+        #nullable disable
     }
 }

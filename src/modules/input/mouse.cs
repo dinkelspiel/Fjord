@@ -9,6 +9,7 @@ namespace Fjord.Modules.Input {
     }
 
     public static class mouse {
+        #nullable enable
         public static V2 screen_position = new V2(0, 0);
         public static V2 game_position = new V2(0, 0);
         
@@ -17,7 +18,7 @@ namespace Fjord.Modules.Input {
         
         public static bool wheel_up, wheel_down;
 
-        public static bool pressed(mb button, string input_state=null) {
+        public static bool pressed(mb button, string? input_state=null) {
             if(input_state == null) {
                 switch(button) {
                     case mb.left:
@@ -46,7 +47,7 @@ namespace Fjord.Modules.Input {
             return false;
         }
 
-        public static bool just_pressed(mb button, string input_state=null) {
+        public static bool just_pressed(mb button, string? input_state=null) {
             if(input_state == null) {
                 switch(button) {
                     case mb.left:
@@ -67,7 +68,7 @@ namespace Fjord.Modules.Input {
             return false;
         }
 
-        public static bool just_released(mb button, string input_state=null) {
+        public static bool just_released(mb button, string? input_state=null) {
             if(input_state == null) {
                 switch(button) {
                     case mb.left:
@@ -88,11 +89,12 @@ namespace Fjord.Modules.Input {
             return false;
         }
 
-        public static bool any_pressed(string input_state=null) {
+        public static bool any_pressed(string? input_state=null) {
             if(input_state == null)
                 return lmb || rmb;
             else
                 return (lmb || rmb) && input_state == input.get_input_state();
         }
+        #nullable disable
     }
 }

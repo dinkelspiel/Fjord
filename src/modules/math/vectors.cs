@@ -1,6 +1,7 @@
 using System;
 
 namespace Fjord.Modules.Mathf {
+    #nullable enable
     public class V2 : IFormattable {
         public int x;
         public int y;
@@ -15,7 +16,7 @@ namespace Fjord.Modules.Mathf {
             this.y = y;
         }
 
-        public override bool Equals(Object obj)
+        public override bool Equals(Object? obj)
         {
             //Check for null and compare run-time types.
             if ((obj == null) || ! this.GetType().Equals(obj.GetType()))
@@ -33,7 +34,7 @@ namespace Fjord.Modules.Mathf {
             return (x << 2) ^ y;
         }
 
-        string IFormattable.ToString(string format, IFormatProvider formatProvider) {
+        string IFormattable.ToString(string? format, IFormatProvider? formatProvider) {
             return x.ToString() + ", " + y.ToString(); 
         }
     
@@ -107,7 +108,7 @@ namespace Fjord.Modules.Mathf {
             this.y = y;
         }
 
-        public override bool Equals(Object obj)
+        public override bool Equals(Object? obj)
         {
             //Check for null and compare run-time types.
             if ((obj == null) || ! this.GetType().Equals(obj.GetType()))
@@ -125,7 +126,7 @@ namespace Fjord.Modules.Mathf {
             return ((int)x << 2) ^ (int)y;
         }
 
-        string IFormattable.ToString(string format, IFormatProvider formatProvider) {
+        string IFormattable.ToString(string? format, IFormatProvider? formatProvider) {
             return x.ToString() + ", " + y.ToString(); 
         }
     
@@ -201,7 +202,7 @@ namespace Fjord.Modules.Mathf {
             this.z = z;
         }
 
-        public override bool Equals(Object obj)
+        public override bool Equals(Object? obj)
         {
             //Check for null and compare run-time types.
             if ((obj == null) || ! this.GetType().Equals(obj.GetType()))
@@ -219,7 +220,7 @@ namespace Fjord.Modules.Mathf {
             return (x << 2) ^ y;
         }
 
-        string IFormattable.ToString(string format, IFormatProvider formatProvider) {
+        string IFormattable.ToString(string? format, IFormatProvider? formatProvider) {
             return x.ToString() + ", " + y.ToString() + ", " + z.ToString(); 
         }
     
@@ -290,7 +291,7 @@ namespace Fjord.Modules.Mathf {
             this.z = z;
         }
 
-        public override bool Equals(Object obj)
+        public override bool Equals(Object? obj)
         {
             //Check for null and compare run-time types.
             if ((obj == null) || ! this.GetType().Equals(obj.GetType()))
@@ -308,7 +309,7 @@ namespace Fjord.Modules.Mathf {
             return ((int)x << 2) ^ (int)y;
         }
 
-        string IFormattable.ToString(string format, IFormatProvider formatProvider) {
+        string IFormattable.ToString(string? format, IFormatProvider? formatProvider) {
             return x.ToString() + ", " + y.ToString() + ", " + z.ToString(); 
         }
     
@@ -382,7 +383,7 @@ namespace Fjord.Modules.Mathf {
             this.w = w;
         }
 
-        public override bool Equals(Object obj)
+        public override bool Equals(Object? obj)
         {
             //Check for null and compare run-time types.
             if ((obj == null) || ! this.GetType().Equals(obj.GetType()))
@@ -400,7 +401,7 @@ namespace Fjord.Modules.Mathf {
             return (x << 2) ^ y;
         }
 
-        string IFormattable.ToString(string format, IFormatProvider formatProvider) {
+        string IFormattable.ToString(string? format, IFormatProvider? formatProvider) {
             return x.ToString() + ", " + y.ToString() + ", " + z.ToString(); 
         }
     
@@ -474,7 +475,7 @@ namespace Fjord.Modules.Mathf {
             this.w = w;
         }
 
-        public override bool Equals(Object obj)
+        public override bool Equals(Object? obj)
         {
             //Check for null and compare run-time types.
             if ((obj == null) || ! this.GetType().Equals(obj.GetType()))
@@ -492,7 +493,7 @@ namespace Fjord.Modules.Mathf {
             return ((int)x << 2) ^ (int)y;
         }
 
-        string IFormattable.ToString(string format, IFormatProvider formatProvider) {
+        string IFormattable.ToString(string? format, IFormatProvider? formatProvider) {
             return x.ToString() + ", " + y.ToString() + ", " + z.ToString(); 
         }
     
@@ -545,5 +546,5 @@ namespace Fjord.Modules.Mathf {
             return new V4f(x, y, z, w);
         }
     }
-    
+    #nullable disable
 }

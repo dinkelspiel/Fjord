@@ -6,7 +6,8 @@ using System;
 
 namespace Fjord.Modules.Game {
     public abstract class component {
-        public dynamic parent;
+        #nullable enable
+        public dynamic? parent;
 
         public virtual void on_load() {}
         public virtual void update() {}
@@ -20,7 +21,7 @@ namespace Fjord.Modules.Game {
             render();
         }
 
-        public static entity entity_place(V2 pos) {
+        public static entity? entity_place(V2 pos) {
             List<entity> entities = scene_handler.get_current_scene().get_entities();
 
             foreach(entity e in entities) {
@@ -33,7 +34,7 @@ namespace Fjord.Modules.Game {
             return null;
         }
 
-        public static entity entity_place(V2 pos, Type t) {
+        public static entity? entity_place(V2 pos, Type t) {
             List<entity> entities = scene_handler.get_current_scene().get_entities();
 
             foreach(entity e in entities) {
@@ -48,6 +49,7 @@ namespace Fjord.Modules.Game {
             }
             return null;
         }
+        #nullable disable
     }
 
     public class Transform : component {
