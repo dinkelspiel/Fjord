@@ -46,6 +46,19 @@ namespace Fjord
         #nullable enable
         private static string? resources_folder = null;
         #nullable disable
+
+        static double update_now = 0;
+        static double update_last = 0;
+
+        static double render_now = 0;
+        static double render_last = 0;
+
+        static double events_now = 0;
+        static double events_last = 0;
+
+        static double update_time = 0;
+        static double render_time = 0;
+        static double events_time = 0;
     
         public static List<string> log = new List<string>();
 
@@ -139,7 +152,12 @@ namespace Fjord
                 game.delta_time_ms = (double)((game.frame_now - game.frame_last)*1000 / (double)SDL_GetPerformanceFrequency());
                 game.delta_time = (double)((game.frame_now - game.frame_last)*10 / (double)SDL_GetPerformanceFrequency());
 
+                events_last = SDL_GetPerformanceCounter();
                 event_handler.handle_events();
+                events_now = SDL_GetPerformanceCounter();
+                events_time = (double)((events_now - events_last)*1000 / (double)SDL_GetPerformanceFrequency());
+
+                update_last = SDL_GetPerformanceCounter();
                 try {
                     game.update();
                 } catch (Exception e) {
@@ -148,7 +166,10 @@ namespace Fjord
 
                     throw;
                 }
+                update_now = SDL_GetPerformanceCounter();
+                update_time = (double)((update_now - update_last)*1000 / (double)SDL_GetPerformanceFrequency());
                     
+                render_last = SDL_GetPerformanceCounter();
                 try {
                     game.render();
                 } catch (Exception e) {
@@ -157,6 +178,8 @@ namespace Fjord
 
                     throw;
                 }
+                render_now = SDL_GetPerformanceCounter();
+                render_time = (double)((render_now - render_last)*1000 / (double)SDL_GetPerformanceFrequency());
 
                 // game.update();
                 // game.render();
@@ -229,6 +252,18 @@ namespace Fjord
 
         public static int get_ticks() {
             return (int)SDL_GetTicks();
+        }
+
+        public static int get_update_fps() {
+            return (int)(1000 / update_time);
+        }
+
+        public static int get_render_fps() {
+            return (int)(1000 / render_time);
+        }
+
+        public static int get_events_fps() {
+            return (int)(1000 / events_time);
         }
 
         public static int get_fps() {
