@@ -76,42 +76,42 @@ namespace Fjord.Modules.Ui
             }
 
             if(selected_input == id) {
-                if(keyboard.just_pressed(keyboard.key_backspace)) {
+                if(keyboard.just_pressed(key.backspace)) {
                     if(value.ToString().Length > 0)
                         Int32.TryParse(value.ToString().Substring(0, value.ToString().Length - 1), out value);
-                } else if(keyboard.just_pressed(keyboard.key_minus)) {
+                } else if(keyboard.just_pressed(key.minus)) {
                     value = -value;
                 } else {
                     try {
                         switch(keyboard.any_just_pressed()) {
-                            case keyboard.key_0:
+                            case key.zero:
                                 value = Convert.ToInt32(value.ToString() + "0");
                                 break;
-                            case keyboard.key_1:
+                            case key.one:
                                 value = Convert.ToInt32(value.ToString() + "1");
                                 break;
-                            case keyboard.key_2:
+                            case key.two:
                                 value = Convert.ToInt32(value.ToString() + "2");
                                 break;
-                            case keyboard.key_3:
+                            case key.three:
                                 value = Convert.ToInt32(value.ToString() + "3");
                                 break;
-                            case keyboard.key_4:
+                            case key.four:
                                 value = Convert.ToInt32(value.ToString() + "4");
                                 break;
-                            case keyboard.key_5:
+                            case key.five:
                                 value = Convert.ToInt32(value.ToString() + "5");
                                 break;
-                            case keyboard.key_6:
+                            case key.six:
                                 value = Convert.ToInt32(value.ToString() + "6");
                                 break;
-                            case keyboard.key_7:
+                            case key.seven:
                                 value = Convert.ToInt32(value.ToString() + "7");
                                 break;
-                            case keyboard.key_8:
+                            case key.eight:
                                 value = Convert.ToInt32(value.ToString() + "8");
                                 break;
-                            case keyboard.key_9:
+                            case key.nine:
                                 value = Convert.ToInt32(value.ToString() + "9");
                                 break;
                         }
@@ -135,42 +135,42 @@ namespace Fjord.Modules.Ui
             }
 
             if(selected_input == id) {
-                if(keyboard.just_pressed(keyboard.key_backspace)) {
+                if(keyboard.just_pressed(key.backspace)) {
                     if(value.ToString().Length > 0)
                         Int32.TryParse(value.ToString().Substring(0, value.ToString().Length - 1), out value);
-                } else if(keyboard.just_pressed(keyboard.key_minus)) {
+                } else if(keyboard.just_pressed(key.minus)) {
                     value = -value;
                 } else {
                     try {
                         switch(keyboard.any_just_pressed()) {
-                            case keyboard.key_0:
+                            case key.zero:
                                 value = Convert.ToInt32(value.ToString() + "0");
                                 break;
-                            case keyboard.key_1:
+                            case key.one:
                                 value = Convert.ToInt32(value.ToString() + "1");
                                 break;
-                            case keyboard.key_2:
+                            case key.two:
                                 value = Convert.ToInt32(value.ToString() + "2");
                                 break;
-                            case keyboard.key_3:
+                            case key.three:
                                 value = Convert.ToInt32(value.ToString() + "3");
                                 break;
-                            case keyboard.key_4:
+                            case key.four:
                                 value = Convert.ToInt32(value.ToString() + "4");
                                 break;
-                            case keyboard.key_5:
+                            case key.five:
                                 value = Convert.ToInt32(value.ToString() + "5");
                                 break;
-                            case keyboard.key_6:
+                            case key.six:
                                 value = Convert.ToInt32(value.ToString() + "6");
                                 break;
-                            case keyboard.key_7:
+                            case key.seven:
                                 value = Convert.ToInt32(value.ToString() + "7");
                                 break;
-                            case keyboard.key_8:
+                            case key.eight:
                                 value = Convert.ToInt32(value.ToString() + "8");
                                 break;
-                            case keyboard.key_9:
+                            case key.nine:
                                 value = Convert.ToInt32(value.ToString() + "9");
                                 break;
                         }
@@ -195,8 +195,8 @@ namespace Fjord.Modules.Ui
             if (helpers.mouse_inside(rect, 2) && (mouse.just_pressed(mb.left))) {
                 selected_input = selected_input == id ? "" : id;
 
-                if(keyboard.just_pressed(keyboard.key_backspace)) {
-                    if(!keyboard.pressed(keyboard.key_lctrl))
+                if(keyboard.just_pressed(key.backspace)) {
+                    if(!keyboard.pressed(key.lctrl))
                         if(value.Length > 0)
                             value = value.Substring(0, value.Length - 1);
                     else {
@@ -229,8 +229,8 @@ namespace Fjord.Modules.Ui
             }
 
             if(selected_input == id) {
-                if(keyboard.just_pressed(keyboard.key_backspace)) {
-                    if(!keyboard.pressed(keyboard.key_lctrl))
+                if(keyboard.just_pressed(key.backspace)) {
+                    if(!keyboard.pressed(key.lctrl))
                         if(value.Length > 0)
                             value = value.Substring(0, value.Length - 1);
                     else {
