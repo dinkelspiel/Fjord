@@ -32,6 +32,10 @@ namespace Fjord.Modules.Game {
             this.parent = parent;
         }
 
+        public dynamic get_parent() {
+            return parent;
+        }
+
         public static entity? entity_place(V2 pos) {
             List<entity> entities = scene_handler.get_current_scene().get_entities();
 
