@@ -7,7 +7,7 @@ using System;
 namespace Fjord.Modules.Game {
     public abstract class component {
         #nullable enable
-        public dynamic? parent;
+        private dynamic? parent;
 
         public virtual void on_load() {}
         public virtual void update() {}
@@ -19,6 +19,17 @@ namespace Fjord.Modules.Game {
 
         public void rendercall() {
             render();
+        }
+
+        public T get<T>() {
+            if(parent is not null)
+                return parent.get<T>();
+            else 
+                return default(T);
+        }
+
+        public void set_parent(dynamic parent) {
+            this.parent = parent;
         }
 
         public static entity? entity_place(V2 pos) {
@@ -65,14 +76,14 @@ namespace Fjord.Modules.Game {
 
         public override void update()
         {
-            sprite.set_scale(parent.get<Transform>().scale);
-            sprite.set_angle(parent.get<Transform>().rotation);
+            sprite.set_scale(get<Transform>().scale);
+            sprite.set_angle(get<Transform>().rotation);
         }
 
         public override void render()
         {
             if(visible)
-                draw.texture(parent.get<Transform>().position, sprite);
+                draw.texture(get<Transform>().position, sprite);
         }
     }
 
@@ -99,9 +110,9 @@ namespace Fjord.Modules.Game {
 
         public override void on_load()
         {
-            sprite = parent.get<Sprite_Renderer>();
+            sprite = get<Sprite_Renderer>();
             sprite.sprite.set_origin(draw_origin.BOTTOM_MIDDLE);
-            transform = parent.get<Transform>();
+            transform = get<Transform>();
             
             base.on_load();
         }

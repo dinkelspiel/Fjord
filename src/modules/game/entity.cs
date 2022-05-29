@@ -40,7 +40,7 @@ namespace Fjord.Modules.Game
 
         public entity use(component Comp, entity parent) {
             try {
-                Comp.parent = parent;
+                Comp.set_parent(parent);
                 Comp.on_load();
                 components.Add(Comp);
             } catch(Exception e) {
@@ -52,7 +52,7 @@ namespace Fjord.Modules.Game
 
         public entity use(component Comp) {
             try {
-                Comp.parent = this;
+                Comp.set_parent(this);
                 Comp.on_load();
                 components.Add(Comp);
             } catch(Exception e) {
