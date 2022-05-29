@@ -17,6 +17,7 @@ The release builds of Fjord will not be updated from 1.2 for atleast a short whi
 
 - Windows 10, 11
 - Ubuntu 20.04
+- macOS Monterey (Intel Chip)
 
 ## Usage
 
