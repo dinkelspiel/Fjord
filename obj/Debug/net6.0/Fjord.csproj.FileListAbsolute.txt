@@ -1,0 +1,13 @@
+C:\Users\22widi\Coding\C#\Fjord\obj\Debug\net6.0\Fjord.csproj.AssemblyReference.cache
+C:\Users\22widi\Coding\C#\Fjord\obj\Debug\net6.0\Fjord.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\22widi\Coding\C#\Fjord\obj\Debug\net6.0\Fjord.AssemblyInfoInputs.cache
+C:\Users\22widi\Coding\C#\Fjord\obj\Debug\net6.0\Fjord.AssemblyInfo.cs
+C:\Users\22widi\Coding\C#\Fjord\obj\Debug\net6.0\Fjord.csproj.CoreCompileInputs.cache
+C:\Users\22widi\Coding\C#\Fjord\bin\Debug\net6.0\Fjord.dll.config
+C:\Users\22widi\Coding\C#\Fjord\bin\Debug\net6.0\Fjord.deps.json
+C:\Users\22widi\Coding\C#\Fjord\bin\Debug\net6.0\Fjord.dll
+C:\Users\22widi\Coding\C#\Fjord\bin\Debug\net6.0\Fjord.pdb
+C:\Users\22widi\Coding\C#\Fjord\obj\Debug\net6.0\Fjord.dll
+C:\Users\22widi\Coding\C#\Fjord\obj\Debug\net6.0\refint\Fjord.dll
+C:\Users\22widi\Coding\C#\Fjord\obj\Debug\net6.0\Fjord.pdb
+C:\Users\22widi\Coding\C#\Fjord\obj\Debug\net6.0\ref\Fjord.dll
