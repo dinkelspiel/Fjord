@@ -1,14 +1,19 @@
 using System.Numerics;
 using System.Collections.Generic;
 using System;
+using System.IO;
 
 using static SDL2.SDL;
+using static SDL2.SDL_ttf;
 using static SDL2.SDL_gfx;
+using Fjord.Modules.Misc;
 
 namespace Fjord.Modules.Graphics;
 
 public static class Draw {
     private static List<dynamic> _drawBuffer = new List<dynamic>();
+    private static Dictionary<string, IntPtr> _fonts = new Dictionary<string, IntPtr>();
+    private static Dictionary<string, IntPtr> _textureCache = new Dictionary<string, IntPtr>();
 
     public enum Fliptype {
         NONE = 0,
@@ -93,6 +98,15 @@ public static class Draw {
         public Vector2 position;
     }
 
+    internal struct DrawBufferTextInstruction {
+        public Vector2 position;
+        public string fontID;
+        public int fontSize;
+        public string value;
+        public Vector4 color;
+        public int depth;
+    }
+
     internal static List<dynamic> GetDrawBuffer() {
         return new List<dynamic>(_drawBuffer);
     }
@@ -116,22 +130,22 @@ public static class Draw {
         SDL_SetTextureBlendMode(_drawTexture, SDL_BlendMode.SDL_BLENDMODE_BLEND);
         SDL_SetRenderTarget(Game.Renderer, _drawTexture);
 
-        // Debug.Debug.Send(fill);
+        // Debug.Debug.SendInternal(fill);
 
         if(border_radius != null) { 
             if(!fill) {
-                // Debug.Debug.Send("Rounded Rectangle RGBA");
+                // Debug.Debug.SendInternal("Rounded Rectangle RGBA");
                 roundedRectangleRGBA(Game.Renderer, 0, 0, (short)rectangle.Z, (short)rectangle.W, (short)border_radius, (byte)color.X, (byte)color.Y, (byte)color.Z, (byte)color.W);
             } else { 
-                // Debug.Debug.Send("Rounded Box RGBA");
+                // Debug.Debug.SendInternal("Rounded Box RGBA");
                 roundedBoxRGBA(Game.Renderer, 0, 0, (short)rectangle.Z, (short)rectangle.W, (short)border_radius, (byte)color.X, (byte)color.Y, (byte)color.Z, (byte)color.W);
             }
         } else {
             if(!fill) {
-                // Debug.Debug.Send("Rectangle RGBA");
+                // Debug.Debug.SendInternal("Rectangle RGBA");
                 rectangleRGBA(Game.Renderer, 0, 0, (short)rectangle.Z, (short)rectangle.W, (byte)color.X, (byte)color.Y, (byte)color.Z, (byte)color.W);
             } else {
-                // Debug.Debug.Send("Box RGBA");
+                // Debug.Debug.SendInternal("Box RGBA");
                 // SDL_SetRenderDrawColor(Game.Renderer, (byte)color.X, (byte)color.Y, (byte)color.Z, (byte)color.W);
                 boxRGBA(Game.Renderer, 0, 0, (short)rectangle.Z, (short)rectangle.W, (byte)color.X, (byte)color.Y, (byte)color.Z, (byte)color.W);
                 // SDL_SetRenderDrawColor(Game.Renderer, 0, 0, 0, 0);
@@ -214,5 +228,98 @@ public static class Draw {
 
         SDL_Point center = new SDL_Point((int)texture.GetOrigin().X, (int)texture.GetOrigin().Y);
         SDL_RenderCopyEx(Game.Renderer, _finalTexture, ref src, ref dest, texture.GetAngle(), ref center, flip_sdl);      
+    }
+
+    public static void Text(Vector2 position, string fontID, int fontSize, string value, Vector4 color, int depth) => _drawBuffer.Add(new DrawBufferTextInstruction() {
+        position = position,
+        fontID = fontID,
+        fontSize = fontSize,
+        value = value,
+        color = color,
+        depth = depth
+    });
+
+    internal static void LoadFont(string fontID) {
+        if(!File.Exists((fontID + ".ttf").Find())) {
+            Debug.Debug.Error("Font not found: " + fontID + ".ttf");
+            Game.Stop();
+            return;
+        }
+        if(!_fonts.ContainsKey(fontID)) {
+            string path = (fontID + ".ttf").Find();
+            IntPtr font = TTF_OpenFont(path, 255);
+            _fonts.Add(fontID, font);
+        }
+    }
+
+    internal static void TextDirect(Vector2 position, string fontID, int fontSize, string value, Vector4 color) {
+        SDL_Rect src = new SDL_Rect(0, 0, 0, 0);
+
+        uint f; int a;
+
+        SDL_QueryTexture(GetTextTexture(fontID, value, color), out f, out a, out src.w, out src.h);
+
+        SDL_Rect dest = new SDL_Rect((byte)position.X, (byte)position.Y, src.w / (255 / fontSize), src.h / (255 / fontSize));
+
+        SDL_RenderCopy(Game.Renderer, GetTextTexture(fontID, value, color), ref src, ref dest);
+    }
+
+    internal static IntPtr GetTextTexture(string fontID, string value, Vector4 color) {
+        string key_ = Hash.HashString(fontID + value + color.X.ToString() + color.Y.ToString() + color.Z.ToString() + color.W.ToString());
+        if(!_textureCache.ContainsKey(key_)) {
+            IntPtr font;
+                
+            if(!_fonts.ContainsKey(fontID)) {
+                string path = (fontID + ".ttf").Find();
+                font = TTF_OpenFont(path, 255);
+                _fonts.Add(fontID, font);
+            } else {
+                font = _fonts[fontID];
+            }
+
+            SDL_Color White = new SDL_Color((byte)color.X, (byte)color.Y, (byte)color.Z, (byte)color.W);
+            IntPtr surfaceMessage = TTF_RenderUTF8_Solid(font, value, White);
+
+            IntPtr Message = SDL_CreateTextureFromSurface(Game.Renderer, surfaceMessage);
+
+            _textureCache.Add(key_, Message);
+
+            SDL_FreeSurface(surfaceMessage);
+
+            return _textureCache[key_];
+        } else {
+            return _textureCache[key_];
+        }
+    }
+
+    internal static Vector4 GetTextRectangle(Vector2 position, string fontID, int fontSize, string value) {
+        IntPtr font;
+            
+        if(!_fonts.ContainsKey(fontID)) {
+            string path = (fontID + ".ttf").Find();
+            font = TTF_OpenFont(path, 255);
+            _fonts.Add(fontID, font);
+        } else {
+            font = _fonts[fontID];
+        }
+
+        SDL_Color White = new SDL_Color(255, 255, 255, 255);
+
+        IntPtr surfaceMessage = TTF_RenderUTF8_Solid(font, value, White);
+
+        IntPtr Message = SDL_CreateTextureFromSurface(Game.Renderer, surfaceMessage);
+
+        uint f; int a;
+        SDL_Rect src = new SDL_Rect();
+        src.x = 0;
+        src.y = 0;
+
+        SDL_QueryTexture(Message, out f, out a, out src.w, out src.h);
+
+            // Don't forget to free your surface and texture
+        SDL_FreeSurface(surfaceMessage);
+        SDL_DestroyTexture(Message);
+
+        return new Vector4(position.X, position.Y, src.w / (255 / fontSize), src.h / (255 / fontSize));
     }
 }

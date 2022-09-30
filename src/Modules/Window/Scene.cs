@@ -49,6 +49,9 @@ public class Scene {
             } else if(DrawInstruction.GetType() == typeof(Draw.DrawBufferCircleInstruction)) {
                 var _drawInstruction = (Draw.DrawBufferCircleInstruction) DrawInstruction;
                 Draw.CircleDirect(_drawInstruction.position, _drawInstruction.radius, _drawInstruction.color, _drawInstruction.fill);
+            } else if(DrawInstruction.GetType() == typeof(Draw.DrawBufferTextInstruction)) {
+                var _drawInstruction = (Draw.DrawBufferTextInstruction) DrawInstruction;
+                Draw.TextDirect(_drawInstruction.position, _drawInstruction.fontID, _drawInstruction.fontSize, _drawInstruction.value, _drawInstruction.color);
             }
 
             DrawInstructionLastDepth = DrawInstruction.depth;

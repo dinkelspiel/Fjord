@@ -20,7 +20,7 @@ public static class SceneHandler {
         if(_currentScene != null) 
             _scenes[_currentScene].OnSleep();
 
-        Debug.Debug.Send($"Loaded Scene {SceneId}");
+        Debug.Debug.SendInternal($"Loaded Scene {SceneId}");
 
         _currentScene = SceneId;
 
@@ -41,7 +41,13 @@ public static class SceneHandler {
         if(_currentScene == null)
             return;
 
-        _scenes[_currentScene].RenderCall();
+        try {
+            _scenes[_currentScene].RenderCall();
+        } catch(Exception e) {
+            Debug.Debug.SendInternal(e.StackTrace);
+            Debug.Debug.SendInternal(e.Source);
+            Debug.Debug.SendInternal(e.Message);
+        }
     }
 
     public static void Stop() {

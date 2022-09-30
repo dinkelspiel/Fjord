@@ -6,6 +6,7 @@ using static SDL2.SDL;
 using static SDL2.SDL_image;
 using static SDL2.SDL_mixer;
 using static SDL2.SDL_gfx;
+using static SDL2.SDL_ttf;
 
 using System.Collections.Generic;
 using System.Numerics;
@@ -26,8 +27,8 @@ public static class Game {
     
     public static void Stop(Exception e) {
         if(e is not null) {
-            Debug.Send(e.Message + e.StackTrace.Split('\n')[0].Replace(" at ", " In ").Replace("  ", "").Replace("\n", ""));
-            Debug.Send("\n" + e.Message + "\n" + e.StackTrace);
+            Debug.SendInternal(e.Message + e.StackTrace.Split('\n')[0].Replace(" at ", " In ").Replace("  ", "").Replace("\n", ""));
+            Debug.SendInternal("\n" + e.Message + "\n" + e.StackTrace);
         }
 
         Stop(1);
@@ -44,7 +45,7 @@ public static class Game {
         IMG_Quit();
         // Mix_Quit();
 
-        Debug.Send("Game cleaned");
+        Debug.SendInternal("Game cleaned");
 
         var time = DateTime.Now.ToString("dd/MMM");
         var file = "logs/" + time + "/" + DateTime.Now.ToString("HH.mm.ss") + ".txt";
@@ -61,16 +62,20 @@ public static class Game {
         SDL_Init(SDL_INIT_EVERYTHING);
         // SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
 
-        Debug.Send("SDL Initialized");
+        Debug.SendInternal("SDL Initialized");
 
         Window = SDL_CreateWindow(Title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, (int)Size.X, (int)Size.Y, Flags);
+        TTF_Init();
+        SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_MULTISAMPLEBUFFERS, 1);
+        SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_MULTISAMPLESAMPLES, 4);
+        SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
 
-        Debug.Send("Window Created");
+        Debug.SendInternal("Window Created");
 
         Renderer = SDL_CreateRenderer(Window, 0, SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
         SDL_SetRenderDrawBlendMode(Renderer, SDL_BlendMode.SDL_BLENDMODE_BLEND);
 
-        Debug.Send("Renderer Created");
+        Debug.SendInternal("Renderer Created");
 
         Game.Size = Size;
     }
@@ -95,7 +100,7 @@ public static class Game {
             var elapsed = ((end - start) / (float)SDL_GetPerformanceFrequency());
             frames.Add(1.0f / elapsed);
 
-            Debug.Send($"FPS: {frames.Average()}");
+            // Debug.SendInternal($"FPS: {frames.Average()}");
         }
     }
 
