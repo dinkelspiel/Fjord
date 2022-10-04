@@ -100,7 +100,7 @@ public static class Game {
             var elapsed = ((end - start) / (float)SDL_GetPerformanceFrequency());
             frames.Add(1.0f / elapsed);
 
-            // Debug.SendInternal($"FPS: {frames.Average()}");
+            Debug.SendInternal($"FPS: {frames.Average()}");
         }
     }
 

@@ -240,13 +240,13 @@ public static class Draw {
     });
 
     internal static void LoadFont(string fontID) {
-        if(!File.Exists((fontID + ".ttf").Find())) {
+        if(!File.Exists("Assets/Fonts/" + fontID + ".ttf")) {
             Debug.Debug.Error("Font not found: " + fontID + ".ttf");
             Game.Stop();
             return;
         }
         if(!_fonts.ContainsKey(fontID)) {
-            string path = (fontID + ".ttf").Find();
+            string path = "Assets/Fonts/" + fontID + ".ttf";
             IntPtr font = TTF_OpenFont(path, 255);
             _fonts.Add(fontID, font);
         }
@@ -270,7 +270,7 @@ public static class Draw {
             IntPtr font;
                 
             if(!_fonts.ContainsKey(fontID)) {
-                string path = (fontID + ".ttf").Find();
+                string path = "Assets/Fonts/" + fontID + ".ttf";
                 font = TTF_OpenFont(path, 255);
                 _fonts.Add(fontID, font);
             } else {
@@ -296,7 +296,7 @@ public static class Draw {
         IntPtr font;
             
         if(!_fonts.ContainsKey(fontID)) {
-            string path = (fontID + ".ttf").Find();
+            string path = "Assets/Fonts/" + fontID + ".ttf";
             font = TTF_OpenFont(path, 255);
             _fonts.Add(fontID, font);
         } else {

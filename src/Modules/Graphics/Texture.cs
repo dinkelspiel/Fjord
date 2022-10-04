@@ -27,7 +27,7 @@ public class Texture : ICloneable {
 
     public Texture SetTexture(string Path) {
         try {
-            IntPtr TextureSurface = IMG_Load($"assets\\images\\{Path}".Find());;
+            IntPtr TextureSurface = IMG_Load($"assets\\images\\{Path}");;
             IntPtr Texture = SDL_CreateTextureFromSurface(Game.Renderer, TextureSurface);
             SDL_FreeSurface(TextureSurface);
             this._sdl2texture = Texture;
