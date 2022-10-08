@@ -14,17 +14,31 @@ using System.IO;
 using System;
 using System.Text;
 using System.Linq;
+using Fjord.Modules.Input;
+using Fjord.Modules.Misc;
 
 namespace Fjord;
 
 public static class Game {
     private static bool _isRunning = true;
-    public static IntPtr Window;
-    public static IntPtr Renderer;
+    internal static IntPtr Window;
+    internal static IntPtr Renderer;
+    internal static IntPtr RenderTexture;
     public static Vector2 Size;
+
+    internal static string ExecutablePath; 
 
     public static List<string> Log = new List<string>();
     
+    static Game()
+    {
+        // FOR DEBUG CHANGE ON RELEASE DUMMY. YOU WILL FORGET. CHANGE ON RELEASE awlkfjaewlkfjawlkfjawlkifj
+        if (OS.GetOS() == OS.Platform.Windows)
+            ExecutablePath = String.Join("\\", System.Reflection.Assembly.GetEntryAssembly().Location.Split("\\").ToList().GetRange(0, System.Reflection.Assembly.GetEntryAssembly().Location.Split("\\").ToList().Count - 4));
+        else
+            ExecutablePath = String.Join("/", System.Reflection.Assembly.GetEntryAssembly().Location.Split("/").ToList().GetRange(0, System.Reflection.Assembly.GetEntryAssembly().Location.Split("/").ToList().Count - 4));
+    }
+
     public static void Stop(Exception e) {
         if(e is not null) {
             Debug.SendInternal(e.Message + e.StackTrace.Split('\n')[0].Replace(" at ", " In ").Replace("  ", "").Replace("\n", ""));
@@ -47,17 +61,16 @@ public static class Game {
 
         Debug.SendInternal("Game cleaned");
 
-        var time = DateTime.Now.ToString("dd/MMM");
-        var file = "logs/" + time + "/" + DateTime.Now.ToString("HH.mm.ss") + ".txt";
-        byte[] bytes = Encoding.ASCII.GetBytes("hello");  
+        var time = DateTime.Now.ToString("yyyy/MMM/dd");
+        var file = "Logs/" + time + "/" + DateTime.Now.ToString("HH.mm.ss") + ".txt";
 
-        Directory.CreateDirectory("logs/" + time);
+        Directory.CreateDirectory("Logs/" + time);
         File.WriteAllLines(file, Log);
 
         System.Environment.Exit(0);
     }
 
-    private static void _initialize(string Title, Vector2 Size, SDL_WindowFlags Flags=0) {
+    public static void Init(string Title, Vector2 Size, SDL_WindowFlags Flags=0) {
         
         SDL_Init(SDL_INIT_EVERYTHING);
         // SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
@@ -75,13 +88,14 @@ public static class Game {
         Renderer = SDL_CreateRenderer(Window, 0, SDL_RendererFlags.SDL_RENDERER_ACCELERATED);
         SDL_SetRenderDrawBlendMode(Renderer, SDL_BlendMode.SDL_BLENDMODE_BLEND);
 
+        RenderTexture = SDL_CreateTexture(Renderer, (uint)SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, (int)Size.X, (int)Size.Y);
+
         Debug.SendInternal("Renderer Created");
 
         Game.Size = Size;
     }
 
-    public static void Run(Scene Scene, string Title, Vector2 Size) {
-        _initialize(Title, Size);
+    public static void Run(Scene Scene) {
 
         Scene.OnAwake();
 
@@ -89,7 +103,6 @@ public static class Game {
 
         while(_isRunning) {
             var start = SDL_GetPerformanceCounter();
-            // Draw.CleanDrawBuffer();
 
             EventHandler.PollEvents();
             Update();
@@ -100,7 +113,9 @@ public static class Game {
             var elapsed = ((end - start) / (float)SDL_GetPerformanceFrequency());
             frames.Add(1.0f / elapsed);
 
-            Debug.SendInternal($"FPS: {frames.Average()}");
+            Keyboard._LastFramePressedKeys = (bool[])Keyboard._PressedKeys.Clone();
+
+            // Debug.SendInternal($"FPS: {frames.Average()}");
         }
     }
 
@@ -109,6 +124,7 @@ public static class Game {
     }
 
     private static void Render() {
+        // SDL_SetRenderTarget(Renderer, RenderTexture);
         SDL_RenderClear(Renderer);
         SDL_Rect _backgroundRect = new SDL_Rect(0, 0, (int)Size.X, (int)Size.Y);
         SDL_SetRenderDrawColor(Game.Renderer, 0, 0, 0, 0);
@@ -117,6 +133,8 @@ public static class Game {
 
         SceneHandler.Render();
 
+        // SDL_SetRenderTarget(Renderer, IntPtr.Zero);
+        // SDL_RenderCopyEx(Renderer, RenderTexture, IntPtr.Zero, IntPtr.Zero, (double)Camera.Rotation, IntPtr.Zero, SDL_RendererFlip.SDL_FLIP_NONE);
         SDL_RenderPresent(Renderer);
     }
 

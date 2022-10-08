@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System;
 
 using static Fjord.Modules.Debug.Debug;
+using Fjord.Modules.Graphics;
 
 namespace Fjord.Modules.Window;
 
@@ -34,7 +35,7 @@ public static class SceneHandler {
         if(_currentScene == null)
             return;
 
-        _scenes[_currentScene].UpdateCall();
+        _scenes[_currentScene].Update();
     }
 
     public static void Render() {
@@ -42,12 +43,25 @@ public static class SceneHandler {
             return;
 
         try {
-            _scenes[_currentScene].RenderCall();
+            _scenes[_currentScene].Render();
         } catch(Exception e) {
             Debug.Debug.SendInternal(e.StackTrace);
             Debug.Debug.SendInternal(e.Source);
             Debug.Debug.SendInternal(e.Message);
         }
+
+        Draw.DrawGUI = true;
+        try
+        {
+            _scenes[_currentScene].RenderGUI();
+        }
+        catch (Exception e)
+        {
+            Debug.Debug.SendInternal(e.StackTrace);
+            Debug.Debug.SendInternal(e.Source);
+            Debug.Debug.SendInternal(e.Message);
+        }
+        Draw.DrawGUI = false;
     }
 
     public static void Stop() {

@@ -7,13 +7,18 @@ using static SDL2.SDL;
 using static SDL2.SDL_ttf;
 using static SDL2.SDL_gfx;
 using Fjord.Modules.Misc;
+using Fjord.Modules.Window;
+using System.Drawing;
 
 namespace Fjord.Modules.Graphics;
 
 public static class Draw {
     private static List<dynamic> _drawBuffer = new List<dynamic>();
+    private static List<dynamic> _drawBufferGUI = new List<dynamic>();
     private static Dictionary<string, IntPtr> _fonts = new Dictionary<string, IntPtr>();
     private static Dictionary<string, IntPtr> _textureCache = new Dictionary<string, IntPtr>();
+
+    internal static bool DrawGUI = false;
 
     public enum Fliptype {
         NONE = 0,
@@ -115,17 +120,43 @@ public static class Draw {
         _drawBuffer = new List<dynamic>();
     }
 
-    public static void Rectangle(Vector4 rectangle, Vector4 color, bool fill = true, int? border_radius = null, double angle = 0, DrawOrigin origin = DrawOrigin.CENTER, int depth = 0) => _drawBuffer.Add(new DrawBufferRectangleInstruction() {
-        rectangle = rectangle,
-        depth = depth,
-        color = color,
-        border_radius = border_radius,
-        angle = angle,
-        origin = origin,
-        fill = fill
-    });
+    internal static List<dynamic> GetDrawGUIBuffer()
+    {
+        return new List<dynamic>(_drawBufferGUI);
+    }
 
-    internal static void RectangleDirect(Vector4 rectangle, Vector4 color, bool fill, int? border_radius, double angle, DrawOrigin origin) {
+    internal static void CleanDrawGUIBuffer()
+    {
+        _drawBufferGUI = new List<dynamic>();
+    }
+
+    public static void Rectangle(Vector4 rectangle, Vector4 color, bool fill = true, int? border_radius = null, double angle = 0, DrawOrigin origin = DrawOrigin.CENTER, int depth = 0)
+    {
+        if(!DrawGUI)
+            _drawBuffer.Add(new DrawBufferRectangleInstruction()
+            {
+                rectangle = rectangle,
+                depth = depth,
+                color = color,
+                border_radius = border_radius,
+                angle = angle,
+                origin = origin,
+                fill = fill
+            });
+        else
+            _drawBufferGUI.Add(new DrawBufferRectangleInstruction()
+            {
+                rectangle = rectangle,
+                depth = depth,
+                color = color,
+                border_radius = border_radius,
+                angle = angle,
+                origin = origin,
+                fill = fill
+            });
+    }
+
+    internal static void RectangleDirect(Vector4 rectangle, Vector4 color, bool fill, int? border_radius, double angle, DrawOrigin origin, bool drawGUI = false) {
         IntPtr _drawTexture = SDL_CreateTexture(Game.Renderer, SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, (int)rectangle.Z + 1, (int)rectangle.W + 1);
         SDL_SetTextureBlendMode(_drawTexture, SDL_BlendMode.SDL_BLENDMODE_BLEND);
         SDL_SetRenderTarget(Game.Renderer, _drawTexture);
@@ -155,35 +186,61 @@ public static class Draw {
         Vector2 _centerV2 = GenerateCenter(origin, new Vector2(rectangle.Z, rectangle.W));
         SDL_Point _center = new SDL_Point((int)_centerV2.X, (int)_centerV2.Y);
 
-        SDL_Rect _destRect = new SDL_Rect((int)rectangle.X, (int)rectangle.Y, (int)rectangle.Z, (int)rectangle.W);
+        SDL_Rect _destRect = new SDL_Rect((int)(!drawGUI ? rectangle.X - Camera.Position.X : rectangle.X), (int)(!drawGUI ? rectangle.Y - Camera.Position.Y : rectangle.Y), (int)rectangle.Z, (int)rectangle.W);
 
         SDL_SetRenderTarget(Game.Renderer, IntPtr.Zero);
         SDL_RenderCopyEx(Game.Renderer, _drawTexture, IntPtr.Zero, ref _destRect, angle, IntPtr.Zero, SDL_RendererFlip.SDL_FLIP_NONE);
     }
 
-    public static void Circle(Vector2 position, int radius, Vector4 color, bool fill = true, int depth = 0) => _drawBuffer.Add(new DrawBufferCircleInstruction() {
-        position = position,
-        radius = radius,
-        color = color,
-        fill = fill,
-        depth = depth
-    });
-
-    internal static void CircleDirect(Vector2 position, int radius, Vector4 color, bool fill) {
-        if(fill) {
-            filledCircleRGBA(Game.Renderer, (short)position.X, (short)position.Y, (short)radius, (byte)color.X, (byte)color.Y, (byte)color.Z, (byte)color.W);
-        } else {
-            circleRGBA(Game.Renderer, (short)position.X, (short)position.Y, (short)radius, (byte)color.X, (byte)color.Y, (byte)color.Z, (byte)color.W);
-        }
+    public static void Circle(Vector2 position, int radius, Vector4 color, bool fill = true, int depth = 0)
+    {
+        if(!DrawGUI)
+            _drawBuffer.Add(new DrawBufferCircleInstruction()
+            {
+                position = position,
+                radius = radius,
+                color = color,
+                fill = fill,
+                depth = depth
+            });
+        else
+            _drawBufferGUI.Add(new DrawBufferCircleInstruction()
+            {
+                position = position,
+                radius = radius,
+                color = color,
+                fill = fill,
+                depth = depth
+            });
     }
 
-    public static void Texture(Texture texture, Vector2 position, int depth = 0) => _drawBuffer.Add(new DrawBufferTextureInstruction() {
-        texture = texture,
-        position = position,
-        depth = depth
-    });
+    internal static void CircleDirect(Vector2 position, int radius, Vector4 color, bool fill, bool drawGUI = false) {
+        if(fill) {
+            filledCircleRGBA(Game.Renderer, (short)(!drawGUI ? position.X - Camera.Position.X : position.X), (short)(!drawGUI ? position.Y - Camera.Position.Y : position.Y), (short)radius, (byte)color.X, (byte)color.Y, (byte)color.Z, (byte)color.W);
+        } else {
+            circleRGBA(Game.Renderer, (short)(!drawGUI ? position.X - Camera.Position.X : position.X), (short)(!drawGUI ? position.Y - Camera.Position.Y : position.Y), (short)radius, (byte)color.X, (byte)color.Y, (byte)color.Z, (byte)color.W);
+        }
+    }
+    public static void Texture(Texture texture, Vector2 position, int depth = 0)
+    {
+        if(!DrawGUI)
+            _drawBuffer.Add(new DrawBufferTextureInstruction()
+            {
+                texture = texture,
+                position = position,
+                depth = depth
+            });
+        else
+            _drawBufferGUI.Add(new DrawBufferTextureInstruction()
+            {
+                texture = texture,
+                position = position,
+                depth = depth
+            });
+    }
 
-    internal static void TextureDirect(Vector2 position, Texture texture) {
+
+    internal static void TextureDirect(Vector2 position, Texture texture, bool drawGUI = false) {
         IntPtr _finalTexture = texture.GetSDL2Texture();
 
         SDL_Rect src, dest;
@@ -219,10 +276,11 @@ public static class Draw {
 
         // Camera Relative Handling
 
-        // if(texture.get_relative()) {
-        //     dest.x -= (int)camera.get().x;
-        //     dest.y -= (int)camera.get().y;
-        // }
+        if (!drawGUI)
+        {
+            dest.x -= (int)Camera.Position.X;
+            dest.y -= (int)Camera.Position.Y;
+        }
 
         // Draw
 
@@ -230,36 +288,56 @@ public static class Draw {
         SDL_RenderCopyEx(Game.Renderer, _finalTexture, ref src, ref dest, texture.GetAngle(), ref center, flip_sdl);      
     }
 
-    public static void Text(Vector2 position, string fontID, int fontSize, string value, Vector4 color, int depth) => _drawBuffer.Add(new DrawBufferTextInstruction() {
-        position = position,
-        fontID = fontID,
-        fontSize = fontSize,
-        value = value,
-        color = color,
-        depth = depth
-    });
+    public static void Text(Vector2 position, string fontID, int fontSize, string value, Vector4 color, int depth)
+    {
+        if(!DrawGUI)
+            _drawBuffer.Add(new DrawBufferTextInstruction()
+            {
+                position = position,
+                fontID = fontID,
+                fontSize = fontSize,
+                value = value,
+                color = color,
+                depth = depth
+            });
+        else
+            _drawBufferGUI.Add(new DrawBufferTextInstruction()
+            {
+                position = position,
+                fontID = fontID,
+                fontSize = fontSize,
+                value = value,
+                color = color,
+                depth = depth
+            });
+    }
 
     internal static void LoadFont(string fontID) {
-        if(!File.Exists("Assets/Fonts/" + fontID + ".ttf")) {
-            Debug.Debug.Error("Font not found: " + fontID + ".ttf");
+        string path;
+        if (OS.GetOS() == OS.Platform.Windows)
+            path = $"{Game.ExecutablePath}\\Assets\\Fonts\\{fontID}.ttf";
+        else
+            path = $"{Game.ExecutablePath}/Assets/Fonts/{fontID}.ttf";
+
+        if (!File.Exists(path)) {
+            Debug.Debug.Error($"Font not found: {fontID}.ttf");
             Game.Stop();
             return;
         }
         if(!_fonts.ContainsKey(fontID)) {
-            string path = "Assets/Fonts/" + fontID + ".ttf";
             IntPtr font = TTF_OpenFont(path, 255);
             _fonts.Add(fontID, font);
         }
     }
 
-    internal static void TextDirect(Vector2 position, string fontID, int fontSize, string value, Vector4 color) {
+    internal static void TextDirect(Vector2 position, string fontID, int fontSize, string value, Vector4 color, bool drawGUI=false) {
         SDL_Rect src = new SDL_Rect(0, 0, 0, 0);
 
         uint f; int a;
 
         SDL_QueryTexture(GetTextTexture(fontID, value, color), out f, out a, out src.w, out src.h);
 
-        SDL_Rect dest = new SDL_Rect((byte)position.X, (byte)position.Y, src.w / (255 / fontSize), src.h / (255 / fontSize));
+        SDL_Rect dest = new SDL_Rect((byte)(!drawGUI ? position.X - Camera.Position.X : position.X), (byte)(!drawGUI ? position.Y - Camera.Position.Y : position.Y), src.w / (255 / fontSize), src.h / (255 / fontSize));
 
         SDL_RenderCopy(Game.Renderer, GetTextTexture(fontID, value, color), ref src, ref dest);
     }
@@ -270,7 +348,11 @@ public static class Draw {
             IntPtr font;
                 
             if(!_fonts.ContainsKey(fontID)) {
-                string path = "Assets/Fonts/" + fontID + ".ttf";
+                string path;
+                if (OS.GetOS() == OS.Platform.Windows)
+                    path = $"{Game.ExecutablePath}\\Assets\\Fonts\\{fontID}.ttf";
+                else
+                    path = $"{Game.ExecutablePath}/Assets/Fonts/{fontID}.ttf";
                 font = TTF_OpenFont(path, 255);
                 _fonts.Add(fontID, font);
             } else {
@@ -296,7 +378,11 @@ public static class Draw {
         IntPtr font;
             
         if(!_fonts.ContainsKey(fontID)) {
-            string path = "Assets/Fonts/" + fontID + ".ttf";
+            string path;
+            if (OS.GetOS() == OS.Platform.Windows)
+                path = $"{Game.ExecutablePath}\\Assets\\Fonts\\{fontID}.ttf";
+            else
+                path = $"{Game.ExecutablePath}/Assets/Fonts/{fontID}.ttf";
             font = TTF_OpenFont(path, 255);
             _fonts.Add(fontID, font);
         } else {

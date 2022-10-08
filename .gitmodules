@@ -1,0 +1,3 @@
+[submodule "libraries/SDL2-CS"]
+	path = libraries/SDL2-CS
+	url = https://github.com/shykeiichi/SDL2-CS

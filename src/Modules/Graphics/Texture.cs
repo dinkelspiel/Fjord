@@ -27,10 +27,12 @@ public class Texture : ICloneable {
 
     public Texture SetTexture(string Path) {
         try {
-            IntPtr TextureSurface = IMG_Load($"assets\\images\\{Path}");;
-            IntPtr Texture = SDL_CreateTextureFromSurface(Game.Renderer, TextureSurface);
-            SDL_FreeSurface(TextureSurface);
-            this._sdl2texture = Texture;
+            //Debug.Debug.Send("D:\\Projects2022\\Coding\\C#\\Fjord_projects\\HalloweenGame\\Assets\\Images\\Player.png");
+            if (OS.GetOS() == OS.Platform.Windows)
+                this._sdl2texture = IMG_LoadTexture(Game.Renderer, $"{Game.ExecutablePath}\\Assets\\Images\\{Path}");
+            else
+                this._sdl2texture = IMG_LoadTexture(Game.Renderer, $"{Game.ExecutablePath}/Assets/Images/{Path}");
+            Debug.Debug.Send($"{Game.ExecutablePath}\\Assets\\Images\\{Path}");
         } catch(Exception e) {
             Game.Stop(e);
         }
@@ -51,6 +53,11 @@ public class Texture : ICloneable {
 
     public Texture SetScale(float x, float y) {
         _scale = new Vector2(x, y);
+        return this;
+    }
+
+    public Texture SetScale(Vector2 scale) {
+        _scale = scale;
         return this;
     }
 

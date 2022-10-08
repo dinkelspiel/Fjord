@@ -9,7 +9,7 @@ namespace Fjord.Modules.Debug {
         public static string last_message = "";
         public static int last_message_streak = 0;
 
-        public static bool ShowEnginePrefix = false;
+        public static bool ShowEnginePrefix = true;
 
         public static void Assert(bool condition, string message) {
             if(!condition) {
@@ -24,6 +24,14 @@ namespace Fjord.Modules.Debug {
             var sf = st.GetFrame(1);
 
             string method;
+
+            if(sf is null) {
+                return;
+            }
+
+            if(sf.GetMethod() is null) {
+                return;
+            }
 
             if(funcoverride is null) 
                 method = sf.GetMethod().Name;
@@ -48,7 +56,7 @@ namespace Fjord.Modules.Debug {
             } else {
                 Console.SetCursorPosition(0, Console.CursorTop -1);
 
-                string msg = String.Format(prefixstr + "[{0}]{1} {2}x {3} -> {4}", time, prefixstr, (last_message_streak + 1).ToString(), method, message);
+                string msg = String.Format(prefixstr + "[{0}]{1} {2}x {3} -> {4}", time, prefixstr, (last_message_streak + 2).ToString(), method, message);
                 Console.WriteLine(msg); 
 
                 Game.Log[Game.Log.Count - 1] = msg;

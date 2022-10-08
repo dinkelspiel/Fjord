@@ -735,6 +735,730 @@ internal static class EventHandler {
 
                 }  
                 break;
+                case SDL_EventType.SDL_KEYUP:
+                    switch(events.key.keysym.sym) {
+                        case SDL_Keycode.SDLK_UNKNOWN:
+                            Keyboard._PressedKeys[(int)Key.UNKNOWN] = false;
+                            break;
+                        case SDL_Keycode.SDLK_RETURN:
+                            Keyboard._PressedKeys[(int)Key.RETURN] = false;
+                            break;
+                        case SDL_Keycode.SDLK_ESCAPE:
+                            Keyboard._PressedKeys[(int)Key.ESCAPE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_BACKSPACE:
+                            Keyboard._PressedKeys[(int)Key.BACKSPACE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_TAB:
+                            Keyboard._PressedKeys[(int)Key.TAB] = false;
+                            break;
+                        case SDL_Keycode.SDLK_SPACE:
+                            Keyboard._PressedKeys[(int)Key.SPACE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_EXCLAIM:
+                            Keyboard._PressedKeys[(int)Key.EXCLAIM] = false;
+                            break;
+                        case SDL_Keycode.SDLK_QUOTEDBL:
+                            Keyboard._PressedKeys[(int)Key.QUOTEDBL] = false;
+                            break;
+                        case SDL_Keycode.SDLK_HASH:
+                            Keyboard._PressedKeys[(int)Key.HASH] = false;
+                            break;
+                        case SDL_Keycode.SDLK_PERCENT:
+                            Keyboard._PressedKeys[(int)Key.PERCENT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_DOLLAR:
+                            Keyboard._PressedKeys[(int)Key.DOLLAR] = false;
+                            break;
+                        case SDL_Keycode.SDLK_AMPERSAND:
+                            Keyboard._PressedKeys[(int)Key.AMPERSAND] = false;
+                            break;
+                        case SDL_Keycode.SDLK_QUOTE:
+                            Keyboard._PressedKeys[(int)Key.QUOTE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_LEFTPAREN:
+                            Keyboard._PressedKeys[(int)Key.LEFTPAREN] = false;
+                            break;
+                        case SDL_Keycode.SDLK_RIGHTPAREN:
+                            Keyboard._PressedKeys[(int)Key.RIGHTPAREN] = false;
+                            break;
+                        case SDL_Keycode.SDLK_ASTERISK:
+                            Keyboard._PressedKeys[(int)Key.ASTERISK] = false;
+                            break;
+                        case SDL_Keycode.SDLK_PLUS:
+                            Keyboard._PressedKeys[(int)Key.PLUS] = false;
+                            break;
+                        case SDL_Keycode.SDLK_COMMA:
+                            Keyboard._PressedKeys[(int)Key.COMMA] = false;
+                            break;
+                        case SDL_Keycode.SDLK_MINUS:
+                            Keyboard._PressedKeys[(int)Key.MINUS] = false;
+                            break;
+                        case SDL_Keycode.SDLK_PERIOD:
+                            Keyboard._PressedKeys[(int)Key.PERIOD] = false;
+                            break;
+                        case SDL_Keycode.SDLK_SLASH:
+                            Keyboard._PressedKeys[(int)Key.SLASH] = false;
+                            break;
+                        case SDL_Keycode.SDLK_0:
+                            Keyboard._PressedKeys[(int)Key.N0] = false;
+                            break;
+                        case SDL_Keycode.SDLK_1:
+                            Keyboard._PressedKeys[(int)Key.N1] = false;
+                            break;
+                        case SDL_Keycode.SDLK_2:
+                            Keyboard._PressedKeys[(int)Key.N2] = false;
+                            break;
+                        case SDL_Keycode.SDLK_3:
+                            Keyboard._PressedKeys[(int)Key.N3] = false;
+                            break;
+                        case SDL_Keycode.SDLK_4:
+                            Keyboard._PressedKeys[(int)Key.N4] = false;
+                            break;
+                        case SDL_Keycode.SDLK_5:
+                            Keyboard._PressedKeys[(int)Key.N5] = false;
+                            break;
+                        case SDL_Keycode.SDLK_6:
+                            Keyboard._PressedKeys[(int)Key.N6] = false;
+                            break;
+                        case SDL_Keycode.SDLK_7:
+                            Keyboard._PressedKeys[(int)Key.N7] = false;
+                            break;
+                        case SDL_Keycode.SDLK_8:
+                            Keyboard._PressedKeys[(int)Key.N8] = false;
+                            break;
+                        case SDL_Keycode.SDLK_9:
+                            Keyboard._PressedKeys[(int)Key.N9] = false;
+                            break;
+                        case SDL_Keycode.SDLK_COLON:
+                            Keyboard._PressedKeys[(int)Key.COLON] = false;
+                            break;
+                        case SDL_Keycode.SDLK_SEMICOLON:
+                            Keyboard._PressedKeys[(int)Key.SEMICOLON] = false;
+                            break;
+                        case SDL_Keycode.SDLK_LESS:
+                            Keyboard._PressedKeys[(int)Key.LESS] = false;
+                            break;
+                        case SDL_Keycode.SDLK_EQUALS:
+                            Keyboard._PressedKeys[(int)Key.EQUALS] = false;
+                            break;
+                        case SDL_Keycode.SDLK_GREATER:
+                            Keyboard._PressedKeys[(int)Key.GREATER] = false;
+                            break;
+                        case SDL_Keycode.SDLK_QUESTION:
+                            Keyboard._PressedKeys[(int)Key.QUESTION] = false;
+                            break;
+                        case SDL_Keycode.SDLK_AT:
+                            Keyboard._PressedKeys[(int)Key.AT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_LEFTBRACKET:
+                            Keyboard._PressedKeys[(int)Key.LEFTBRACKET] = false;
+                            break;
+                        case SDL_Keycode.SDLK_BACKSLASH:
+                            Keyboard._PressedKeys[(int)Key.BACKSLASH] = false;
+                            break;
+                        case SDL_Keycode.SDLK_RIGHTBRACKET:
+                            Keyboard._PressedKeys[(int)Key.RIGHTBRACKET] = false;
+                            break;
+                        case SDL_Keycode.SDLK_CARET:
+                            Keyboard._PressedKeys[(int)Key.CARET] = false;
+                            break;
+                        case SDL_Keycode.SDLK_UNDERSCORE:
+                            Keyboard._PressedKeys[(int)Key.UNDERSCORE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_BACKQUOTE:
+                            Keyboard._PressedKeys[(int)Key.BACKQUOTE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_a:
+                            Keyboard._PressedKeys[(int)Key.a] = false;
+                            break;
+                        case SDL_Keycode.SDLK_b:
+                            Keyboard._PressedKeys[(int)Key.b] = false;
+                            break;
+                        case SDL_Keycode.SDLK_c:
+                            Keyboard._PressedKeys[(int)Key.c] = false;
+                            break;
+                        case SDL_Keycode.SDLK_d:
+                            Keyboard._PressedKeys[(int)Key.d] = false;
+                            break;
+                        case SDL_Keycode.SDLK_e:
+                            Keyboard._PressedKeys[(int)Key.e] = false;
+                            break;
+                        case SDL_Keycode.SDLK_f:
+                            Keyboard._PressedKeys[(int)Key.f] = false;
+                            break;
+                        case SDL_Keycode.SDLK_g:
+                            Keyboard._PressedKeys[(int)Key.g] = false;
+                            break;
+                        case SDL_Keycode.SDLK_h:
+                            Keyboard._PressedKeys[(int)Key.h] = false;
+                            break;
+                        case SDL_Keycode.SDLK_i:
+                            Keyboard._PressedKeys[(int)Key.i] = false;
+                            break;
+                        case SDL_Keycode.SDLK_j:
+                            Keyboard._PressedKeys[(int)Key.j] = false;
+                            break;
+                        case SDL_Keycode.SDLK_k:
+                            Keyboard._PressedKeys[(int)Key.k] = false;
+                            break;
+                        case SDL_Keycode.SDLK_l:
+                            Keyboard._PressedKeys[(int)Key.l] = false;
+                            break;
+                        case SDL_Keycode.SDLK_m:
+                            Keyboard._PressedKeys[(int)Key.m] = false;
+                            break;
+                        case SDL_Keycode.SDLK_n:
+                            Keyboard._PressedKeys[(int)Key.n] = false;
+                            break;
+                        case SDL_Keycode.SDLK_o:
+                            Keyboard._PressedKeys[(int)Key.o] = false;
+                            break;
+                        case SDL_Keycode.SDLK_p:
+                            Keyboard._PressedKeys[(int)Key.p] = false;
+                            break;
+                        case SDL_Keycode.SDLK_q:
+                            Keyboard._PressedKeys[(int)Key.q] = false;
+                            break;
+                        case SDL_Keycode.SDLK_r:
+                            Keyboard._PressedKeys[(int)Key.r] = false;
+                            break;
+                        case SDL_Keycode.SDLK_s:
+                            Keyboard._PressedKeys[(int)Key.s] = false;
+                            break;
+                        case SDL_Keycode.SDLK_t:
+                            Keyboard._PressedKeys[(int)Key.t] = false;
+                            break;
+                        case SDL_Keycode.SDLK_u:
+                            Keyboard._PressedKeys[(int)Key.u] = false;
+                            break;
+                        case SDL_Keycode.SDLK_v:
+                            Keyboard._PressedKeys[(int)Key.v] = false;
+                            break;
+                        case SDL_Keycode.SDLK_w:
+                            Keyboard._PressedKeys[(int)Key.w] = false;
+                            break;
+                        case SDL_Keycode.SDLK_x:
+                            Keyboard._PressedKeys[(int)Key.x] = false;
+                            break;
+                        case SDL_Keycode.SDLK_y:
+                            Keyboard._PressedKeys[(int)Key.y] = false;
+                            break;
+                        case SDL_Keycode.SDLK_z:
+                            Keyboard._PressedKeys[(int)Key.z] = false;
+                            break;
+                        case SDL_Keycode.SDLK_CAPSLOCK:
+                            Keyboard._PressedKeys[(int)Key.CAPSLOCK] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F1:
+                            Keyboard._PressedKeys[(int)Key.F1] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F2:
+                            Keyboard._PressedKeys[(int)Key.F2] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F3:
+                            Keyboard._PressedKeys[(int)Key.F3] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F4:
+                            Keyboard._PressedKeys[(int)Key.F4] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F5:
+                            Keyboard._PressedKeys[(int)Key.F5] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F6:
+                            Keyboard._PressedKeys[(int)Key.F6] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F7:
+                            Keyboard._PressedKeys[(int)Key.F7] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F8:
+                            Keyboard._PressedKeys[(int)Key.F8] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F9:
+                            Keyboard._PressedKeys[(int)Key.F9] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F10:
+                            Keyboard._PressedKeys[(int)Key.F10] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F11:
+                            Keyboard._PressedKeys[(int)Key.F11] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F12:
+                            Keyboard._PressedKeys[(int)Key.F12] = false;
+                            break;
+                        case SDL_Keycode.SDLK_PRINTSCREEN:
+                            Keyboard._PressedKeys[(int)Key.PRINTSCREEN] = false;
+                            break;
+                        case SDL_Keycode.SDLK_SCROLLLOCK:
+                            Keyboard._PressedKeys[(int)Key.SCROLLLOCK] = false;
+                            break;
+                        case SDL_Keycode.SDLK_PAUSE:
+                            Keyboard._PressedKeys[(int)Key.PAUSE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_INSERT:
+                            Keyboard._PressedKeys[(int)Key.INSERT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_HOME:
+                            Keyboard._PressedKeys[(int)Key.HOME] = false;
+                            break;
+                        case SDL_Keycode.SDLK_PAGEUP:
+                            Keyboard._PressedKeys[(int)Key.PAGEUP] = false;
+                            break;
+                        case SDL_Keycode.SDLK_DELETE:
+                            Keyboard._PressedKeys[(int)Key.DELETE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_END:
+                            Keyboard._PressedKeys[(int)Key.END] = false;
+                            break;
+                        case SDL_Keycode.SDLK_PAGEDOWN:
+                            Keyboard._PressedKeys[(int)Key.PAGEDOWN] = false;
+                            break;
+                        case SDL_Keycode.SDLK_RIGHT:
+                            Keyboard._PressedKeys[(int)Key.RIGHT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_LEFT:
+                            Keyboard._PressedKeys[(int)Key.LEFT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_DOWN:
+                            Keyboard._PressedKeys[(int)Key.DOWN] = false;
+                            break;
+                        case SDL_Keycode.SDLK_UP:
+                            Keyboard._PressedKeys[(int)Key.UP] = false;
+                            break;
+                        case SDL_Keycode.SDLK_NUMLOCKCLEAR:
+                            Keyboard._PressedKeys[(int)Key.NUMLOCKCLEAR] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_DIVIDE:
+                            Keyboard._PressedKeys[(int)Key.KP_DIVIDE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_MULTIPLY:
+                            Keyboard._PressedKeys[(int)Key.KP_MULTIPLY] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_MINUS:
+                            Keyboard._PressedKeys[(int)Key.KP_MINUS] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_PLUS:
+                            Keyboard._PressedKeys[(int)Key.KP_PLUS] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_ENTER:
+                            Keyboard._PressedKeys[(int)Key.KP_ENTER] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_1:
+                            Keyboard._PressedKeys[(int)Key.KP_1] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_2:
+                            Keyboard._PressedKeys[(int)Key.KP_2] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_3:
+                            Keyboard._PressedKeys[(int)Key.KP_3] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_4:
+                            Keyboard._PressedKeys[(int)Key.KP_4] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_5:
+                            Keyboard._PressedKeys[(int)Key.KP_5] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_6:
+                            Keyboard._PressedKeys[(int)Key.KP_6] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_7:
+                            Keyboard._PressedKeys[(int)Key.KP_7] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_8:
+                            Keyboard._PressedKeys[(int)Key.KP_8] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_9:
+                            Keyboard._PressedKeys[(int)Key.KP_9] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_0:
+                            Keyboard._PressedKeys[(int)Key.KP_0] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_PERIOD:
+                            Keyboard._PressedKeys[(int)Key.KP_PERIOD] = false;
+                            break;
+                        case SDL_Keycode.SDLK_APPLICATION:
+                            Keyboard._PressedKeys[(int)Key.APPLICATION] = false;
+                            break;
+                        case SDL_Keycode.SDLK_POWER:
+                            Keyboard._PressedKeys[(int)Key.POWER] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_EQUALS:
+                            Keyboard._PressedKeys[(int)Key.KP_EQUALS] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F13:
+                            Keyboard._PressedKeys[(int)Key.F13] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F14:
+                            Keyboard._PressedKeys[(int)Key.F14] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F15:
+                            Keyboard._PressedKeys[(int)Key.F15] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F16:
+                            Keyboard._PressedKeys[(int)Key.F16] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F17:
+                            Keyboard._PressedKeys[(int)Key.F17] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F18:
+                            Keyboard._PressedKeys[(int)Key.F18] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F19:
+                            Keyboard._PressedKeys[(int)Key.F19] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F20:
+                            Keyboard._PressedKeys[(int)Key.F20] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F21:
+                            Keyboard._PressedKeys[(int)Key.F21] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F22:
+                            Keyboard._PressedKeys[(int)Key.F22] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F23:
+                            Keyboard._PressedKeys[(int)Key.F23] = false;
+                            break;
+                        case SDL_Keycode.SDLK_F24:
+                            Keyboard._PressedKeys[(int)Key.F24] = false;
+                            break;
+                        case SDL_Keycode.SDLK_EXECUTE:
+                            Keyboard._PressedKeys[(int)Key.EXECUTE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_HELP:
+                            Keyboard._PressedKeys[(int)Key.HELP] = false;
+                            break;
+                        case SDL_Keycode.SDLK_MENU:
+                            Keyboard._PressedKeys[(int)Key.MENU] = false;
+                            break;
+                        case SDL_Keycode.SDLK_SELECT:
+                            Keyboard._PressedKeys[(int)Key.SELECT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_STOP:
+                            Keyboard._PressedKeys[(int)Key.STOP] = false;
+                            break;
+                        case SDL_Keycode.SDLK_AGAIN:
+                            Keyboard._PressedKeys[(int)Key.AGAIN] = false;
+                            break;
+                        case SDL_Keycode.SDLK_UNDO:
+                            Keyboard._PressedKeys[(int)Key.UNDO] = false;
+                            break;
+                        case SDL_Keycode.SDLK_CUT:
+                            Keyboard._PressedKeys[(int)Key.CUT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_COPY:
+                            Keyboard._PressedKeys[(int)Key.COPY] = false;
+                            break;
+                        case SDL_Keycode.SDLK_PASTE:
+                            Keyboard._PressedKeys[(int)Key.PASTE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_FIND:
+                            Keyboard._PressedKeys[(int)Key.FIND] = false;
+                            break;
+                        case SDL_Keycode.SDLK_MUTE:
+                            Keyboard._PressedKeys[(int)Key.MUTE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_VOLUMEUP:
+                            Keyboard._PressedKeys[(int)Key.VOLUMEUP] = false;
+                            break;
+                        case SDL_Keycode.SDLK_VOLUMEDOWN:
+                            Keyboard._PressedKeys[(int)Key.VOLUMEDOWN] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_COMMA:
+                            Keyboard._PressedKeys[(int)Key.KP_COMMA] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_EQUALSAS400:
+                            Keyboard._PressedKeys[(int)Key.KP_EQUALSAS400] = false;
+                            break;
+                        case SDL_Keycode.SDLK_ALTERASE:
+                            Keyboard._PressedKeys[(int)Key.ALTERASE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_SYSREQ:
+                            Keyboard._PressedKeys[(int)Key.SYSREQ] = false;
+                            break;
+                        case SDL_Keycode.SDLK_CANCEL:
+                            Keyboard._PressedKeys[(int)Key.CANCEL] = false;
+                            break;
+                        case SDL_Keycode.SDLK_CLEAR:
+                            Keyboard._PressedKeys[(int)Key.CLEAR] = false;
+                            break;
+                        case SDL_Keycode.SDLK_PRIOR:
+                            Keyboard._PressedKeys[(int)Key.PRIOR] = false;
+                            break;
+                        case SDL_Keycode.SDLK_RETURN2:
+                            Keyboard._PressedKeys[(int)Key.RETURN2] = false;
+                            break;
+                        case SDL_Keycode.SDLK_SEPARATOR:
+                            Keyboard._PressedKeys[(int)Key.SEPARATOR] = false;
+                            break;
+                        case SDL_Keycode.SDLK_OUT:
+                            Keyboard._PressedKeys[(int)Key.OUT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_OPER:
+                            Keyboard._PressedKeys[(int)Key.OPER] = false;
+                            break;
+                        case SDL_Keycode.SDLK_CLEARAGAIN:
+                            Keyboard._PressedKeys[(int)Key.CLEARAGAIN] = false;
+                            break;
+                        case SDL_Keycode.SDLK_CRSEL:
+                            Keyboard._PressedKeys[(int)Key.CRSEL] = false;
+                            break;
+                        case SDL_Keycode.SDLK_EXSEL:
+                            Keyboard._PressedKeys[(int)Key.EXSEL] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_00:
+                            Keyboard._PressedKeys[(int)Key.KP_00] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_000:
+                            Keyboard._PressedKeys[(int)Key.KP_000] = false;
+                            break;
+                        case SDL_Keycode.SDLK_THOUSANDSSEPARATOR:
+                            Keyboard._PressedKeys[(int)Key.THOUSANDSSEPARATOR] = false;
+                            break;
+                        case SDL_Keycode.SDLK_DECIMALSEPARATOR:
+                            Keyboard._PressedKeys[(int)Key.DECIMALSEPARATOR] = false;
+                            break;
+                        case SDL_Keycode.SDLK_CURRENCYUNIT:
+                            Keyboard._PressedKeys[(int)Key.CURRENCYUNIT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_CURRENCYSUBUNIT:
+                            Keyboard._PressedKeys[(int)Key.CURRENCYSUBUNIT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_LEFTPAREN:
+                            Keyboard._PressedKeys[(int)Key.KP_LEFTPAREN] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_RIGHTPAREN:
+                            Keyboard._PressedKeys[(int)Key.KP_RIGHTPAREN] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_LEFTBRACE:
+                            Keyboard._PressedKeys[(int)Key.KP_LEFTBRACE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_RIGHTBRACE:
+                            Keyboard._PressedKeys[(int)Key.KP_RIGHTBRACE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_TAB:
+                            Keyboard._PressedKeys[(int)Key.KP_TAB] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_BACKSPACE:
+                            Keyboard._PressedKeys[(int)Key.KP_BACKSPACE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_A:
+                            Keyboard._PressedKeys[(int)Key.KP_A] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_B:
+                            Keyboard._PressedKeys[(int)Key.KP_B] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_C:
+                            Keyboard._PressedKeys[(int)Key.KP_C] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_D:
+                            Keyboard._PressedKeys[(int)Key.KP_D] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_E:
+                            Keyboard._PressedKeys[(int)Key.KP_E] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_F:
+                            Keyboard._PressedKeys[(int)Key.KP_F] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_XOR:
+                            Keyboard._PressedKeys[(int)Key.KP_XOR] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_POWER:
+                            Keyboard._PressedKeys[(int)Key.KP_POWER] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_PERCENT:
+                            Keyboard._PressedKeys[(int)Key.KP_PERCENT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_LESS:
+                            Keyboard._PressedKeys[(int)Key.KP_LESS] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_GREATER:
+                            Keyboard._PressedKeys[(int)Key.KP_GREATER] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_AMPERSAND:
+                            Keyboard._PressedKeys[(int)Key.KP_AMPERSAND] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_DBLAMPERSAND:
+                            Keyboard._PressedKeys[(int)Key.KP_DBLAMPERSAND] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_VERTICALBAR:
+                            Keyboard._PressedKeys[(int)Key.KP_VERTICALBAR] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_DBLVERTICALBAR:
+                            Keyboard._PressedKeys[(int)Key.KP_DBLVERTICALBAR] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_COLON:
+                            Keyboard._PressedKeys[(int)Key.KP_COLON] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_HASH:
+                            Keyboard._PressedKeys[(int)Key.KP_HASH] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_SPACE:
+                            Keyboard._PressedKeys[(int)Key.KP_SPACE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_AT:
+                            Keyboard._PressedKeys[(int)Key.KP_AT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_EXCLAM:
+                            Keyboard._PressedKeys[(int)Key.KP_EXCLAM] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_MEMSTORE:
+                            Keyboard._PressedKeys[(int)Key.KP_MEMSTORE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_MEMRECALL:
+                            Keyboard._PressedKeys[(int)Key.KP_MEMRECALL] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_MEMCLEAR:
+                            Keyboard._PressedKeys[(int)Key.KP_MEMCLEAR] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_MEMADD:
+                            Keyboard._PressedKeys[(int)Key.KP_MEMADD] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_MEMSUBTRACT:
+                            Keyboard._PressedKeys[(int)Key.KP_MEMSUBTRACT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_MEMMULTIPLY:
+                            Keyboard._PressedKeys[(int)Key.KP_MEMMULTIPLY] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_MEMDIVIDE:
+                            Keyboard._PressedKeys[(int)Key.KP_MEMDIVIDE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_PLUSMINUS:
+                            Keyboard._PressedKeys[(int)Key.KP_PLUSMINUS] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_CLEAR:
+                            Keyboard._PressedKeys[(int)Key.KP_CLEAR] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_CLEARENTRY:
+                            Keyboard._PressedKeys[(int)Key.KP_CLEARENTRY] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_BINARY:
+                            Keyboard._PressedKeys[(int)Key.KP_BINARY] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_OCTAL:
+                            Keyboard._PressedKeys[(int)Key.KP_OCTAL] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_DECIMAL:
+                            Keyboard._PressedKeys[(int)Key.KP_DECIMAL] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KP_HEXADECIMAL:
+                            Keyboard._PressedKeys[(int)Key.KP_HEXADECIMAL] = false;
+                            break;
+                        case SDL_Keycode.SDLK_LCTRL:
+                            Keyboard._PressedKeys[(int)Key.LCTRL] = false;
+                            break;
+                        case SDL_Keycode.SDLK_LSHIFT:
+                            Keyboard._PressedKeys[(int)Key.LSHIFT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_LALT:
+                            Keyboard._PressedKeys[(int)Key.LALT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_LGUI:
+                            Keyboard._PressedKeys[(int)Key.LGUI] = false;
+                            break;
+                        case SDL_Keycode.SDLK_RCTRL:
+                            Keyboard._PressedKeys[(int)Key.RCTRL] = false;
+                            break;
+                        case SDL_Keycode.SDLK_RSHIFT:
+                            Keyboard._PressedKeys[(int)Key.RSHIFT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_RALT:
+                            Keyboard._PressedKeys[(int)Key.RALT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_RGUI:
+                            Keyboard._PressedKeys[(int)Key.RGUI] = false;
+                            break;
+                        case SDL_Keycode.SDLK_MODE:
+                            Keyboard._PressedKeys[(int)Key.MODE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_AUDIONEXT:
+                            Keyboard._PressedKeys[(int)Key.AUDIONEXT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_AUDIOPREV:
+                            Keyboard._PressedKeys[(int)Key.AUDIOPREV] = false;
+                            break;
+                        case SDL_Keycode.SDLK_AUDIOSTOP:
+                            Keyboard._PressedKeys[(int)Key.AUDIOSTOP] = false;
+                            break;
+                        case SDL_Keycode.SDLK_AUDIOPLAY:
+                            Keyboard._PressedKeys[(int)Key.AUDIOPLAY] = false;
+                            break;
+                        case SDL_Keycode.SDLK_AUDIOMUTE:
+                            Keyboard._PressedKeys[(int)Key.AUDIOMUTE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_MEDIASELECT:
+                            Keyboard._PressedKeys[(int)Key.MEDIASELECT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_WWW:
+                            Keyboard._PressedKeys[(int)Key.WWW] = false;
+                            break;
+                        case SDL_Keycode.SDLK_MAIL:
+                            Keyboard._PressedKeys[(int)Key.MAIL] = false;
+                            break;
+                        case SDL_Keycode.SDLK_CALCULATOR:
+                            Keyboard._PressedKeys[(int)Key.CALCULATOR] = false;
+                            break;
+                        case SDL_Keycode.SDLK_COMPUTER:
+                            Keyboard._PressedKeys[(int)Key.COMPUTER] = false;
+                            break;
+                        case SDL_Keycode.SDLK_AC_SEARCH:
+                            Keyboard._PressedKeys[(int)Key.AC_SEARCH] = false;
+                            break;
+                        case SDL_Keycode.SDLK_AC_HOME:
+                            Keyboard._PressedKeys[(int)Key.AC_HOME] = false;
+                            break;
+                        case SDL_Keycode.SDLK_AC_BACK:
+                            Keyboard._PressedKeys[(int)Key.AC_BACK] = false;
+                            break;
+                        case SDL_Keycode.SDLK_AC_FORWARD:
+                            Keyboard._PressedKeys[(int)Key.AC_FORWARD] = false;
+                            break;
+                        case SDL_Keycode.SDLK_AC_STOP:
+                            Keyboard._PressedKeys[(int)Key.AC_STOP] = false;
+                            break;
+                        case SDL_Keycode.SDLK_AC_REFRESH:
+                            Keyboard._PressedKeys[(int)Key.AC_REFRESH] = false;
+                            break;
+                        case SDL_Keycode.SDLK_AC_BOOKMARKS:
+                            Keyboard._PressedKeys[(int)Key.AC_BOOKMARKS] = false;
+                            break;
+                        case SDL_Keycode.SDLK_BRIGHTNESSDOWN:
+                            Keyboard._PressedKeys[(int)Key.BRIGHTNESSDOWN] = false;
+                            break;
+                        case SDL_Keycode.SDLK_BRIGHTNESSUP:
+                            Keyboard._PressedKeys[(int)Key.BRIGHTNESSUP] = false;
+                            break;
+                        case SDL_Keycode.SDLK_DISPLAYSWITCH:
+                            Keyboard._PressedKeys[(int)Key.DISPLAYSWITCH] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KBDILLUMTOGGLE:
+                            Keyboard._PressedKeys[(int)Key.KBDILLUMTOGGLE] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KBDILLUMDOWN:
+                            Keyboard._PressedKeys[(int)Key.KBDILLUMDOWN] = false;
+                            break;
+                        case SDL_Keycode.SDLK_KBDILLUMUP:
+                            Keyboard._PressedKeys[(int)Key.KBDILLUMUP] = false;
+                            break;
+                        case SDL_Keycode.SDLK_EJECT:
+                            Keyboard._PressedKeys[(int)Key.EJECT] = false;
+                            break;
+                        case SDL_Keycode.SDLK_SLEEP:
+                            Keyboard._PressedKeys[(int)Key.SLEEP] = false;
+                            break;
+                        case SDL_Keycode.SDLK_APP1:
+                            Keyboard._PressedKeys[(int)Key.APP1] = false;
+                            break;
+                        case SDL_Keycode.SDLK_APP2:
+                            Keyboard._PressedKeys[(int)Key.APP2] = false;
+                            break;
+                        case SDL_Keycode.SDLK_AUDIOREWIND:
+                            Keyboard._PressedKeys[(int)Key.AUDIOREWIND] = false;
+                            break;
+                        case SDL_Keycode.SDLK_AUDIOFASTFORWARD:
+                            Keyboard._PressedKeys[(int)Key.AUDIOFASTFORWARD] = false;
+                            break;
+                    }
+                break;
             }
         }
     }
