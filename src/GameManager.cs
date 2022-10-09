@@ -30,10 +30,21 @@ public static class Game {
 
     public static List<string> Log = new List<string>();
     
+    public struct Config
+    {
+        public SDL_WindowFlags flags = 0;
+        public bool AntiAliasing = false;
+
+        public Config()
+        {
+
+        }
+    }
+    
     static Game()
     {
         // FOR DEBUG CHANGE ON RELEASE DUMMY. YOU WILL FORGET. CHANGE ON RELEASE awlkfjaewlkfjawlkfjawlkifj
-        if (OS.GetOS() == OS.Platform.Windows)
+        if (OS.GetPlatform() == OS.Platform.Windows)
             ExecutablePath = String.Join("\\", System.Reflection.Assembly.GetEntryAssembly().Location.Split("\\").ToList().GetRange(0, System.Reflection.Assembly.GetEntryAssembly().Location.Split("\\").ToList().Count - 4));
         else
             ExecutablePath = String.Join("/", System.Reflection.Assembly.GetEntryAssembly().Location.Split("/").ToList().GetRange(0, System.Reflection.Assembly.GetEntryAssembly().Location.Split("/").ToList().Count - 4));
@@ -70,18 +81,21 @@ public static class Game {
         System.Environment.Exit(0);
     }
 
-    public static void Init(string Title, Vector2 Size, SDL_WindowFlags Flags=0) {
+    public static void Init(string Title, Vector2 Size, Config config) {
         
         SDL_Init(SDL_INIT_EVERYTHING);
-        // SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
 
         Debug.SendInternal("SDL Initialized");
 
-        Window = SDL_CreateWindow(Title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, (int)Size.X, (int)Size.Y, Flags);
+        Window = SDL_CreateWindow(Title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, (int)Size.X, (int)Size.Y, config.flags);
         TTF_Init();
-        SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_MULTISAMPLEBUFFERS, 1);
-        SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_MULTISAMPLESAMPLES, 4);
-        SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
+
+        if (config.AntiAliasing)
+        {
+            SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_MULTISAMPLEBUFFERS, 1);
+            SDL_GL_SetAttribute(SDL_GLattr.SDL_GL_MULTISAMPLESAMPLES, 4);
+            SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "2");
+        }
 
         Debug.SendInternal("Window Created");
 
@@ -101,11 +115,18 @@ public static class Game {
 
         List<float> frames = new List<float>();
 
+        Time.LastRender = SDL_GetTicks();
+
         while(_isRunning) {
             var start = SDL_GetPerformanceCounter();
 
             EventHandler.PollEvents();
-            Update();
+
+            if (SDL_GetTicks() - Time.LastRender > 1000 / 60)
+            {
+                Update();
+                Time.LastRender = SDL_GetTicks();
+            }
             Render();
 
             var end = SDL_GetPerformanceCounter();
@@ -115,7 +136,15 @@ public static class Game {
 
             Keyboard._LastFramePressedKeys = (bool[])Keyboard._PressedKeys.Clone();
 
-            // Debug.SendInternal($"FPS: {frames.Average()}");
+            Time.Last = Time.Now;
+            Time.Now = SDL_GetPerformanceCounter();
+
+            Time.DeltaTime = ((double)((Time.Now - Time.Last) * 1000 / (double)SDL_GetPerformanceFrequency()));
+            Time.DeltaTime = Time.DeltaTime > 2000 ? 0 : Time.DeltaTime;
+            //Debug.SendInternal(Time.DeltaTime);
+            //Debug.SendInternal($"FPS: {frames.Average()}");
+
+
         }
     }
 

@@ -8,15 +8,30 @@ using Fjord;
 using Fjord.Modules.Entity;
 
 using static SDL2.SDL;
+using System.Numerics;
 
 namespace Fjord.Modules.Window;
 
 public class Scene {
     internal List<Entity.Entity> EntityList = new ();
+    internal Vector2 Resolution = new Vector2(0, 0);
 
-    public Scene AddEntity(Entity.Entity entity) {
+    public void SetResolution(Vector2 resolution)
+    {
+        Resolution = new Vector2(resolution.X, resolution.Y);
+    }
+    public void SetResolution(int x, int y)
+    {
+        Resolution = new Vector2(x, y);
+    }
+
+    public Vector2 GetResolution()
+    {
+        return Resolution;
+    }
+
+    public void AddEntity(Entity.Entity entity) {
         EntityList.Add(entity);
-        return this;
     }
 
     public virtual void OnAwake() {}
@@ -26,7 +41,8 @@ public class Scene {
     internal void Update() {
         OnUpdate();
 
-        foreach(Entity.Entity e in EntityList) {
+        foreach (Entity.Entity e in EntityList)
+        {
             e.Update();
         }
     }
@@ -35,6 +51,15 @@ public class Scene {
     internal void Render() {
         OnRender();
 
+        List<Entity.Entity> sorted_entities = new List<Entity.Entity>(EntityList);
+        // sorted_entities = entities.OrderBy(e => e.depth).ToList();
+        sorted_entities = sorted_entities.OrderBy(e => e.Depth).ToList();
+
+        foreach (Entity.Entity e in sorted_entities)
+        {
+            e.Render();
+        }
+
         List<dynamic> DrawBuffer = new List<dynamic>(Draw.GetDrawBuffer());
         List<dynamic> SortedDrawBuffer = Draw.GetDrawBuffer().OrderBy(e => e.depth).ToList();
 
@@ -42,15 +67,7 @@ public class Scene {
 
         int? DrawInstructionLastDepth = null;
 
-        List<Entity.Entity> sorted_entities = new List<Entity.Entity>(EntityList);
-        // sorted_entities = entities.OrderBy(e => e.depth).ToList();
-        sorted_entities = sorted_entities.OrderBy(e => e.Depth).ToList();
-
-        foreach(Entity.Entity e in sorted_entities) {
-            e.Render();
-        }
-
-        foreach(var DrawInstruction in SortedDrawBuffer) {
+        foreach (var DrawInstruction in SortedDrawBuffer) {
             if(DrawInstructionLastDepth != DrawInstruction.depth) {
                 DepthTextureArray.Add(DrawInstruction.depth, SDL_CreateTexture(Fjord.Game.Renderer, SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, (int)Fjord.Game.Size.X, (int)Fjord.Game.Size.Y));
                 SDL_SetRenderTarget(Game.Renderer, DepthTextureArray[DrawInstruction.depth]);

@@ -27,12 +27,10 @@ public class Texture : ICloneable {
 
     public Texture SetTexture(string Path) {
         try {
-            //Debug.Debug.Send("D:\\Projects2022\\Coding\\C#\\Fjord_projects\\HalloweenGame\\Assets\\Images\\Player.png");
-            if (OS.GetOS() == OS.Platform.Windows)
+            if (OS.GetPlatform() == OS.Platform.Windows)
                 this._sdl2texture = IMG_LoadTexture(Game.Renderer, $"{Game.ExecutablePath}\\Assets\\Images\\{Path}");
             else
                 this._sdl2texture = IMG_LoadTexture(Game.Renderer, $"{Game.ExecutablePath}/Assets/Images/{Path}");
-            Debug.Debug.Send($"{Game.ExecutablePath}\\Assets\\Images\\{Path}");
         } catch(Exception e) {
             Game.Stop(e);
         }

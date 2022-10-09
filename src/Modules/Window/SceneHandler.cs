@@ -6,6 +6,8 @@ using System;
 using static Fjord.Modules.Debug.Debug;
 using Fjord.Modules.Graphics;
 
+using static SDL2.SDL;
+
 namespace Fjord.Modules.Window;
 
 public static class SceneHandler {
@@ -25,8 +27,12 @@ public static class SceneHandler {
 
         _currentScene = SceneId;
 
-        if(_scenesLoaded > 0)
+        if (_scenesLoaded > 0)
+        {
             _scenes[_currentScene].OnAwake();
+        }
+        SDL_RenderSetLogicalSize(Game.Renderer, (int)_scenes[_currentScene].Resolution.X, (int)_scenes[_currentScene].Resolution.Y);
+
 
         _scenesLoaded ++;
     }

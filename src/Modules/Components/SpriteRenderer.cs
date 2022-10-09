@@ -19,9 +19,8 @@ namespace Fjord.Modules.Components
 
         public override void OnRender()
         {
-            Debug.Debug.Send("Sprite Renderer");
             if(Visible)
-                Draw.Texture(_Texture, Get<Transform>().Position);
+                Draw.Texture(Get<Transform>().Position, _Texture);
         }
 
         public override void OnSleep()

@@ -59,8 +59,6 @@ public sealed class Entity
         if(Components.Contains(component.GetType()))
             Debug.Debug.Error("Component already exists in entity!");
 
-        Debug.Debug.Send("Used Component");
-
         try {
             component.SetParent(this);
             component.Awake();

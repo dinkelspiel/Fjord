@@ -17,7 +17,7 @@ namespace Fjord.Modules.Misc
             Unknown
         }
 
-        public static Platform GetOS()
+        public static Platform GetPlatform()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 return Platform.Windows;

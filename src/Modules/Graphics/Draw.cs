@@ -221,7 +221,7 @@ public static class Draw {
             circleRGBA(Game.Renderer, (short)(!drawGUI ? position.X - Camera.Position.X : position.X), (short)(!drawGUI ? position.Y - Camera.Position.Y : position.Y), (short)radius, (byte)color.X, (byte)color.Y, (byte)color.Z, (byte)color.W);
         }
     }
-    public static void Texture(Texture texture, Vector2 position, int depth = 0)
+    public static void Texture(Vector2 position, Texture texture, int depth = 0)
     {
         if(!DrawGUI)
             _drawBuffer.Add(new DrawBufferTextureInstruction()
@@ -314,7 +314,7 @@ public static class Draw {
 
     internal static void LoadFont(string fontID) {
         string path;
-        if (OS.GetOS() == OS.Platform.Windows)
+        if (OS.GetPlatform() == OS.Platform.Windows)
             path = $"{Game.ExecutablePath}\\Assets\\Fonts\\{fontID}.ttf";
         else
             path = $"{Game.ExecutablePath}/Assets/Fonts/{fontID}.ttf";
@@ -349,7 +349,7 @@ public static class Draw {
                 
             if(!_fonts.ContainsKey(fontID)) {
                 string path;
-                if (OS.GetOS() == OS.Platform.Windows)
+                if (OS.GetPlatform() == OS.Platform.Windows)
                     path = $"{Game.ExecutablePath}\\Assets\\Fonts\\{fontID}.ttf";
                 else
                     path = $"{Game.ExecutablePath}/Assets/Fonts/{fontID}.ttf";
@@ -379,7 +379,7 @@ public static class Draw {
             
         if(!_fonts.ContainsKey(fontID)) {
             string path;
-            if (OS.GetOS() == OS.Platform.Windows)
+            if (OS.GetPlatform() == OS.Platform.Windows)
                 path = $"{Game.ExecutablePath}\\Assets\\Fonts\\{fontID}.ttf";
             else
                 path = $"{Game.ExecutablePath}/Assets/Fonts/{fontID}.ttf";
