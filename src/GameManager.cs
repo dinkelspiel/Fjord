@@ -144,7 +144,8 @@ public static class Game {
             //Debug.SendInternal(Time.DeltaTime);
             //Debug.SendInternal($"FPS: {frames.Average()}");
 
-
+            Mouse.LeftMouseButtonLast = Mouse.LeftMouseButton;
+            Mouse.RightMouseButtonLast = Mouse.RightMouseButton;
         }
     }
 
@@ -156,7 +157,8 @@ public static class Game {
         // SDL_SetRenderTarget(Renderer, RenderTexture);
         SDL_RenderClear(Renderer);
         SDL_Rect _backgroundRect = new SDL_Rect(0, 0, (int)Size.X, (int)Size.Y);
-        SDL_SetRenderDrawColor(Game.Renderer, 0, 0, 0, 0);
+        Vector4 _backgroundColor = SceneHandler.GetCurrentScene().GetBackground();
+        SDL_SetRenderDrawColor(Game.Renderer, (byte)_backgroundColor.X, (byte)_backgroundColor.Y, (byte)_backgroundColor.Z, (byte)_backgroundColor.W);
         SDL_RenderFillRect(Game.Renderer, ref _backgroundRect);
         SDL_SetRenderDrawBlendMode(Game.Renderer, SDL_BlendMode.SDL_BLENDMODE_BLEND);
 

@@ -14,7 +14,8 @@ namespace Fjord.Modules.Window;
 
 public class Scene {
     internal List<Entity.Entity> EntityList = new ();
-    internal Vector2 Resolution = new Vector2(0, 0);
+    internal Vector2 Resolution = new Vector2();
+    internal Vector4 BackgroundColor = new Vector4();
 
     public void SetResolution(Vector2 resolution)
     {
@@ -30,6 +31,21 @@ public class Scene {
         return Resolution;
     }
 
+    public void SetBackground(int r, int g, int b, int a)
+    {
+        BackgroundColor = new Vector4(r, g, b, a);
+    }
+
+    public void SetBackground(Vector4 backgroundcolor)
+    {
+        BackgroundColor = backgroundcolor;
+    }
+
+    public Vector4 GetBackground()
+    {
+        return BackgroundColor;
+    }
+
     public void AddEntity(Entity.Entity entity) {
         EntityList.Add(entity);
     }
@@ -41,7 +57,8 @@ public class Scene {
     internal void Update() {
         OnUpdate();
 
-        foreach (Entity.Entity e in EntityList)
+        List<Entity.Entity> _entityList = new(EntityList);
+        foreach (Entity.Entity e in _entityList)
         {
             e.Update();
         }

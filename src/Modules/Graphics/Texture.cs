@@ -112,6 +112,18 @@ public class Texture : ICloneable {
         return this;
     } 
 
+    public Texture SetOrigin(int x, int y)
+    {
+        this._origin = new Vector2(x, y);
+        return this;
+    }
+
+    public Texture SetOrigin(Vector2 origin)
+    {
+        this._origin = origin;
+        return this;
+    }
+
     public Vector2 GetOrigin() {
         return _origin;
     }

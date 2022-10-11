@@ -33,7 +33,6 @@ public static class SceneHandler {
         }
         SDL_RenderSetLogicalSize(Game.Renderer, (int)_scenes[_currentScene].Resolution.X, (int)_scenes[_currentScene].Resolution.Y);
 
-
         _scenesLoaded ++;
     }
 
@@ -73,5 +72,14 @@ public static class SceneHandler {
     public static void Stop() {
         if(_currentScene != null)   
             _scenes[_currentScene].OnSleep();
+    }
+    public static Scene GetCurrentScene()
+    {
+        return _scenes[_currentScene];
+    }
+
+    public static string GetCurrentSceneID()
+    {
+        return _currentScene;
     }
 }

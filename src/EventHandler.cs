@@ -1,15 +1,70 @@
 using static SDL2.SDL;
 using Fjord.Modules.Input;
+using Fjord.Modules.Window;
 
 namespace Fjord;
 
 internal static class EventHandler {
     public static void PollEvents() {
+        Mouse.MouseWheelDown = false;
+        Mouse.MouseWheelUp = false;
+
         while (SDL_PollEvent(out SDL_Event events) != 0) {
             switch(events.type) {
             case SDL_EventType.SDL_QUIT:
                 Game.Stop();
-                break;    
+                break;
+
+            case SDL_EventType.SDL_MOUSEMOTION:
+                int screenX = 0;
+                int screenY = 0;
+                SDL_GetMouseState(out screenX, out screenY);
+                Mouse.ScreenPosition = new System.Numerics.Vector2(screenX, screenY);
+                double windowResolution = Game.Size.X;
+                double gameResolution = SceneHandler.GetCurrentScene().GetResolution().X;
+                double offset = windowResolution / gameResolution;
+                Mouse.GameScreenPosition.X = (int)(Mouse.ScreenPosition.X / offset);
+                Mouse.GameScreenPosition.Y = (int)(Mouse.ScreenPosition.Y / offset);
+
+                Mouse.GameLocalPosition.X = Mouse.GameScreenPosition.X - Camera.Position.X;
+                Mouse.GameLocalPosition.Y = Mouse.GameScreenPosition.Y - Camera.Position.Y;
+
+                break;
+
+            case SDL_EventType.SDL_MOUSEBUTTONDOWN:
+                if (events.button.button == SDL_BUTTON_LEFT)
+                {
+                    Mouse.LeftMouseButton = true;
+                }
+                if (events.button.button == SDL_BUTTON_RIGHT)
+                {
+                    Mouse.RightMouseButton = true;
+                }
+                break;
+            case SDL_EventType.SDL_MOUSEBUTTONUP:
+                if (events.button.button == SDL_BUTTON_LEFT)
+                {
+                    Mouse.LeftMouseButton = false;
+                }
+                if (events.button.button == SDL_BUTTON_RIGHT)
+                {
+                    Mouse.RightMouseButton = false;
+                }
+                break;
+            case SDL_EventType.SDL_MOUSEWHEEL:
+                if (events.wheel.y > 0)
+                { // scroll up
+                    Mouse.MouseWheelUp = true;
+                    Mouse.MouseWheelDown = false;
+                }
+                else if (events.wheel.y < 0)
+                { // scroll down
+                    Mouse.MouseWheelDown = true;
+                    Mouse.MouseWheelUp = false;
+                }
+                break;
+
+
             case SDL_EventType.SDL_KEYDOWN:
                 switch(events.key.keysym.sym) {
                 case SDL_Keycode.SDLK_UNKNOWN:

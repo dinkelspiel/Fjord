@@ -9,7 +9,7 @@ namespace Fjord.Modules.Entity;
 public sealed class Entity
 {
     internal List<dynamic> Components = new List<dynamic>();
-    public Scene Parent;
+    public dynamic Parent;
     public int Depth = 0;
 
     public Entity(Scene parent) {
@@ -21,6 +21,11 @@ public sealed class Entity
         entity.Use(new Transform(entity))
               .Use(new SpriteRenderer(entity, texture)); 
         return entity;
+    }
+
+    public void Destroy()
+    {
+        this.Parent.EntityList.Remove(this);
     }
 
     public void SetParent(Scene parent) {

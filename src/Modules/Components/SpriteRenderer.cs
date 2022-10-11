@@ -6,11 +6,16 @@ namespace Fjord.Modules.Components
     public class SpriteRenderer : Component
     {
         private bool Visible = true;
-        private Texture _Texture;
+        public Texture Texture;
 
         public SpriteRenderer(Entity.Entity parent, Texture texture) : base(parent) {
-            this._Texture = texture;
-        } 
+            this.Texture = texture;
+        }
+
+        public void SetTexture(Texture texture)
+        {
+            this.Texture = texture;
+        }
 
         public override void OnAwake()
         {
@@ -20,7 +25,7 @@ namespace Fjord.Modules.Components
         public override void OnRender()
         {
             if(Visible)
-                Draw.Texture(Get<Transform>().Position, _Texture);
+                Draw.Texture(Get<Transform>().Position, Texture);
         }
 
         public override void OnSleep()
@@ -30,8 +35,8 @@ namespace Fjord.Modules.Components
 
         public override void OnUpdate()
         {
-            _Texture.SetScale(Get<Transform>().Scale);
-            _Texture.SetAngle((int)Get<Transform>().Rotation);
+            Texture.SetScale(Get<Transform>().Scale);
+            Texture.SetAngle((int)Get<Transform>().Rotation);
         }
     }
 }

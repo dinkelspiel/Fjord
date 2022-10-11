@@ -39,7 +39,7 @@ public abstract class Component
         return Parent.Get<T>();
     }
 
-    public dynamic GetParent() {
+    public Entity GetParent() {
         return Parent;
     }
 }
