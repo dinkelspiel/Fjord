@@ -5,6 +5,7 @@ using static SDL2.SDL;
 using static SDL2.SDL_image;
 
 using Fjord.Modules.Misc;
+using HalloweenGame.Fjord.src.Modules.Misc;
 
 namespace Fjord.Modules.Graphics;
 
@@ -27,10 +28,7 @@ public class Texture : ICloneable {
 
     public Texture SetTexture(string Path) {
         try {
-            if (OS.GetPlatform() == OS.Platform.Windows)
-                this._sdl2texture = IMG_LoadTexture(Game.Renderer, $"{Game.ExecutablePath}\\Assets\\Images\\{Path}");
-            else
-                this._sdl2texture = IMG_LoadTexture(Game.Renderer, $"{Game.ExecutablePath}/Assets/Images/{Path}");
+            this._sdl2texture = IMG_LoadTexture(Game.Renderer, $"{Game.ExecutablePath}\\Assets\\Images\\{Path}".OSPath());
         } catch(Exception e) {
             Game.Stop(e);
         }
@@ -146,6 +144,49 @@ public class Texture : ICloneable {
         return _angle;
     }
 
+    public object Clone()
+    {
+        return this.MemberwiseClone();
+    }
+}
+
+class Animation : ICloneable
+{
+    private Texture[] _textures;
+    private int _frame = 0;
+
+    public Animation(Texture[] textures)
+    {
+        _textures = textures;
+    }
+
+    public static Animation LoadAnimation(string animation)
+    {
+        Texture[] textures = new Texture[File.ReadAllLines($"{Game.ExecutablePath}\\Assets\\Images\\{animation}.anim".OSPath()).Length];
+        int i = 0;
+        foreach (string line in File.ReadAllLines($"{Game.ExecutablePath}\\Assets\\Images\\{animation}.anim".OSPath()))
+        {
+            textures[i] = new Texture(line);
+            i++;
+        }
+        Animation anim = new(textures);
+        return anim;
+    }
+
+    public void Next()
+    {
+        _frame++;
+        if (_frame > _textures.Length - 1)
+        {
+            _frame = 0;
+        }
+    }
+
+    public Texture Get()
+    {
+        return _textures[_frame];
+    }
+    
     public object Clone()
     {
         return this.MemberwiseClone();
