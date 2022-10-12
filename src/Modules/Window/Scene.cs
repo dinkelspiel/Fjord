@@ -46,7 +46,7 @@ public class Scene {
         return BackgroundColor;
     }
 
-    public void AddEntity(Entity.Entity entity) {
+    public void Spawn(Entity.Entity entity) {
         EntityList.Add(entity);
     }
 
