@@ -6,6 +6,8 @@ using Fjord.Modules.Window;
 
 namespace Fjord.Modules.Entity;
 
+class NoComponentException : Exception { }
+
 public sealed class Entity
 {
     internal List<dynamic> Components = new List<dynamic>();
@@ -33,8 +35,8 @@ public sealed class Entity
     }
 
     public T Get<T>() {
-        if(this.Components.OfType<T>().Count<T>() == 0) 
-            Debug.Debug.Error("Component doesn't exist in Entity!");
+        if (this.Components.OfType<T>().Count<T>() == 0)
+            throw new NoComponentException();
 
         return this.Components.OfType<T>().First();
     }
@@ -69,6 +71,7 @@ public sealed class Entity
             component.Awake();
             Components.Add(component);
         } catch(System.Exception e) {
+            Debug.Debug.Error(e.Message);
             Debug.Debug.Error("-- Use Component Error --");
             Game.Stop(e);
         }
