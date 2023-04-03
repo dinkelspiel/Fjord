@@ -2,9 +2,10 @@ using System.Numerics;
 using static SDL2.SDL;
 using static SDL2.SDL_ttf;
 using Fjord.Input;
-using Fjord.Debug;
+using Fjord.Graphics;
+using Fjord.Scenes;
 
-namespace ShooterThingy;
+namespace Fjord;
 
 public class Window
 {

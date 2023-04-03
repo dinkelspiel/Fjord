@@ -1,9 +1,9 @@
-using Fjord.Debug;
 using Fjord.Input;
 using System.Numerics;
+using Fjord.Graphics;
 using static SDL2.SDL;
 
-namespace ShooterThingy;
+namespace Fjord.Scenes;
 
 public abstract class Scene : ICloneable
 {

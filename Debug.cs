@@ -1,8 +1,10 @@
 using ShooterThingy;
 using System.Numerics;
+using Fjord.Graphics;
+using Fjord.Scenes;
 using static SDL2.SDL;
 
-namespace Fjord.Debug;
+namespace Fjord.Scenes;
 
 public static class Debug {
 

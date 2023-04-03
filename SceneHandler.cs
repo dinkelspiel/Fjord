@@ -1,4 +1,4 @@
-namespace ShooterThingy;
+namespace Fjord.Scenes;
 
 public static class SceneHandler
 {

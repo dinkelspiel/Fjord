@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static SDL2.SDL;
 
-namespace ShooterThingy
+namespace Fjord
 {
     internal static class EventHandler
     {

@@ -3,7 +3,7 @@ using SDL2;
 using static SDL2.SDL_ttf;
 using static SDL2.SDL;
 
-namespace ShooterThingy;
+namespace Fjord.Graphics;
 
 public static class Font
 {

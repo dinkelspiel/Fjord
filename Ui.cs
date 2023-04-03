@@ -6,7 +6,7 @@ using SDL2;
 using static SDL2.SDL;
 using static SDL2.SDL_gfx;
 
-namespace ShooterThingy;
+namespace Fjord.Graphics;
 
 public static class Ui
 {

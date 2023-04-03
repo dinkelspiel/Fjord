@@ -1,7 +1,7 @@
 using System.Numerics;
 using static SDL2.SDL;
 
-namespace ShooterThingy;
+namespace Fjord;
 
 public static class Helpers
 {
