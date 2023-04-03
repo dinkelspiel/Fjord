@@ -167,6 +167,46 @@ public static class Ui
 
                 yOffset += 5;
             }
+            else if (componentObj.GetType() == typeof(UiCheckbox))
+            {
+                UiCheckbox component = (UiCheckbox)componentObj;
+
+                SDL_Rect rect = new SDL_Rect()
+                {
+                    x = (int)(indent * 10 + UiRenderOffset.X),
+                    y = (int)(yOffset + UiRenderOffset.Y),
+                    w = 20,
+                    h = 20
+                };
+                
+                if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, rect))
+                {
+                    SDL_SetRenderDrawColor(Game.SDLRenderer, 52, 97, 152, 255);
+                    if (Mouse.Down)
+                    {
+                        SDL_SetRenderDrawColor(Game.SDLRenderer, 65, 121, 190, 255);
+                    }
+                } 
+                else if (component.value)
+                {
+                    SDL_SetRenderDrawColor(Game.SDLRenderer, 55, 118, 185, 255);
+                }
+                else
+                {
+                    SDL_SetRenderDrawColor(Game.SDLRenderer, 39, 73, 114, 255);
+                }
+
+                if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, rect) && Mouse.Pressed)
+                {
+                    component.callback();
+                }
+
+                SDL_RenderFillRect(Game.SDLRenderer, ref rect);
+
+                Font.Draw(new Vector2(indent * 10 + UiRenderOffset.X + 25, yOffset + UiRenderOffset.Y), Font.DefaultFont, component.text, 16, new SDL_Color() {r = 255, g = 255, b = 255, a = 255});
+                
+                yOffset += 25;
+            }
             else if (componentObj.GetType() == typeof(List<object>))
             {
                 Render((List<object>)componentObj, ref yOffset, indent + 1);
@@ -192,6 +232,20 @@ public class UiButton : UiComponent
     public UiButton(string text, Action callback)
     {
         this.text = text;
+        this.callback = callback;
+    }
+}
+
+public class UiCheckbox : UiComponent
+{
+    public string text;
+    public bool value;
+    public Action callback;
+
+    public UiCheckbox(string text, bool value, Action callback)
+    {
+        this.text = text;
+        this.value = value;
         this.callback = callback;
     }
 }
@@ -308,6 +362,12 @@ public class UiBuilder
     public UiBuilder Spacer()
     {
         UiComponents.Add(new UiSpacer());
+        return this;
+    }
+
+    public UiBuilder Checkbox(string text, bool value, Action callback)
+    {
+        UiComponents.Add(new UiCheckbox(text, value, callback));
         return this;
     }
 

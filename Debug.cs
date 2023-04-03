@@ -56,10 +56,10 @@ public class DebugScene : Scene
                                 new UiTitle(val.Key),
                                 new UiButton("Load", () => SceneHandler.Load(val.Key)),
                                 new UiButton("Unload", () => SceneHandler.Unload(val.Key)),
-                                new UiButton("Remake", () => SceneHandler.Remake(val.Key)),
+                                new UiButton("Remake", () => SceneHandler.Remake(val.Key))
                         };
 
-                        if (idx != SceneHandler.LoadedScenes.Count - 1)
+                        if (idx != SceneHandler.Scenes.ToList().Count - 1)
                         {
                             list.Add(new UiSpacer());
                         }
