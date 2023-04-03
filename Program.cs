@@ -20,49 +20,50 @@ class MainScene : Scene
     {
         if (Keyboard.PressedExt(Key.D).With(Mod.LShift, Mod.LCtrl))
         {
-            Debug.SetDebugMode(!Debug.GetDebugMode());
+            SceneHandler.Load("debug");
         }
     }
     
     public override void Render()
     {
-        SDL_FRect rect = new SDL_FRect()
-        {
-            x = LocalMousePosition.X,
-            y = LocalMousePosition.Y,
-            w = 20,
-            h = 20
-        };
+        //SDL_FRect rect = new SDL_FRect()
+        //{
+        //    x = LocalMousePosition.X,
+        //    y = LocalMousePosition.Y,
+        //    w = 20,
+        //    h = 20
+        //};
 
-        // SDL_SetRenderDrawColor(Game.SDLRenderer, 255, 255, 255, 255);
-        // SDL_RenderFillRectF(Game.SDLRenderer, ref rect);
-        // SDL_SetRenderDrawColor(Game.SDLRenderer, 0, 0, 0, 255);
+        //// SDL_SetRenderDrawColor(Game.SDLRenderer, 255, 255, 255, 255);
+        //// SDL_RenderFillRectF(Game.SDLRenderer, ref rect);
+        //// SDL_SetRenderDrawColor(Game.SDLRenderer, 0, 0, 0, 255);
 
-        Font.Draw(LocalMousePosition + new Vector2(-50, -50), Font.DefaultFont, LocalMousePosition.X.ToString(), 24, new SDL_Color() {
-            r = 255, g = 255, b = 255, a = 255
-        });
+        //Font.Draw(LocalMousePosition + new Vector2(-50, -50), Font.DefaultFont, LocalMousePosition.X.ToString(), 24, new SDL_Color() {
+        //    r = 255, g = 255, b = 255, a = 255
+        //});
 
-        Font.Draw(LocalMousePosition + new Vector2(-50, -20), Font.DefaultFont, LocalMousePosition.Y.ToString(), 24, new SDL_Color() {
-            r = 255, g = 255, b = 255, a = 255
-        });
+        //Font.Draw(LocalMousePosition + new Vector2(-50, -20), Font.DefaultFont, LocalMousePosition.Y.ToString(), 24, new SDL_Color() {
+        //    r = 255, g = 255, b = 255, a = 255
+        //});
 
-        new UiBuilder(new Vector2(200, 200), LocalMousePosition)
-            .Title("Test Ui")
-            .Button("Render")
-            .Button("Update")
-            .Container(
-                new UiBuilder()
-                    .Title("Entities")
-                    .Button("Spawn")
-                    .Button("Kill")
-                    .Build()
-            )
-            .Button("Dilla")
-            .Render();
+        //new UiBuilder(new Vector2(200, 200), LocalMousePosition)
+        //    .Title("Test Ui")
+        //    .Button("Render")
+        //    .Button("Update")
+        //    .Container(
+        //        new UiBuilder()
+        //            .Title("Entities")
+        //            .Button("Spawn")
+        //            .Button("Kill")
+        //            .Build()
+        //    )
+        //    .Button("Dilla")
+        //    .Render();
 
         //Font.Draw(new Vector2(10, 10), Font.GetDefaultFont(), "Hello", 32, new() { r = 0, g = 0, b = 0, a = 255 });
     }
 }
+
 class Program
 {
     static void Main(string[] args)

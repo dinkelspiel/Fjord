@@ -1,10 +1,11 @@
+using Fjord.Debug;
 using Fjord.Input;
 using System.Numerics;
 using static SDL2.SDL;
 
 namespace ShooterThingy;
 
-public abstract class Scene
+public abstract class Scene : ICloneable
 {
     private bool AllowWindowResize = true;
     private bool AlwaysRebuildTexture = false;
@@ -153,5 +154,10 @@ public abstract class Scene
         {
             Ui.ResizeableRectangle(ref RelativeWindowSize);
         }
+    }
+
+    public object Clone()
+    {
+        return this.MemberwiseClone();
     }
 }

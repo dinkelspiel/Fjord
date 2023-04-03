@@ -3,6 +3,7 @@ using static SDL2.SDL;
 using static SDL2.SDL_ttf;
 using ImGuiNET;
 using Fjord.Input;
+using Fjord.Debug;
 
 namespace ShooterThingy;
 
@@ -40,8 +41,11 @@ public static class Game
             Width = width,
             Height = height
         };
+
+        SDL_SetRenderDrawBlendMode(SDLRenderer, SDL_BlendMode.SDL_BLENDMODE_BLEND);
         
         Font.Initialize();
+        Debug.Initialize();
     }
 
     public static void Stop()
@@ -68,8 +72,8 @@ public static class Game
     public static void Update()
     {
         SDL_GetWindowSize(SDLWindow, out Window.Width, out Window.Height);
-        
-        foreach (string id in SceneHandler.LoadedScenes)
+
+        foreach (string id in SceneHandler.GetLoadedScenes())
         {
             SceneHandler.Scenes[id].UpdateCall();
         }
@@ -82,7 +86,7 @@ public static class Game
 
         List<string> Unload = new();
 
-        foreach (string id in SceneHandler.LoadedScenes)
+        foreach (string id in SceneHandler.GetLoadedScenes())
         {
             SceneHandler.Scenes[id].RenderCall();
 
@@ -101,37 +105,6 @@ public static class Game
         foreach (string id in Unload)
         {
             SceneHandler.Unload(id);
-        }
-
-        if (Debug.GetDebugMode())
-        {
-            new UiBuilder(new Vector4((int)(Game.Window.Width * 0.8), 0, (int)(Game.Window.Width * 0.2), (int)Game.Window.Height))
-                .Title("Debug")
-                .Container(
-                    new UiBuilder()
-                        .Title("Unloaded Scenes")
-                        .ForEach(SceneHandler.Scenes.ToList().Where((v) => !SceneHandler.LoadedScenes.Contains(v.Key)).ToList(), (val) =>
-                        {
-                            return new List<object>() {
-                                new UiTitle(val.Key) ,
-                                new UiButton("Load", () => SceneHandler.Load(val.Key)),
-                            };   
-                        })
-                        .Title("Loaded Scenes")
-                        .ForEach(SceneHandler.LoadedScenes, (scene) =>
-                        {
-                            return new List<object>()
-                            {
-                                new UiTitle(scene),
-                                new UiButton("Unload", () =>
-                                {
-                                    SceneHandler.Unload(scene);
-                                })
-                            };
-                        })
-                        .Build()
-                )
-                .Render();
         }
 
         Keyboard.pressedKeys = new();

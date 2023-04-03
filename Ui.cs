@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
 using Fjord.Input;
@@ -150,6 +151,22 @@ public static class Ui
                 Vector2 size = Font.DrawSize(Font.GetDefaultFont(), component.text, 18, new() { r = 0, g = 0, b = 0, a = 255 });
                 yOffset += size.Y + 5;
             }
+            else if(componentObj.GetType() == typeof(UiSpacer))
+            {
+                SDL_SetRenderDrawColor(Game.SDLRenderer, 200, 200, 200, 255);
+
+                SDL_Rect spacerRect = new()
+                {
+                    x = (int)(indent * 10 + UiRenderOffset.X), 
+                    y = (int)(yOffset + UiRenderOffset.Y),
+                    w = 200,
+                    h = 1
+                };
+
+                SDL_RenderFillRect(Game.SDLRenderer, ref spacerRect);
+
+                yOffset += 5;
+            }
             else if (componentObj.GetType() == typeof(List<object>))
             {
                 Render((List<object>)componentObj, ref yOffset, indent + 1);
@@ -187,6 +204,11 @@ public class UiTitle : UiComponent
     {
         this.text = text;
     }
+}
+
+public class UiSpacer : UiComponent
+{
+
 }
 
 
@@ -256,6 +278,12 @@ public class UiBuilder
             UiComponents.Add(callback(obj));
         }
 
+        return this;
+    }
+
+    public UiBuilder Spacer()
+    {
+        UiComponents.Add(new UiSpacer());
         return this;
     }
 

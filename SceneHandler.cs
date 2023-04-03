@@ -3,11 +3,18 @@ namespace ShooterThingy;
 public static class SceneHandler
 {
     internal static Dictionary<string, Scene> Scenes = new ();
+    internal static Dictionary<string, Scene> OriginalScenes = new ();
     internal static List<string> LoadedScenes = new();
     
+    public static List<string> GetLoadedScenes()
+    {
+        return new List<string>(LoadedScenes);
+    }
+
     public static void Register(string id, Scene scene)
     {
-        Scenes.Add(id, scene);
+        Scenes.Add(id, (Scene)scene.Clone());
+        OriginalScenes.Add(id, (Scene)scene.Clone());
     }
 
     public static void Load(string id)
@@ -26,5 +33,11 @@ public static class SceneHandler
             Scenes[id].SleepCall();
             LoadedScenes.Remove(id);
         }
+    }
+
+    public static void Remake(string id)
+    {
+        Scenes[id] = (Scene)OriginalScenes[id].Clone();
+        Scenes[id].Awake();
     }
 }
