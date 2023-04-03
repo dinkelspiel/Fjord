@@ -109,14 +109,25 @@ public static class Game
                 .Title("Debug")
                 .Container(
                     new UiBuilder()
-                        .Title("Scenes")
-                        .ForEach(SceneHandler.Scenes.ToList(), (val) =>
+                        .Title("Unloaded Scenes")
+                        .ForEach(SceneHandler.Scenes.ToList().Where((v) => !SceneHandler.LoadedScenes.Contains(v.Key)).ToList(), (val) =>
                         {
                             return new List<object>() {
                                 new UiTitle(val.Key) ,
                                 new UiButton("Load", () => SceneHandler.Load(val.Key)),
-                                new UiButton("Unload", () => SceneHandler.Unload(val.Key)) 
                             };   
+                        })
+                        .Title("Loaded Scenes")
+                        .ForEach(SceneHandler.LoadedScenes, (scene) =>
+                        {
+                            return new List<object>()
+                            {
+                                new UiTitle(scene),
+                                new UiButton("Unload", () =>
+                                {
+                                    SceneHandler.Unload(scene);
+                                })
+                            };
                         })
                         .Build()
                 )

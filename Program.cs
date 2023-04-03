@@ -34,9 +34,17 @@ class MainScene : Scene
             h = 20
         };
 
-        SDL_SetRenderDrawColor(Game.SDLRenderer, 255, 255, 255, 255);
-        SDL_RenderFillRectF(Game.SDLRenderer, ref rect);
-        SDL_SetRenderDrawColor(Game.SDLRenderer, 0, 0, 0, 255);
+        // SDL_SetRenderDrawColor(Game.SDLRenderer, 255, 255, 255, 255);
+        // SDL_RenderFillRectF(Game.SDLRenderer, ref rect);
+        // SDL_SetRenderDrawColor(Game.SDLRenderer, 0, 0, 0, 255);
+
+        Font.Draw(LocalMousePosition + new Vector2(-50, -50), Font.DefaultFont, LocalMousePosition.X.ToString(), 24, new SDL_Color() {
+            r = 255, g = 255, b = 255, a = 255
+        });
+
+        Font.Draw(LocalMousePosition + new Vector2(-50, -20), Font.DefaultFont, LocalMousePosition.Y.ToString(), 24, new SDL_Color() {
+            r = 255, g = 255, b = 255, a = 255
+        });
 
         new UiBuilder(new Vector2(200, 200), LocalMousePosition)
             .Title("Test Ui")
@@ -66,7 +74,7 @@ class Program
             y = 0f,
             w = 1f,
             h = 1f,
-        }).SetAllowWindowResize(false).SetAlwaysRebuildTexture(false));
+        }).SetAllowWindowResize(true).SetAlwaysRebuildTexture(false));
         SceneHandler.Load("Main");
         
         Game.Run();
