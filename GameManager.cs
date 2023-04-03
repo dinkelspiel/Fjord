@@ -1,7 +1,6 @@
 using System.Numerics;
 using static SDL2.SDL;
 using static SDL2.SDL_ttf;
-using ImGuiNET;
 using Fjord.Input;
 using Fjord.Debug;
 
