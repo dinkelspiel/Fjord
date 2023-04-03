@@ -153,7 +153,7 @@ public static class Ui
             }
             else if(componentObj.GetType() == typeof(UiSpacer))
             {
-                SDL_SetRenderDrawColor(Game.SDLRenderer, 200, 200, 200, 255);
+                SDL_SetRenderDrawColor(Game.SDLRenderer, 50, 50, 50, 255);
 
                 SDL_Rect spacerRect = new()
                 {
@@ -276,6 +276,30 @@ public class UiBuilder
         foreach (T obj in objects)
         {
             UiComponents.Add(callback(obj));
+        }
+
+        return this;
+    }
+    
+    public UiBuilder ForEach<T>(List<T> objects, Func<T, int, UiComponent> callback)
+    {
+        int idx = -1;
+        foreach(T obj in objects)
+        {
+            idx++;
+            UiComponents.Add(callback(obj, idx));
+        }
+
+        return this;
+    }
+
+    public UiBuilder ForEach<T>(List<T> objects, Func<T, int, List<object>> callback)
+    {
+        int idx = -1;
+        foreach (T obj in objects)
+        {
+            idx++;
+            UiComponents.Add(callback(obj, idx));
         }
 
         return this;

@@ -11,10 +11,10 @@ public static class SceneHandler
         return new List<string>(LoadedScenes);
     }
 
-    public static void Register(string id, Scene scene)
+    public static void Register(Scene scene)
     {
-        Scenes.Add(id, (Scene)scene.Clone());
-        OriginalScenes.Add(id, (Scene)scene.Clone());
+        Scenes.Add(scene.GetSceneID(), (Scene)scene.Clone());
+        OriginalScenes.Add(scene.GetSceneID(), (Scene)scene.Clone());
     }
 
     public static void Load(string id)

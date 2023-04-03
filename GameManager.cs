@@ -77,6 +77,11 @@ public static class Game
         {
             SceneHandler.Scenes[id].UpdateCall();
         }
+        
+        if (Keyboard.PressedExt(Key.D).With(Mod.LShift, Mod.LCtrl))
+        {
+            SceneHandler.Load("debug");
+        }
     }
 
     public static void Render(ref bool open)

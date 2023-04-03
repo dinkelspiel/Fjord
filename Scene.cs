@@ -7,8 +7,10 @@ namespace ShooterThingy;
 
 public abstract class Scene : ICloneable
 {
+    private string SceneID;
     private bool AllowWindowResize = true;
     private bool AlwaysRebuildTexture = false;
+    private bool AlwaysAtBack = false;
     public Vector2 LocalMousePosition = new();
     internal SDL_FRect RelativeWindowSize = new()
     {
@@ -52,10 +54,17 @@ public abstract class Scene : ICloneable
         return ClearColor;
     }
 
-    public Scene(int width, int height)
+    public string GetSceneID()
+    {
+        return SceneID;
+    }
+
+    public Scene(int width, int height, string id)
     {
         OriginalWindowSize.X = width;
         OriginalWindowSize.Y = height;
+
+        SceneID = id;
         
         RenderTarget = SDL_CreateTexture(Game.SDLRenderer, SDL_PIXELFORMAT_RGBA8888,
             (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, width, height);
@@ -71,6 +80,17 @@ public abstract class Scene : ICloneable
 
         return this;
     } 
+    
+    public Scene SetRelativeWindowSize(float x, float y, float w, float h) {
+        this.RelativeWindowSize = new SDL_FRect() {
+            x = x,
+            y = y,
+            w = w,
+            h = h
+        };
+
+        return this;
+    } 
 
     public Scene SetAllowWindowResize(bool Debug) {
         this.AllowWindowResize = Debug;
@@ -81,6 +101,13 @@ public abstract class Scene : ICloneable
     public Scene SetAlwaysRebuildTexture(bool Allow)
     {
         this.AlwaysRebuildTexture = Allow;
+
+        return this;
+    }
+
+    public Scene SetAlwaysAtBack(bool Always)
+    {
+        this.AlwaysAtBack = Always;
 
         return this;
     }
@@ -102,20 +129,13 @@ public abstract class Scene : ICloneable
     
     internal void UpdateCall()
     {
-        RelativeWindowSizeFinal = Debug.GetDebugMode() ? new()
-        {
-            x = RelativeWindowSize.x - Debug.DebugWindowOffset.x,
-            y = RelativeWindowSize.y - Debug.DebugWindowOffset.y,
-            w = RelativeWindowSize.w - Debug.DebugWindowOffset.w,
-            h = RelativeWindowSize.h - Debug.DebugWindowOffset.h,
-        } : RelativeWindowSize;
 
         LocalWindowSize = new()
         {
-            x = (int)(RelativeWindowSizeFinal.x * Game.Window.Width),
-            y = (int)(RelativeWindowSizeFinal.y * Game.Window.Height),
-            w = (int)((RelativeWindowSizeFinal.w - RelativeWindowSizeFinal.x) * Game.Window.Width),
-            h = (int)((RelativeWindowSizeFinal.h - RelativeWindowSizeFinal.y) * Game.Window.Height)
+            x = (int)(RelativeWindowSize.x * Game.Window.Width),
+            y = (int)(RelativeWindowSize.y * Game.Window.Height),
+            w = (int)((RelativeWindowSize.w - RelativeWindowSize.x) * Game.Window.Width),
+            h = (int)((RelativeWindowSize.h - RelativeWindowSize.y) * Game.Window.Height)
         };
 
         if (AlwaysRebuildTexture)
@@ -132,6 +152,17 @@ public abstract class Scene : ICloneable
             LocalMousePosition.Y = (Mouse.Position.Y - LocalWindowSize.y) / ((float)LocalWindowSize.h / OriginalWindowSize.Y);
         }
 
+        if (Mouse.Pressed && Helpers.PointInside(Mouse.Position, LocalWindowSize) && !AlwaysAtBack)
+        {
+            SceneHandler.LoadedScenes.Remove(SceneID);
+            SceneHandler.LoadedScenes.Insert(SceneHandler.LoadedScenes.Count, SceneID);
+        }
+
+        if (AlwaysAtBack)
+        {
+            SceneHandler.LoadedScenes.Remove(SceneID);
+            SceneHandler.LoadedScenes.Insert(0, SceneID);
+        }
         
         Update();
     }

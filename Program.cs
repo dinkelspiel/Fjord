@@ -6,7 +6,7 @@ namespace ShooterThingy;
 
 class MainScene : Scene
 {
-    public MainScene(int width, int height) : base(width, height)
+    public MainScene(int width, int height, string id) : base(width, height, id)
     {
         
     }
@@ -18,10 +18,7 @@ class MainScene : Scene
 
     public override void Update()
     {
-        if (Keyboard.PressedExt(Key.D).With(Mod.LShift, Mod.LCtrl))
-        {
-            SceneHandler.Load("debug");
-        }
+        
     }
     
     public override void Render()
@@ -70,12 +67,15 @@ class Program
     {
         Game.Initialize("Shooter", 1920, 1080);
 
-        SceneHandler.Register("Main", new MainScene(1920, 1080).SetRelativeWindowSize(new SDL_FRect() {
+        SceneHandler.Register(new MainScene(1920, 1080, "Main").SetRelativeWindowSize(new SDL_FRect() {
             x = 0f,
             y = 0f,
             w = 1f,
             h = 1f,
-        }).SetAllowWindowResize(true).SetAlwaysRebuildTexture(false));
+        })
+            .SetAllowWindowResize(true)
+            .SetAlwaysRebuildTexture(false)
+            .SetAlwaysAtBack(true));
         SceneHandler.Load("Main");
         
         Game.Run();
