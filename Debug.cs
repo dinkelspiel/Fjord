@@ -74,16 +74,22 @@ public static class Debug {
         List<string> messageSplit = message.ToString().SplitInParts(60).ToList();
         
         StackTrace stackTrace = new StackTrace(); 
+        StackFrame? stackFrame = stackTrace.GetFrame(1);
         int idx = -1;
         foreach(string i in messageSplit) {
             idx++;
-            Logs.Add(new DebugLog() {
-                level = level,
-                time = DateTime.Now.ToString("hh:mm:ss"),
-                sender = stackTrace.GetFrame(1).GetMethod().Name,
-                message = i,
-                hideInfo = idx != 0 ? true : false
-            });
+            if(stackFrame is not null) {
+                System.Reflection.MethodBase? methodBase = stackFrame.GetMethod();
+                if(methodBase is not null) {
+                    Logs.Add(new DebugLog() {
+                        level = level,
+                        time = DateTime.Now.ToString("hh:mm:ss"),
+                        sender = methodBase.Name,
+                        message = i,
+                        hideInfo = idx != 0 ? true : false
+                    });
+                }
+            }
         }
     }
 

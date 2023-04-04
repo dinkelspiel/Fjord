@@ -27,7 +27,7 @@ namespace Fjord
                         Game.Stop();
                         break;
                     case SDL_EventType.SDL_KEYDOWN:
-                        if(FUI.selectedTextField != null) {
+                        if(FUI.selectedTextField != null && FUI.selectedTextFieldValue != null && FUI.selectedTextFieldOnChange != null) {
                             if(e.key.keysym.sym == SDL_Keycode.SDLK_BACKSPACE) {
                                 if(FUI.selectedTextFieldValue.Length > 0)
                                     FUI.selectedTextFieldOnChange(FUI.selectedTextFieldValue.Remove(FUI.selectedTextFieldValue.Length - 1));
@@ -1453,7 +1453,8 @@ namespace Fjord
                             byte[] arr = new byte[1];
                             Marshal.Copy((IntPtr)e.text.text, arr, 0, 1);
                             // Console.WriteLine(FUI.selectedTextFieldValue);
-                            FUI.selectedTextFieldOnChange(FUI.selectedTextFieldValue + Encoding.UTF8.GetString(arr));
+                            if(FUI.selectedTextFieldOnChange != null)
+                                FUI.selectedTextFieldOnChange(FUI.selectedTextFieldValue + Encoding.UTF8.GetString(arr));
                         }
                         break;
                     case SDL_EventType.SDL_TEXTEDITING:

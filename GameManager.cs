@@ -17,7 +17,7 @@ public static class Game
     public static IntPtr SDLWindow;
     public static IntPtr SDLRenderer;
     
-    public static Window Window;
+    public static Window Window = new();
 
     internal static bool Running = true;
 
