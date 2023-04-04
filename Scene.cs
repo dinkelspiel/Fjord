@@ -8,9 +8,9 @@ namespace Fjord.Scenes;
 public abstract class Scene : ICloneable
 {
     private string SceneID;
-    private bool AllowWindowResize = true;
-    private bool AlwaysRebuildTexture = false;
-    private bool AlwaysAtBack = false;
+    public bool AllowWindowResize = false;
+    public bool AlwaysRebuildTexture = false;
+    public bool AlwaysAtBack = false;
     public Vector2 LocalMousePosition = new();
     internal SDL_FRect RelativeWindowSize = new()
     {

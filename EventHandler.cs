@@ -1427,10 +1427,9 @@ namespace Fjord
 
                         break;
                     case SDL_EventType.SDL_MOUSEMOTION:
-                        int _x;
-                        int _y;
-                        SDL_GetMouseState(out _x, out _y);
+                        SDL_GetMouseState(out int _x, out int _y);
                         Mouse.Position = new Vector2(_x, _y);
+                        Mouse.RelativePosition = new Vector2((float)_x / (float)Game.Window.Width, (float)_y / (float)Game.Window.Height);
                         break;
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN:
                         if (!Mouse.Down)

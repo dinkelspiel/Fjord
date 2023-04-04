@@ -80,7 +80,18 @@ public static class Game
         
         if (Keyboard.PressedExt(Key.D).With(Mod.LShift, Mod.LCtrl))
         {
-            SceneHandler.Load("debug");
+            if (!SceneHandler.IsLoaded("inspector"))
+                SceneHandler.Load("inspector");
+            else
+                SceneHandler.Unload("inspector");
+        }
+
+        if (Keyboard.PressedExt(Key.C).With(Mod.LShift, Mod.LCtrl))
+        {
+            if (!SceneHandler.IsLoaded("console"))
+                SceneHandler.Load("console");
+            else
+                SceneHandler.Unload("console");
         }
     }
 
@@ -89,27 +100,25 @@ public static class Game
         SDL_SetRenderDrawColor(SDLRenderer, 0, 0, 0, 255);
         SDL_RenderClear(SDLRenderer);
 
-        List<string> Unload = new();
-
         foreach (string id in SceneHandler.GetLoadedScenes())
         {
             SceneHandler.Scenes[id].RenderCall();
 
-            Ui.Button(
-                new Vector2(
-                    SceneHandler.Scenes[id].LocalWindowSize.x,
-                    SceneHandler.Scenes[id].LocalWindowSize.y - 30
-                ),
-                "Unload",
-                () =>
-                {
-                    Unload.Add(id);
-                });
-        }
+            //Ui.Button(
+            //    new Vector2(
+            //        SceneHandler.Scenes[id].LocalWindowSize.x,
+            //        SceneHandler.Scenes[id].LocalWindowSize.y - 30
+            //    ),
+            //    "Move",
+            //    () =>
+            //    {
+            //        SceneHandler.Scenes[id].RelativeWindowSize.w += (Mouse.RelativePosition.X - 0.02f) - SceneHandler.Scenes[id].RelativeWindowSize.x;
+            //        SceneHandler.Scenes[id].RelativeWindowSize.h -= (Mouse.RelativePosition.Y - 0.02f) - SceneHandler.Scenes[id].RelativeWindowSize.y;
 
-        foreach (string id in Unload)
-        {
-            SceneHandler.Unload(id);
+            //        SceneHandler.Scenes[id].RelativeWindowSize.x = Mouse.RelativePosition.X - 0.02f;
+            //        SceneHandler.Scenes[id].RelativeWindowSize.y = Mouse.RelativePosition.Y + 0.02f;
+
+            //    });
         }
 
         Keyboard.pressedKeys = new();

@@ -40,4 +40,9 @@ public static class SceneHandler
         Scenes[id] = (Scene)OriginalScenes[id].Clone();
         Scenes[id].Awake();
     }
+
+    public static bool IsLoaded(string id)
+    {
+        return LoadedScenes.Contains(id);
+    }
 }
