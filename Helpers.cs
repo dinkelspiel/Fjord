@@ -1,4 +1,5 @@
 using System.Numerics;
+using SDL2;
 using static SDL2.SDL;
 
 namespace Fjord;
@@ -39,4 +40,23 @@ public static class Helpers
             h = (int)rect.h
         };
     }
+
+    public static int SDL_SetRenderDrawColor(IntPtr renderer, SDL.SDL_Color color)
+    {
+        return SDL.SDL_SetRenderDrawColor(renderer, color.r, color.g ,color.b, color.a);
+    }
+}
+
+static class StringExtensions {
+
+  public static IEnumerable<String> SplitInParts(this String s, Int32 partLength) {
+    if (s == null)
+      throw new ArgumentNullException(nameof(s));
+    if (partLength <= 0)
+      throw new ArgumentException("Part length has to be positive.", nameof(partLength));
+
+    for (var i = 0; i < s.Length; i += partLength)
+      yield return s.Substring(i, Math.Min(partLength, s.Length - i));
+  }
+
 }

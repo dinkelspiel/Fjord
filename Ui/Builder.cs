@@ -47,6 +47,12 @@ public class UiBuilder
         return this;
     }
 
+    public UiBuilder Text(string text)
+    {
+        UiComponents.Add(new UiText(text));
+        return this;
+    }
+
     public UiBuilder Container(List<object> components)
     {
         UiComponents.Add(components);
@@ -106,6 +112,12 @@ public class UiBuilder
     public UiBuilder Checkbox(string text, bool value, Action callback)
     {
         UiComponents.Add(new UiCheckbox(text, value, callback));
+        return this;
+    }
+
+    public UiBuilder TextField(string id, string value, Action<string> onChange, string? placeholder=null) 
+    {
+        UiComponents.Add(new UiTextField(id, value, onChange, placeholder));
         return this;
     }
 

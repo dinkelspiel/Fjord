@@ -1,8 +1,10 @@
 ﻿using Fjord.Input;
+using Fjord.Ui;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using static SDL2.SDL;
@@ -21,6 +23,14 @@ namespace Fjord
                         Game.Stop();
                         break;
                     case SDL_EventType.SDL_KEYDOWN:
+                        if(FUI.selectedTextField != null) {
+                            if(e.key.keysym.sym == SDL_Keycode.SDLK_BACKSPACE) {
+                                if(FUI.selectedTextFieldValue.Length > 0)
+                                    FUI.selectedTextFieldOnChange(FUI.selectedTextFieldValue.Remove(FUI.selectedTextFieldValue.Length - 1));
+                            }
+                            break;
+                        }
+                        
                         switch (e.key.keysym.sym)
                         {
                             case SDL_Keycode.SDLK_0:
@@ -725,6 +735,10 @@ namespace Fjord
 
                         break;
                     case SDL_EventType.SDL_KEYUP:
+                        if(FUI.selectedTextField != null) {
+                            break;
+                        }
+
                         switch (e.key.keysym.sym)
                         {
                             case SDL_Keycode.SDLK_0:
@@ -1425,6 +1439,23 @@ namespace Fjord
                                 break;
                         }
 
+                        break;
+                    case SDL_EventType.SDL_TEXTINPUT:
+                        if(FUI.selectedTextField == null) {
+                            break;
+                        }
+
+                        unsafe {
+                            byte[] arr = new byte[1];
+                            Marshal.Copy((IntPtr)e.text.text, arr, 0, 1);
+                            // Console.WriteLine(FUI.selectedTextFieldValue);
+                            FUI.selectedTextFieldOnChange(FUI.selectedTextFieldValue + Encoding.UTF8.GetString(arr));
+                        }
+                        break;
+                    case SDL_EventType.SDL_TEXTEDITING:
+                        if(FUI.selectedTextField == null) {
+                            break;
+                        }
                         break;
                     case SDL_EventType.SDL_MOUSEMOTION:
                         SDL_GetMouseState(out int _x, out int _y);

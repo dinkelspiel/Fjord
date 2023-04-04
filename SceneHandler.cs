@@ -1,3 +1,5 @@
+using Fjord.Ui;
+
 namespace Fjord.Scenes;
 
 public static class SceneHandler
@@ -33,6 +35,7 @@ public static class SceneHandler
             Scenes[id].SleepCall();
             LoadedScenes.Remove(id);
         }
+        FUI.selectedTextField = null;
     }
 
     public static void Remake(string id)

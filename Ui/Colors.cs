@@ -38,6 +38,12 @@ public static class UiColors {
         a = 255
     };
 
+    public static SDL_Color WarningTextColor = new SDL_Color() {
+        r = 255,
+        g = 217,
+        b = 102,
+        a = 255
+    };
     
     public static SDL_Color ContainerHoverColor = new SDL_Color() {
         r = 52,
