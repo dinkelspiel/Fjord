@@ -6,7 +6,24 @@ using static SDL2.SDL;
 
 namespace Fjord.Scenes;
 
+public struct DebugLog
+{
+    public string time;
+    public string sender;
+    public string message;
+    public LogLevel level;
+}
+
+public enum LogLevel
+{
+    Message,
+    Warning,
+    Error,
+}
+
 public static class Debug {
+
+    public static List<DebugLog> Logs = new List<DebugLog>();
 
     public static void Initialize()
     {
@@ -18,6 +35,10 @@ public static class Debug {
             .SetAllowWindowResize(true)
             .SetRelativeWindowSize(0.1f, 0.1f, 0.3f, 0.5f)
             .SetAlwaysRebuildTexture(true));
+
+        Log(LogLevel.Warning, "08:09:39", "Fjord.Ui", "Test");
+        Log(LogLevel.Warning, "08:09:39", "Fjord.Ui", "Test2");
+        Log(LogLevel.Warning, "08:09:39", "Fjord.Ui", "Test3");
     }
 
     public static SDL_FRect DebugWindowOffset = new()
@@ -27,6 +48,17 @@ public static class Debug {
         w = 0.2f,
         h = 0f
     };
+
+    public static void Log(LogLevel level, string time, string sender, string message)
+    {
+        Logs.Add(new DebugLog()
+        {
+            level = level,
+            time = time,
+            sender = sender,
+            message = message
+        });
+    }
 }
 
 public class InspectorScene : Scene
@@ -107,6 +139,10 @@ public class ConsoleScene : Scene
 
         new UiBuilder(new Vector4(0, 0, 0, 0), LocalMousePosition)
             .Title("Console")
+            .ForEach(Debug.Logs, (val, idx) =>
+            {
+                return new UiDebugLog(val.time, val.sender, val.message);
+            })
             .Render();
     }
 }
