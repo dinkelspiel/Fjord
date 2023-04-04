@@ -1,6 +1,7 @@
 using System.Numerics;
 using Fjord.Graphics;
 using Fjord.Scenes;
+using Fjord.Ui;
 using static SDL2.SDL;
 
 namespace Fjord.Scenes;

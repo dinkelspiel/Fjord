@@ -2,13 +2,15 @@ using System.Drawing;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
 using Fjord.Input;
+using static Fjord.Extensions.Extensions;
 using SDL2;
 using static SDL2.SDL;
 using static SDL2.SDL_gfx;
+using Fjord.Graphics;
 
-namespace Fjord.Graphics;
+namespace Fjord.Ui;
 
-public static class Ui
+public static class FUI
 {
     private static Vector2 UiRenderOffset = new();
     private static Vector2? OverMousePosition = null;
@@ -46,19 +48,18 @@ public static class Ui
 
         if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, Helpers.FRectToRect(rect)))
         {
-            SDL_SetRenderDrawColor(Game.SDLRenderer, 52, 97, 152, 255);
+            SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerHoverColor);
             if (Mouse.Down)
             {
-                SDL_SetRenderDrawColor(Game.SDLRenderer, 65, 121, 190, 255);
+                SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerPressedColor);
             }
         }
         else
         {
-            SDL_SetRenderDrawColor(Game.SDLRenderer, 39, 73, 114, 255);
+            SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerIdleColor);
         }
 
         SDL_RenderFillRectF(Game.SDLRenderer, ref rect);
-        SDL_SetRenderDrawColor(Game.SDLRenderer, 0, 0, 0, 255);
 
         Font.Draw(position + new Vector2(5, 3), Font.GetDefaultFont(), text, 16, new SDL_Color() { r = 255, g = 255, b = 255, a = 255 });
 
@@ -89,9 +90,9 @@ public static class Ui
         };
         
         short radius = 10;
-        SDL_SetRenderDrawColor(Game.SDLRenderer, 255, 0, 0, 255);
+        SDL.SDL_SetRenderDrawColor(Game.SDLRenderer, 255, 0, 0, 255);
         SDL_RenderDrawRect(Game.SDLRenderer, ref localRect);
-        SDL_SetRenderDrawColor(Game.SDLRenderer, 0, 0, 0, 255);
+        SDL.SDL_SetRenderDrawColor(Game.SDLRenderer, 0, 0, 0, 255);
         
         if (Helpers.PointDistance(new Vector2(localRect.x, localRect.y), Mouse.Position) < radius)
         {
@@ -153,7 +154,7 @@ public static class Ui
             }
             else if(componentObj.GetType() == typeof(UiSpacer))
             {
-                SDL_SetRenderDrawColor(Game.SDLRenderer, 50, 50, 50, 255);
+                SDL.SDL_SetRenderDrawColor(Game.SDLRenderer, 50, 50, 50, 255);
 
                 SDL_Rect spacerRect = new()
                 {
@@ -181,19 +182,19 @@ public static class Ui
                 
                 if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, rect))
                 {
-                    SDL_SetRenderDrawColor(Game.SDLRenderer, 52, 97, 152, 255);
+                    SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerHoverColor);
                     if (Mouse.Down)
                     {
-                        SDL_SetRenderDrawColor(Game.SDLRenderer, 65, 121, 190, 255);
+                        SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerPressedColor);
                     }
                 } 
                 else if (component.value)
                 {
-                    SDL_SetRenderDrawColor(Game.SDLRenderer, 55, 118, 185, 255);
+                    SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerPressedColor);
                 }
                 else
                 {
-                    SDL_SetRenderDrawColor(Game.SDLRenderer, 39, 73, 114, 255);
+                    SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerIdleColor);
                 }
 
                 if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, rect) && Mouse.Pressed)
@@ -219,182 +220,5 @@ public static class Ui
     {
         float yOffset = 0;
         Render(components, ref yOffset);
-    }
-}
-
-public abstract class UiComponent { }
-
-public class UiButton : UiComponent
-{
-    public string text;
-    public Action callback;
-
-    public UiButton(string text, Action callback)
-    {
-        this.text = text;
-        this.callback = callback;
-    }
-}
-
-public class UiCheckbox : UiComponent
-{
-    public string text;
-    public bool value;
-    public Action callback;
-
-    public UiCheckbox(string text, bool value, Action callback)
-    {
-        this.text = text;
-        this.value = value;
-        this.callback = callback;
-    }
-}
-
-public class UiTitle : UiComponent
-{
-    public string text;
-
-    public UiTitle(string text)
-    {
-        this.text = text;
-    }
-}
-
-public class UiSpacer : UiComponent
-{
-
-}
-
-
-public class UiBuilder
-{
-    List<object> UiComponents = new();
-    Vector2 Position = new();
-    Vector2? Size = null;
-
-    public UiBuilder(Vector2 position=new(), Vector2? MouseOverride=null)
-    {
-        this.Position = position;
-        if(MouseOverride != null)
-        {
-            Ui.OverrideMousePosition(MouseOverride.Value);
-        }
-    }
-    public UiBuilder(Vector4 rect, Vector2? MouseOverride = null)
-    {
-        this.Position = new(rect.X, rect.Y);
-        this.Size = new(rect.Z, rect.W);
-
-        if (MouseOverride != null)
-        {
-            Ui.OverrideMousePosition(MouseOverride.Value);
-        }
-    }
-
-    public UiBuilder Button(string text, Action callback)
-    {
-        UiComponents.Add(new UiButton(text, callback));
-        return this;
-    }
-
-    public UiBuilder Button(string text)
-    {
-        UiComponents.Add(new UiButton(text, () => Console.WriteLine($"{text} Pressed")));
-        return this;
-    }
-
-    public UiBuilder Title(string text)
-    {
-        UiComponents.Add(new UiTitle(text));
-        return this;
-    }
-
-    public UiBuilder Container(List<object> components)
-    {
-        UiComponents.Add(components);
-        return this;
-    }
-
-    public UiBuilder ForEach<T>(List<T> objects, Func<T, UiComponent> callback)
-    {
-        foreach(T obj in objects)
-        {
-            UiComponents.Add(callback(obj));
-        }
-
-        return this;
-    }
-
-    public UiBuilder ForEach<T>(List<T> objects, Func<T, List<object>> callback)
-    {
-        foreach (T obj in objects)
-        {
-            UiComponents.Add(callback(obj));
-        }
-
-        return this;
-    }
-    
-    public UiBuilder ForEach<T>(List<T> objects, Func<T, int, UiComponent> callback)
-    {
-        int idx = -1;
-        foreach(T obj in objects)
-        {
-            idx++;
-            UiComponents.Add(callback(obj, idx));
-        }
-
-        return this;
-    }
-
-    public UiBuilder ForEach<T>(List<T> objects, Func<T, int, List<object>> callback)
-    {
-        int idx = -1;
-        foreach (T obj in objects)
-        {
-            idx++;
-            UiComponents.Add(callback(obj, idx));
-        }
-
-        return this;
-    }
-
-    public UiBuilder Spacer()
-    {
-        UiComponents.Add(new UiSpacer());
-        return this;
-    }
-
-    public UiBuilder Checkbox(string text, bool value, Action callback)
-    {
-        UiComponents.Add(new UiCheckbox(text, value, callback));
-        return this;
-    }
-
-    public List<object> Build()
-    {
-        return UiComponents;
-    }
-
-    public void Render()
-    {
-        Ui.SetRenderOffset(Position + new Vector2(10, 5));
-
-        //float yOffset = 0;
-        //float y = Ui.Render(Build(), ref yOffset);
-
-        SDL_Rect rect = new()
-        {
-            x = (int)(Position.X),
-            y = (int)(Position.Y),
-            w = Size.HasValue ? (int)Size.Value.X : 200,
-            h = Size.HasValue ? (int)Size.Value.Y : 400
-        };
-        SDL_SetRenderDrawColor(Game.SDLRenderer, 21, 22, 23, 255);
-        SDL_RenderFillRect(Game.SDLRenderer, ref rect);
-
-        Ui.Render(Build());
-        Ui.ResetMousePosition();
-        Ui.ResetRenderOffset();
     }
 }

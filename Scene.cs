@@ -1,6 +1,7 @@
 using Fjord.Input;
 using System.Numerics;
 using Fjord.Graphics;
+using Fjord.Ui;
 using static SDL2.SDL;
 
 namespace Fjord.Scenes;
@@ -183,7 +184,7 @@ public abstract class Scene : ICloneable
 
         if (AllowWindowResize)
         {
-            Ui.ResizeableRectangle(ref RelativeWindowSize);
+            FUI.ResizeableRectangle(ref RelativeWindowSize);
         }
     }
 
