@@ -103,22 +103,6 @@ public static class Game
         foreach (string id in SceneHandler.GetLoadedScenes())
         {
             SceneHandler.Scenes[id].RenderCall();
-
-            //Ui.Button(
-            //    new Vector2(
-            //        SceneHandler.Scenes[id].LocalWindowSize.x,
-            //        SceneHandler.Scenes[id].LocalWindowSize.y - 30
-            //    ),
-            //    "Move",
-            //    () =>
-            //    {
-            //        SceneHandler.Scenes[id].RelativeWindowSize.w += (Mouse.RelativePosition.X - 0.02f) - SceneHandler.Scenes[id].RelativeWindowSize.x;
-            //        SceneHandler.Scenes[id].RelativeWindowSize.h -= (Mouse.RelativePosition.Y - 0.02f) - SceneHandler.Scenes[id].RelativeWindowSize.y;
-
-            //        SceneHandler.Scenes[id].RelativeWindowSize.x = Mouse.RelativePosition.X - 0.02f;
-            //        SceneHandler.Scenes[id].RelativeWindowSize.y = Mouse.RelativePosition.Y + 0.02f;
-
-            //    });
         }
 
         Keyboard.pressedKeys = new();

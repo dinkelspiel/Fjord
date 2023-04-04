@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Numerics;
 using Fjord.Graphics;
+using Fjord.Input;
 using Fjord.Scenes;
 using Fjord.Ui;
 using static Fjord.Helpers;
@@ -169,26 +170,23 @@ public class InspectorScene : Scene
 public class ConsoleScene : Scene
 {
     string consoleInput = "";
+    float yOffset = 0;
 
     public ConsoleScene(int width, int height, string id) : base(width, height, id)
     {
-
+        SetClearColor(UiColors.Background);
     }
 
     public override void Render()
     {
-        SDL_Rect rect = new()
-        {
-            x = 0,
-            y = 0,
-            w = LocalWindowSize.w,
-            h = LocalWindowSize.h
-        };
+        if(Mouse.ScrollDown) {
+            yOffset -= 10;
+        }
+        if(Mouse.ScrollUp) {
+            yOffset += 10;
+        }
 
-        SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.Background);
-        SDL_RenderFillRect(Game.SDLRenderer, ref rect);
-
-        new UiBuilder(new Vector4(0, 0, 0, 0), LocalMousePosition)
+        new UiBuilder(new Vector4(0, yOffset, 0, 0), LocalMousePosition)
             .Title("Console")
             .ForEach(Debug.Logs, (val, idx) =>
             {

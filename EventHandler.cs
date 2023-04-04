@@ -15,6 +15,10 @@ namespace Fjord
     {
         internal static void HandleEvents()
         {
+            Mouse.ScrollDown = false;
+            Mouse.ScrollLeft = false;
+            Mouse.ScrollRight = false;
+            Mouse.ScrollUp = false;
             while (SDL_PollEvent(out SDL_Event e) != 0)
             {
                 switch (e.type)
@@ -1471,6 +1475,25 @@ namespace Fjord
                         break;
                     case SDL_EventType.SDL_MOUSEBUTTONUP:
                         Mouse.Down = false;
+                        break;
+                    case SDL_EventType.SDL_MOUSEWHEEL:
+                        if(e.wheel.y > 0) // scroll up
+                        {
+                            Mouse.ScrollUp = true;
+                        }
+                        else if(e.wheel.y < 0) // scroll down
+                        {
+                            Mouse.ScrollDown = true;
+                        }
+
+                        if(e.wheel.x > 0) // scroll right
+                        {
+                            Mouse.ScrollRight = true;
+                        }
+                        else if(e.wheel.x < 0) // scroll left
+                        {
+                            Mouse.ScrollLeft = true;
+                        }
                         break;
                 }
             }
