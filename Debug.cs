@@ -49,10 +49,10 @@ public static class Debug {
 
     public static void Initialize()
     {
-        SceneHandler.Register(new InspectorScene((int)(Game.Window.Width * 0.2), 1080, "inspector")
+        SceneHandler.Register(new InspectorScene((int)(Game.Window.Width * 0.20), 1080, "inspector")
             .SetAllowWindowResize(false)
             .SetAlwaysRebuildTexture(true)
-            .SetRelativeWindowSize(0.8f, 0f, 1f, 1f));
+            .SetRelativeWindowSize(0.8f, 0f, 1.01f, 1f));
 
         SceneHandler.Register(new ConsoleScene((int)(Game.Window.Width * 0.2), (int)(Game.Window.Height * 0.4), "console")
             .SetAllowWindowResize(true)
