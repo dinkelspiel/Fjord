@@ -19,3 +19,9 @@ internal class DrawInsCircle : DrawInstruction {
     public Vector4 color;
     public bool fill;
 }
+
+internal class DrawInsTexture : DrawInstruction
+{
+    public Vector2 position;
+    public Texture texture;
+}

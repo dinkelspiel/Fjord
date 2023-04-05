@@ -79,12 +79,14 @@ public class UiTextField : UiComponent
     public string id;
     public string value;
     public Action<string> onChange;
+    public Action<string> onSubmit;
     public string? placeholder;
 
-    public UiTextField(string id, string value, Action<string> onChange, string? placeholder=null) {
+    public UiTextField(string id, string value, Action<string> onChange, Action<string> onSubmit, string? placeholder=null) {
         this.id = id;
         this.value = value;
         this.onChange = onChange;
         this.placeholder = placeholder;
+        this.onSubmit = onSubmit;
     }
 }

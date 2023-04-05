@@ -115,9 +115,9 @@ public class UiBuilder
         return this;
     }
 
-    public UiBuilder TextField(string id, string value, Action<string> onChange, string? placeholder=null) 
+    public UiBuilder TextField(string id, string value, Action<string> onChange, Action<string> onSubmit, string? placeholder=null) 
     {
-        UiComponents.Add(new UiTextField(id, value, onChange, placeholder));
+        UiComponents.Add(new UiTextField(id, value, onChange, onSubmit, placeholder));
         return this;
     }
 

@@ -51,6 +51,7 @@ public static class Debug {
     {
         SceneHandler.Register(new InspectorScene((int)(Game.Window.Width * 0.2), 1080, "inspector")
             .SetAllowWindowResize(false)
+            .SetAlwaysRebuildTexture(true)
             .SetRelativeWindowSize(0.8f, 0f, 1f, 1f));
 
         SceneHandler.Register(new ConsoleScene((int)(Game.Window.Width * 0.2), (int)(Game.Window.Height * 0.4), "console")
@@ -73,6 +74,11 @@ public static class Debug {
             } else {
                 Debug.Log(LogLevel.Error, $"No argument provided");
             }
+        });
+
+        RegisterCommand("clear", (args) =>
+        {
+            Logs = new();
         });
     }
 
@@ -112,7 +118,7 @@ public static class Debug {
                 System.Reflection.MethodBase? methodBase = stackFrame.GetMethod();
                 if(methodBase is not null) {
                     var names = methodBase.DeclaringType;
-                    if(names is not null) {
+                    if (names is not null) {
                         var logtmp = new DebugLog() {
                             level = level,
                             time = DateTime.Now.ToString("hh:mm:ss"),
@@ -121,23 +127,44 @@ public static class Debug {
                             hideInfo = idx != 0
                         };
 
-                        if(idx == 0) {
-                            if(Logs.Count > 0) {
-                                if(!lastTopMessage.Equals(logtmp)) {
-                                    Logs.Add(logtmp);
-                                    lastTopMessage = logtmp;
-                                } else {
-                                    logtmp.repeat = Logs[Logs.Count - 1].repeat + 1;
-                                    Logs[Logs.Count - 1] = logtmp;
-                                    return;
-                                }
-                            } else {
-                                Logs.Add(logtmp);
-                                lastTopMessage = logtmp;
-                            }
-                        } else {
-                            Logs.Add(logtmp);
-                        }
+                        Logs.Add(logtmp);
+                        //lastTopMessage = logtmp;
+
+                        //if (level != LogLevel.User)
+                        //{
+                        //    if (idx == 0)
+                        //    {
+                        //        Console.WriteLine(Logs.Count.ToString());
+                        //        if (Logs.Count > 0)
+                        //        {
+                        //            Console.WriteLine("Help");
+                        //            if (!lastTopMessage.Equals(logtmp))
+                        //            {
+                        //                Console.WriteLine("Help2");
+                        //                Logs.Add(logtmp);
+                        //                lastTopMessage = logtmp;
+                        //            }
+                        //            else
+                        //            {
+                        //                logtmp.repeat = Logs[Logs.Count - 1].repeat + 1;
+                        //                Logs[Logs.Count - 1] = logtmp;
+                        //                return;
+                        //            }
+                        //        }
+                        //        else
+                        //        {
+                        //            Logs.Add(logtmp);
+                        //            lastTopMessage = logtmp;
+                        //        }
+                        //    }
+                        //    else
+                        //    {
+                        //        Logs.Add(logtmp);
+                        //    }
+                        //} else
+                        //{
+                        //    Logs.Add(logtmp);
+                        //}
                     }
                 }
             }
@@ -258,9 +285,7 @@ public class ConsoleScene : Scene
             })
             .Render();
 
-        FUI.OverrideMousePosition(LocalMousePosition);
-        FUI.TextFieldExt(new(10, LocalWindowSize.h - 40), "consolein", consoleInput, (val) => {consoleInput = val;}, null, out Vector2 size);
-        FUI.Button(new(Math.Min(size.X + 20, LocalWindowSize.w - 88), LocalWindowSize.h - 40), "Send", () => {
+        var submitCommand = () => {
             Debug.Log(consoleInput);
             string command = consoleInput.Split(" ")[0];
             List<object> args = new List<object>();
@@ -268,41 +293,59 @@ public class ConsoleScene : Scene
             string currentWord = "";
             bool isString = false;
 
-            void HandleCurrentWord() {
-                if(currentWord != String.Empty) {
+            void HandleCurrentWord()
+            {
+                if (currentWord != String.Empty)
+                {
                     float value = 0f;
-                    if(float.TryParse(currentWord, out value)) {
+                    if (float.TryParse(currentWord, out value))
+                    {
                         args.Add(value);
-                    } else {
+                    }
+                    else
+                    {
                         args.Add(currentWord);
                     }
                 }
                 currentWord = "";
             }
 
-            foreach(char c in String.Join(" ", consoleInput.Split(" ").ToList().Skip(1))) {
-                if(c == '"') {
+            foreach (char c in String.Join(" ", consoleInput.Split(" ").ToList().Skip(1)))
+            {
+                if (c == '"')
+                {
                     isString = !isString;
-                    if(!isString) {
+                    if (!isString)
+                    {
                         HandleCurrentWord();
                     }
                     continue;
                 }
-                if(isString) {
+                if (isString)
+                {
                     currentWord += c;
-                } else if(c != ' ') {
+                }
+                else if (c != ' ')
+                {
                     currentWord += c;
-                } else {
+                }
+                else
+                {
                     HandleCurrentWord();
                 }
             }
-            if(currentWord != String.Empty) {
+            if (currentWord != String.Empty)
+            {
                 HandleCurrentWord();
             }
 
             Debug.PerformCommand(command, args.ToArray());
             consoleInput = "";
-        });
+        };
+
+        FUI.OverrideMousePosition(LocalMousePosition);
+        FUI.TextFieldExt(new(10, LocalWindowSize.h - 40), "consolein", consoleInput, (val) => {consoleInput = val;}, (val) => submitCommand(), null, out Vector2 size);
+        FUI.Button(new(Math.Min(size.X + 20, LocalWindowSize.w - 88), LocalWindowSize.h - 40), "Send", submitCommand);
         FUI.ResetMousePosition();
     }
 }

@@ -1,6 +1,7 @@
 using System.Numerics;
 using static SDL2.SDL;
 using static SDL2.SDL_ttf;
+using static SDL2.SDL_image;
 using Fjord.Input;
 using Fjord.Graphics;
 using Fjord.Scenes;
@@ -43,7 +44,8 @@ public static class Game
         };
 
         SDL_SetRenderDrawBlendMode(SDLRenderer, SDL_BlendMode.SDL_BLENDMODE_BLEND);
-        
+
+        IMG_Init(IMG_InitFlags.IMG_INIT_PNG);
         Font.Initialize();
         Debug.Initialize();
     }

@@ -27,10 +27,16 @@ namespace Fjord
                         Game.Stop();
                         break;
                     case SDL_EventType.SDL_KEYDOWN:
-                        if(FUI.selectedTextField != null && FUI.selectedTextFieldValue != null && FUI.selectedTextFieldOnChange != null) {
+                        if(FUI.selectedTextField != null && FUI.selectedTextFieldValue != null && FUI.selectedTextFieldOnChange != null && FUI.selectedTextFieldOnSumbit != null) {
                             if(e.key.keysym.sym == SDL_Keycode.SDLK_BACKSPACE) {
                                 if(FUI.selectedTextFieldValue.Length > 0)
                                     FUI.selectedTextFieldOnChange(FUI.selectedTextFieldValue.Remove(FUI.selectedTextFieldValue.Length - 1));
+                            } else if(e.key.keysym.sym == SDL_Keycode.SDLK_RETURN)
+                            {
+                                if(FUI.selectedTextFieldValue.Length > 0)
+                                {
+                                    FUI.selectedTextFieldOnSumbit(FUI.selectedTextFieldValue);
+                                }
                             }
                             break;
                         }

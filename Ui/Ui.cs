@@ -16,6 +16,7 @@ public static class FUI
     internal static string? selectedTextField = null;
     internal static string? selectedTextFieldValue = null;
     internal static Action<string>? selectedTextFieldOnChange = null;
+    internal static Action<string>? selectedTextFieldOnSumbit = null;
     private static Vector2 UiRenderOffset = new();
     private static Vector2? OverMousePosition = null;
     public static void OverrideMousePosition(Vector2 MousePosition)
@@ -82,8 +83,8 @@ public static class FUI
     {
         ButtonExt(position, text, callback, out Vector2 size);
     }
-    
-    public static void TextFieldExt(Vector2 position, string id, string value, Action<string> onChange, string? placeholder, out Vector2 fieldsize)
+
+    public static void TextFieldExt(Vector2 position, string id, string value, Action<string> onChange, Action<string> onSubmit, string? placeholder, out Vector2 fieldsize)
     {
         // Font.Draw(new Vector2(indent * 10 + UiRenderOffset.X + 5, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.value, 14, UiColors.TextColor);
         Vector2 size = Font.DrawSize(Font.GetDefaultFont(), "asdasd", 16, UiColors.TextColor);
@@ -118,6 +119,10 @@ public static class FUI
                     FUI.selectedTextFieldOnChange = (val) => {
                         onChange(val);
                     };
+                    FUI.selectedTextFieldOnSumbit = (val) =>
+                    {
+                        onSubmit(val);
+                    };
                     SDL_StartTextInput();
                 } else {
                     FUI.selectedTextField = null;
@@ -146,9 +151,9 @@ public static class FUI
         Font.Draw(position + new Vector2(5, 3), Font.GetDefaultFont(), value, 16, UiColors.TextColor);
     }
 
-     public static void TextField(Vector2 position, string id, string value, Action<string> onChange, string? placeholder=null) 
+     public static void TextField(Vector2 position, string id, string value, Action<string> onChange, Action<string> onSubmit, string? placeholder=null) 
      {
-        TextFieldExt(position, id, value, onChange, placeholder, out Vector2 fieldsize);
+        TextFieldExt(position, id, value, onChange, onSubmit, placeholder, out Vector2 fieldsize);
      }
 
     public static void ResizeableRectangle(ref SDL_FRect rect, Vector2? aspectRatio=null)
@@ -334,7 +339,7 @@ public static class FUI
 
                 if(component.repeat > 0) {
                     Vector2 size3 = Font.DrawSize(Font.GetDefaultFont(), component.message, 14, UiColors.TextColor);
-                    Font.Draw(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10 + size3.X + 10, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.repeat.ToString() + "x", 14, UiColors.TextColor);
+                    Font.Draw(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10 + size3.X + 10, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), "(" + component.repeat.ToString() + "x)", 14, UiColors.ErrorTextColor);
                 }
 
                 yOffset += size.Y + 10;
@@ -343,7 +348,7 @@ public static class FUI
             {
                 UiTextField component = (UiTextField)componentObj;
 
-                FUI.TextFieldExt(new Vector2(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), component.id, component.value, component.onChange, component.placeholder, out Vector2 size);
+                FUI.TextFieldExt(new Vector2(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), component.id, component.value, component.onChange, component.onSubmit, component.placeholder, out Vector2 size);
                 
                 yOffset += size.Y + 5;
             }

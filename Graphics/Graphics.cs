@@ -1,3 +1,4 @@
+using System.Drawing;
 using System.Numerics;
 using Fjord.Scenes;
 using static SDL2.SDL;
@@ -87,6 +88,28 @@ public static class Draw
         }
     }
 
+    public static void Texture(Vector2 position, Texture texture, int depth=0)
+    {
+        if (CurrentSceneID is not null)
+        {
+            SceneHandler.Scenes[CurrentSceneID].drawBuffer.Add(new DrawInsTexture()
+            {
+                position = position,
+                texture = texture,
+                depth = depth
+            });
+        }
+        else
+        {
+            drawBuffer.Add(new DrawInsTexture()
+            {
+                position = position,
+                texture = texture,
+                depth = depth
+            });
+        }
+    }
+
     internal static void RectangleDirect(Vector4 rect, Vector4 color, bool fill) {
         Helpers.SDL_SetRenderDrawColor(Game.SDLRenderer, new SDL_Color() {
             r = (byte)color.X,
@@ -118,6 +141,18 @@ public static class Draw
             }
     }
 
+    internal static void TextureDirect(Vector2 position, Texture texture)
+    {
+        SDL_Rect rect = new()
+        {
+            x = (int)position.X,
+            y = (int)position.Y,
+            w = (int)texture.textureSize.X,
+            h = (int)texture.textureSize.Y
+        };
+        SDL_RenderCopy(Game.SDLRenderer, texture.SDLTexture, IntPtr.Zero, ref rect);
+    }
+
     internal static void DrawDrawBuffer(List<DrawInstruction> drawBufferLocal) {
         List<DrawInstruction> sortedDrawBuffer = drawBufferLocal.OrderBy(e => e.depth).ToList();
 
@@ -128,6 +163,10 @@ public static class Draw
             } else if(drawInsObj.GetType() == typeof(DrawInsCircle)) {
                 DrawInsCircle drawIns = (DrawInsCircle)drawInsObj;
                 Draw.CircleDirect(drawIns.position, drawIns.radius, drawIns.color, drawIns.fill);
+            } else if(drawInsObj.GetType() == typeof(DrawInsTexture))
+            {
+                DrawInsTexture drawIns = (DrawInsTexture)drawInsObj;
+                Draw.TextureDirect(drawIns.position, drawIns.texture);
             }
         }
     }
