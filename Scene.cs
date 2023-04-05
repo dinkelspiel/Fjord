@@ -13,6 +13,7 @@ public abstract class Scene : ICloneable
     public bool AlwaysRebuildTexture = false;
     public bool AlwaysAtBack = false;
     public Vector2 LocalMousePosition = new();
+    internal List<DrawInstruction> drawBuffer = new();
     internal SDL_FRect RelativeWindowSize = new()
     {
         x = 0.1f,
@@ -175,7 +176,13 @@ public abstract class Scene : ICloneable
         SDL_RenderClear(Game.SDLRenderer);
         SDL_SetRenderDrawColor(Game.SDLRenderer, 0, 0, 0, 255);
         
+        Draw.CurrentSceneID = SceneID;
         Render();
+        Draw.CurrentSceneID = null;
+
+        Draw.DrawDrawBuffer(drawBuffer);
+
+        drawBuffer = new();
 
         SDL_SetRenderTarget(Game.SDLRenderer, IntPtr.Zero);
 

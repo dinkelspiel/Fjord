@@ -62,13 +62,15 @@ public class UiDebugLog : UiComponent
     public string message;
     public LogLevel level; 
     public bool hideInfo = false;
+    public int repeat;
 
-    public UiDebugLog(LogLevel level, string time, string sender, string message, bool hideInfo) {
+    public UiDebugLog(LogLevel level, string time, string sender, string message, bool hideInfo, int repeat) {
         this.level = level;
         this.time = time;
         this.sender = sender;
         this.message = message;
         this.hideInfo = hideInfo;
+        this.repeat = repeat;
     }
 }
 

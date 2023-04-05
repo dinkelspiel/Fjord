@@ -75,7 +75,13 @@ public static class Game
 
         foreach (string id in SceneHandler.GetLoadedScenes())
         {
-            SceneHandler.Scenes[id].UpdateCall();
+            try {
+                SceneHandler.Scenes[id].UpdateCall();
+            } catch(Exception e) {
+                SceneHandler.Unload(id);
+                Debug.Log(LogLevel.Error, $"Scene '{id}' update crashed!");
+                Debug.Log(LogLevel.Error, e.ToString());
+            }
         }
         
         if (Keyboard.PressedExt(Key.D).With(Mod.LShift, Mod.LCtrl))
@@ -102,9 +108,17 @@ public static class Game
 
         foreach (string id in SceneHandler.GetLoadedScenes())
         {
-            SceneHandler.Scenes[id].RenderCall();
+            try {
+                SceneHandler.Scenes[id].RenderCall();
+            } catch(Exception e) {
+                SceneHandler.Unload(id);
+                Debug.Log(LogLevel.Error, $"Scene '{id}' render crashed!");
+                Debug.Log(LogLevel.Error, e.ToString());
+            }
         }
-
+        
+        Draw.DrawDrawBuffer(Draw.drawBuffer);
+        
         Keyboard.pressedKeys = new();
         Mouse.Pressed = false;
      

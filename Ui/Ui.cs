@@ -331,7 +331,12 @@ public static class FUI
                         Font.Draw(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.message, 14, UiColors.TextColor);
                     } break;
                 }
-  
+
+                if(component.repeat > 0) {
+                    Vector2 size3 = Font.DrawSize(Font.GetDefaultFont(), component.message, 14, UiColors.TextColor);
+                    Font.Draw(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10 + size3.X + 10, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.repeat.ToString() + "x", 14, UiColors.TextColor);
+                }
+
                 yOffset += size.Y + 10;
             }
             else if (componentObj.GetType() == typeof(UiTextField)) 

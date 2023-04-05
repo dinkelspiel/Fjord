@@ -15,7 +15,17 @@ public struct DebugLog
     public string sender;
     public string message;
     public LogLevel level;
+    public int repeat;
     public bool hideInfo;
+
+    public override bool Equals(object? obj)
+    {
+        return obj is DebugLog log &&
+               sender == log.sender &&
+               message == log.message &&
+               level == log.level &&
+               hideInfo == log.hideInfo;
+    }
 }
 
 public enum LogLevel
@@ -29,8 +39,13 @@ public enum LogLevel
 public static class Debug {
 
     public static List<DebugLog> Logs = new List<DebugLog>();
+    internal static DebugLog lastTopMessage;
 
     public static Dictionary<string, Action<object[]>> commands = new Dictionary<string, Action<object[]>>();
+
+    public static void RegisterCommand(string id, Action<object[]> callback) {
+        commands.Add(id, callback);
+    } 
 
     public static void Initialize()
     {
@@ -43,7 +58,7 @@ public static class Debug {
             .SetRelativeWindowSize(0.1f, 0.1f, 0.3f, 0.5f)
             .SetAlwaysRebuildTexture(true));
 
-        commands.Add("closewindow", (args) => {
+        RegisterCommand("closewindow", (args) => {
             if(args.Length > 0) {
                 if(SceneHandler.Scenes.ContainsKey((string)args[0])) {
                     if(SceneHandler.IsLoaded((string)args[0])) {
@@ -71,23 +86,59 @@ public static class Debug {
 
     public static void Log(LogLevel level, string message)
     {
-        List<string> messageSplit = message.ToString().SplitInParts(60).ToList();
-        
+        var words = message.Split();
+        // List<string> messageSplit = message.ToString().SplitInParts(60).ToList();
+
+        var lines = new List<string> { words[0] };
+        var lineNum = 0;
+        for(int i = 1; i < words.Length; i++)
+        {
+            if(lines[lineNum].Length + words[i].Length + 1 <= 120)
+                lines[lineNum] += " " + words[i];
+            else
+            {
+                lines.Add(words[i]);
+                lineNum++;
+            }
+        }
+
         StackTrace stackTrace = new StackTrace(); 
         StackFrame? stackFrame = stackTrace.GetFrame(1);
+
         int idx = -1;
-        foreach(string i in messageSplit) {
+        foreach(string i in lines) {
             idx++;
             if(stackFrame is not null) {
                 System.Reflection.MethodBase? methodBase = stackFrame.GetMethod();
                 if(methodBase is not null) {
-                    Logs.Add(new DebugLog() {
-                        level = level,
-                        time = DateTime.Now.ToString("hh:mm:ss"),
-                        sender = methodBase.Name,
-                        message = i,
-                        hideInfo = idx != 0 ? true : false
-                    });
+                    var names = methodBase.DeclaringType;
+                    if(names is not null) {
+                        var logtmp = new DebugLog() {
+                            level = level,
+                            time = DateTime.Now.ToString("hh:mm:ss"),
+                            sender = names.Namespace + "." + names.Name,
+                            message = i,
+                            hideInfo = idx != 0
+                        };
+
+                        if(idx == 0) {
+                            if(Logs.Count > 0) {
+                                if(!lastTopMessage.Equals(logtmp)) {
+                                    Logs.Add(logtmp);
+                                    lastTopMessage = logtmp;
+                                } else {
+                                    logtmp.repeat = Logs[Logs.Count - 1].repeat + 1;
+                                    Logs[Logs.Count - 1] = logtmp;
+                                    return;
+                                }
+                            } else {
+                                Logs.Add(logtmp);
+                                lastTopMessage = logtmp;
+                            }
+                        } else {
+                            Logs.Add(logtmp);
+                        }
+                    }
                 }
             }
         }
@@ -201,7 +252,7 @@ public class ConsoleScene : Scene
                         return new UiText(val.message);
                     }
                     default: {
-                        return new UiDebugLog(val.level, val.time, val.sender, val.message, val.hideInfo);
+                        return new UiDebugLog(val.level, val.time, val.sender, val.message, val.hideInfo, val.repeat);
                     } 
                 }
             })
