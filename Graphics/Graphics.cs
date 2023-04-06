@@ -30,65 +30,28 @@ public static class Draw
     }
 
     public static void FillCircle(Vector2 position, float radius, Vector4 color, int depth=0) {
-        if(CurrentSceneID is not null) {
-            SceneHandler.Scenes[CurrentSceneID].drawBuffer.Add(new DrawInsCircle() {
-                position = position,
-                radius = radius,
-                color = color,
-                depth = depth,
-                fill = true
-            });
-        } else {
-            drawBuffer.Add(new DrawInsCircle() {
-                position = position,
-                radius = radius,
-                color = color,
-                depth = depth,
-                fill = true
-            });
-        }
+        new Circle(position, radius) {
+            color = color,
+            depth = depth,
+            fill = true
+        }.Render();
     }
 
     public static void Circle(Vector2 position, float radius, Vector4 color, int depth=0) {
-        if(CurrentSceneID is not null) {
-            SceneHandler.Scenes[CurrentSceneID].drawBuffer.Add(new DrawInsCircle() {
-                position = position,
-                radius = radius,
-                color = color,
-                depth = depth,
-                fill = false
-            });
-        } else {
-            drawBuffer.Add(new DrawInsCircle() {
-                position = position,
-                radius = radius,
-                color = color,
-                depth = depth,
-                fill = false
-            });
-        }
+        new Circle(position, radius) {
+            color = color,
+            depth = depth,
+            fill = false
+        }.Render();
     }
 
-    public static void Texture(Vector2 position, Texture texture, int depth=0)
+    public static void Texture(Vector2 position, IntPtr texture, int depth=0)
     {
-        if (CurrentSceneID is not null)
+        new Texture(texture)
         {
-            SceneHandler.Scenes[CurrentSceneID].drawBuffer.Add(new DrawInsTexture()
-            {
-                position = position,
-                texture = texture,
-                depth = depth
-            });
-        }
-        else
-        {
-            drawBuffer.Add(new DrawInsTexture()
-            {
-                position = position,
-                texture = texture,
-                depth = depth
-            });
-        }
+            position = position,
+            depth = depth
+        }.Render();
     }
 
     internal static void RectangleDirect(Vector4 rect, Vector4 color, bool fill) {
@@ -140,16 +103,16 @@ public static class Draw
         List<DrawInstruction> sortedDrawBuffer = drawBufferLocal.OrderBy(e => e.depth).ToList();
 
         foreach(DrawInstruction drawInsObj in sortedDrawBuffer) {
-            if(drawInsObj.GetType() == typeof(DrawInsRectangle)) {
-                DrawInsRectangle drawIns = (DrawInsRectangle)drawInsObj;
+            if(drawInsObj.GetType() == typeof(Rectangle)) {
+                Rectangle drawIns = (Rectangle)drawInsObj;
                 Draw.RectangleDirect(drawIns.rect, drawIns.color, drawIns.fill);
-            } else if(drawInsObj.GetType() == typeof(DrawInsCircle)) {
-                DrawInsCircle drawIns = (DrawInsCircle)drawInsObj;
+            } else if(drawInsObj.GetType() == typeof(Circle)) {
+                Circle drawIns = (Circle)drawInsObj;
                 Draw.CircleDirect(drawIns.position, drawIns.radius, drawIns.color, drawIns.fill);
-            } else if(drawInsObj.GetType() == typeof(DrawInsTexture))
+            } else if(drawInsObj.GetType() == typeof(Texture))
             {
-                DrawInsTexture drawIns = (DrawInsTexture)drawInsObj;
-                Draw.TextureDirect(drawIns.position, drawIns.texture);
+                Texture drawIns = (Texture)drawInsObj;
+                Draw.TextureDirect(drawIns.position, drawIns);
             }
         }
     }

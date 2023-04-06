@@ -52,6 +52,7 @@ public static class Game
         IMG_Init(IMG_InitFlags.IMG_INIT_PNG);
         Font.Initialize();
         Debug.Initialize();
+        SceneHandler.Initialize();
     }
 
     public static void Stop()
