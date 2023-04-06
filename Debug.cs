@@ -59,23 +59,6 @@ public static class Debug {
             .SetRelativeWindowSize(0.1f, 0.1f, 0.3f, 0.5f)
             .SetAlwaysRebuildTexture(true));
 
-        RegisterCommand("closewindow", (args) => {
-            if(args.Length > 0) {
-                if(SceneHandler.Scenes.ContainsKey((string)args[0])) {
-                    if(SceneHandler.IsLoaded((string)args[0])) {
-                        SceneHandler.Unload((string)args[0]);
-                        Debug.Log(LogLevel.Message, $"Unloaded {(string)args[0]}");
-                    } else {
-                        Debug.Log(LogLevel.Warning, $"{(string)args[0]} is not loaded");
-                    }
-                } else {
-                    Debug.Log(LogLevel.Warning, $"No scene named {(string)args[0]}");
-                }
-            } else {
-                Debug.Log(LogLevel.Error, $"No argument provided");
-            }
-        });
-
         RegisterCommand("clear", (args) =>
         {
             Logs = new();
@@ -283,7 +266,19 @@ public class ConsoleScene : Scene
                     } 
                 }
             })
-            .Render();
+            .Render(out int uiHeight);
+
+        // Math.Clamp(yOffset, 0, uiHeight);
+        if(uiHeight > LocalWindowSize.h) {
+            if(-yOffset < 0) {
+                yOffset = 0;
+            }
+            if(-yOffset > uiHeight - LocalWindowSize.h + 50) {
+                yOffset = -uiHeight + LocalWindowSize.h - 50;
+            }
+        } else {
+            yOffset = 0;
+        }
 
         var submitCommand = () => {
             Debug.Log(consoleInput);
@@ -292,6 +287,7 @@ public class ConsoleScene : Scene
 
             string currentWord = "";
             bool isString = false;
+            string[] boolValues = {"true", "false"}; 
 
             void HandleCurrentWord()
             {
@@ -301,6 +297,9 @@ public class ConsoleScene : Scene
                     if (float.TryParse(currentWord, out value))
                     {
                         args.Add(value);
+                    }
+                    if(boolValues.Contains(currentWord.ToLower())) {
+                        args.Add(currentWord.ToLower() == "true");
                     }
                     else
                     {
