@@ -1,5 +1,6 @@
 using System.Diagnostics;
 using System.Numerics;
+using System.Reflection;
 using Fjord.Graphics;
 using Fjord.Input;
 using Fjord.Scenes;
@@ -8,6 +9,11 @@ using static Fjord.Helpers;
 using static SDL2.SDL;
 
 namespace Fjord.Scenes;
+
+public class FieldExport : Attribute
+{
+
+}
 
 public struct DebugLog
 {
@@ -44,8 +50,19 @@ public static class Debug {
     public static Dictionary<string, Action<object[]>> commands = new Dictionary<string, Action<object[]>>();
 
     public static void RegisterCommand(string id, Action<object[]> callback) {
-        commands.Add(id, callback);
-    } 
+        if (!commands.ContainsKey(id))
+        {
+            commands.Add(id, callback);
+        } else
+        {
+            Debug.Log(LogLevel.Error, $"Couldn't register command '{id}'! Command already exists;");
+        }
+    }
+    public static void RegisterCommand(string[] ids, Action<object[]> callback)
+    {
+        foreach (string id in ids)
+            RegisterCommand(id, callback);
+    }
 
     public static void Initialize()
     {
@@ -62,6 +79,11 @@ public static class Debug {
         RegisterCommand("clear", (args) =>
         {
             Logs = new();
+        });
+
+        RegisterCommand(new string[] { "q", "quit" }, (args) =>
+        {
+            Game.Stop();
         });
     }
 
@@ -154,17 +176,6 @@ public static class Debug {
         }
     }
 
-    public static void Log(string message)
-    {
-        Logs.Add(new DebugLog()
-        {
-            level = LogLevel.User,
-            time = DateTime.Now.ToString("hh:mm:ss"),
-            sender = "User",
-            message = message
-        });
-    }
-
     public static void PerformCommand(string command, object[] args) {
         if(commands.ContainsKey(command)) {
             try {
@@ -180,6 +191,9 @@ public static class Debug {
 
 public class InspectorScene : Scene
 {
+    [FieldExport]
+    bool ShowLoadedScenes = true;
+
     public InspectorScene(int width, int height, string id) : base(width, height, id)
     {
         SetClearColor(UiColors.Background);
@@ -204,6 +218,40 @@ public class InspectorScene : Scene
                                 new UiCheckbox("Always rebuild texture", val.Value.AlwaysRebuildTexture, () => val.Value.SetAlwaysRebuildTexture(!val.Value.AlwaysRebuildTexture))
                         };
 
+                        FieldInfo[] infos = val.Value.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+                        List<object> exports = new() {
+                            
+                        };
+
+                        foreach(var fi in infos) {
+                            if (fi.IsDefined(typeof(FieldExport), true))
+                            {
+                                exports.Add(new UiText(fi.Name));
+                                if (fi.GetValue(val.Value).GetType() == typeof(string))
+                                {
+                                    exports.Add(new UiTextField(fi.Name, fi.GetValue(val.Value).ToString(), (result) =>
+                                    {
+                                        fi.SetValue(val.Value, result);
+                                    }, (result) => { }));
+                                } else if(fi.GetValue(val.Value).GetType() == typeof(bool)) {
+                                    exports.Add(new UiCheckbox(fi.Name, (bool)fi.GetValue(val.Value), () =>
+                                    {
+                                        fi.SetValue(val.Value, !(bool)fi.GetValue(val.Value));
+                                    }));
+                                } else
+                                {
+                                    exports.Add(new UiText($"{fi.Name} has an unsupported type: {fi.GetValue(val.Value).GetType()}!"));
+                                }
+                            }
+                        }
+
+                        if (exports.Count > 0)
+                        {
+                            list.Add(new UiTitle($"Exports"));
+                            list.Add(exports);
+                        }
+
                         if (idx != SceneHandler.Scenes.ToList().Count - 1)
                         {
                             list.Add(new UiSpacer());
@@ -211,22 +259,25 @@ public class InspectorScene : Scene
                         
                         return list;
                     })
-                    .Title("Loaded Scenes")
-                    .ForEach(SceneHandler.LoadedScenes, (scene, idx) =>
-                    {
-                        var list = new List<object>()
+                    .If(ShowLoadedScenes, new UiBuilder()
+                        .Title("Loaded Scenes")
+                        .ForEach(SceneHandler.LoadedScenes, (scene, idx) =>
                         {
-                            new UiTitle(scene),
-                            new UiButton("Unload", () => SceneHandler.Unload(scene))
-                        };
+                            var list = new List<object>()
+                            {
+                                new UiTitle(scene),
+                                new UiButton("Unload", () => SceneHandler.Unload(scene))
+                            };
 
-                        if (idx != SceneHandler.LoadedScenes.Count - 1)
-                        {
-                            list.Add(new UiSpacer());
-                        }
+                            if (idx != SceneHandler.LoadedScenes.Count - 1)
+                            {
+                                list.Add(new UiSpacer());
+                            }
 
-                        return list;
-                    })
+                            return list;
+                        })
+                        .Build()
+                    )
                     .Build()
             )
             .Render();
@@ -281,7 +332,7 @@ public class ConsoleScene : Scene
         }
 
         var submitCommand = () => {
-            Debug.Log(consoleInput);
+            Debug.Log(LogLevel.User, consoleInput);
             string command = consoleInput.Split(" ")[0];
             List<object> args = new List<object>();
 

@@ -103,6 +103,25 @@ public class UiBuilder
         return this;
     }
 
+    public UiBuilder If(bool expression, List<object> result)
+    {
+        if(expression)
+        {
+            UiComponents.AddRange(result);
+        }
+
+        return this;
+    }
+    public UiBuilder If(bool expression, UiComponent result)
+    {
+        if (expression)
+        {
+            UiComponents.Add(result);
+        }
+
+        return this;
+    }
+
     public UiBuilder Spacer()
     {
         UiComponents.Add(new UiSpacer());

@@ -5,6 +5,7 @@ using static SDL2.SDL_image;
 using Fjord.Input;
 using Fjord.Graphics;
 using Fjord.Scenes;
+using Fjord.Ui;
 
 namespace Fjord;
 
@@ -109,9 +110,9 @@ public static class Game
 
         if (Keyboard.PressedExt(Key.C).With(Mod.LShift, Mod.LCtrl))
         {
-            if (!SceneHandler.IsLoaded("console"))
+            if (!SceneHandler.IsLoaded("console")) {
                 SceneHandler.Load("console");
-            else
+            } else
                 SceneHandler.Unload("console");
         }
     }
