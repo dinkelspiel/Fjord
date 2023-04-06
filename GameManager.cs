@@ -22,6 +22,10 @@ public static class Game
 
     internal static bool Running = true;
 
+    private static ulong timeNow = 0;
+    private static ulong timeLast = 0;
+    private static double deltaTime = 0.0;
+
     public static void Initialize(string title, int width, int height)
     {   
         #if DEBUG
@@ -63,12 +67,20 @@ public static class Game
         bool open = false;
         while (Running)
         {
-            EventHandler.HandleEvents();
+            timeNow = SDL_GetPerformanceCounter();
+            deltaTime = (double)Math.Clamp(((timeNow - timeLast)*1000 / (double)SDL_GetPerformanceFrequency() )*0.001, 0, 1);
+            timeLast = timeNow;
             
-            Update();
+            EventHandler.HandleEvents();
 
+            Update();
             Render(ref open);
         }
+    }
+
+    public static double GetDeltaTime()
+    {
+        return deltaTime;
     }
 
     public static void Update()
