@@ -13,39 +13,20 @@ public static class Draw
     internal static List<DrawInstruction> drawBuffer = new();
 
     public static void FillRectangle(Vector4 rect, Vector4 color, int depth=0) {
-        if(CurrentSceneID is not null) {
-            SceneHandler.Scenes[CurrentSceneID].drawBuffer.Add(new DrawInsRectangle() {
-                rect = rect,
-                color = color,
-                depth = depth,
-                fill = true
-            });
-        } else {
-            drawBuffer.Add(new DrawInsRectangle() {
-                rect = rect,
-                color = color,
-                depth = depth,
-                fill = true
-            });
-        }
+        new Rectangle(rect)
+        {
+            color = color,
+            depth = depth,
+            fill = true
+        }.Render();
     }
     
     public static void Rectangle(Vector4 rect, Vector4 color, int depth=0) {
-        if(CurrentSceneID is not null) {
-            SceneHandler.Scenes[CurrentSceneID].drawBuffer.Add(new DrawInsRectangle() {
-                rect = rect,
-                color = color,
-                depth = depth,
-                fill = false
-            });
-        } else {
-            drawBuffer.Add(new DrawInsRectangle() {
-                rect = rect,
-                color = color,
-                depth = depth,
-                fill = false
-            });
-        }
+        new Rectangle(rect) {
+            color = color,
+            depth = depth,
+            fill = false
+        }.Render();
     }
 
     public static void FillCircle(Vector2 position, float radius, Vector4 color, int depth=0) {
