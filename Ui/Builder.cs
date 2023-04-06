@@ -126,7 +126,7 @@ public class UiBuilder
         return UiComponents;
     }
 
-    public void Render()
+    public void Render(out int height)
     {
         FUI.SetRenderOffset(Position + new Vector2(10, 5));
 
@@ -143,8 +143,14 @@ public class UiBuilder
         SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.Background.r, UiColors.Background.g, UiColors.Background.b, UiColors.Background.a);
         SDL_RenderFillRect(Game.SDLRenderer, ref rect);
 
-        FUI.Render(Build());
+        FUI.Render(Build(), out float renderHeight);
         FUI.ResetMousePosition();
         FUI.ResetRenderOffset();
+        height = (int)renderHeight;
+    }
+
+    public void Render()
+    {
+        Render(out int height);
     }
 }

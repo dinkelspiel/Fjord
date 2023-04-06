@@ -360,9 +360,10 @@ public static class FUI
         return yOffset;
     }
 
-    public static void Render(List<object> components)
+    public static void Render(List<object> components, out float height)
     {
         float yOffset = 0;
         Render(components, ref yOffset);
+        height = yOffset;
     }
 }
