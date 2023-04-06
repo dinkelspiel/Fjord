@@ -127,6 +127,7 @@ public static class Draw
             SDL_RenderFillRect(Game.SDLRenderer, ref SDLRect);
         else 
             SDL_RenderDrawRect(Game.SDLRenderer, ref SDLRect);
+        SDL_SetRenderDrawColor(Game.SDLRenderer, 0, 0, 0, 255);
     }
 
     internal static void CircleDirect(Vector2 position, float radius, Vector4 color, bool fill) {
@@ -139,6 +140,7 @@ public static class Draw
             if(aacircleRGBA(Game.SDLRenderer, 100, 100, 100, 255, 255, 255, 255) == -1) {
                 Debug.Log(LogLevel.Error, "Failed to draw aacircleRGBA");
             }
+        SDL_SetRenderDrawColor(Game.SDLRenderer, 0, 0, 0, 255);
     }
 
     internal static void TextureDirect(Vector2 position, Texture texture)
