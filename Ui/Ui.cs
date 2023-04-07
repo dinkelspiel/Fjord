@@ -8,6 +8,7 @@ using static SDL2.SDL_gfx;
 using Fjord.Graphics;
 using System.ComponentModel;
 using static Fjord.Helpers;
+using Fjord.Scenes;
 
 namespace Fjord.Ui;
 
@@ -151,10 +152,75 @@ public static class FUI
         Font.Draw(position + new Vector2(5, 3), Font.GetDefaultFont(), value, 16, UiColors.TextColor);
     }
 
-     public static void TextField(Vector2 position, string id, string value, Action<string> onChange, Action<string> onSubmit, string? placeholder=null) 
-     {
+    public static void TextField(Vector2 position, string id, string value, Action<string> onChange, Action<string> onSubmit, string? placeholder=null) 
+    {
         TextFieldExt(position, id, value, onChange, onSubmit, placeholder, out Vector2 fieldsize);
-     }
+    }
+
+    public static void SliderExt(Vector2 position, float min, float max, float value, Action<float> onChange, out Vector2 fieldsize)
+    {
+        Vector2 size = Font.DrawSize(Font.GetDefaultFont(), "10", 16, UiColors.TextColor);
+
+        SDL_Rect rect = new()
+        {
+            x = (int)(position.X),
+            y = (int)(position.Y + (size.Y + 7) / 4),
+            w = (int)200,
+            h = (int)((size.Y + 7) / 2)
+        };
+
+        SDL_Color col = new();
+
+        fieldsize = new(rect.w, rect.h);
+
+        float normalizedValue = (value - min) / (max - min);
+
+        SDL_Rect thumbrect = new()
+        {
+            x = (int)(position.X + (normalizedValue * 200) - (size.Y + 7) / 2),
+            y = (int)(position.Y),
+            w = (int)(size.Y + 7),
+            h = (int)(size.Y + 7)
+        };
+
+        if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, thumbrect))
+        {
+            col = UiColors.ContainerHoverColor;
+            if(Mouse.Down) {
+                col = UiColors.ContainerPressedColor;
+                // Debug.Log((position.X - (OverMousePosition.HasValue ? OverMousePosition.Value.X : Mouse.Position.X)).ToString());
+            }
+        }
+        else
+        {
+            col = UiColors.ContainerIdleColor;
+        }
+
+        if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, rect))
+        {
+            if(Mouse.Down) {
+                float offset = Math.Abs(position.X - (OverMousePosition.HasValue ? OverMousePosition.Value.X : Mouse.Position.X));
+
+                float lerp = offset / 200;
+
+                float val = Lerp(min, max, lerp);
+
+                onChange(val);
+            }
+        }
+
+        SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerIdleColor);
+        SDL_RenderFillRect(Game.SDLRenderer, ref rect);
+
+        SDL_SetRenderDrawColor(Game.SDLRenderer, col);
+        SDL_RenderFillRect(Game.SDLRenderer, ref thumbrect);
+
+        // Font.Draw(position + new Vector2(5, 3), Font.GetDefaultFont(), value.ToString(), 16, UiColors.TextColor);
+    }
+
+    public static void Slider(Vector2 position, float min, float max, float value, Action<float> onChange) {
+        SliderExt(position, min, max, value, onChange, out Vector2 size);
+    }
 
     public static void ResizeableRectangle(ref SDL_FRect rect, Vector2? aspectRatio=null)
     {
@@ -348,9 +414,17 @@ public static class FUI
             {
                 UiTextField component = (UiTextField)componentObj;
 
-                FUI.TextFieldExt(new Vector2(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), component.id, component.value, component.onChange, component.onSubmit, component.placeholder, out Vector2 size);
+                FUI.TextFieldExt(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), component.id, component.value, component.onChange, component.onSubmit, component.placeholder, out Vector2 size);
                 
                 yOffset += size.Y + 5;
+            }
+            else if (componentObj.GetType() == typeof(UiSlider)) 
+            {
+                UiSlider component = (UiSlider)componentObj;
+
+                FUI.SliderExt(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), component.min, component.max, component.value, component.onChange, out Vector2 size);
+
+                yOffset += size.Y + 5 + (size.Y + 5) / 2;
             }
             else if (componentObj.GetType() == typeof(List<object>))
             {

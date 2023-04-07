@@ -10,9 +10,19 @@ using static SDL2.SDL;
 
 namespace Fjord.Scenes;
 
-public class FieldExport : Attribute
+public class Export : Attribute
 {
+    public float sliderMin = 0;
+    public float sliderMax = 200;
 
+    public Export(float min, float max) {
+        this.sliderMin = min;
+        this.sliderMax = max;
+    }
+
+    public Export() {
+
+    }
 }
 
 public struct DebugLog
@@ -138,43 +148,6 @@ public static class Debug {
                         };
 
                         Logs.Add(logtmp);
-                        //lastTopMessage = logtmp;
-
-                        //if (level != LogLevel.User)
-                        //{
-                        //    if (idx == 0)
-                        //    {
-                        //        Console.WriteLine(Logs.Count.ToString());
-                        //        if (Logs.Count > 0)
-                        //        {
-                        //            Console.WriteLine("Help");
-                        //            if (!lastTopMessage.Equals(logtmp))
-                        //            {
-                        //                Console.WriteLine("Help2");
-                        //                Logs.Add(logtmp);
-                        //                lastTopMessage = logtmp;
-                        //            }
-                        //            else
-                        //            {
-                        //                logtmp.repeat = Logs[Logs.Count - 1].repeat + 1;
-                        //                Logs[Logs.Count - 1] = logtmp;
-                        //                return;
-                        //            }
-                        //        }
-                        //        else
-                        //        {
-                        //            Logs.Add(logtmp);
-                        //            lastTopMessage = logtmp;
-                        //        }
-                        //    }
-                        //    else
-                        //    {
-                        //        Logs.Add(logtmp);
-                        //    }
-                        //} else
-                        //{
-                        //    Logs.Add(logtmp);
-                        //}
                     }
                 }
             }
@@ -196,8 +169,7 @@ public static class Debug {
 
 public class InspectorScene : Scene
 {
-    [FieldExport]
-    bool ShowLoadedScenes = true;
+    float yOffset = 0;
 
     public InspectorScene(int width, int height, string id) : base(width, height, id)
     {
@@ -206,7 +178,14 @@ public class InspectorScene : Scene
 
     public override void Render()
     {
-        new UiBuilder(new Vector4(0, 0, (int)(Game.Window.Width * 0.2), (int)Game.Window.Height), LocalMousePosition)
+        if(Mouse.ScrollDown) {
+            yOffset -= 10;
+        }
+        if(Mouse.ScrollUp) {
+            yOffset += 10;
+        }
+
+        new UiBuilder(new Vector4(0, yOffset, (int)(Game.Window.Width * 0.2), (int)Game.Window.Height), LocalMousePosition)
             .Title("Inspector")
             .Container(
                 new UiBuilder()
@@ -231,7 +210,7 @@ public class InspectorScene : Scene
                         };
 
                         foreach(var fi in infos) {
-                            if (fi.IsDefined(typeof(FieldExport), true))
+                            if (fi.IsDefined(typeof(Export), true))
                             {
                                 exports.Add(new UiText(fi.Name));
                                 if (fi.GetValue(val.Value).GetType() == typeof(string))
@@ -241,12 +220,22 @@ public class InspectorScene : Scene
                                         fi.SetValue(val.Value, result);
                                     }, (result) => { }));
                                 } else if(fi.GetValue(val.Value).GetType() == typeof(bool)) {
+                                    exports.RemoveAt(exports.Count - 1);
                                     exports.Add(new UiCheckbox(fi.Name, (bool)fi.GetValue(val.Value), () =>
                                     {
                                         fi.SetValue(val.Value, !(bool)fi.GetValue(val.Value));
                                     }));
-                                } else
-                                {
+                                } else if(fi.GetValue(val.Value).GetType() == typeof(float)) {
+                                    exports.RemoveAt(exports.Count - 1);
+                                    exports.Add(new UiText($"{fi.Name} ({(float)fi.GetValue(val.Value)})"));
+
+                                    Export a = (Export)fi.GetCustomAttribute(typeof(Export));
+
+                                    exports.Add(new UiSlider(a.sliderMin, a.sliderMax, (float)fi.GetValue(val.Value), (result) => {
+                                        fi.SetValue(val.Value, result);
+                                    }));
+                                } else {
+                                    exports.RemoveAt(exports.Count - 1);
                                     exports.Add(new UiText($"{fi.Name} has an unsupported type: {fi.GetValue(val.Value).GetType()}!"));
                                 }
                             }
@@ -265,28 +254,36 @@ public class InspectorScene : Scene
                         
                         return list;
                     })
-                    .If(ShowLoadedScenes, new UiBuilder()
-                        .Title("Loaded Scenes")
-                        .ForEach(SceneHandler.LoadedScenes, (scene, idx) =>
+                    .Title("Loaded Scenes")
+                    .ForEach(SceneHandler.LoadedScenes, (scene, idx) =>
+                    {
+                        var list = new List<object>()
                         {
-                            var list = new List<object>()
-                            {
-                                new UiTitle(scene),
-                                new UiButton("Unload", () => SceneHandler.Unload(scene))
-                            };
+                            new UiTitle(scene),
+                            new UiButton("Unload", () => SceneHandler.Unload(scene))
+                        };
 
-                            if (idx != SceneHandler.LoadedScenes.Count - 1)
-                            {
-                                list.Add(new UiSpacer());
-                            }
+                        if (idx != SceneHandler.LoadedScenes.Count - 1)
+                        {
+                            list.Add(new UiSpacer());
+                        }
 
-                            return list;
-                        })
-                        .Build()
-                    )
+                        return list;
+                    })
                     .Build()
             )
-            .Render();
+            .Render(out int uiHeight);
+
+        if(uiHeight > LocalWindowSize.h) {
+            if(-yOffset < 0) {
+                yOffset = 0;
+            }
+            if(-yOffset > uiHeight - LocalWindowSize.h + 50) {
+                yOffset = -uiHeight + LocalWindowSize.h - 50;
+            }
+        } else {
+            yOffset = 0;
+        }
     }
 }
 

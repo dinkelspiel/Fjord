@@ -140,6 +140,11 @@ public class UiBuilder
         return this;
     }
 
+    public UiBuilder Slider(float min, float max, float value, Action<float> onChange) {
+        UiComponents.Add(new UiSlider(min, max, value, onChange));
+        return this;
+    }
+
     public List<object> Build()
     {
         return UiComponents;

@@ -90,3 +90,19 @@ public class UiTextField : UiComponent
         this.onSubmit = onSubmit;
     }
 }
+
+public class UiSlider : UiComponent 
+{
+    public float min;
+    public float max;
+    public float value;
+    public Action<float> onChange;
+
+    public UiSlider(float min, float max, float value, Action<float> onChange) 
+    {
+        this.min = min;
+        this.max = max;
+        this.value = value;
+        this.onChange = onChange;
+    }
+}

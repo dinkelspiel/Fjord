@@ -45,6 +45,11 @@ public static class Helpers
     {
         return SDL.SDL_SetRenderDrawColor(renderer, color.r, color.g ,color.b, color.a);
     }
+
+    public static float Lerp(float firstFloat, float secondFloat, float by)
+    {
+        return firstFloat + (secondFloat - firstFloat) * by;
+    }
 }
 
 static class StringExtensions {
