@@ -137,7 +137,7 @@ public static class Game
         
         Keyboard.pressedKeys = new();
         Mouse.Pressed = false;
-     
+
         SDL_RenderPresent(SDLRenderer);
     }
 }

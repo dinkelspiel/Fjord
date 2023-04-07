@@ -61,6 +61,15 @@ public abstract class Scene : ICloneable
         return SceneID;
     }
 
+    public void ApplyOriginalAspectRatio()
+    {
+        float ratio = OriginalWindowSize.X / OriginalWindowSize.Y;
+        Vector2 newSize = new Vector2(LocalWindowSize.w, LocalWindowSize.h);
+        newSize.Y = newSize.X / ratio;
+        RelativeWindowSize.w = newSize.X / Game.Window.Width;
+        RelativeWindowSize.h = newSize.Y / Game.Window.Height;
+    }
+
     public Scene(int width, int height, string id)
     {
         OriginalWindowSize.X = width;
@@ -131,7 +140,6 @@ public abstract class Scene : ICloneable
     
     internal void UpdateCall()
     {
-
         LocalWindowSize = new()
         {
             x = (int)(RelativeWindowSize.x * Game.Window.Width),

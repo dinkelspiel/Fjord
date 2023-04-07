@@ -95,6 +95,11 @@ public static class Debug {
         h = 0f
     };
 
+    public static void Log(string message)
+    {
+        Log(LogLevel.Message, message);
+    }
+
     public static void Log(LogLevel level, string message)
     {
         var words = message.Split();
@@ -213,6 +218,7 @@ public class InspectorScene : Scene
                                 new UiButton("Load", () => SceneHandler.Load(val.Key)),
                                 new UiButton("Unload", () => SceneHandler.Unload(val.Key)),
                                 new UiButton("Remake", () => SceneHandler.Remake(val.Key)),
+                                new UiButton("Apply Aspect Ratio", () => val.Value.ApplyOriginalAspectRatio()),
                                 new UiCheckbox("Allow window resize", val.Value.AllowWindowResize, () => val.Value.SetAllowWindowResize(!val.Value.AllowWindowResize)),
                                 new UiCheckbox("Always at back", val.Value.AlwaysAtBack, () => val.Value.SetAlwaysAtBack(!val.Value.AlwaysAtBack)),
                                 new UiCheckbox("Always rebuild texture", val.Value.AlwaysRebuildTexture, () => val.Value.SetAlwaysRebuildTexture(!val.Value.AlwaysRebuildTexture))

@@ -1,5 +1,6 @@
 using Fjord.Scenes;
 using System.Numerics;
+using System.Reflection.Metadata.Ecma335;
 using static SDL2.SDL;
 using static SDL2.SDL_image;
 
@@ -32,6 +33,12 @@ public class Rectangle : DrawInstruction {
     public Rectangle Fill(bool fill)
     {
         this.fill = fill;
+        return this;
+    }
+
+    public Rectangle Depth(int depth)
+    {
+        this.depth = depth;
         return this;
     }
 
@@ -77,6 +84,12 @@ public class Circle : DrawInstruction {
 
     public Circle Fill(bool fill) {
         this.fill = fill;
+        return this;
+    }
+
+    public Circle Depth(int depth)
+    {
+        this.depth = depth;
         return this;
     }
 
@@ -129,7 +142,63 @@ public class Texture : DrawInstruction {
         return this;
     }
 
+    public Texture Depth(int depth)
+    {
+        this.depth = depth;
+        return this;
+    } 
+
     public void Render() {
+        if (Draw.CurrentSceneID is not null)
+        {
+            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add(this);
+        }
+        else
+        {
+            Draw.drawBuffer.Add(this);
+        }
+    }
+}
+
+public class Geometry : DrawInstruction
+{
+    public List<SDL_Vertex> verticies = new List<SDL_Vertex>();
+
+    public Geometry AddVertex(SDL_Vertex v)
+    {
+        verticies.Add(v);
+        return this;
+    }
+
+    public Geometry AddVertex(Vector2 position, Vector4 color, Vector2 tex_coord)
+    {
+        verticies.Add(new SDL_Vertex()
+        {
+            position = new SDL_FPoint() { x = position.X, y = position.Y },
+            color = new SDL_Color() { r = (byte)color.X, g = (byte)color.Y, b = (byte)color.Z, a = (byte)color.W },
+            tex_coord = new SDL_FPoint() { x = tex_coord.X, y = tex_coord.Y }
+        });
+        return this;
+    }
+    public Geometry AddVertex(Vector2 position, Vector4 color)
+    {
+        verticies.Add(new SDL_Vertex()
+        {
+            position = new SDL_FPoint() { x = position.X, y = position.Y },
+            color = new SDL_Color() { r = (byte)color.X, g = (byte)color.Y, b = (byte)color.Z, a = (byte)color.W },
+            tex_coord = new SDL_FPoint() { x = 0, y = 0 }
+        });
+        return this;
+    }
+
+    public Geometry Depth(int depth)
+    {
+        this.depth = depth;
+        return this;
+    }
+
+    public void Render()
+    {
         if (Draw.CurrentSceneID is not null)
         {
             SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add(this);
