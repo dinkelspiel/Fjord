@@ -1,75 +1,76 @@
+using System.Numerics;
 using static SDL2.SDL;
 
 namespace Fjord.Ui;
 
 public static class UiColors {
-    public static SDL_Color Background = new SDL_Color() {
-        r = 23,
-        g = 24,
-        b = 24,
-        a = 255
+    public static Vector4 Background = new() {
+        X = 23,
+        Y = 24,
+        Z = 24,
+        W = 255
     };
 
-    public static SDL_Color TextColor = new SDL_Color() {
-        r = 255,
-        g = 255,
-        b = 255,
-        a = 255
+    public static Vector4 TextColor = new() {
+        X = 255,
+        Y = 255,
+        Z = 255,
+        W = 255
     };
 
-    public static SDL_Color SuccessTextColor = new SDL_Color() {
-        r = 75,
-        g = 122,
-        b = 75,
-        a = 255
+    public static Vector4 SuccessTextColor = new() {
+        X = 75,
+        Y = 122,
+        Z = 75,
+        W = 255
     };
 
-    public static SDL_Color SuccessBackgroundColor = new SDL_Color() {
-        r = 34,
-        g = 41,
-        b = 34,
-        a = 255
+    public static Vector4 SuccessBackgroundColor = new() {
+        X = 34,
+        Y = 41,
+        Z = 34,
+        W = 255
     };
 
-    public static SDL_Color ErrorTextColor = new SDL_Color() {
-        r = 255,
-        g = 104,
-        b = 107,
-        a = 255
+    public static Vector4 ErrorTextColor = new() {
+        X = 255,
+        Y = 104,
+        Z = 107,
+        W = 255
     };
 
-    public static SDL_Color WarningTextColor = new SDL_Color() {
-        r = 255,
-        g = 217,
-        b = 102,
-        a = 255
+    public static Vector4 WarningTextColor = new() {
+        X = 255,
+        Y = 217,
+        Z = 102,
+        W = 255
     };
     
-    public static SDL_Color ContainerHoverColor = new SDL_Color() {
-        r = 52,
-        g = 97,
-        b = 152,
-        a = 255
+    public static Vector4 ContainerHoverColor = new() {
+        X = 52,
+        Y = 97,
+        Z = 152,
+        W = 255
     };
 
-    public static SDL_Color ContainerPressedColor = new SDL_Color() {
-        r = 65,
-        g = 121,
-        b = 190,
-        a = 255
+    public static Vector4 ContainerPressedColor = new() {
+        X = 65,
+        Y = 121,
+        Z = 190,
+        W = 255
     };
 
-    public static SDL_Color ContainerIdleColor = new SDL_Color() {
-        r = 39,
-        g = 73,
-        b = 114,
-        a = 255
+    public static Vector4 ContainerIdleColor = new() {
+        X = 39,
+        Y = 73,
+        Z = 114,
+        W = 255
     };
 
-    public static SDL_Color SpacerColor = new SDL_Color() {
-        r = 50,
-        g = 50,
-        b = 50,
-        a = 255
+    public static Vector4 SpacerColor = new() {
+        X = 50,
+        Y = 50,
+        Z = 50,
+        W = 255
     };
 }

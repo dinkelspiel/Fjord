@@ -13,6 +13,7 @@ public abstract class Scene : ICloneable
     public bool AlwaysRebuildTexture = false;
     public bool AlwaysAtBack = false;
     public Vector2 LocalMousePosition = new();
+    public bool MouseInsideScene { get; internal set; }
     internal List<DrawInstruction> drawBuffer = new();
     internal SDL_FRect RelativeWindowSize = new()
     {
@@ -38,6 +39,17 @@ public abstract class Scene : ICloneable
     public void SetClearColor(SDL_Color cc)
     {
         ClearColor = cc;
+    }
+
+    public void SetClearColor(Vector4 cc)
+    {
+        ClearColor = new()
+        {
+            r = (byte)cc.X,
+            g = (byte)cc.Y,
+            b = (byte)cc.Z,
+            a = (byte)cc.W
+        };
     }
 
     public void SetClearColor(int r, int g, int b, int a)
@@ -166,6 +178,14 @@ public abstract class Scene : ICloneable
         {
             SceneHandler.LoadedScenes.Remove(SceneID);
             SceneHandler.LoadedScenes.Insert(SceneHandler.LoadedScenes.Count, SceneID);
+        }
+
+        if (Helpers.PointInside(Mouse.Position, LocalWindowSize)) 
+        {
+            MouseInsideScene = true;
+        } else 
+        {
+            MouseInsideScene = false;
         }
 
         if (AlwaysAtBack)

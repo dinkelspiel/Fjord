@@ -1,4 +1,5 @@
 using System.Numerics;
+using Fjord.Graphics;
 using static SDL2.SDL;
 
 namespace Fjord.Ui;
@@ -157,15 +158,9 @@ public class UiBuilder
         //float yOffset = 0;
         //float y = Ui.Render(Build(), ref yOffset);
 
-        SDL_Rect rect = new()
-        {
-            x = (int)(Position.X),
-            y = (int)(Position.Y),
-            w = Size.HasValue ? (int)Size.Value.X : 200,
-            h = Size.HasValue ? (int)Size.Value.Y : 400
-        };
-        SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.Background.r, UiColors.Background.g, UiColors.Background.b, UiColors.Background.a);
-        SDL_RenderFillRect(Game.SDLRenderer, ref rect);
+        new Rectangle(new(Position.X, Position.Y, Size.HasValue ? Size.Value.X : 200, Size.HasValue ? Size.Value.Y : 400))
+            .Color(UiColors.Background)
+            .Render();
 
         FUI.Render(Build(), out float renderHeight);
         FUI.ResetMousePosition();

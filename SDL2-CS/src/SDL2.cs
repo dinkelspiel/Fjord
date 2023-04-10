@@ -31,6 +31,7 @@ using System;
 using System.Diagnostics;
 #if NET6_0_OR_GREATER
 using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 #endif
 using System.Runtime.InteropServices;
 using System.Text;

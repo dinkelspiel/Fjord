@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Fjord.Scenes;
 
 namespace Fjord.Input;
 
@@ -275,9 +276,46 @@ public static class Keyboard
         return new KeyboardDownBuilder(key);
     }
 
-    public static bool Pressed(Key key)
+    public static bool Pressed(Key key, string? scene=null)
     {
-        return pressedKeys.Contains(key);
+        if(scene == null) {
+            return pressedKeys.Contains(key);
+        } else if(SceneHandler.Scenes[scene].MouseInsideScene) {
+            return pressedKeys.Contains(key);
+        } 
+        return false;
+    }
+
+    public static bool Pressed(Key key, params Mod[] mods)
+    {
+        bool containsModifiers = true;
+        foreach(var i in mods)
+        {
+            if(!Keyboard.pressedModifiers.Contains(i))
+            {
+                containsModifiers = false;
+                break;
+            }
+        }
+        return Keyboard.downKeys.Contains(key) && containsModifiers;
+    }
+
+    public static bool Pressed(Key key, string scene, params Mod[] mods)
+    {
+        bool containsModifiers = true;
+        foreach(var i in mods)
+        {
+            if(!Keyboard.pressedModifiers.Contains(i))
+            {
+                containsModifiers = false;
+                break;
+            }
+        }
+
+        if(scene == null)
+            return Keyboard.downKeys.Contains(key) && containsModifiers;
+        else 
+            return Keyboard.downKeys.Contains(key) && containsModifiers && SceneHandler.Scenes[scene].MouseInsideScene;
     }
 
     public static KeyboardPressedBuilder PressedExt(Key key)
@@ -289,6 +327,7 @@ public static class Keyboard
 public class KeyboardDownBuilder
 {
     private Key key;
+    private string? scene = null;
 
     public KeyboardDownBuilder(Key key)
     {
@@ -306,7 +345,27 @@ public class KeyboardDownBuilder
                 break;
             }
         }
-        return Keyboard.downKeys.Contains(this.key) && containsModifiers;
+
+        if(scene == null)
+            return Keyboard.downKeys.Contains(this.key) && containsModifiers;
+        else 
+            return Keyboard.downKeys.Contains(this.key) && containsModifiers && SceneHandler.Scenes[scene].MouseInsideScene;
+    }
+
+    public KeyboardDownBuilder InScene(string scene) 
+    {
+        this.scene = scene;
+        return this;
+    }
+
+    public bool Get() 
+    {
+        if(scene == null) {
+            return Keyboard.pressedKeys.Contains(key);
+        } else if(SceneHandler.Scenes[scene].MouseInsideScene) {
+            return Keyboard.pressedKeys.Contains(key);
+        } 
+        return false;
     }
 }
 

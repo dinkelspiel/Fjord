@@ -1,4 +1,3 @@
-using System.Drawing;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
 using Fjord.Input;
@@ -42,7 +41,7 @@ public static class FUI
 
     public static void ButtonExt(Vector2 position, string text, Action callback, out Vector2 size)
     {
-        Vector2 TextSize = Font.DrawSize(Font.GetDefaultFont(), text, 16, new SDL_Color() { r = 255, g = 0, b = 0, a = 255 });
+        Vector2 TextSize = Font.DrawSize(Font.GetDefaultFont(), text, 16, new(255, 0, 0, 255));
 
         SDL_FRect rect = new()
         {
@@ -52,22 +51,27 @@ public static class FUI
             h = TextSize.Y + 7
         };
 
+        Vector4 col;
+
         if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, Helpers.FRectToRect(rect)))
         {
-            SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerHoverColor);
+            col =  UiColors.ContainerHoverColor;
             if (Mouse.Down)
             {
-                SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerPressedColor);
+                col = UiColors.ContainerPressedColor;
             }
         }
         else
         {
-            SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerIdleColor);
+            col = UiColors.ContainerIdleColor;
         }
 
-        SDL_RenderFillRectF(Game.SDLRenderer, ref rect);
+        new Rectangle(new(position.X, position.Y, TextSize.X + 40, TextSize.Y + 7))
+            .Color(col)
+            .Fill(true)
+            .Render();
 
-        Font.Draw(position + new Vector2(5, 3), Font.GetDefaultFont(), text, 16, new SDL_Color() { r = 255, g = 255, b = 255, a = 255 });
+        Draw.Text(position + new Vector2(5, 3), Font.GetDefaultFont(), text, 16, new(255, 255, 255, 255));
 
         if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, Helpers.FRectToRect(rect)))
         {
@@ -130,15 +134,15 @@ public static class FUI
                     SDL_StopTextInput();
                 }
             }
-            SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerHoverColor);
+            SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerHoverColor.ToCol());
         }
         else if(FUI.selectedTextField == id) 
         {
-            SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerPressedColor);
+            SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerPressedColor.ToCol());
         }
         else
         {
-            SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerIdleColor);
+            SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerIdleColor.ToCol());
         }
     
         // Console.WriteLine(FUI.selectedTextFieldValue);
@@ -149,7 +153,7 @@ public static class FUI
         };
 
         SDL_RenderFillRect(Game.SDLRenderer, ref rect);
-        Font.Draw(position + new Vector2(5, 3), Font.GetDefaultFont(), value, 16, UiColors.TextColor);
+        Draw.Text(position + new Vector2(5, 3), Font.GetDefaultFont(), value, 16, UiColors.TextColor);
     }
 
     public static void TextField(Vector2 position, string id, string value, Action<string> onChange, Action<string> onSubmit, string? placeholder=null) 
@@ -185,15 +189,15 @@ public static class FUI
 
         if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, thumbrect))
         {
-            col = UiColors.ContainerHoverColor;
+            col = UiColors.ContainerHoverColor.ToCol();
             if(Mouse.Down) {
-                col = UiColors.ContainerPressedColor;
+                col = UiColors.ContainerPressedColor.ToCol();
                 // Debug.Log((position.X - (OverMousePosition.HasValue ? OverMousePosition.Value.X : Mouse.Position.X)).ToString());
             }
         }
         else
         {
-            col = UiColors.ContainerIdleColor;
+            col = UiColors.ContainerIdleColor.ToCol();
         }
 
         if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, rect))
@@ -209,7 +213,7 @@ public static class FUI
             }
         }
 
-        SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerIdleColor);
+        SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerIdleColor.ToCol());
         SDL_RenderFillRect(Game.SDLRenderer, ref rect);
 
         SDL_SetRenderDrawColor(Game.SDLRenderer, col);
@@ -224,57 +228,108 @@ public static class FUI
 
     public static void ResizeableRectangle(ref SDL_FRect rect, Vector2? aspectRatio=null)
     {
-        SDL_Rect localRect = new SDL_Rect()
+        int i = 0;
+        SDL_Rect localRect = new();
+        while(i < 3) {
+            i++;
+            localRect = new SDL_Rect()
+            {
+                x = (int)(rect.x * Game.Window.Width - i),
+                y = (int)(rect.y * Game.Window.Height - i),
+                w = (int)((rect.w - rect.x) * Game.Window.Width + i * 2),
+                h = (int)((rect.h - rect.y) * Game.Window.Height + i * 2)
+            };
+
+            SDL.SDL_SetRenderDrawColor(Game.SDLRenderer, 238, 170, 0,255);
+            SDL_RenderDrawRect(Game.SDLRenderer, ref localRect);
+            SDL.SDL_SetRenderDrawColor(Game.SDLRenderer, 0, 0, 0, 255);
+        }
+        localRect = new SDL_Rect()
         {
             x = (int)(rect.x * Game.Window.Width),
             y = (int)(rect.y * Game.Window.Height),
             w = (int)((rect.w - rect.x) * Game.Window.Width),
             h = (int)((rect.h - rect.y) * Game.Window.Height)
         };
+
+        short radius = 12;
+        short drawRadius = 6;
+
+        Circle idleCircle = new Circle(new(localRect.x + localRect.w, localRect.y + localRect.h), drawRadius)
+            .Color(new(238, 170, 0, 255))
+            .Fill(true);
+
+        Circle hoverCircle = new Circle(new(localRect.x + localRect.w, localRect.y + localRect.h), drawRadius * 2)
+            .Color(new(239, 17, 33, 255))
+            .Fill(true);
         
-        short radius = 10;
-        SDL.SDL_SetRenderDrawColor(Game.SDLRenderer, 255, 0, 0, 255);
-        SDL_RenderDrawRect(Game.SDLRenderer, ref localRect);
-        SDL.SDL_SetRenderDrawColor(Game.SDLRenderer, 0, 0, 0, 255);
-        
+        Draw.CircleDirect(
+            new Circle(new(localRect.x, localRect.y), drawRadius)
+                .Color(new(238, 170, 0, 255))
+                .Fill(true)
+        );
         if (Helpers.PointDistance(new Vector2(localRect.x, localRect.y), Mouse.Position) < radius)
         {
-            aacircleRGBA(Game.SDLRenderer, (short)localRect.x, (short)localRect.y, radius, 255, 255, 255, 255);
+            Draw.CircleDirect(
+                hoverCircle.Position(new(localRect.x, localRect.y))
+            );
             if (Mouse.Down)
             {
                 rect.x = Mouse.Position.X / Game.Window.Width;
                 rect.y = Mouse.Position.Y / Game.Window.Height;
             }
+        } else {
+            Draw.CircleDirect(
+                idleCircle.Position(new(localRect.x, localRect.y))
+            );
         }
-        
+
         if (Helpers.PointDistance(new Vector2(localRect.x + localRect.w, localRect.y), Mouse.Position) < radius)
         {
-            aacircleRGBA(Game.SDLRenderer, (short)(localRect.x + localRect.w), (short)localRect.y, radius, 255, 255, 255, 255);
+            Draw.CircleDirect(
+                hoverCircle.Position(new(localRect.x + localRect.w, localRect.y))
+            );
             if (Mouse.Down)
             {
                 rect.w = Mouse.Position.X / Game.Window.Width;
                 rect.y = Mouse.Position.Y / Game.Window.Height;
             }
+        } else {
+            Draw.CircleDirect(
+                idleCircle.Position(new(localRect.x + localRect.w, localRect.y))
+            );
         }
 
         if (Helpers.PointDistance(new Vector2(localRect.x, localRect.y + localRect.h), Mouse.Position) < radius)
         {
-            aacircleRGBA(Game.SDLRenderer, (short)localRect.x, (short)(localRect.y + localRect.h), radius, 255, 255, 255, 255);
+            Draw.CircleDirect(
+                hoverCircle.Position(new(localRect.x, localRect.y + localRect.h))
+            );
             if (Mouse.Down)
             {
                 rect.x = Mouse.Position.X / Game.Window.Width;
                 rect.h = Mouse.Position.Y / Game.Window.Height;
             }
+        } else {
+            Draw.CircleDirect(
+                idleCircle.Position(new(localRect.x, localRect.y + localRect.h))
+            );
         }
 
         if (Helpers.PointDistance(new Vector2(localRect.x + localRect.w, localRect.y + localRect.h), Mouse.Position) < radius)
         {
-            aacircleRGBA(Game.SDLRenderer, (short)(localRect.x + localRect.w), (short)(localRect.y + localRect.h), radius, 255, 255, 255, 255);
+            Draw.CircleDirect(
+                hoverCircle.Position(new(localRect.x + localRect.w, localRect.y + localRect.h))
+            );
             if (Mouse.Down)
             {
                 rect.w = Mouse.Position.X / Game.Window.Width;
                 rect.h = Mouse.Position.Y / Game.Window.Height;
             }
+        } else {
+            Draw.CircleDirect(
+                idleCircle.Position(new(localRect.x + localRect.w, localRect.y + localRect.h))
+            );
         }
     }
 
@@ -291,15 +346,15 @@ public static class FUI
             else if (componentObj.GetType() == typeof(UiTitle))
             {
                 UiTitle component = (UiTitle)componentObj;
-                Font.Draw(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), Font.GetDefaultFont(), component.text, 18, UiColors.TextColor);
-                Vector2 size = Font.DrawSize(Font.GetDefaultFont(), component.text, 18, new() { r = 0, g = 0, b = 0, a = 255 });
+                Draw.Text(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), Font.GetDefaultFont(), component.text, 18, UiColors.TextColor);
+                Vector2 size = Font.DrawSize(Font.GetDefaultFont(), component.text, 18, new(0, 0, 0, 255));
                 yOffset += size.Y + 5;
             }
             else if (componentObj.GetType() == typeof(UiText))
             {
                 UiText component = (UiText)componentObj;
-                Font.Draw(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), Font.GetDefaultFont(), component.text, 14, UiColors.TextColor);
-                Vector2 size = Font.DrawSize(Font.GetDefaultFont(), component.text, 14, new() { r = 0, g = 0, b = 0, a = 255 });
+                Draw.Text(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), Font.GetDefaultFont(), component.text, 14, UiColors.TextColor);
+                Vector2 size = Font.DrawSize(Font.GetDefaultFont(), component.text, 14, new(0, 0, 0, 255));
                 yOffset += size.Y + 5;
             }
             else if (componentObj.GetType() == typeof(UiSpacer))
@@ -332,19 +387,19 @@ public static class FUI
 
                 if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, rect))
                 {
-                    SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerHoverColor);
+                    SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerHoverColor.ToCol());
                     if (Mouse.Down)
                     {
-                        SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerPressedColor);
+                        SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerPressedColor.ToCol());
                     }
                 }
                 else if (component.value)
                 {
-                    SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerPressedColor);
+                    SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerPressedColor.ToCol());
                 }
                 else
                 {
-                    SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerIdleColor);
+                    SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerIdleColor.ToCol());
                 }
 
                 if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, rect) && Mouse.Pressed)
@@ -354,7 +409,7 @@ public static class FUI
 
                 SDL_RenderFillRect(Game.SDLRenderer, ref rect);
 
-                Font.Draw(new Vector2(indent * 10 + UiRenderOffset.X + 25, yOffset + UiRenderOffset.Y), Font.DefaultFont, component.text, 16, new SDL_Color() { r = 255, g = 255, b = 255, a = 255 });
+                Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + 25, yOffset + UiRenderOffset.Y), Font.DefaultFont, component.text, 16, new(255, 255, 255, 255));
 
                 yOffset += 25;
             } else if (componentObj.GetType() == typeof(UiDebugLog))
@@ -370,13 +425,13 @@ public static class FUI
                     h = (int)(size.Y + 6)
                 };
 
-                SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.SuccessBackgroundColor);
+                SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.SuccessBackgroundColor.ToCol());
                 SDL_RenderFillRect(Game.SDLRenderer, ref rect);
 
                 Vector2 size2 = Font.DrawSize(Font.GetDefaultFont(), component.sender, 14, UiColors.SuccessTextColor);
 
-                Font.Draw(new Vector2(indent * 10 + UiRenderOffset.X + 5, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.time, 14, UiColors.SuccessTextColor);
-                Font.Draw(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.sender, 14, UiColors.SuccessTextColor);
+                Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + 5, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.time, 14, UiColors.SuccessTextColor);
+                Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.sender, 14, UiColors.SuccessTextColor);
                 
                 SDL_Rect hideRect = new SDL_Rect() 
                 {
@@ -387,25 +442,25 @@ public static class FUI
                 };
                 
                 if(component.hideInfo) {
-                    SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.Background);
+                    SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.Background.ToCol());
                     SDL_RenderFillRect(Game.SDLRenderer, ref hideRect);
                 }
 
                 switch(component.level) {
                     case Scenes.LogLevel.Error: {
-                        Font.Draw(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.message, 14, UiColors.ErrorTextColor);
+                        Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.message, 14, UiColors.ErrorTextColor);
                     } break;
                     case Scenes.LogLevel.Warning: {
-                        Font.Draw(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.message, 14, UiColors.WarningTextColor);
+                        Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.message, 14, UiColors.WarningTextColor);
                     } break;
                     default: {
-                        Font.Draw(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.message, 14, UiColors.TextColor);
+                        Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.message, 14, UiColors.TextColor);
                     } break;
                 }
 
                 if(component.repeat > 0) {
                     Vector2 size3 = Font.DrawSize(Font.GetDefaultFont(), component.message, 14, UiColors.TextColor);
-                    Font.Draw(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10 + size3.X + 10, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), "(" + component.repeat.ToString() + "x)", 14, UiColors.ErrorTextColor);
+                    Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10 + size3.X + 10, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), "(" + component.repeat.ToString() + "x)", 14, UiColors.ErrorTextColor);
                 }
 
                 yOffset += size.Y + 10;

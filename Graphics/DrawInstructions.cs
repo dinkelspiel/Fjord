@@ -13,6 +13,7 @@ public class DrawInstruction {
 public class Rectangle : DrawInstruction {
     public Vector4 rect;
     public Vector4 color;
+    public float? borderRadius = null;
     public bool fill;
 
     public Rectangle(Vector4 rect)
@@ -33,6 +34,12 @@ public class Rectangle : DrawInstruction {
     public Rectangle Fill(bool fill)
     {
         this.fill = fill;
+        return this;
+    }
+
+    public Rectangle BorderRadius(float radius)
+    {
+        this.borderRadius = radius;
         return this;
     }
 
@@ -109,12 +116,21 @@ public class Texture : DrawInstruction {
     public Vector2 position;
     public IntPtr SDLTexture;
     public Vector2 textureSize;
+    public bool destroy = true;
+    public float angle;
+    public Flip flip;
+    public Center center;
     public Texture(string path)
     {
-        if(File.Exists(path)) {
-            SDLTexture = IMG_LoadTexture(Game.SDLRenderer, path);
+        if(!Draw.textureCache.ContainsKey(path)) {
+            if(File.Exists(path)) {
+                SDLTexture = IMG_LoadTexture(Game.SDLRenderer, path);
+                Draw.textureCache.Add(path, SDLTexture);
+            } else {
+                throw new FileNotFoundException($"No image exists to load at path '{path}'");
+            }
         } else {
-            throw new FileNotFoundException($"No image exists to load at path '{path}'");
+            SDLTexture = Draw.textureCache[path];
         }
         SDL_QueryTexture(SDLTexture, out uint format, out int access, out int w, out int h);
         textureSize = new Vector2(w, h);
@@ -137,8 +153,18 @@ public class Texture : DrawInstruction {
         return this;
     }
 
-    public Texture TextureSize(Vector2 size) {
+    public Texture Position(float x, float y) {
+        this.position = new(x, y);
+        return this;
+    }
+
+    public Texture Size(Vector2 size) {
         this.textureSize = size;
+        return this;
+    }
+
+    public Texture Size(float w, float h) {
+        this.textureSize = new(w, h);
         return this;
     }
 
@@ -148,7 +174,32 @@ public class Texture : DrawInstruction {
         return this;
     } 
 
-    public void Render() {
+    public Texture Angle(float angle)
+    {
+        this.angle = angle;
+        return this;
+    }
+
+    public Texture Flip(Flip flip)
+    {   
+        this.flip = flip;
+        return this;
+    }
+
+    public Texture Center(Center drawCenter)
+    {
+        this.center = drawCenter;
+        return this;
+    }
+
+    public Texture Destroy(bool des)
+    {
+        this.destroy = des;
+        return this;
+    }
+
+    public void Render(bool destroy=false) {
+        this.destroy = destroy;
         if (Draw.CurrentSceneID is not null)
         {
             SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add(this);
@@ -192,6 +243,81 @@ public class Geometry : DrawInstruction
     }
 
     public Geometry Depth(int depth)
+    {
+        this.depth = depth;
+        return this;
+    }
+
+    public void Render()
+    {
+        if (Draw.CurrentSceneID is not null)
+        {
+            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add(this);
+        }
+        else
+        {
+            Draw.drawBuffer.Add(this);
+        }
+    }
+}
+
+public class Text : DrawInstruction
+{
+    public string font;
+    public string value;
+    public Vector2 position;
+    public int size;
+    public Vector4 color;
+
+    public Text(string font, string text)
+    {
+        this.font = font;
+        this.value = text;
+    }
+
+    public Text(string text)
+    {
+        this.value = text;
+        this.font = Graphics.Font.DefaultFont;
+    }
+
+    public Text Font(string font)
+    {
+        this.font = font;
+        return this;
+    }
+
+    public Text Position(Vector2 position)
+    {
+        this.position = position;
+        return this;
+    }
+
+    public Text Position(float x, float y)
+    {
+        this.position = new(x, y);
+        return this;
+    }
+
+    public Text Size(int size)
+    {
+        this.size = size;
+        return this;
+    }
+
+    public Text Color(Vector4 color)
+    {
+        this.color = color;
+        return this;
+    }
+
+    public Text Color(SDL_Color color)
+    {
+        this.color = new(color.r, color.g, color.b, color.a);
+        return this;
+    }
+
+    public Text Depth(int depth)
     {
         this.depth = depth;
         return this;

@@ -50,6 +50,35 @@ public static class Helpers
     {
         return firstFloat + (secondFloat - firstFloat) * by;
     }
+
+    public static Vector4 ColorToV4(SDL_Color col) {
+        return new(col.r, col.g, col.b, col.a);
+    }
+
+    public static SDL_Color V4ToColor(Vector4 v) {
+        return new() {
+            r = (byte)v.X,
+            g = (byte)v.Y,
+            b = (byte)v.Z,
+            a = (byte)v.W
+        };
+    }
+
+    public static Vector4 ToV4(this SDL_Color color) 
+    {
+        return new(color.r, color.g, color.b, color.a);
+    }
+
+    public static SDL_Color ToCol(this Vector4 v) 
+    {
+        return new()
+        {
+            r = (byte)v.X,
+            g = (byte)v.Y,
+            b = (byte)v.Z,
+            a = (byte)v.W
+        };
+    }
 }
 
 static class StringExtensions {

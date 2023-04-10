@@ -79,11 +79,11 @@ public static class Debug {
         SceneHandler.Register(new InspectorScene((int)(Game.Window.Width * 0.20), 1080, "inspector")
             .SetAllowWindowResize(false)
             .SetAlwaysRebuildTexture(true)
-            .SetRelativeWindowSize(0.8f, 0f, 1.01f, 1f));
+            .SetRelativeWindowSize(0.8f, 0f, 1f, 1f));
 
         SceneHandler.Register(new ConsoleScene((int)(Game.Window.Width * 0.2), (int)(Game.Window.Height * 0.4), "console")
             .SetAllowWindowResize(true)
-            .SetRelativeWindowSize(0.1f, 0.1f, 0.3f, 0.5f)
+            .SetRelativeWindowSize(0.1f, 0.1f, 0.4f, 0.6f)
             .SetAlwaysRebuildTexture(true));
 
         RegisterCommand("clear", (args) =>
@@ -178,11 +178,14 @@ public class InspectorScene : Scene
 
     public override void Render()
     {
-        if(Mouse.ScrollDown) {
-            yOffset -= 10;
-        }
-        if(Mouse.ScrollUp) {
-            yOffset += 10;
+        if(MouseInsideScene) 
+        {
+            if(Mouse.ScrollDown) {
+                yOffset -= 10;
+            }
+            if(Mouse.ScrollUp) {
+                yOffset += 10;
+            }
         }
 
         new UiBuilder(new Vector4(0, yOffset, (int)(Game.Window.Width * 0.2), (int)Game.Window.Height), LocalMousePosition)
@@ -274,15 +277,18 @@ public class InspectorScene : Scene
             )
             .Render(out int uiHeight);
 
-        if(uiHeight > LocalWindowSize.h) {
-            if(-yOffset < 0) {
+        if(MouseInsideScene) 
+        {
+            if(uiHeight > LocalWindowSize.h) {
+                if(-yOffset < 0) {
+                    yOffset = 0;
+                }
+                if(-yOffset > uiHeight - LocalWindowSize.h + 50) {
+                    yOffset = -uiHeight + LocalWindowSize.h - 50;
+                }
+            } else {
                 yOffset = 0;
             }
-            if(-yOffset > uiHeight - LocalWindowSize.h + 50) {
-                yOffset = -uiHeight + LocalWindowSize.h - 50;
-            }
-        } else {
-            yOffset = 0;
         }
     }
 }
@@ -300,11 +306,14 @@ public class ConsoleScene : Scene
 
     public override void Render()
     {
-        if(Mouse.ScrollDown) {
-            yOffset -= 10;
-        }
-        if(Mouse.ScrollUp) {
-            yOffset += 10;
+        if(MouseInsideScene)
+        {
+            if(Mouse.ScrollDown) {
+                yOffset -= 10;
+            }
+            if(Mouse.ScrollUp) {
+                yOffset += 10;
+            }
         }
 
         new UiBuilder(new Vector4(0, yOffset, 0, 0), LocalMousePosition)
@@ -323,15 +332,18 @@ public class ConsoleScene : Scene
             .Render(out int uiHeight);
 
         // Math.Clamp(yOffset, 0, uiHeight);
-        if(uiHeight > LocalWindowSize.h) {
-            if(-yOffset < 0) {
+        if(MouseInsideScene) 
+        {
+            if(uiHeight > LocalWindowSize.h) {
+                if(-yOffset < 0) {
+                    yOffset = 0;
+                }
+                if(-yOffset > uiHeight - LocalWindowSize.h + 50) {
+                    yOffset = -uiHeight + LocalWindowSize.h - 50;
+                }
+            } else {
                 yOffset = 0;
             }
-            if(-yOffset > uiHeight - LocalWindowSize.h + 50) {
-                yOffset = -uiHeight + LocalWindowSize.h - 50;
-            }
-        } else {
-            yOffset = 0;
         }
 
         var submitCommand = () => {
