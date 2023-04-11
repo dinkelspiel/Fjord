@@ -86,6 +86,9 @@ public static class Debug {
             .SetRelativeWindowSize(0.1f, 0.1f, 0.4f, 0.6f)
             .SetAlwaysRebuildTexture(true));
 
+        SceneHandler.Load("console");
+        SceneHandler.Load("inspector");
+
         RegisterCommand("clear", (args) =>
         {
             Logs = new();
@@ -127,6 +130,8 @@ public static class Debug {
                 lineNum++;
             }
         }
+
+        Console.WriteLine(message);
 
         StackTrace stackTrace = new StackTrace(); 
         StackFrame? stackFrame = stackTrace.GetFrame(1);
