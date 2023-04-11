@@ -120,6 +120,8 @@ public static class Game
             } else
                 SceneHandler.Unload("console");
         }
+
+        Keyboard.pressedKeys = new();
     }
 
     public static void Render(ref bool open)
@@ -139,8 +141,7 @@ public static class Game
         }
         
         Draw.DrawDrawBuffer(Draw.drawBuffer, null);
-        
-        Keyboard.pressedKeys = new();
+
         Mouse.Pressed = false;
 
         SDL_RenderPresent(SDLRenderer);
