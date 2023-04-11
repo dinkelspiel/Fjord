@@ -105,7 +105,7 @@ public static class Game
             }
         }
         
-        if (Keyboard.PressedExt(Key.D).With(Mod.LShift, Mod.LCtrl))
+        if (Keyboard.DownExt(Key.D).With(Mod.LShift, Mod.LCtrl))
         {
             if (!SceneHandler.IsLoaded("inspector"))
                 SceneHandler.Load("inspector");
@@ -113,7 +113,7 @@ public static class Game
                 SceneHandler.Unload("inspector");
         }
 
-        if (Keyboard.PressedExt(Key.C).With(Mod.LShift, Mod.LCtrl))
+        if (Keyboard.DownExt(Key.C).With(Mod.LShift, Mod.LCtrl))
         {
             if (!SceneHandler.IsLoaded("console")) {
                 SceneHandler.Load("console");
