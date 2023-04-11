@@ -208,7 +208,7 @@ public abstract class Scene : ICloneable
         Render();
         Draw.CurrentSceneID = null;
 
-        Draw.DrawDrawBuffer(drawBuffer);
+        Draw.DrawDrawBuffer(drawBuffer, SceneID);
 
         drawBuffer = new();
 

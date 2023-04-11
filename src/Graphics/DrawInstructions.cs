@@ -6,8 +6,13 @@ using static SDL2.SDL_image;
 
 namespace Fjord.Graphics;
 
-public class DrawInstruction {
+public class DrawInstruction : ICloneable {
     public int depth;
+
+    public object Clone()
+    {
+        return this.MemberwiseClone();
+    }
 }
 
 public class Rectangle : DrawInstruction {
@@ -66,6 +71,7 @@ public class Circle : DrawInstruction {
     public Vector2 position;
     public float radius;
     public Vector4 color;
+    public CirlceAnimation? hoverAnimation;
     public bool fill;
 
     public Circle(Vector2 position, float radius)
@@ -97,6 +103,12 @@ public class Circle : DrawInstruction {
     public Circle Depth(int depth)
     {
         this.depth = depth;
+        return this;
+    }
+
+    public Circle HoverAnimation(CirlceAnimation anim)
+    {
+        this.hoverAnimation = anim;
         return this;
     }
 

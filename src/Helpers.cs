@@ -51,6 +51,16 @@ public static class Helpers
         return firstFloat + (secondFloat - firstFloat) * by;
     }
 
+    public static Vector4 Lerp(Vector4 a, Vector4 b, float by)
+    {
+        return new(
+            a.X + (b.X - a.X) * by,
+            a.Y + (b.Y - a.Y) * by,
+            a.Z + (b.Z - a.Z) * by,
+            a.W + (b.W - a.W) * by
+        );
+    }
+
     public static Vector4 ColorToV4(SDL_Color col) {
         return new(col.r, col.g, col.b, col.a);
     }

@@ -27,6 +27,8 @@ public static class Game
     private static ulong timeLast = 0;
     private static double deltaTime = 0.0;
 
+    private static double lastRender = 0;
+
     public static void Initialize(string title, int width, int height)
     {   
         #if DEBUG
@@ -75,7 +77,10 @@ public static class Game
             
             EventHandler.HandleEvents();
 
-            Update();
+            if(SDL_GetTicks() - lastRender > 1000 / 60) {
+                Update();
+                lastRender = SDL_GetTicks();
+            }
             Render(ref open);
         }
     }
@@ -133,7 +138,7 @@ public static class Game
             }
         }
         
-        Draw.DrawDrawBuffer(Draw.drawBuffer);
+        Draw.DrawDrawBuffer(Draw.drawBuffer, null);
         
         Keyboard.pressedKeys = new();
         Mouse.Pressed = false;

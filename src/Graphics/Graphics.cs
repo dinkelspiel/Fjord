@@ -1,5 +1,6 @@
 using System.Drawing;
 using System.Numerics;
+using Fjord.Input;
 using Fjord.Scenes;
 using static SDL2.SDL;
 using static SDL2.SDL_gfx;
@@ -326,7 +327,7 @@ public static class Draw
         SDL_RenderCopy(Game.SDLRenderer, Font.FontCache[CacheKey], IntPtr.Zero, ref rect);
     }
 
-    internal static void DrawDrawBuffer(List<DrawInstruction> drawBufferLocal) {
+    internal static void DrawDrawBuffer(List<DrawInstruction> drawBufferLocal, string? sceneId) {
         List<DrawInstruction> sortedDrawBuffer = drawBufferLocal.OrderBy(e => e.depth).ToList();
 
         foreach(DrawInstruction drawInsObj in sortedDrawBuffer) {
@@ -335,7 +336,29 @@ public static class Draw
                 Draw.RectangleDirect(drawIns);
             } else if(drawInsObj.GetType() == typeof(Circle)) {
                 Circle drawIns = (Circle)drawInsObj;
-                Draw.CircleDirect(drawIns);
+                Circle drawInsClone = (Circle)drawInsObj.Clone();
+                if(drawIns.hoverAnimation != null)
+                {
+                    if(drawIns.hoverAnimation.xDriver != null)
+                        drawInsClone.position.X *= (drawIns.hoverAnimation.xDriver(drawIns.hoverAnimation.progress) + 1);
+                    if(drawIns.hoverAnimation.yDriver != null)
+                        drawInsClone.position.Y *= (drawIns.hoverAnimation.yDriver(drawIns.hoverAnimation.progress) + 1);
+                    if(drawIns.hoverAnimation.radiusDriver != null)
+                        drawInsClone.radius *= (drawIns.hoverAnimation.radiusDriver(drawIns.hoverAnimation.progress) + 1);
+                    if(drawIns.hoverAnimation.colorDriver != null)
+                        drawInsClone.color = Helpers.Lerp(drawIns.color, drawIns.hoverAnimation.colorGoal, drawIns.hoverAnimation.progress);
+                        // drawInsClone.color *= (drawIns.hoverAnimation.colorDriver(drawIns.hoverAnimation.progress) + 1);
+                    if(sceneId == null ? Helpers.PointDistance(Mouse.Position, drawInsClone.position) < drawInsClone.radius : Helpers.PointDistance(SceneHandler.Scenes[sceneId].LocalMousePosition, drawInsClone.position) < drawInsClone.radius) {
+                        if(drawIns.hoverAnimation.progress < 1)
+                            drawIns.hoverAnimation.progress += drawIns.hoverAnimation.speed;
+                    } else {
+                        drawIns.hoverAnimation.progress = 0;
+                        drawInsClone.position = drawIns.position;
+                        drawInsClone.radius = drawIns.radius;
+                        drawInsClone.color = drawIns.color;
+                    }
+                }
+                Draw.CircleDirect(drawInsClone);
             } else if(drawInsObj.GetType() == typeof(Texture))
             {
                 Texture drawIns = (Texture)drawInsObj;
