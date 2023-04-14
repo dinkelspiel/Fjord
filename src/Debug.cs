@@ -284,12 +284,12 @@ public class InspectorScene : Scene
 
         if(MouseInsideScene) 
         {
-            if(uiHeight > LocalWindowSize.h) {
+            if(uiHeight > WindowSize.h) {
                 if(-yOffset < 0) {
                     yOffset = 0;
                 }
-                if(-yOffset > uiHeight - LocalWindowSize.h + 50) {
-                    yOffset = -uiHeight + LocalWindowSize.h - 50;
+                if(-yOffset > uiHeight - WindowSize.h + 50) {
+                    yOffset = -uiHeight + WindowSize.h - 50;
                 }
             } else {
                 yOffset = 0;
@@ -340,12 +340,12 @@ public class ConsoleScene : Scene
         // Math.Clamp(yOffset, 0, uiHeight);
         if(MouseInsideScene) 
         {
-            if(uiHeight > LocalWindowSize.h) {
+            if(uiHeight > WindowSize.h) {
                 if(-yOffset < 0) {
                     yOffset = 0;
                 }
-                if(-yOffset > uiHeight - LocalWindowSize.h + 50) {
-                    yOffset = -uiHeight + LocalWindowSize.h - 50;
+                if(-yOffset > uiHeight - WindowSize.h + 50) {
+                    yOffset = -uiHeight + WindowSize.h - 50;
                 }
             } else {
                 yOffset = 0;
@@ -354,7 +354,7 @@ public class ConsoleScene : Scene
 
         if(Debug.Logs.Count != logsLength)
         {
-            yOffset = -uiHeight + LocalWindowSize.h - 200;
+            yOffset = -uiHeight + WindowSize.h - 200;
         }
 
         var submitCommand = () => {
@@ -422,8 +422,8 @@ public class ConsoleScene : Scene
         logsLength = Debug.Logs.Count;
 
         FUI.OverrideMousePosition(LocalMousePosition);
-        FUI.TextFieldExt(new(10, LocalWindowSize.h - 40), "consolein", consoleInput, (val) => {consoleInput = val;}, (val) => submitCommand(), null, out Vector2 size);
-        FUI.Button(new(Math.Min(size.X + 20, LocalWindowSize.w - 88), LocalWindowSize.h - 40), "Send", submitCommand);
+        FUI.TextFieldExt(new(10, WindowSize.h - 40), "consolein", consoleInput, (val) => {consoleInput = val;}, (val) => submitCommand(), null, out Vector2 size);
+        FUI.Button(new(Math.Min(size.X + 20, WindowSize.w - 88), WindowSize.h - 40), "Send", submitCommand);
         FUI.ResetMousePosition();
     }
 }

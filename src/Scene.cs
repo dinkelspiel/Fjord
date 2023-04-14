@@ -25,7 +25,8 @@ public abstract class Scene : ICloneable
 
     internal SDL_FRect RelativeWindowSizeFinal = new ();
 
-    internal SDL_Rect LocalWindowSize = new();
+    public SDL_Rect WindowSize = new();
+    public SDL_Rect LocalWindowSize = new();
     internal Vector2 OriginalWindowSize = new();
     internal IntPtr RenderTarget;
     internal SDL_Color ClearColor = new()
@@ -160,8 +161,19 @@ public abstract class Scene : ICloneable
             h = (int)((RelativeWindowSize.h - RelativeWindowSize.y) * Game.Window.Height)
         };
 
+        if(WindowSize.x == 0 && WindowSize.y == 0 && WindowSize.w == 0 && WindowSize.h == 0) {
+            WindowSize = LocalWindowSize;
+        }
+
         if (AlwaysRebuildTexture)
         {
+            WindowSize = new() {
+                x = LocalWindowSize.x,
+                y = LocalWindowSize.y,
+                w = LocalWindowSize.w,
+                h = LocalWindowSize.h
+            };
+
             SDL_DestroyTexture(RenderTarget);
             RenderTarget = SDL_CreateTexture(Game.SDLRenderer, SDL_PIXELFORMAT_RGBA8888,
             (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, (int)LocalWindowSize.w, (int)LocalWindowSize.h);
@@ -170,8 +182,11 @@ public abstract class Scene : ICloneable
             LocalMousePosition.Y = (Mouse.Position.Y - LocalWindowSize.y);
         } else
         {
-            LocalMousePosition.X = (Mouse.Position.X - LocalWindowSize.x) / ((float)LocalWindowSize.w / OriginalWindowSize.X);
-            LocalMousePosition.Y = (Mouse.Position.Y - LocalWindowSize.y) / ((float)LocalWindowSize.h / OriginalWindowSize.Y);
+            float wRatio = (float)WindowSize.w / (float)LocalWindowSize.w;
+            float hRatio = (float)WindowSize.h / (float)LocalWindowSize.h;
+
+            LocalMousePosition.X = (Mouse.Position.X - LocalWindowSize.x) * wRatio;
+            LocalMousePosition.Y = (Mouse.Position.Y - LocalWindowSize.y) * hRatio;
         }
 
         if (Mouse.Pressed && Helpers.PointInside(Mouse.Position, LocalWindowSize) && !AlwaysAtBack)
