@@ -141,6 +141,7 @@ public static class Game
         }
         
         Draw.DrawDrawBuffer(Draw.drawBuffer, null);
+        Draw.drawBuffer = new();
 
         Mouse.Pressed = false;
 

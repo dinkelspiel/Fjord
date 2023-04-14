@@ -131,7 +131,7 @@ public static class Debug {
             }
         }
 
-        Console.WriteLine(message);
+        // Console.WriteLine(message);
 
         StackTrace stackTrace = new StackTrace(); 
         StackFrame? stackFrame = stackTrace.GetFrame(1);
@@ -303,6 +303,7 @@ public class ConsoleScene : Scene
 {
     string consoleInput = "";
     float yOffset = 0;
+    int logsLength = 0;
 
     public ConsoleScene(int width, int height, string id) : base(width, height, id)
     {
@@ -349,6 +350,11 @@ public class ConsoleScene : Scene
             } else {
                 yOffset = 0;
             }
+        }
+
+        if(Debug.Logs.Count != logsLength)
+        {
+            yOffset = -uiHeight + LocalWindowSize.h - 200;
         }
 
         var submitCommand = () => {
@@ -412,6 +418,8 @@ public class ConsoleScene : Scene
             Debug.PerformCommand(command, args.ToArray());
             consoleInput = "";
         };
+
+        logsLength = Debug.Logs.Count;
 
         FUI.OverrideMousePosition(LocalMousePosition);
         FUI.TextFieldExt(new(10, LocalWindowSize.h - 40), "consolein", consoleInput, (val) => {consoleInput = val;}, (val) => submitCommand(), null, out Vector2 size);

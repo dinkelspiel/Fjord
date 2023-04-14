@@ -351,11 +351,10 @@ public static class Draw
                     if(sceneId == null ? Helpers.PointDistance(Mouse.Position, drawInsClone.position) < drawInsClone.radius : Helpers.PointDistance(SceneHandler.Scenes[sceneId].LocalMousePosition, drawInsClone.position) < drawInsClone.radius) {
                         if(drawIns.hoverAnimation.progress < 1)
                             drawIns.hoverAnimation.progress += drawIns.hoverAnimation.speed;
-                    } else {
-                        drawIns.hoverAnimation.progress = 0;
-                        drawInsClone.position = drawIns.position;
-                        drawInsClone.radius = drawIns.radius;
-                        drawInsClone.color = drawIns.color;
+                    } else if(drawIns.hoverAnimation.progress > 0) {
+                        drawIns.hoverAnimation.progress -= drawIns.hoverAnimation.speed;
+                        if(drawIns.hoverAnimation.progress < 0)
+                            drawIns.hoverAnimation.progress = 0;
                     }
                 }
                 Draw.CircleDirect(drawInsClone);

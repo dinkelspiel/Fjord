@@ -219,7 +219,7 @@ public abstract class Scene : ICloneable
 
         if (AllowWindowResize)
         {
-            FUI.ResizeableRectangle(ref RelativeWindowSize);
+            FUI.ResizeableRectangle(ref RelativeWindowSize, SceneID);
         }
     }
 

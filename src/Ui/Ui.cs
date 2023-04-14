@@ -19,6 +19,7 @@ public static class FUI
     internal static Action<string>? selectedTextFieldOnSumbit = null;
     private static Vector2 UiRenderOffset = new();
     private static Vector2? OverMousePosition = null;
+    private static Dictionary<string, List<Circle>> resizeRectCache = new();
     public static void OverrideMousePosition(Vector2 MousePosition)
     {
         OverMousePosition = MousePosition;
@@ -226,7 +227,7 @@ public static class FUI
         SliderExt(position, min, max, value, onChange, out Vector2 size);
     }
 
-    public static void ResizeableRectangle(ref SDL_FRect rect, Vector2? aspectRatio=null)
+    public static void ResizeableRectangle(ref SDL_FRect rect, string id, Vector2? aspectRatio=null)
     {
         int i = 0;
         SDL_Rect localRect = new();
@@ -253,83 +254,62 @@ public static class FUI
         };
 
         short radius = 12;
-        short drawRadius = 6;
 
-        Circle idleCircle = new Circle(new(localRect.x + localRect.w, localRect.y + localRect.h), drawRadius)
+        new Circle(new(localRect.x, localRect.y), radius / 2)
             .Color(new(238, 170, 0, 255))
-            .Fill(true);
-
-        Circle hoverCircle = new Circle(new(localRect.x + localRect.w, localRect.y + localRect.h), drawRadius * 2)
-            .Color(new(239, 17, 33, 255))
-            .Fill(true);
+            .Fill(true)
+            .HoverAnimation(SampleAnimations.CirclePulseAnimation(id + "0"))
+            .Render();
+        new Circle(new(localRect.x + localRect.w, localRect.y), radius / 2)
+            .Color(new(238, 170, 0, 255))
+            .Fill(true)
+            .HoverAnimation(SampleAnimations.CirclePulseAnimation(id + "1"))
+            .Render();
+        new Circle(new(localRect.x, localRect.y + localRect.h), radius / 2)
+            .Color(new(238, 170, 0, 255))
+            .Fill(true)
+            .HoverAnimation(SampleAnimations.CirclePulseAnimation(id + "2"))
+            .Render();
+        new Circle(new(localRect.x + localRect.w, localRect.y + localRect.h), radius / 2)
+            .Color(new(238, 170, 0, 255))
+            .Fill(true)
+            .HoverAnimation(SampleAnimations.CirclePulseAnimation(id + "3"))
+            .Render();
         
-        Draw.CircleDirect(
-            new Circle(new(localRect.x, localRect.y), drawRadius)
-                .Color(new(238, 170, 0, 255))
-                .Fill(true)
-        );
         if (Helpers.PointDistance(new Vector2(localRect.x, localRect.y), Mouse.Position) < radius)
         {
-            Draw.CircleDirect(
-                hoverCircle.Position(new(localRect.x, localRect.y))
-            );
             if (Mouse.Down)
             {
                 rect.x = Mouse.Position.X / Game.Window.Width;
                 rect.y = Mouse.Position.Y / Game.Window.Height;
             }
-        } else {
-            Draw.CircleDirect(
-                idleCircle.Position(new(localRect.x, localRect.y))
-            );
         }
 
         if (Helpers.PointDistance(new Vector2(localRect.x + localRect.w, localRect.y), Mouse.Position) < radius)
         {
-            Draw.CircleDirect(
-                hoverCircle.Position(new(localRect.x + localRect.w, localRect.y))
-            );
             if (Mouse.Down)
             {
                 rect.w = Mouse.Position.X / Game.Window.Width;
                 rect.y = Mouse.Position.Y / Game.Window.Height;
             }
-        } else {
-            Draw.CircleDirect(
-                idleCircle.Position(new(localRect.x + localRect.w, localRect.y))
-            );
         }
 
         if (Helpers.PointDistance(new Vector2(localRect.x, localRect.y + localRect.h), Mouse.Position) < radius)
         {
-            Draw.CircleDirect(
-                hoverCircle.Position(new(localRect.x, localRect.y + localRect.h))
-            );
             if (Mouse.Down)
             {
                 rect.x = Mouse.Position.X / Game.Window.Width;
                 rect.h = Mouse.Position.Y / Game.Window.Height;
             }
-        } else {
-            Draw.CircleDirect(
-                idleCircle.Position(new(localRect.x, localRect.y + localRect.h))
-            );
         }
 
         if (Helpers.PointDistance(new Vector2(localRect.x + localRect.w, localRect.y + localRect.h), Mouse.Position) < radius)
         {
-            Draw.CircleDirect(
-                hoverCircle.Position(new(localRect.x + localRect.w, localRect.y + localRect.h))
-            );
             if (Mouse.Down)
             {
                 rect.w = Mouse.Position.X / Game.Window.Width;
                 rect.h = Mouse.Position.Y / Game.Window.Height;
             }
-        } else {
-            Draw.CircleDirect(
-                idleCircle.Position(new(localRect.x + localRect.w, localRect.y + localRect.h))
-            );
         }
     }
 
