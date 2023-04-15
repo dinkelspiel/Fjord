@@ -86,8 +86,8 @@ public static class Debug {
             .SetRelativeWindowSize(0.1f, 0.1f, 0.4f, 0.6f)
             .SetAlwaysRebuildTexture(true));
 
-        SceneHandler.Load("console");
-        SceneHandler.Load("inspector");
+        // SceneHandler.Load("console");
+        // SceneHandler.Load("inspector");
 
         RegisterCommand("clear", (args) =>
         {
