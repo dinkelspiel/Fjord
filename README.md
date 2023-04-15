@@ -1,8 +1,8 @@
-# Fjord
-
 <p align="center">
  <img src=https://i.imgur.com/NVmiBcs.png>
 </p> <br/>
+
+# Fjord
 
 Fjord is a simple .NET Framework to make 2D games quick and easy.
 
