@@ -9,11 +9,16 @@ namespace Fjord.Scenes;
 public abstract class Scene : ICloneable
 {
     private string SceneID;
+
     public bool AllowWindowResize = false;
     public bool AlwaysRebuildTexture = false;
     public bool AlwaysAtBack = false;
-    public Vector2 LocalMousePosition = new();
+
+    public Vector2 MousePosition = new();
     public bool MouseInsideScene { get; internal set; }
+
+    internal List<Entity> Entities = new();
+
     internal List<DrawInstruction> drawBuffer = new();
     internal SDL_FRect RelativeWindowSize = new()
     {
@@ -136,6 +141,11 @@ public abstract class Scene : ICloneable
         return this;
     }
 
+    public void RegisterEntity(Entity e)
+    {
+        this.Entities.Add(e);
+    }
+
     public virtual void Awake() {}
     public virtual void Sleep() {}
     public virtual void Update() {}
@@ -178,15 +188,15 @@ public abstract class Scene : ICloneable
             RenderTarget = SDL_CreateTexture(Game.SDLRenderer, SDL_PIXELFORMAT_RGBA8888,
             (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, (int)LocalWindowSize.w, (int)LocalWindowSize.h);
 
-            LocalMousePosition.X = (Mouse.Position.X - LocalWindowSize.x);
-            LocalMousePosition.Y = (Mouse.Position.Y - LocalWindowSize.y);
+            MousePosition.X = (Mouse.Position.X - LocalWindowSize.x);
+            MousePosition.Y = (Mouse.Position.Y - LocalWindowSize.y);
         } else
         {
             float wRatio = (float)WindowSize.w / (float)LocalWindowSize.w;
             float hRatio = (float)WindowSize.h / (float)LocalWindowSize.h;
 
-            LocalMousePosition.X = (Mouse.Position.X - LocalWindowSize.x) * wRatio;
-            LocalMousePosition.Y = (Mouse.Position.Y - LocalWindowSize.y) * hRatio;
+            MousePosition.X = (Mouse.Position.X - LocalWindowSize.x) * wRatio;
+            MousePosition.Y = (Mouse.Position.Y - LocalWindowSize.y) * hRatio;
         }
 
         if (Mouse.Pressed(MB.Left) && Helpers.PointInside(Mouse.Position, LocalWindowSize) && !AlwaysAtBack)
@@ -210,6 +220,11 @@ public abstract class Scene : ICloneable
         }
         
         Update();
+
+        foreach(Entity e in Entities)
+        {
+            e.UpdateCall();
+        }
     }
 
     internal void RenderCall()
@@ -221,6 +236,11 @@ public abstract class Scene : ICloneable
         
         Draw.CurrentSceneID = SceneID;
         Render();
+
+        foreach(Entity e in Entities)
+        {
+            e.RenderCall();
+        }
         Draw.CurrentSceneID = null;
 
         Draw.DrawDrawBuffer(drawBuffer, SceneID);

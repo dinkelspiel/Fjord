@@ -188,7 +188,7 @@ public class InspectorScene : Scene
             }
         }
 
-        new UiBuilder(new Vector4(0, yOffset, (int)(Game.Window.Width * 0.2), (int)Game.Window.Height), LocalMousePosition)
+        new UiBuilder(new Vector4(0, yOffset, (int)(Game.Window.Width * 0.2), (int)Game.Window.Height), MousePosition)
             .Title("Inspector")
             .Container(
                 new UiBuilder()
@@ -317,7 +317,7 @@ public class ConsoleScene : Scene
             }
         }
 
-        new UiBuilder(new Vector4(0, yOffset, 0, 0), LocalMousePosition)
+        new UiBuilder(new Vector4(0, yOffset, 0, 0), MousePosition)
             .Title("Console")
             .ForEach(Debug.Logs, (val, idx) =>
             {
@@ -416,7 +416,7 @@ public class ConsoleScene : Scene
 
         logsLength = Debug.Logs.Count;
 
-        FUI.OverrideMousePosition(LocalMousePosition);
+        FUI.OverrideMousePosition(MousePosition);
         FUI.TextFieldExt(new(10, WindowSize.h - 40), "consolein", consoleInput, (val) => {consoleInput = val;}, (val) => submitCommand(), null, out Vector2 size);
         FUI.Button(new(Math.Min(size.X + 20, WindowSize.w - 88), WindowSize.h - 40), "Send", submitCommand);
         FUI.ResetMousePosition();
