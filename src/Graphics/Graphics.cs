@@ -129,6 +129,15 @@ public static class Draw
         }.Render();
     }
 
+    public static void Line(Vector2 point1, Vector2 point2, Vector4 color, int depth = 0)
+    {
+        new Line(point1, point2)
+        {
+            color = color,
+            depth = depth
+        }.Render();
+    }
+
     internal static void RectangleDirect(Rectangle rect) {
         SDL_Color col = new SDL_Color() {
             r = (byte)rect.color.X,
@@ -327,6 +336,12 @@ public static class Draw
         SDL_RenderCopy(Game.SDLRenderer, Font.FontCache[CacheKey], IntPtr.Zero, ref rect);
     }
 
+    internal static void LineDirect(Line line)
+    {
+        SDL_SetRenderDrawColor(Game.SDLRenderer, (byte)line.color.X, (byte)line.color.Y, (byte)line.color.Z, (byte)line.color.W);
+        SDL_RenderDrawLine(Game.SDLRenderer, (int)line.point1.X, (int)line.point1.Y, (int)line.point2.X, (int)line.point2.Y);
+    }
+
     internal static void DrawDrawBuffer(List<DrawInstruction> drawBufferLocal, string? sceneId) {
         List<DrawInstruction> sortedDrawBuffer = drawBufferLocal.OrderBy(e => e.depth).ToList();
 
@@ -370,6 +385,10 @@ public static class Draw
             {
                 Text drawIns = (Text)drawInsObj;
                 Draw.TextDirect(drawIns);
+            } else if(drawInsObj.GetType() == typeof(Line))
+            {
+                Line drawIns = (Line)drawInsObj;
+                Draw.LineDirect(drawIns);
             }
         }
     }

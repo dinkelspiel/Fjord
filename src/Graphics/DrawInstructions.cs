@@ -347,3 +347,46 @@ public class Text : DrawInstruction
         }
     }
 }
+
+public class Line : DrawInstruction
+{
+    public Vector2 point1 = new();
+    public Vector2 point2 = new();
+    public Vector4 color = new();
+
+    public Line(Vector2 point1, Vector2 point2)
+    {
+        this.point1 = point1;
+        this.point2 = point2;
+    }
+
+    public Line Color(Vector4 color)
+    {
+        this.color = color;
+        return this;
+    }
+
+    public Line Color(SDL_Color color)
+    {
+        this.color = new(color.r, color.g, color.b, color.a);
+        return this;
+    }
+
+    public Line Depth(int depth)
+    {
+        this.depth = depth;
+        return this;
+    }
+
+    public void Render()
+    {
+        if (Draw.CurrentSceneID is not null)
+        {
+            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add(this);
+        }
+        else
+        {
+            Draw.drawBuffer.Add(this);
+        }
+    }
+}
