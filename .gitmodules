@@ -1,3 +1,6 @@
-[submodule "libraries/SDL2-CS"]
-	path = libraries/SDL2-CS
-	url = https://github.com/willmexe/SDL2-CS.git
+[submodule "Libraries/libfcf"]
+	path = Libraries/libfcf
+	url = https://github.com/shykeiichi/libfcf
+[submodule "Libraries/SDL2-CS"]
+	path = Libraries/SDL2-CS
+	url = https://github.com/shykeiichi/SDL2-CS.git
