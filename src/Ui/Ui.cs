@@ -57,7 +57,7 @@ public static class FUI
         if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, Helpers.FRectToRect(rect)))
         {
             col =  UiColors.ContainerHoverColor;
-            if (Mouse.Down)
+            if (Mouse.Down(MB.Left))
             {
                 col = UiColors.ContainerPressedColor;
             }
@@ -76,7 +76,7 @@ public static class FUI
 
         if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, Helpers.FRectToRect(rect)))
         {
-            if (Mouse.Pressed)
+            if (Mouse.Pressed(MB.Left))
             {
                 callback();
             }
@@ -110,7 +110,7 @@ public static class FUI
 
         if (!Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, rect))
         {
-            if(Mouse.Pressed) {
+            if(Mouse.Pressed(MB.Left)) {
                 if(FUI.selectedTextField == id) {
                     FUI.selectedTextField = null;
                 }
@@ -119,7 +119,7 @@ public static class FUI
 
         if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, rect))
         {
-            if(Mouse.Pressed) {
+            if(Mouse.Pressed(MB.Left)) {
                 if(FUI.selectedTextField != id) {
                     FUI.selectedTextField = id;
                     FUI.selectedTextFieldOnChange = (val) => {
@@ -191,7 +191,7 @@ public static class FUI
         if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, thumbrect))
         {
             col = UiColors.ContainerHoverColor.ToCol();
-            if(Mouse.Down) {
+            if(Mouse.Down(MB.Left)) {
                 col = UiColors.ContainerPressedColor.ToCol();
                 // Debug.Log((position.X - (OverMousePosition.HasValue ? OverMousePosition.Value.X : Mouse.Position.X)).ToString());
             }
@@ -203,7 +203,7 @@ public static class FUI
 
         if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, rect))
         {
-            if(Mouse.Down) {
+            if(Mouse.Down(MB.Left)) {
                 float offset = Math.Abs(position.X - (OverMousePosition.HasValue ? OverMousePosition.Value.X : Mouse.Position.X));
 
                 float lerp = offset / 200;
@@ -278,7 +278,7 @@ public static class FUI
         
         if (Helpers.PointDistance(new Vector2(localRect.x, localRect.y), Mouse.Position) < radius)
         {
-            if (Mouse.Down)
+            if (Mouse.Down(MB.Left))
             {
                 rect.x = Mouse.Position.X / Game.Window.Width;
                 rect.y = Mouse.Position.Y / Game.Window.Height;
@@ -287,7 +287,7 @@ public static class FUI
 
         if (Helpers.PointDistance(new Vector2(localRect.x + localRect.w, localRect.y), Mouse.Position) < radius)
         {
-            if (Mouse.Down)
+            if (Mouse.Down(MB.Left))
             {
                 rect.w = Mouse.Position.X / Game.Window.Width;
                 rect.y = Mouse.Position.Y / Game.Window.Height;
@@ -296,7 +296,7 @@ public static class FUI
 
         if (Helpers.PointDistance(new Vector2(localRect.x, localRect.y + localRect.h), Mouse.Position) < radius)
         {
-            if (Mouse.Down)
+            if (Mouse.Down(MB.Left))
             {
                 rect.x = Mouse.Position.X / Game.Window.Width;
                 rect.h = Mouse.Position.Y / Game.Window.Height;
@@ -305,7 +305,7 @@ public static class FUI
 
         if (Helpers.PointDistance(new Vector2(localRect.x + localRect.w, localRect.y + localRect.h), Mouse.Position) < radius)
         {
-            if (Mouse.Down)
+            if (Mouse.Down(MB.Left))
             {
                 rect.w = Mouse.Position.X / Game.Window.Width;
                 rect.h = Mouse.Position.Y / Game.Window.Height;
@@ -368,7 +368,7 @@ public static class FUI
                 if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, rect))
                 {
                     SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerHoverColor.ToCol());
-                    if (Mouse.Down)
+                    if (Mouse.Down(MB.Left))
                     {
                         SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerPressedColor.ToCol());
                     }
@@ -382,7 +382,7 @@ public static class FUI
                     SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerIdleColor.ToCol());
                 }
 
-                if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, rect) && Mouse.Pressed)
+                if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, rect) && Mouse.Pressed(MB.Left))
                 {
                     component.callback();
                 }

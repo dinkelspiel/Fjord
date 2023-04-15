@@ -185,10 +185,10 @@ public class InspectorScene : Scene
     {
         if(MouseInsideScene) 
         {
-            if(Mouse.ScrollDown) {
+            if(Mouse.Pressed(MB.ScrollDown)) {
                 yOffset -= 10;
             }
-            if(Mouse.ScrollUp) {
+            if(Mouse.Pressed(MB.ScrollUp)) {
                 yOffset += 10;
             }
         }
@@ -314,10 +314,10 @@ public class ConsoleScene : Scene
     {
         if(MouseInsideScene)
         {
-            if(Mouse.ScrollDown) {
+            if(Mouse.Pressed(MB.ScrollDown)) {
                 yOffset -= 10;
             }
-            if(Mouse.ScrollUp) {
+            if(Mouse.Pressed(MB.ScrollUp)) {
                 yOffset += 10;
             }
         }

@@ -189,7 +189,7 @@ public abstract class Scene : ICloneable
             LocalMousePosition.Y = (Mouse.Position.Y - LocalWindowSize.y) * hRatio;
         }
 
-        if (Mouse.Pressed && Helpers.PointInside(Mouse.Position, LocalWindowSize) && !AlwaysAtBack)
+        if (Mouse.Pressed(MB.Left) && Helpers.PointInside(Mouse.Position, LocalWindowSize) && !AlwaysAtBack)
         {
             SceneHandler.LoadedScenes.Remove(SceneID);
             SceneHandler.LoadedScenes.Insert(SceneHandler.LoadedScenes.Count, SceneID);

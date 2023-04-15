@@ -2,14 +2,55 @@ using System.Numerics;
 
 namespace Fjord.Input;
 
+public enum MB
+{
+    Left,
+    Right,
+    ScrollUp,
+    ScrollDown,
+    ScrollRight,
+    ScrollLeft
+}
+
 public static class Mouse
 {
-    public static Vector2 Position = new();
-    public static Vector2 RelativePosition = new();
-    public static bool Down = false;
-    public static bool Pressed = false;
-    public static bool ScrollDown = false;
-    public static bool ScrollUp = false;
-    public static bool ScrollRight = false;
-    public static bool ScrollLeft = false;
+    internal static Vector2 Position = new();
+    internal static Vector2 RelativePosition = new();
+    
+    internal static Dictionary<MB, bool> downKeys = new() {
+        {MB.Left, false},
+        {MB.Right, false},
+        {MB.ScrollUp, false},
+        {MB.ScrollDown, false},
+        {MB.ScrollLeft, false},
+        {MB.ScrollRight, false}
+    };
+    internal static Dictionary<MB, bool> pressedKeys = new() {
+        {MB.Left, false},
+        {MB.Right, false},
+        {MB.ScrollUp, false},
+        {MB.ScrollDown, false},
+        {MB.ScrollLeft, false},
+        {MB.ScrollRight, false}
+    };
+
+    public static bool Down(MB mouseButton)
+    {
+        return downKeys[mouseButton];
+    }
+
+    public static bool Down()
+    {
+        return downKeys.Any((val) => val.Value == true);
+    }
+
+    public static bool Pressed(MB mouseButton)
+    {
+        return pressedKeys[mouseButton];
+    }
+
+    public static bool Pressed()
+    {
+        return pressedKeys.Any((val) => val.Value == true);
+    }
 }

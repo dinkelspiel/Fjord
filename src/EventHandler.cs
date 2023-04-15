@@ -15,10 +15,6 @@ namespace Fjord
     {
         internal static void HandleEvents()
         {
-            Mouse.ScrollDown = false;
-            Mouse.ScrollLeft = false;
-            Mouse.ScrollRight = false;
-            Mouse.ScrollUp = false;
             while (SDL_PollEvent(out SDL_Event e) != 0)
             {
                 switch (e.type)
@@ -1474,32 +1470,66 @@ namespace Fjord
                         Mouse.RelativePosition = new Vector2((float)_x / (float)Game.Window.Width, (float)_y / (float)Game.Window.Height);
                         break;
                     case SDL_EventType.SDL_MOUSEBUTTONDOWN:
-                        if (!Mouse.Down)
-                            Mouse.Pressed = true;
-                        else
-                            Mouse.Pressed = false;
-                        Mouse.Down = true;
+                        switch(e.button.button) {
+                            case (byte)SDL_BUTTON_LEFT: {
+                                if (!Mouse.Down(MB.Left))
+                                    Mouse.pressedKeys[MB.Left] = true;
+                                else
+                                    Mouse.pressedKeys[MB.Left] = false;
+                                Mouse.downKeys[MB.Left] = true;
+                            } break;
+                            case (byte)SDL_BUTTON_RIGHT: {
+                                if (!Mouse.Down(MB.Right))
+                                    Mouse.pressedKeys[MB.Right] = true;
+                                else
+                                    Mouse.pressedKeys[MB.Right] = false;
+                                Mouse.downKeys[MB.Right] = true;
+                            } break;
+                        }
                         break;
                     case SDL_EventType.SDL_MOUSEBUTTONUP:
-                        Mouse.Down = false;
+                        switch(e.button.button) {
+                            case (byte)SDL_BUTTON_LEFT: {
+                                Mouse.downKeys[MB.Left] = false;
+                            } break;
+                            case (byte)SDL_BUTTON_RIGHT: {
+                                Mouse.downKeys[MB.Right] = false;
+                            } break;
+                        }
                         break;
                     case SDL_EventType.SDL_MOUSEWHEEL:
                         if(e.wheel.y > 0) // scroll up
                         {
-                            Mouse.ScrollUp = true;
+                            if (!Mouse.Down(MB.ScrollUp))
+                                Mouse.pressedKeys[MB.ScrollUp] = true;
+                            else
+                                Mouse.pressedKeys[MB.ScrollUp] = false;
+                            Mouse.downKeys[MB.ScrollUp] = true;
                         }
                         else if(e.wheel.y < 0) // scroll down
                         {
-                            Mouse.ScrollDown = true;
+                            if (!Mouse.Down(MB.ScrollDown))
+                                Mouse.pressedKeys[MB.ScrollDown] = true;
+                            else
+                                Mouse.pressedKeys[MB.ScrollDown] = false;
+                            Mouse.downKeys[MB.ScrollDown] = true;
                         }
 
                         if(e.wheel.x > 0) // scroll right
                         {
-                            Mouse.ScrollRight = true;
+                            if (!Mouse.Down(MB.ScrollRight))
+                                Mouse.pressedKeys[MB.ScrollRight] = true;
+                            else
+                                Mouse.pressedKeys[MB.ScrollRight] = false;
+                            Mouse.downKeys[MB.ScrollRight] = true;
                         }
                         else if(e.wheel.x < 0) // scroll left
                         {
-                            Mouse.ScrollLeft = true;
+                            if (!Mouse.Down(MB.ScrollLeft))
+                                Mouse.pressedKeys[MB.ScrollLeft] = true;
+                            else
+                                Mouse.pressedKeys[MB.ScrollLeft] = false;
+                            Mouse.downKeys[MB.ScrollLeft] = true;
                         }
                         break;
                 }
