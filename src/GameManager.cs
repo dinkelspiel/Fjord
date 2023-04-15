@@ -32,9 +32,9 @@ public static class Game
     public static void Initialize(string title, int width, int height)
     {   
         #if DEBUG
-            Console.WriteLine("Running in debug mode");
+            Debug.Log("Running in debug mode");
         #else
-            Console.WriteLine("Running in release mode");
+            Debug.Log("Running in release mode");
         #endif
         
         SDL_Init(SDL_INIT_EVERYTHING);
@@ -56,14 +56,36 @@ public static class Game
         Font.Initialize();
         Debug.Initialize();
         SceneHandler.Initialize();
+        Debug.Log("Fjord Initalized");
     }
 
     public static void Stop()
     {
+        Debug.Log("Fjord Stopped");
         Running = false;
         SDL_DestroyRenderer(SDLRenderer);
         SDL_DestroyWindow(SDLWindow);
         Font.Destroy();
+
+        List<string> PrintLogs = new();
+
+        foreach(DebugLog log in Debug.Logs)
+        {
+            if(log.level != LogLevel.User)
+                PrintLogs.Add(String.Format("[{0}] {1} {2} -> {3}", log.time, log.level.ToString(), log.sender, log.message));
+            else
+                PrintLogs.Add(String.Format("[{0}] {1} -> {2}", log.time, log.level.ToString(), log.message));
+        }
+
+        var Path = "./Logs/Log_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".txt";
+        if(!Directory.Exists("./Logs"))
+        {
+            Directory.CreateDirectory("./Logs");
+        }
+        if(PrintLogs.Count > 0) 
+        {
+            File.WriteAllLines(Path, PrintLogs);
+        }
     }
     
     public static void Run()

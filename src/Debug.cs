@@ -93,11 +93,6 @@ public static class Debug {
         {
             Logs = new();
         });
-
-        RegisterCommand(new string[] { "q", "quit" }, (args) =>
-        {
-            Game.Stop();
-        });
     }
 
     public static SDL_FRect DebugWindowOffset = new()
@@ -147,7 +142,7 @@ public static class Debug {
                         var logtmp = new DebugLog() {
                             level = level,
                             time = DateTime.Now.ToString("hh:mm:ss"),
-                            sender = names.Namespace + "." + names.Name,
+                            sender = names.Name,
                             message = i,
                             hideInfo = idx != 0
                         };
