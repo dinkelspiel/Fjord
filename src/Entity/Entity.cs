@@ -7,14 +7,17 @@ public class Entity
     public Entity Add(Component component)
     {
         this.Components.Add(component);
+        this.Components[this.Components.Count - 1].AwakeCall();
         return this;
     }  
 
     public void Remove<T>()
     {
         Component? comp = this.Components.Find((comp) => comp.GetType() == typeof(T));
-        if(comp != null)
+        if(comp != null) {
+            comp.SleepCall();
             this.Components.Remove(comp);
+        }
     }
 
     public Component? Get<T>()
