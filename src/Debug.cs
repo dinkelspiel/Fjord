@@ -101,14 +101,14 @@ public static class Debug {
         h = 0f
     };
 
-    public static void Log(string message)
+    public static void Log(object message)
     {
         Log(LogLevel.Message, message);
     }
 
-    public static void Log(LogLevel level, string message)
+    public static void Log(LogLevel level, object message)
     {
-        var words = message.Split();
+        var words = message.ToString().Split();
         // List<string> messageSplit = message.ToString().SplitInParts(60).ToList();
 
         var lines = new List<string> { words[0] };
