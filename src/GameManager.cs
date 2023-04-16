@@ -143,7 +143,14 @@ public static class Game
                 SceneHandler.Unload("console");
         }
 
-        Keyboard.pressedKeys = new();
+        foreach (var key in Mouse.pressedKeys.Keys.ToList())
+        {
+            Mouse.pressedKeys[key] = false;
+        }
+        Mouse.downKeys[MB.ScrollDown] = false;
+        Mouse.downKeys[MB.ScrollLeft] = false;
+        Mouse.downKeys[MB.ScrollRight] = false;
+        Mouse.downKeys[MB.ScrollUp] = false;
     }
 
     public static void Render(ref bool open)
@@ -164,15 +171,6 @@ public static class Game
         
         Draw.DrawDrawBuffer(Draw.drawBuffer, null);
         Draw.drawBuffer = new();
-
-        foreach (var key in Mouse.pressedKeys.Keys.ToList())
-        {
-            Mouse.pressedKeys[key] = false;
-        }
-        Mouse.downKeys[MB.ScrollDown] = false;
-        Mouse.downKeys[MB.ScrollLeft] = false;
-        Mouse.downKeys[MB.ScrollRight] = false;
-        Mouse.downKeys[MB.ScrollUp] = false;
 
         SDL_RenderPresent(SDLRenderer);
     }
