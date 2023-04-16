@@ -143,6 +143,7 @@ public static class Game
                 SceneHandler.Unload("console");
         }
 
+        Keyboard.pressedKeys = new();
         foreach (var key in Mouse.pressedKeys.Keys.ToList())
         {
             Mouse.pressedKeys[key] = false;
