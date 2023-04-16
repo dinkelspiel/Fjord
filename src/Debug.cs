@@ -351,6 +351,11 @@ public class ConsoleScene : Scene
         }
 
         var submitCommand = () => {
+            if(consoleInput == "")
+            {
+                return;
+            }
+
             Debug.Log(LogLevel.User, consoleInput);
             string command = consoleInput.Split(" ")[0];
             List<object> args = new List<object>();
@@ -415,6 +420,17 @@ public class ConsoleScene : Scene
         logsLength = Debug.Logs.Count;
 
         FUI.OverrideMousePosition(MousePosition);
+
+        float height = 0;
+        if(consoleInput != "" && Debug.commands.Keys.ToList().Where((command) => command == consoleInput).ToList().Count != 1 ) 
+        {
+            foreach(var i in Debug.commands.Keys.ToList().Where((command) => command.Contains(consoleInput)))
+            {
+                FUI.ButtonExt(new(10, WindowSize.h - 40 - height - 40), i, () => {consoleInput = i + " ";}, out Vector2 bSize);
+                height += bSize.Y;
+            }
+        }
+
         FUI.TextFieldExt(new(10, WindowSize.h - 40), "consolein", consoleInput, (val) => {consoleInput = val;}, (val) => submitCommand(), null, out Vector2 size);
         FUI.Button(new(Math.Min(size.X + 20, WindowSize.w - 88), WindowSize.h - 40), "Send", submitCommand);
         FUI.ResetMousePosition();
