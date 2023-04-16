@@ -135,7 +135,10 @@ public static class FUI
                     SDL_StopTextInput();
                 }
             }
-            SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerHoverColor.ToCol());
+            if(FUI.selectedTextField != id)
+                SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerHoverColor.ToCol());
+            else
+                SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerHoverPressedColor.ToCol());
         }
         else if(FUI.selectedTextField == id) 
         {

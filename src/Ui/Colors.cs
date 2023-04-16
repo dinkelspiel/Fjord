@@ -53,6 +53,13 @@ public static class UiColors {
         W = 255
     };
 
+    public static Vector4 ContainerHoverPressedColor = new() {
+        X = 85,
+        Y = 141,
+        Z = 210,
+        W = 255
+    };
+
     public static Vector4 ContainerPressedColor = new() {
         X = 65,
         Y = 121,
