@@ -207,7 +207,25 @@ public abstract class Scene : ICloneable
 
         if (Helpers.PointInside(Mouse.Position, LocalWindowSize)) 
         {
-            MouseInsideScene = true;
+            List<Scene> eligble = new();
+            foreach(var kvp in SceneHandler.Scenes)
+            {
+                if(Helpers.PointInside(Mouse.Position, kvp.Value.LocalWindowSize))
+                {
+                    eligble.Add(kvp.Value);
+                }
+            }
+            if(eligble.Count > 1)
+            {
+                if(SceneHandler.Scenes.First((kvp) => eligble.Contains(kvp.Value)).Key == SceneID)
+                {
+                    MouseInsideScene = true;
+                } else {
+                    MouseInsideScene = false;
+                }
+            } else {
+                MouseInsideScene = true;
+            }
         } else 
         {
             MouseInsideScene = false;
