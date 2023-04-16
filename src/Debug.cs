@@ -60,13 +60,11 @@ public static class Debug {
     public static Dictionary<string, Action<object[]>> commands = new Dictionary<string, Action<object[]>>();
 
     public static void RegisterCommand(string id, Action<object[]> callback) {
-        if (!commands.ContainsKey(id))
+        if (commands.ContainsKey(id))
         {
-            commands.Add(id, callback);
-        } else
-        {
-            Debug.Log(LogLevel.Error, $"Couldn't register command '{id}'! Command already exists;");
+            commands.Remove(id);
         }
+        commands.Add(id, callback);
     }
     public static void RegisterCommand(string[] ids, Action<object[]> callback)
     {
