@@ -14,7 +14,9 @@ public abstract class Scene : ICloneable
     public bool AlwaysRebuildTexture = false;
     public bool AlwaysAtBack = false;
 
-    public Vector2 MousePosition = new();
+    public SceneKeyboard Keyboard;
+    public SceneMouse Mouse;
+
     public bool MouseInsideScene { get; internal set; }
 
     internal List<Entity> Entities = new();
@@ -97,6 +99,9 @@ public abstract class Scene : ICloneable
         
         RenderTarget = SDL_CreateTexture(Game.SDLRenderer, SDL_PIXELFORMAT_RGBA8888,
             (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, width, height);
+
+        Keyboard = new(id);
+        Mouse = new(id);
     }
 
     public Scene SetRelativeWindowSize(SDL_FRect RelativeWindow) {
@@ -188,30 +193,30 @@ public abstract class Scene : ICloneable
             RenderTarget = SDL_CreateTexture(Game.SDLRenderer, SDL_PIXELFORMAT_RGBA8888,
             (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, (int)LocalWindowSize.w, (int)LocalWindowSize.h);
 
-            MousePosition.X = (Mouse.Position.X - LocalWindowSize.x);
-            MousePosition.Y = (Mouse.Position.Y - LocalWindowSize.y);
+            Mouse.Position.X = (GlobalMouse.Position.X - LocalWindowSize.x);
+            Mouse.Position.Y = (GlobalMouse.Position.Y - LocalWindowSize.y);
         } else
         {
             float wRatio = (float)WindowSize.w / (float)LocalWindowSize.w;
             float hRatio = (float)WindowSize.h / (float)LocalWindowSize.h;
 
-            MousePosition.X = (Mouse.Position.X - LocalWindowSize.x) * wRatio;
-            MousePosition.Y = (Mouse.Position.Y - LocalWindowSize.y) * hRatio;
+            Mouse.Position.X = (GlobalMouse.Position.X - LocalWindowSize.x) * wRatio;
+            Mouse.Position.Y = (GlobalMouse.Position.Y - LocalWindowSize.y) * hRatio;
         }
 
-        if (Mouse.Pressed(MB.Left) && Helpers.PointInside(Mouse.Position, LocalWindowSize) && !AlwaysAtBack)
+        if (Mouse.Pressed(MB.Left) && Helpers.PointInside(GlobalMouse.Position, LocalWindowSize) && !AlwaysAtBack)
         {
             SceneHandler.LoadedScenes.Remove(SceneID);
             SceneHandler.LoadedScenes.Insert(SceneHandler.LoadedScenes.Count, SceneID);
         }
 
-        if (Helpers.PointInside(Mouse.Position, LocalWindowSize)) 
+        if (Helpers.PointInside(GlobalMouse.Position, LocalWindowSize)) 
         {
             List<string> loadedScenes = new(SceneHandler.LoadedScenes);
             List<string> eligble = new();
             foreach(var scene in loadedScenes)
             {
-                if(Helpers.PointInside(Mouse.Position, SceneHandler.Scenes[scene].LocalWindowSize))
+                if(Helpers.PointInside(GlobalMouse.Position, SceneHandler.Scenes[scene].LocalWindowSize))
                 {
                     eligble.Add(scene);
                 }

@@ -186,7 +186,7 @@ public class InspectorScene : Scene
             }
         }
 
-        new UiBuilder(new Vector4(0, yOffset, (int)(Game.Window.Width * 0.2), (int)Game.Window.Height), MousePosition)
+        new UiBuilder(new Vector4(0, yOffset, (int)(Game.Window.Width * 0.2), (int)Game.Window.Height), Mouse.Position)
             .Title("Inspector")
             .Container(
                 new UiBuilder()
@@ -315,7 +315,7 @@ public class ConsoleScene : Scene
             }
         }
 
-        new UiBuilder(new Vector4(0, yOffset, 0, 0), MousePosition)
+        new UiBuilder(new Vector4(0, yOffset, 0, 0), Mouse.Position)
             .Title("Console")
             .ForEach(Debug.Logs, (val, idx) =>
             {
@@ -419,7 +419,7 @@ public class ConsoleScene : Scene
 
         logsLength = Debug.Logs.Count;
 
-        FUI.OverrideMousePosition(MousePosition);
+        FUI.OverrideMousePosition(Mouse.Position);
 
         float height = 0;
         if(consoleInput != "" && Debug.commands.Keys.ToList().Where((command) => command == consoleInput).ToList().Count != 1 ) 

@@ -54,10 +54,10 @@ public static class FUI
 
         Vector4 col;
 
-        if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, Helpers.FRectToRect(rect)))
+        if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : GlobalMouse.Position, Helpers.FRectToRect(rect)))
         {
             col =  UiColors.ContainerHoverColor;
-            if (Mouse.Down(MB.Left))
+            if (GlobalMouse.Down(MB.Left))
             {
                 col = UiColors.ContainerPressedColor;
             }
@@ -74,9 +74,9 @@ public static class FUI
 
         Draw.Text(position + new Vector2(5, 3), Font.GetDefaultFont(), text, 16, new(255, 255, 255, 255));
 
-        if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, Helpers.FRectToRect(rect)))
+        if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : GlobalMouse.Position, Helpers.FRectToRect(rect)))
         {
-            if (Mouse.Pressed(MB.Left))
+            if (GlobalMouse.Pressed(MB.Left))
             {
                 callback();
             }
@@ -108,18 +108,18 @@ public static class FUI
             FUI.selectedTextFieldValue = value;
         }
 
-        if (!Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, rect))
+        if (!Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : GlobalMouse.Position, rect))
         {
-            if(Mouse.Pressed(MB.Left)) {
+            if(GlobalMouse.Pressed(MB.Left)) {
                 if(FUI.selectedTextField == id) {
                     FUI.selectedTextField = null;
                 }
             }
         }
 
-        if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, rect))
+        if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : GlobalMouse.Position, rect))
         {
-            if(Mouse.Pressed(MB.Left)) {
+            if(GlobalMouse.Pressed(MB.Left)) {
                 if(FUI.selectedTextField != id) {
                     FUI.selectedTextField = id;
                     FUI.selectedTextFieldOnChange = (val) => {
@@ -191,10 +191,10 @@ public static class FUI
             h = (int)(size.Y + 7)
         };
 
-        if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, thumbrect))
+        if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : GlobalMouse.Position, thumbrect))
         {
             col = UiColors.ContainerHoverColor.ToCol();
-            if(Mouse.Down(MB.Left)) {
+            if(GlobalMouse.Down(MB.Left)) {
                 col = UiColors.ContainerPressedColor.ToCol();
                 // Debug.Log((position.X - (OverMousePosition.HasValue ? OverMousePosition.Value.X : Mouse.Position.X)).ToString());
             }
@@ -204,10 +204,10 @@ public static class FUI
             col = UiColors.ContainerIdleColor.ToCol();
         }
 
-        if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, rect))
+        if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : GlobalMouse.Position, rect))
         {
-            if(Mouse.Down(MB.Left)) {
-                float offset = Math.Abs(position.X - (OverMousePosition.HasValue ? OverMousePosition.Value.X : Mouse.Position.X));
+            if(GlobalMouse.Down(MB.Left)) {
+                float offset = Math.Abs(position.X - (OverMousePosition.HasValue ? OverMousePosition.Value.X : GlobalMouse.Position.X));
 
                 float lerp = offset / 200;
 
@@ -279,39 +279,39 @@ public static class FUI
             .HoverAnimation(SampleAnimations.CirclePulseAnimation(id + "3"))
             .Render();
         
-        if (Helpers.PointDistance(new Vector2(localRect.x, localRect.y), Mouse.Position) < radius)
+        if (Helpers.PointDistance(new Vector2(localRect.x, localRect.y), GlobalMouse.Position) < radius)
         {
-            if (Mouse.Down(MB.Left))
+            if (GlobalMouse.Down(MB.Left))
             {
-                rect.x = Mouse.Position.X / Game.Window.Width;
-                rect.y = Mouse.Position.Y / Game.Window.Height;
+                rect.x = GlobalMouse.Position.X / Game.Window.Width;
+                rect.y = GlobalMouse.Position.Y / Game.Window.Height;
             }
         }
 
-        if (Helpers.PointDistance(new Vector2(localRect.x + localRect.w, localRect.y), Mouse.Position) < radius)
+        if (Helpers.PointDistance(new Vector2(localRect.x + localRect.w, localRect.y), GlobalMouse.Position) < radius)
         {
-            if (Mouse.Down(MB.Left))
+            if (GlobalMouse.Down(MB.Left))
             {
-                rect.w = Mouse.Position.X / Game.Window.Width;
-                rect.y = Mouse.Position.Y / Game.Window.Height;
+                rect.w = GlobalMouse.Position.X / Game.Window.Width;
+                rect.y = GlobalMouse.Position.Y / Game.Window.Height;
             }
         }
 
-        if (Helpers.PointDistance(new Vector2(localRect.x, localRect.y + localRect.h), Mouse.Position) < radius)
+        if (Helpers.PointDistance(new Vector2(localRect.x, localRect.y + localRect.h), GlobalMouse.Position) < radius)
         {
-            if (Mouse.Down(MB.Left))
+            if (GlobalMouse.Down(MB.Left))
             {
-                rect.x = Mouse.Position.X / Game.Window.Width;
-                rect.h = Mouse.Position.Y / Game.Window.Height;
+                rect.x = GlobalMouse.Position.X / Game.Window.Width;
+                rect.h = GlobalMouse.Position.Y / Game.Window.Height;
             }
         }
 
-        if (Helpers.PointDistance(new Vector2(localRect.x + localRect.w, localRect.y + localRect.h), Mouse.Position) < radius)
+        if (Helpers.PointDistance(new Vector2(localRect.x + localRect.w, localRect.y + localRect.h), GlobalMouse.Position) < radius)
         {
-            if (Mouse.Down(MB.Left))
+            if (GlobalMouse.Down(MB.Left))
             {
-                rect.w = Mouse.Position.X / Game.Window.Width;
-                rect.h = Mouse.Position.Y / Game.Window.Height;
+                rect.w = GlobalMouse.Position.X / Game.Window.Width;
+                rect.h = GlobalMouse.Position.Y / Game.Window.Height;
             }
         }
     }
@@ -368,10 +368,10 @@ public static class FUI
                     h = 20
                 };
 
-                if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, rect))
+                if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : GlobalMouse.Position, rect))
                 {
                     SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerHoverColor.ToCol());
-                    if (Mouse.Down(MB.Left))
+                    if (GlobalMouse.Down(MB.Left))
                     {
                         SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerPressedColor.ToCol());
                     }
@@ -385,7 +385,7 @@ public static class FUI
                     SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerIdleColor.ToCol());
                 }
 
-                if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : Mouse.Position, rect) && Mouse.Pressed(MB.Left))
+                if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : GlobalMouse.Position, rect) && GlobalMouse.Pressed(MB.Left))
                 {
                     component.callback();
                 }

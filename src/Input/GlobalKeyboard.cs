@@ -251,7 +251,7 @@ public enum Mod
     LAlt
 }
 
-public static class Keyboard
+public static class GlobalKeyboard
 {
     internal static List<Key> pressedKeys = new();
     internal static List<Key> downKeys = new();
@@ -259,10 +259,10 @@ public static class Keyboard
 
     internal static void AddKey(Key key)
     {
-        if (!Keyboard.downKeys.Contains(Key.D))
+        if (!GlobalKeyboard.downKeys.Contains(Key.D))
         {
-            Keyboard.downKeys.Add(key);
-            Keyboard.pressedKeys.Add(key);
+            GlobalKeyboard.downKeys.Add(key);
+            GlobalKeyboard.pressedKeys.Add(key);
         }
     }
 
@@ -271,19 +271,29 @@ public static class Keyboard
         return downKeys.Contains(key);
     }
 
-    public static KeyboardDownBuilder DownExt(Key key)
+    public static bool Down(Key key, params Mod[] mods)
     {
-        return new KeyboardDownBuilder(key);
+        bool containsModifiers = true;
+        foreach (var i in mods)
+        {
+            if (!GlobalKeyboard.pressedModifiers.Contains(i))
+            {
+                containsModifiers = false;
+                break;
+            }
+        }
+
+        return GlobalKeyboard.downKeys.Contains(key) && containsModifiers;
     }
 
-    public static bool Pressed(Key key, string? scene=null)
+    //public static KeyboardDownBuilder DownExt(Key key)
+    //{
+    //    return new KeyboardDownBuilder(key);
+    //}
+
+    public static bool Pressed(Key key)
     {
-        if(scene == null) {
-            return pressedKeys.Contains(key);
-        } else if(SceneHandler.Scenes[scene].MouseInsideScene) {
-            return pressedKeys.Contains(key);
-        } 
-        return false;
+        return pressedKeys.Contains(key);
     }
 
     public static bool Pressed(Key key, params Mod[] mods)
@@ -291,105 +301,87 @@ public static class Keyboard
         bool containsModifiers = true;
         foreach(var i in mods)
         {
-            if(!Keyboard.pressedModifiers.Contains(i))
+            if(!GlobalKeyboard.pressedModifiers.Contains(i))
             {
                 containsModifiers = false;
                 break;
             }
         }
 
-        return Keyboard.pressedKeys.Contains(key) && containsModifiers;
+        return GlobalKeyboard.pressedKeys.Contains(key) && containsModifiers;
     }
 
-    public static bool Pressed(Key key, string scene, params Mod[] mods)
-    {
-        bool containsModifiers = true;
-        foreach(var i in mods)
-        {
-            if(!Keyboard.pressedModifiers.Contains(i))
-            {
-                containsModifiers = false;
-                break;
-            }
-        }
-
-        if(scene == null)
-            return Keyboard.pressedKeys.Contains(key) && containsModifiers;
-        else 
-            return Keyboard.pressedKeys.Contains(key) && containsModifiers && SceneHandler.Scenes[scene].MouseInsideScene;
-    }
-
-    public static KeyboardPressedBuilder PressedExt(Key key)
-    {
-        return new KeyboardPressedBuilder(key);
-    }
+    //public static KeyboardPressedBuilder PressedExt(Key key)
+    //{
+    //    return new KeyboardPressedBuilder(key);
+    //}
 }
 
-public class KeyboardDownBuilder
-{
-    private Key key;
-    private string? scene = null;
+//public class KeyboardDownBuilder
+//{
+//    private Key key;
+//    private string? scene = null;
 
-    public KeyboardDownBuilder(Key key)
-    {
-        this.key = key;
-    }
+//    public KeyboardDownBuilder(Key key)
+//    {
+//        this.key = key;
+//    }
 
-    public bool With(params Mod[] mods)
-    {
-        bool containsModifiers = true;
-        foreach(var i in mods)
-        {
-            if(!Keyboard.pressedModifiers.Contains(i))
-            {
-                containsModifiers = false;
-                break;
-            }
-        }
+//    public bool With(params Mod[] mods)
+//    {
+//        bool containsModifiers = true;
+//        foreach(var i in mods)
+//        {
+//            if(!GlobalKeyboard.pressedModifiers.Contains(i))
+//            {
+//                containsModifiers = false;
+//                break;
+//            }
+//        }
 
-        if(scene == null)
-            return Keyboard.pressedKeys.Contains(this.key) && containsModifiers;
-        else 
-            return Keyboard.pressedKeys.Contains(this.key) && containsModifiers && SceneHandler.Scenes[scene].MouseInsideScene;
-    }
+//        if(scene == null)
+//            return GlobalKeyboard.pressedKeys.Contains(this.key) && containsModifiers;
+//        else 
+//            return Keyboard.pressedKeys.Contains(this.key) && containsModifiers && SceneHandler.Scenes[scene].MouseInsideScene;
+//    }
 
-    public KeyboardDownBuilder InScene(string scene) 
-    {
-        this.scene = scene;
-        return this;
-    }
+//    public KeyboardDownBuilder InScene(string scene) 
+//    {
+//        this.scene = scene;
+//        return this;
+//    }
 
-    public bool Get() 
-    {
-        if(scene == null) {
-            return Keyboard.pressedKeys.Contains(key);
-        } else if(SceneHandler.Scenes[scene].MouseInsideScene) {
-            return Keyboard.pressedKeys.Contains(key);
-        } 
-        return false;
-    }
-}
+//    public bool Get() 
+//    {
+//        if(scene == null) {
+//            return GlobalKeyboard.pressedKeys.Contains(key);
+//        } else if(SceneHandler.Scenes[scene].MouseInsideScene) {
+//            return GlobalKeyboard.pressedKeys.Contains(key);
+//        } 
+//        return false;
+//    }
+//}
 
-public class KeyboardPressedBuilder
-{
-    private Key key;
+//public class KeyboardPressedBuilder
+//{
+//    private Key key;
 
-    public KeyboardPressedBuilder(Key key)
-    {
-        this.key = key;
-    }
+//    public KeyboardPressedBuilder(Key key)
+//    {
+//        this.key = key;
+//    }
 
-    public bool With(params Mod[] mods)
-    {
-        bool containsModifiers = true;
-        foreach (var i in mods)
-        {
-            if (!Keyboard.pressedModifiers.Contains(i))
-            {
-                containsModifiers = false;
-                break;
-            }
-        }
-        return Keyboard.pressedKeys.Contains(this.key) && containsModifiers;
-    }
-}
+//    public bool With(params Mod[] mods)
+//    {
+//        bool containsModifiers = true;
+//        foreach (var i in mods)
+//        {
+//            if (!GlobalKeyboard.pressedModifiers.Contains(i))
+//            {
+//                containsModifiers = false;
+//                break;
+//            }
+//        }
+//        return GlobalKeyboard.pressedKeys.Contains(this.key) && containsModifiers;
+//    }
+//}

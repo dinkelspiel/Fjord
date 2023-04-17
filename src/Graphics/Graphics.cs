@@ -363,7 +363,7 @@ public static class Draw
                     if(drawIns.hoverAnimation.colorDriver != null)
                         drawInsClone.color = Helpers.Lerp(drawIns.color, drawIns.hoverAnimation.colorGoal, drawIns.hoverAnimation.progress);
                         // drawInsClone.color *= (drawIns.hoverAnimation.colorDriver(drawIns.hoverAnimation.progress) + 1);
-                    if(sceneId == null ? Helpers.PointDistance(Mouse.Position, drawInsClone.position) < drawInsClone.radius : Helpers.PointDistance(SceneHandler.Scenes[sceneId].MousePosition, drawInsClone.position) < drawInsClone.radius) {
+                    if(sceneId == null ? Helpers.PointDistance(GlobalMouse.Position, drawInsClone.position) < drawInsClone.radius : Helpers.PointDistance(SceneHandler.Scenes[sceneId].Mouse.Position, drawInsClone.position) < drawInsClone.radius) {
                         if(drawIns.hoverAnimation.progress < 1)
                             drawIns.hoverAnimation.progress += drawIns.hoverAnimation.speed;
                     } else if(drawIns.hoverAnimation.progress > 0) {

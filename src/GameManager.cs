@@ -127,7 +127,7 @@ public static class Game
             }
         }
         
-        if (Keyboard.DownExt(Key.D).With(Mod.LShift, Mod.LCtrl))
+        if (GlobalKeyboard.Down(Key.D, Mod.LShift, Mod.LCtrl))
         {
             if (!SceneHandler.IsLoaded("inspector"))
                 SceneHandler.Load("inspector");
@@ -135,7 +135,7 @@ public static class Game
                 SceneHandler.Unload("inspector");
         }
 
-        if (Keyboard.DownExt(Key.C).With(Mod.LShift, Mod.LCtrl))
+        if (GlobalKeyboard.Down(Key.C, Mod.LShift, Mod.LCtrl))
         {
             if (!SceneHandler.IsLoaded("console")) {
                 SceneHandler.Load("console");
@@ -143,15 +143,15 @@ public static class Game
                 SceneHandler.Unload("console");
         }
 
-        Keyboard.pressedKeys = new();
-        foreach (var key in Mouse.pressedKeys.Keys.ToList())
+        GlobalKeyboard.pressedKeys = new();
+        foreach (var key in GlobalMouse.pressedKeys.Keys.ToList())
         {
-            Mouse.pressedKeys[key] = false;
+            GlobalMouse.pressedKeys[key] = false;
         }
-        Mouse.downKeys[MB.ScrollDown] = false;
-        Mouse.downKeys[MB.ScrollLeft] = false;
-        Mouse.downKeys[MB.ScrollRight] = false;
-        Mouse.downKeys[MB.ScrollUp] = false;
+        GlobalMouse.downKeys[MB.ScrollDown] = false;
+        GlobalMouse.downKeys[MB.ScrollLeft] = false;
+        GlobalMouse.downKeys[MB.ScrollRight] = false;
+        GlobalMouse.downKeys[MB.ScrollUp] = false;
     }
 
     public static void Render(ref bool open)

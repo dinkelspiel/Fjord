@@ -12,9 +12,9 @@ public enum MB
     ScrollLeft
 }
 
-public static class Mouse
+public static class GlobalMouse
 {
-    internal static Vector2 Position = new();
+    public static Vector2 Position = new();
     internal static Vector2 RelativePosition = new();
     
     internal static Dictionary<MB, bool> downKeys = new() {
