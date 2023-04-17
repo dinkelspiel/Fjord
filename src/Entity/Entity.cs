@@ -2,10 +2,21 @@ namespace Fjord.Scenes;
 
 public class Entity
 {
+    internal SceneKeyboard Keyboard;
+    internal SceneMouse Mouse;
+
     internal List<Component> Components = new(); 
+
+    public Entity(SceneKeyboard keyboard, SceneMouse mouse)
+    {
+        this.Keyboard = keyboard;
+        this.Mouse = mouse;
+    }
 
     public Entity Add(Component component)
     {
+        component.Keyboard = Keyboard;
+        component.Mouse = Mouse;
         this.Components.Add(component);
         this.Components[this.Components.Count - 1].AwakeCall();
         return this;
