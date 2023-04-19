@@ -96,22 +96,26 @@ public static class FUI
         Vector2 size = Font.DrawSize(Font.GetDefaultFont(), "asdasd", 16, UiColors.TextColor);
         Vector2 size2 = Font.DrawSize(Font.GetDefaultFont(), value, 16, UiColors.TextColor);
 
-        SDL_Rect rect = new()
+        Vector4 rect = new()
         {
-            x = (int)(position.X),
-            y = (int)(position.Y),
-            w = (int)Math.Max(Math.Max(size.X, size2.X) + 40, 200),
-            h = (int)size.Y + 7
+            X = (int)(position.X),
+            Y = (int)(position.Y),
+            Z = (int)Math.Max(Math.Max(size.X, size2.X) + 40, 200),
+            W = (int)size.Y + 7
         };
 
         if(FUI.selectedTextField == id) {
             FUI.selectedTextFieldValue = value;
         }
 
+        Vector4 color;
+
         if (!Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : GlobalMouse.Position, rect))
         {
-            if(GlobalMouse.Pressed(MB.Left)) {
-                if(FUI.selectedTextField == id) {
+            if (GlobalMouse.Pressed(MB.Left))
+            {
+                if (FUI.selectedTextField == id)
+                {
                     FUI.selectedTextField = null;
                 }
             }
@@ -119,10 +123,13 @@ public static class FUI
 
         if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : GlobalMouse.Position, rect))
         {
-            if(GlobalMouse.Pressed(MB.Left)) {
-                if(FUI.selectedTextField != id) {
+            if (GlobalMouse.Pressed(MB.Left))
+            {
+                if (FUI.selectedTextField != id)
+                {
                     FUI.selectedTextField = id;
-                    FUI.selectedTextFieldOnChange = (val) => {
+                    FUI.selectedTextFieldOnChange = (val) =>
+                    {
                         onChange(val);
                     };
                     FUI.selectedTextFieldOnSumbit = (val) =>
@@ -130,33 +137,37 @@ public static class FUI
                         onSubmit(val);
                     };
                     SDL_StartTextInput();
-                } else {
+                }
+                else
+                {
                     FUI.selectedTextField = null;
                     SDL_StopTextInput();
                 }
             }
-            if(FUI.selectedTextField != id)
-                SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerHoverColor.ToCol());
+            if (FUI.selectedTextField != id)
+                color = UiColors.ContainerHoverColor;
             else
-                SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerHoverPressedColor.ToCol());
+                color = UiColors.ContainerHoverPressedColor;
         }
-        else if(FUI.selectedTextField == id) 
+        else if (FUI.selectedTextField == id)
         {
-            SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerPressedColor.ToCol());
+            color = UiColors.ContainerPressedColor;
         }
         else
         {
-            SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerIdleColor.ToCol());
+            color = UiColors.ContainerIdleColor;
         }
-    
-        // Console.WriteLine(FUI.selectedTextFieldValue);
 
         fieldsize = new() {
             X = Math.Max(Math.Max(size.X, size2.X) + 40, 200),
             Y = size.Y + 7
         };
 
-        SDL_RenderFillRect(Game.SDLRenderer, ref rect);
+        new Rectangle(rect)
+            .Color(color)
+            .Fill(true)
+            .Render();
+        //SDL_RenderFillFRect(Game.SDLRenderer, ref rect);
         Draw.Text(position + new Vector2(5, 3), Font.GetDefaultFont(), value, 16, UiColors.TextColor);
     }
 

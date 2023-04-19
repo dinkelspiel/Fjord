@@ -19,6 +19,16 @@ public static class Helpers
         return (point.X > rect.x && point.X < rect.x + rect.w && point.Y > rect.y && point.Y < rect.y + rect.h);
     }
 
+    public static bool PointInside(Vector2 point, SDL_FRect rect)
+    {
+        return (point.X > rect.x && point.X < rect.x + rect.w && point.Y > rect.y && point.Y < rect.y + rect.h);
+    }
+
+    public static bool PointInside(Vector2 point, Vector4 rect)
+    {
+        return (point.X > rect.X && point.X < rect.X + rect.Z && point.Y > rect.Y && point.Y < rect.Y + rect.W);
+    }
+
     public static SDL_FRect RectToFRect(SDL_Rect rect)
     {
         return new SDL_FRect()

@@ -27,8 +27,6 @@ public static class Game
     private static ulong timeLast = 0;
     private static double deltaTime = 0.0;
 
-    private static double lastRender = 0;
-
     public static void Initialize(string title, int width, int height)
     {   
         #if DEBUG
@@ -99,11 +97,18 @@ public static class Game
             
             EventHandler.HandleEvents();
 
-            if(SDL_GetTicks() - lastRender > 1000 / 60) {
-                Update();
-                lastRender = SDL_GetTicks();
-            }
+            Update();
             Render(ref open);
+
+            GlobalKeyboard.pressedKeys = new();
+            foreach (var key in GlobalMouse.pressedKeys.Keys.ToList())
+            {
+                GlobalMouse.pressedKeys[key] = false;
+            }
+            GlobalMouse.downKeys[MB.ScrollDown] = false;
+            GlobalMouse.downKeys[MB.ScrollLeft] = false;
+            GlobalMouse.downKeys[MB.ScrollRight] = false;
+            GlobalMouse.downKeys[MB.ScrollUp] = false;
         }
     }
 
@@ -127,7 +132,7 @@ public static class Game
             }
         }
         
-        if (GlobalKeyboard.Down(Key.D, Mod.LShift, Mod.LCtrl))
+        if (GlobalKeyboard.Pressed(Key.D, Mod.LShift, Mod.LCtrl))
         {
             if (!SceneHandler.IsLoaded("inspector"))
                 SceneHandler.Load("inspector");
@@ -135,23 +140,13 @@ public static class Game
                 SceneHandler.Unload("inspector");
         }
 
-        if (GlobalKeyboard.Down(Key.C, Mod.LShift, Mod.LCtrl))
+        if (GlobalKeyboard.Pressed(Key.C, Mod.LShift, Mod.LCtrl))
         {
             if (!SceneHandler.IsLoaded("console")) {
                 SceneHandler.Load("console");
             } else
                 SceneHandler.Unload("console");
         }
-
-        GlobalKeyboard.pressedKeys = new();
-        foreach (var key in GlobalMouse.pressedKeys.Keys.ToList())
-        {
-            GlobalMouse.pressedKeys[key] = false;
-        }
-        GlobalMouse.downKeys[MB.ScrollDown] = false;
-        GlobalMouse.downKeys[MB.ScrollLeft] = false;
-        GlobalMouse.downKeys[MB.ScrollRight] = false;
-        GlobalMouse.downKeys[MB.ScrollUp] = false;
     }
 
     public static void Render(ref bool open)

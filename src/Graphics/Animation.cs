@@ -18,7 +18,7 @@ public static class SampleAnimations {
 
             return (1 + c3 * (float)Math.Pow(x - 1, 3) + c1 * (float)Math.Pow(x - 1, 2));
         }, new(239, 17, 33, 255))
-        .Speed(0.002f);
+        .Speed(2f);
 
     public static CirlceAnimation CirclePulseAnimation(string id)
     {

@@ -365,9 +365,9 @@ public static class Draw
                         // drawInsClone.color *= (drawIns.hoverAnimation.colorDriver(drawIns.hoverAnimation.progress) + 1);
                     if(sceneId == null ? Helpers.PointDistance(GlobalMouse.Position, drawInsClone.position) < drawInsClone.radius : Helpers.PointDistance(SceneHandler.Scenes[sceneId].Mouse.Position, drawInsClone.position) < drawInsClone.radius) {
                         if(drawIns.hoverAnimation.progress < 1)
-                            drawIns.hoverAnimation.progress += drawIns.hoverAnimation.speed;
+                            drawIns.hoverAnimation.progress += drawIns.hoverAnimation.speed * (float)Game.GetDeltaTime();
                     } else if(drawIns.hoverAnimation.progress > 0) {
-                        drawIns.hoverAnimation.progress -= drawIns.hoverAnimation.speed;
+                        drawIns.hoverAnimation.progress -= drawIns.hoverAnimation.speed * (float)Game.GetDeltaTime();
                         if(drawIns.hoverAnimation.progress < 0)
                             drawIns.hoverAnimation.progress = 0;
                     }
