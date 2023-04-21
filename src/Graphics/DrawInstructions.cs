@@ -79,7 +79,7 @@ public class Rectangle : DrawInstruction {
 
         SDL_SetRenderTarget(Game.SDLRenderer, oldRender);
 
-        var itex = new Texture(tex);
+        var itex = new Texture(tex).Position(rect.X, rect.Y);
 
         return itex;
     }
@@ -140,6 +140,24 @@ public class Circle : DrawInstruction {
             Draw.drawBuffer.Add(this);
         }
     }
+
+    public Texture RenderToTexture()
+    {
+        IntPtr oldRender = SDL_GetRenderTarget(Game.SDLRenderer);
+
+        IntPtr tex = SDL_CreateTexture(Game.SDLRenderer, SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, (int)(radius * 2), (int)(radius * 2));
+        SDL_SetRenderTarget(Game.SDLRenderer, tex);
+        var tempRect = (Circle)this.Clone();
+        tempRect.position.X = tempRect.radius;
+        tempRect.position.Y = tempRect.radius;
+        Draw.CircleDirect(tempRect);
+
+        SDL_SetRenderTarget(Game.SDLRenderer, oldRender);
+
+        var itex = new Texture(tex).Position(position.X, position.Y);
+
+        return itex;
+    }
 }
 
 public class Texture : DrawInstruction {
@@ -150,7 +168,7 @@ public class Texture : DrawInstruction {
     public float angle;
     public Flip flip;
     public Center center;
-    
+
     public Texture(string path)
     {
         if(!Draw.textureCache.ContainsKey(path)) {
@@ -364,6 +382,26 @@ public class Text : DrawInstruction
         {
             Draw.drawBuffer.Add(this);
         }
+    }
+
+    public Texture RenderToTexture()
+    {
+        IntPtr oldRender = SDL_GetRenderTarget(Game.SDLRenderer);
+
+        Vector2 size = Graphics.Font.DrawSize(font, value, this.size, color);
+
+        IntPtr tex = SDL_CreateTexture(Game.SDLRenderer, SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, (int)(size.X), (int)(size.Y));
+        SDL_SetRenderTarget(Game.SDLRenderer, tex);
+        var tempRect = (Text)this.Clone();
+        tempRect.position.X = 0;
+        tempRect.position.Y = 0;
+        Draw.TextDirect(tempRect);
+
+        SDL_SetRenderTarget(Game.SDLRenderer, oldRender);
+
+        var itex = new Texture(tex).Position(position.X, position.Y);
+
+        return itex;
     }
 }
 
