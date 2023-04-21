@@ -298,6 +298,8 @@ public static class Draw
         };
 
         SDL_RenderCopyEx(Game.SDLRenderer, texture.SDLTexture, IntPtr.Zero, ref rect, texture.angle, ref sdlcenter, tmpFlip);
+
+        SDL_DestroyTexture(texture.SDLTexture);
     }
 
     internal static void GeometryDirect(Geometry geometry)

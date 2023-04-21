@@ -65,6 +65,24 @@ public class Rectangle : DrawInstruction {
             Draw.drawBuffer.Add(this);
         }
     }
+
+    public Texture RenderToTexture()
+    {
+        IntPtr oldRender = SDL_GetRenderTarget(Game.SDLRenderer);
+
+        IntPtr tex = SDL_CreateTexture(Game.SDLRenderer, SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, (int)rect.Z, (int)rect.W);
+        SDL_SetRenderTarget(Game.SDLRenderer, tex);
+        var tempRect = (Rectangle)this.Clone();
+        tempRect.rect.X = 0;
+        tempRect.rect.Y = 0;
+        Draw.RectangleDirect(tempRect);
+
+        SDL_SetRenderTarget(Game.SDLRenderer, oldRender);
+
+        var itex = new Texture(tex);
+
+        return itex;
+    }
 }
 
 public class Circle : DrawInstruction {
@@ -132,6 +150,7 @@ public class Texture : DrawInstruction {
     public float angle;
     public Flip flip;
     public Center center;
+    
     public Texture(string path)
     {
         if(!Draw.textureCache.ContainsKey(path)) {
