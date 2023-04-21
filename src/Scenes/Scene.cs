@@ -153,7 +153,7 @@ public abstract class Scene : ICloneable
 
     public virtual void Awake() {}
     public virtual void Sleep() {}
-    public virtual void Update() {}
+    public virtual void Update(double dt) {}
     public virtual void Render() {}
 
     internal void AwakeCall()
@@ -244,7 +244,7 @@ public abstract class Scene : ICloneable
             SceneHandler.LoadedScenes.Insert(0, SceneID);
         }
         
-        Update();
+        Update(Game.GetDeltaTime());
 
         foreach(Entity e in Entities)
         {
