@@ -7,7 +7,7 @@ public abstract class Component
 
     public virtual void Awake() {}
     public virtual void Sleep() {}
-    public virtual void Update() {}
+    public virtual void Update(double dt) {}
     public virtual void Render() {}
 
     internal void AwakeCall()
@@ -22,7 +22,7 @@ public abstract class Component
 
     internal void UpdateCall()
     {
-        Update();
+        Update(Game.GetDeltaTime());
     }
 
     internal void RenderCall()
