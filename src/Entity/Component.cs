@@ -5,6 +5,12 @@ public abstract class Component
     public SceneKeyboard Keyboard;
     public SceneMouse Mouse;
 
+    public Component()
+    {
+        this.Keyboard = new("");
+        this.Mouse = new("");
+    }
+
     public virtual void Awake() {}
     public virtual void Sleep() {}
     public virtual void Update(double dt) {}
