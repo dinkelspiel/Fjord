@@ -58,11 +58,11 @@ public class Rectangle : DrawInstruction {
     {
         if (Draw.CurrentSceneID is not null)
         {
-            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add(this);
+            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add((Rectangle)this.Clone());
         }
         else
         {
-            Draw.drawBuffer.Add(this);
+            Draw.drawBuffer.Add((Rectangle)this.Clone());
         }
     }
 
@@ -133,11 +133,11 @@ public class Circle : DrawInstruction {
     public void Render() {
         if (Draw.CurrentSceneID is not null)
         {
-            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add(this);
+            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add((Circle)this.Clone());
         }
         else
         {
-            Draw.drawBuffer.Add(this);
+            Draw.drawBuffer.Add((Circle)this.Clone());
         }
     }
 
@@ -164,6 +164,7 @@ public class Texture : DrawInstruction {
     public Vector2 position;
     public IntPtr SDLTexture;
     public Vector2 textureSize;
+    public Vector2 sizeMultiplier = new(1, 1);
     public bool destroy = true;
     public float angle;
     public Flip flip;
@@ -216,6 +217,17 @@ public class Texture : DrawInstruction {
         this.textureSize = new(w, h);
         return this;
     }
+    public Texture SizeMultiplier(Vector2 size)
+    {
+        this.sizeMultiplier = size;
+        return this;
+    }
+
+    public Texture SizeMultiplier(float w, float h)
+    {
+        this.sizeMultiplier = new(w, h);
+        return this;
+    }
 
     public Texture Depth(int depth)
     {
@@ -250,11 +262,11 @@ public class Texture : DrawInstruction {
     public void Render() {
         if (Draw.CurrentSceneID is not null)
         {
-            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add(this);
+            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add((Texture)this.Clone());
         }
         else
         {
-            Draw.drawBuffer.Add(this);
+            Draw.drawBuffer.Add((Texture)this.Clone());
         }
     }
 }
@@ -300,11 +312,11 @@ public class Geometry : DrawInstruction
     {
         if (Draw.CurrentSceneID is not null)
         {
-            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add(this);
+            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add((Geometry)this.Clone());
         }
         else
         {
-            Draw.drawBuffer.Add(this);
+            Draw.drawBuffer.Add((Geometry)this.Clone());
         }
     }
 }
@@ -375,11 +387,11 @@ public class Text : DrawInstruction
     {
         if (Draw.CurrentSceneID is not null)
         {
-            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add(this);
+            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add((Text)this.Clone());
         }
         else
         {
-            Draw.drawBuffer.Add(this);
+            Draw.drawBuffer.Add((Text)this.Clone());
         }
     }
 
@@ -438,11 +450,11 @@ public class Line : DrawInstruction
     {
         if (Draw.CurrentSceneID is not null)
         {
-            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add(this);
+            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add((Texture)this.Clone());
         }
         else
         {
-            Draw.drawBuffer.Add(this);
+            Draw.drawBuffer.Add((Texture)this.Clone());
         }
     }
 }

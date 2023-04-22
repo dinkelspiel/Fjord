@@ -249,9 +249,10 @@ public static class Draw
         {
             x = (int)texture.position.X,
             y = (int)texture.position.Y,
-            w = (int)texture.textureSize.X,
-            h = (int)texture.textureSize.Y
+            w = (int)(texture.textureSize.X * texture.sizeMultiplier.X),
+            h = (int)(texture.textureSize.Y * texture.sizeMultiplier.Y)
         };
+        Debug.Log($"{texture.position.X} {texture.position.Y}");
 
         SDL_RendererFlip tmpFlip = texture.flip == Flip.Horizontal ? SDL_RendererFlip.SDL_FLIP_HORIZONTAL : texture.flip == Flip.Vertical ? SDL_RendererFlip.SDL_FLIP_VERTICAL : texture.flip == Flip.Both ? SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL_RendererFlip.SDL_FLIP_VERTICAL : SDL_RendererFlip.SDL_FLIP_NONE;
 
@@ -264,30 +265,30 @@ public static class Draw
                 center = new(0, 0);
             } break;
             case Graphics.Center.TopMiddle: {
-                center = new(textureSize.X / 2, 0);
+                center = new(rect.w / 2, 0);
             } break;
             case Graphics.Center.TopRight: {
-                center = new(textureSize.X, 0);
+                center = new(rect.h, 0);
             } break;
 
             case Graphics.Center.MiddleLeft: {
-                center = new(0, textureSize.Y / 2);
+                center = new(0, rect.h / 2);
             } break;
             case Graphics.Center.Middle: {
-                center = new(textureSize.X / 2, textureSize.Y / 2);
+                center = new(rect.w / 2, rect.h / 2);
             } break;
             case Graphics.Center.MiddleRight: {
-                center = new(textureSize.X, textureSize.Y / 2);
+                center = new(rect.w, rect.h / 2);
             } break;
             
             case Graphics.Center.BottomLeft: {
-                center = new(0, textureSize.Y);
+                center = new(0, rect.h);
              } break;
             case Graphics.Center.BottomMiddle: {
-                center = new(textureSize.X / 2, textureSize.Y);
+                center = new(rect.w / 2, rect.h);
             } break;
             case Graphics.Center.BottomRight: {
-                center = new(textureSize.X, textureSize.Y);
+                center = new(rect.w, rect.h);
             } break;
         };
 
@@ -301,7 +302,8 @@ public static class Draw
 
         SDL_RenderCopyEx(Game.SDLRenderer, texture.SDLTexture, IntPtr.Zero, ref rect, texture.angle, ref sdlcenter, tmpFlip);
 
-        SDL_DestroyTexture(texture.SDLTexture);
+        if(texture.destroy)
+            SDL_DestroyTexture(texture.SDLTexture);
     }
 
     internal static void GeometryDirect(Geometry geometry)

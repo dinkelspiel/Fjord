@@ -32,8 +32,8 @@ public abstract class Scene : ICloneable
 
     internal SDL_FRect RelativeWindowSizeFinal = new ();
 
-    public SDL_Rect WindowSize = new();
-    public SDL_Rect LocalWindowSize = new();
+    public Vector2 WindowSize = new();
+    internal SDL_Rect LocalWindowSize = new();
     internal Vector2 OriginalWindowSize = new();
     internal IntPtr RenderTarget;
     internal SDL_Color ClearColor = new()
@@ -176,17 +176,15 @@ public abstract class Scene : ICloneable
             h = (int)((RelativeWindowSize.h - RelativeWindowSize.y) * Game.Window.Height)
         };
 
-        if(WindowSize.x == 0 && WindowSize.y == 0 && WindowSize.w == 0 && WindowSize.h == 0) {
-            WindowSize = LocalWindowSize;
+        if(WindowSize.X == 0 && WindowSize.Y == 0) {
+            WindowSize = new(OriginalWindowSize.X, OriginalWindowSize.Y);
         }
 
         if (AlwaysRebuildTexture)
         {
             WindowSize = new() {
-                x = LocalWindowSize.x,
-                y = LocalWindowSize.y,
-                w = LocalWindowSize.w,
-                h = LocalWindowSize.h
+                X = LocalWindowSize.w,
+                Y = LocalWindowSize.h
             };
 
             SDL_DestroyTexture(RenderTarget);
@@ -197,8 +195,8 @@ public abstract class Scene : ICloneable
             Mouse.Position.Y = (GlobalMouse.Position.Y - LocalWindowSize.y);
         } else
         {
-            float wRatio = (float)WindowSize.w / (float)LocalWindowSize.w;
-            float hRatio = (float)WindowSize.h / (float)LocalWindowSize.h;
+            float wRatio = (float)WindowSize.X / (float)LocalWindowSize.w;
+            float hRatio = (float)WindowSize.Y / (float)LocalWindowSize.h;
 
             Mouse.Position.X = (GlobalMouse.Position.X - LocalWindowSize.x) * wRatio;
             Mouse.Position.Y = (GlobalMouse.Position.Y - LocalWindowSize.y) * hRatio;
