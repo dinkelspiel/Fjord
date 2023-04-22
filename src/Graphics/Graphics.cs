@@ -252,7 +252,6 @@ public static class Draw
             w = (int)(texture.textureSize.X * texture.sizeMultiplier.X),
             h = (int)(texture.textureSize.Y * texture.sizeMultiplier.Y)
         };
-        Debug.Log($"{texture.position.X} {texture.position.Y}");
 
         SDL_RendererFlip tmpFlip = texture.flip == Flip.Horizontal ? SDL_RendererFlip.SDL_FLIP_HORIZONTAL : texture.flip == Flip.Vertical ? SDL_RendererFlip.SDL_FLIP_VERTICAL : texture.flip == Flip.Both ? SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL_RendererFlip.SDL_FLIP_VERTICAL : SDL_RendererFlip.SDL_FLIP_NONE;
 
