@@ -247,8 +247,7 @@ public class Texture : DrawInstruction {
         return this;
     }
 
-    public void Render(bool destroy=false) {
-        this.destroy = destroy;
+    public void Render() {
         if (Draw.CurrentSceneID is not null)
         {
             SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add(this);
