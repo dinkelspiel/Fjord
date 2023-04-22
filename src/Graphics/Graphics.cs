@@ -296,6 +296,8 @@ public static class Draw
             x = (int)center.X,
             y = (int)center.Y
         };
+        rect.x -= sdlcenter.x;
+        rect.y -= sdlcenter.y;
 
         SDL_RenderCopyEx(Game.SDLRenderer, texture.SDLTexture, IntPtr.Zero, ref rect, texture.angle, ref sdlcenter, tmpFlip);
 
