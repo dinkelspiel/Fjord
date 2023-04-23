@@ -77,6 +77,7 @@ public static class SceneHandler
     public static void Remake(string id)
     {
         Scenes[id] = (Scene)OriginalScenes[id].Clone();
+        Scenes[id].Entities.Clear();
         Scenes[id].Awake();
     }
 
