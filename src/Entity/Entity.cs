@@ -4,19 +4,23 @@ public class Entity
 {
     internal SceneKeyboard Keyboard;
     internal SceneMouse Mouse;
+    internal Scene Parent;
 
     internal List<Component> Components = new(); 
 
-    public Entity(SceneKeyboard keyboard, SceneMouse mouse)
+    public Entity(Scene parent)
     {
-        this.Keyboard = keyboard;
-        this.Mouse = mouse;
+        this.Parent = parent;
+        this.Keyboard = parent.Keyboard;
+        this.Mouse = parent.Mouse;
     }
 
     public Entity Add(Component component)
     {
         component.Keyboard = Keyboard;
         component.Mouse = Mouse;
+        component.ParentEntity = this;
+        component.ParentScene = this.Parent;
         this.Components.Add(component);
         this.Components[this.Components.Count - 1].AwakeCall();
         return this;

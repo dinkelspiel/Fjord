@@ -5,10 +5,25 @@ public abstract class Component
     public SceneKeyboard Keyboard;
     public SceneMouse Mouse;
 
+    internal Entity ParentEntity;
+    public Scene ParentScene;
+
     public Component()
     {
-        this.Keyboard = new("");
-        this.Mouse = new("");
+        //this.Keyboard = new("");
+        //this.Mouse = new("");
+        //this.ParentScene = default(Scene);
+        //this.ParentEntity = new(ParentScene, Keyboard, Mouse);
+    }
+
+    public void Remove<T>()
+    {
+        ParentEntity.Remove<T>();
+    }
+
+    public T? Get<T>()
+    {
+        return ParentEntity.Get<T>();
     }
 
     public virtual void Awake() {}

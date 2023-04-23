@@ -14,6 +14,8 @@ public abstract class Scene : ICloneable
     public bool AlwaysRebuildTexture = false;
     public bool AlwaysAtBack = false;
 
+    internal bool showCursor = true;
+
     public SceneKeyboard Keyboard;
     public SceneMouse Mouse;
 
@@ -30,7 +32,7 @@ public abstract class Scene : ICloneable
         h = 0.9f
     };
 
-    internal SDL_FRect RelativeWindowSizeFinal = new ();
+    internal SDL_FRect RelativeWindowSizeFinal = new();
 
     public Vector2 WindowSize = new();
     internal SDL_Rect LocalWindowSize = new();
@@ -79,6 +81,11 @@ public abstract class Scene : ICloneable
     public string GetSceneID()
     {
         return SceneID;
+    }
+    
+    public void SetShowCursor(bool showCursor)
+    {
+        this.showCursor = showCursor;
     }
 
     public void ApplyOriginalAspectRatio()
@@ -168,6 +175,11 @@ public abstract class Scene : ICloneable
     
     internal void UpdateCall()
     {
+        if(MouseInsideScene)
+        {
+            SDL_ShowCursor(showCursor ? SDL_ENABLE : SDL_DISABLE);
+        }
+
         LocalWindowSize = new()
         {
             x = (int)(RelativeWindowSize.x * Game.Window.Width),
