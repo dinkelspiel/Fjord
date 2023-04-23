@@ -31,9 +31,13 @@ public class Entity
         }
     }
 
-    public Component? Get<T>()
+    public T? Get<T>()
     {
-        return Components.Find((comp) => comp.GetType() == typeof(T));
+        var scene = Components.Find((comp) => comp.GetType() == typeof(T));
+        if (scene != null)
+            return (T)(dynamic)scene;
+        else
+            return default(T);
     }
 
     internal void AwakeCall()
