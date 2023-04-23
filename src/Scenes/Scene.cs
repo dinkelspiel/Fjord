@@ -22,6 +22,7 @@ public abstract class Scene : ICloneable
     public bool MouseInsideScene { get; internal set; }
 
     internal List<Entity> Entities = new();
+    internal List<Entity> removeEntity = new();
 
     internal List<DrawInstruction> drawBuffer = new();
     internal SDL_FRect RelativeWindowSize = new()
@@ -158,6 +159,11 @@ public abstract class Scene : ICloneable
         this.Entities.Add(e);
     }
 
+    public void RemoveEntity(Entity e)
+    {
+        this.removeEntity.Add(e);
+    }
+
     public virtual void Awake() {}
     public virtual void Sleep() {}
     public virtual void Update(double dt) {}
@@ -291,6 +297,12 @@ public abstract class Scene : ICloneable
         {
             FUI.ResizeableRectangle(ref RelativeWindowSize, SceneID);
         }
+
+        foreach(Entity e in removeEntity)
+        {
+            Entities.Remove(e);
+        }
+        removeEntity = new();
     }
 
     public object Clone()

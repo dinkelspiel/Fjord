@@ -13,6 +13,8 @@ public class Entity
         this.Parent = parent;
         this.Keyboard = parent.Keyboard;
         this.Mouse = parent.Mouse;
+
+        this.Components.Add(new Transform());
     }
 
     public Entity Add(Component component)

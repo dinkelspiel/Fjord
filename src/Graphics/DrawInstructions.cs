@@ -481,7 +481,10 @@ public class Text : DrawInstruction
         Vector2 size = Graphics.Font.DrawSize(font, value, this.size, color);
 
         IntPtr tex = SDL_CreateTexture(Game.SDLRenderer, SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, (int)(size.X), (int)(size.Y));
+        SDL_SetTextureBlendMode(tex, SDL_BlendMode.SDL_BLENDMODE_BLEND);
         SDL_SetRenderTarget(Game.SDLRenderer, tex);
+        SDL_SetRenderDrawColor(Game.SDLRenderer, 0, 0, 0, 0);
+        SDL_RenderClear(Game.SDLRenderer);
         var tempRect = (Text)this.Clone();
         tempRect.position.X = 0;
         tempRect.position.Y = 0;

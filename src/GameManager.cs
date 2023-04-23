@@ -36,7 +36,7 @@ public static class Game
         #endif
         
         SDL_Init(SDL_INIT_EVERYTHING);
-        
+
         SDLWindow = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height,
             SDL_WindowFlags.SDL_WINDOW_OPENGL | SDL_WindowFlags.SDL_WINDOW_RESIZABLE);
 

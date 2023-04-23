@@ -1,3 +1,5 @@
+using System.Numerics;
+
 namespace Fjord.Scenes;
 
 public abstract class Component 
@@ -50,4 +52,9 @@ public abstract class Component
     {
         Render();
     }
+}
+
+public class Transform : Component
+{
+    public Vector2 Position;
 }
