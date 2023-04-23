@@ -100,7 +100,11 @@ public static class Game
             Update();
             Render(ref open);
 
-            GlobalKeyboard.pressedKeys = new();
+            for(var i = 0; i < GlobalKeyboard.downKeys.Length; i++)
+            {
+                GlobalKeyboard.pressedKeys[i] = false;
+            }
+
             foreach (var key in GlobalMouse.pressedKeys.Keys.ToList())
             {
                 GlobalMouse.pressedKeys[key] = false;

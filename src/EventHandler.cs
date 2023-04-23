@@ -748,694 +748,694 @@ namespace Fjord
                         switch (e.key.keysym.sym)
                         {
                             case SDL_Keycode.SDLK_0:
-                                GlobalKeyboard.downKeys.Remove(Key.N0);
+                                GlobalKeyboard.downKeys[(int)Key.N0] = false;
                                 break;
                             case SDL_Keycode.SDLK_1:
-                                GlobalKeyboard.downKeys.Remove(Key.N1);
+                                GlobalKeyboard.downKeys[(int)Key.N1] = false;
                                 break;
                             case SDL_Keycode.SDLK_2:
-                                GlobalKeyboard.downKeys.Remove(Key.N2);
+                                GlobalKeyboard.downKeys[(int)Key.N2] = false;
                                 break;
                             case SDL_Keycode.SDLK_3:
-                                GlobalKeyboard.downKeys.Remove(Key.N3);
+                                GlobalKeyboard.downKeys[(int)Key.N3] = false;
                                 break;
                             case SDL_Keycode.SDLK_4:
-                                GlobalKeyboard.downKeys.Remove(Key.N4);
+                                GlobalKeyboard.downKeys[(int)Key.N4] = false;
                                 break;
                             case SDL_Keycode.SDLK_5:
-                                GlobalKeyboard.downKeys.Remove(Key.N5);
+                                GlobalKeyboard.downKeys[(int)Key.N5] = false;
                                 break;
                             case SDL_Keycode.SDLK_6:
-                                GlobalKeyboard.downKeys.Remove(Key.N6);
+                                GlobalKeyboard.downKeys[(int)Key.N6] = false;
                                 break;
                             case SDL_Keycode.SDLK_7:
-                                GlobalKeyboard.downKeys.Remove(Key.N7);
+                                GlobalKeyboard.downKeys[(int)Key.N7] = false;
                                 break;
                             case SDL_Keycode.SDLK_8:
-                                GlobalKeyboard.downKeys.Remove(Key.N8);
+                                GlobalKeyboard.downKeys[(int)Key.N8] = false;
                                 break;
                             case SDL_Keycode.SDLK_9:
-                                GlobalKeyboard.downKeys.Remove(Key.N9);
+                                GlobalKeyboard.downKeys[(int)Key.N9] = false;
                                 break;
                             case SDL_Keycode.SDLK_a:
-                                GlobalKeyboard.downKeys.Remove(Key.A);
+                                GlobalKeyboard.downKeys[(int)Key.A] = false;
                                 break;
                             case SDL_Keycode.SDLK_AC_BACK:
-                                GlobalKeyboard.downKeys.Remove(Key.AC_BACK);
+                                GlobalKeyboard.downKeys[(int)Key.AC_BACK] = false;
                                 break;
                             case SDL_Keycode.SDLK_AC_BOOKMARKS:
-                                GlobalKeyboard.downKeys.Remove(Key.AC_BOOKMARKS);
+                                GlobalKeyboard.downKeys[(int)Key.AC_BOOKMARKS] = false;
                                 break;
                             case SDL_Keycode.SDLK_AC_FORWARD:
-                                GlobalKeyboard.downKeys.Remove(Key.AC_FORWARD);
+                                GlobalKeyboard.downKeys[(int)Key.AC_FORWARD] = false;
                                 break;
                             case SDL_Keycode.SDLK_AC_HOME:
-                                GlobalKeyboard.downKeys.Remove(Key.AC_HOME);
+                                GlobalKeyboard.downKeys[(int)Key.AC_HOME] = false;
                                 break;
                             case SDL_Keycode.SDLK_AC_REFRESH:
-                                GlobalKeyboard.downKeys.Remove(Key.AC_REFRESH);
+                                GlobalKeyboard.downKeys[(int)Key.AC_REFRESH] = false;
                                 break;
                             case SDL_Keycode.SDLK_AC_SEARCH:
-                                GlobalKeyboard.downKeys.Remove(Key.AC_SEARCH);
+                                GlobalKeyboard.downKeys[(int)Key.AC_SEARCH] = false;
                                 break;
                             case SDL_Keycode.SDLK_AC_STOP:
-                                GlobalKeyboard.downKeys.Remove(Key.AC_STOP);
+                                GlobalKeyboard.downKeys[(int)Key.AC_STOP] = false;
                                 break;
                             case SDL_Keycode.SDLK_AGAIN:
-                                GlobalKeyboard.downKeys.Remove(Key.AGAIN);
+                                GlobalKeyboard.downKeys[(int)Key.AGAIN] = false;
                                 break;
                             case SDL_Keycode.SDLK_ALTERASE:
-                                GlobalKeyboard.downKeys.Remove(Key.ALTERASE);
+                                GlobalKeyboard.downKeys[(int)Key.ALTERASE] = false;
                                 break;
                             case SDL_Keycode.SDLK_QUOTE:
-                                GlobalKeyboard.downKeys.Remove(Key.QUOTE);
+                                GlobalKeyboard.downKeys[(int)Key.QUOTE] = false;
                                 break;
                             case SDL_Keycode.SDLK_APPLICATION:
-                                GlobalKeyboard.downKeys.Remove(Key.APPLICATION);
+                                GlobalKeyboard.downKeys[(int)Key.APPLICATION] = false;
                                 break;
                             case SDL_Keycode.SDLK_AUDIOMUTE:
-                                GlobalKeyboard.downKeys.Remove(Key.AUDIOMUTE);
+                                GlobalKeyboard.downKeys[(int)Key.AUDIOMUTE] = false;
                                 break;
                             case SDL_Keycode.SDLK_AUDIONEXT:
-                                GlobalKeyboard.downKeys.Remove(Key.AUDIONEXT);
+                                GlobalKeyboard.downKeys[(int)Key.AUDIONEXT] = false;
                                 break;
                             case SDL_Keycode.SDLK_AUDIOPLAY:
-                                GlobalKeyboard.downKeys.Remove(Key.AUDIOPLAY);
+                                GlobalKeyboard.downKeys[(int)Key.AUDIOPLAY] = false;
                                 break;
                             case SDL_Keycode.SDLK_AUDIOPREV:
-                                GlobalKeyboard.downKeys.Remove(Key.AUDIOPREV);
+                                GlobalKeyboard.downKeys[(int)Key.AUDIOPREV] = false;
                                 break;
                             case SDL_Keycode.SDLK_AUDIOSTOP:
-                                GlobalKeyboard.downKeys.Remove(Key.AUDIOSTOP);
+                                GlobalKeyboard.downKeys[(int)Key.AUDIOSTOP] = false;
                                 break;
                             case SDL_Keycode.SDLK_b:
-                                GlobalKeyboard.downKeys.Remove(Key.B);
+                                GlobalKeyboard.downKeys[(int)Key.B] = false;
                                 break;
                             case SDL_Keycode.SDLK_BACKSLASH:
-                                GlobalKeyboard.downKeys.Remove(Key.BACKSLASH);
+                                GlobalKeyboard.downKeys[(int)Key.BACKSLASH] = false;
                                 break;
                             case SDL_Keycode.SDLK_BACKSPACE:
-                                GlobalKeyboard.downKeys.Remove(Key.BACKSPACE);
+                                GlobalKeyboard.downKeys[(int)Key.BACKSPACE] = false;
                                 break;
                             case SDL_Keycode.SDLK_BRIGHTNESSDOWN:
-                                GlobalKeyboard.downKeys.Remove(Key.BRIGHTNESSDOWN);
+                                GlobalKeyboard.downKeys[(int)Key.BRIGHTNESSDOWN] = false;
                                 break;
                             case SDL_Keycode.SDLK_BRIGHTNESSUP:
-                                GlobalKeyboard.downKeys.Remove(Key.BRIGHTNESSUP);
+                                GlobalKeyboard.downKeys[(int)Key.BRIGHTNESSUP] = false;
                                 break;
                             case SDL_Keycode.SDLK_c:
-                                GlobalKeyboard.downKeys.Remove(Key.C);
+                                GlobalKeyboard.downKeys[(int)Key.C] = false;
                                 break;
                             case SDL_Keycode.SDLK_CALCULATOR:
-                                GlobalKeyboard.downKeys.Remove(Key.CALCULATOR);
+                                GlobalKeyboard.downKeys[(int)Key.CALCULATOR] = false;
                                 break;
                             case SDL_Keycode.SDLK_CANCEL:
-                                GlobalKeyboard.downKeys.Remove(Key.CANCEL);
+                                GlobalKeyboard.downKeys[(int)Key.CANCEL] = false;
                                 break;
                             case SDL_Keycode.SDLK_CAPSLOCK:
-                                GlobalKeyboard.downKeys.Remove(Key.CAPSLOCK);
+                                GlobalKeyboard.downKeys[(int)Key.CAPSLOCK] = false;
                                 break;
                             case SDL_Keycode.SDLK_CLEAR:
-                                GlobalKeyboard.downKeys.Remove(Key.CLEAR);
+                                GlobalKeyboard.downKeys[(int)Key.CLEAR] = false;
                                 break;
                             case SDL_Keycode.SDLK_CLEARAGAIN:
-                                GlobalKeyboard.downKeys.Remove(Key.CLEARAGAIN);
+                                GlobalKeyboard.downKeys[(int)Key.CLEARAGAIN] = false;
                                 break;
                             case SDL_Keycode.SDLK_COMMA:
-                                GlobalKeyboard.downKeys.Remove(Key.COMMA);
+                                GlobalKeyboard.downKeys[(int)Key.COMMA] = false;
                                 break;
                             case SDL_Keycode.SDLK_COMPUTER:
-                                GlobalKeyboard.downKeys.Remove(Key.COMPUTER);
+                                GlobalKeyboard.downKeys[(int)Key.COMPUTER] = false;
                                 break;
                             case SDL_Keycode.SDLK_COPY:
-                                GlobalKeyboard.downKeys.Remove(Key.COPY);
+                                GlobalKeyboard.downKeys[(int)Key.COPY] = false;
                                 break;
                             case SDL_Keycode.SDLK_CRSEL:
-                                GlobalKeyboard.downKeys.Remove(Key.CRSEL);
+                                GlobalKeyboard.downKeys[(int)Key.CRSEL] = false;
                                 break;
                             case SDL_Keycode.SDLK_CURRENCYSUBUNIT:
-                                GlobalKeyboard.downKeys.Remove(Key.CURRENCYSUBUNIT);
+                                GlobalKeyboard.downKeys[(int)Key.CURRENCYSUBUNIT] = false;
                                 break;
                             case SDL_Keycode.SDLK_CURRENCYUNIT:
-                                GlobalKeyboard.downKeys.Remove(Key.CURRENCYUNIT);
+                                GlobalKeyboard.downKeys[(int)Key.CURRENCYUNIT] = false;
                                 break;
                             case SDL_Keycode.SDLK_CUT:
-                                GlobalKeyboard.downKeys.Remove(Key.CUT);
+                                GlobalKeyboard.downKeys[(int)Key.CUT] = false;
                                 break;
                             case SDL_Keycode.SDLK_d:
-                                GlobalKeyboard.downKeys.Remove(Key.D);
+                                GlobalKeyboard.downKeys[(int)Key.D] = false;
                                 break;
                             case SDL_Keycode.SDLK_DECIMALSEPARATOR:
-                                GlobalKeyboard.downKeys.Remove(Key.DECIMALSEPARATOR);
+                                GlobalKeyboard.downKeys[(int)Key.DECIMALSEPARATOR] = false;
                                 break;
                             case SDL_Keycode.SDLK_DELETE:
-                                GlobalKeyboard.downKeys.Remove(Key.DELETE);
+                                GlobalKeyboard.downKeys[(int)Key.DELETE] = false;
                                 break;
                             case SDL_Keycode.SDLK_DISPLAYSWITCH:
-                                GlobalKeyboard.downKeys.Remove(Key.DISPLAYSWITCH);
+                                GlobalKeyboard.downKeys[(int)Key.DISPLAYSWITCH] = false;
                                 break;
                             case SDL_Keycode.SDLK_DOWN:
-                                GlobalKeyboard.downKeys.Remove(Key.DOWN);
+                                GlobalKeyboard.downKeys[(int)Key.DOWN] = false;
                                 break;
                             case SDL_Keycode.SDLK_e:
-                                GlobalKeyboard.downKeys.Remove(Key.E);
+                                GlobalKeyboard.downKeys[(int)Key.E] = false;
                                 break;
                             case SDL_Keycode.SDLK_EJECT:
-                                GlobalKeyboard.downKeys.Remove(Key.EJECT);
+                                GlobalKeyboard.downKeys[(int)Key.EJECT] = false;
                                 break;
                             case SDL_Keycode.SDLK_END:
-                                GlobalKeyboard.downKeys.Remove(Key.END);
+                                GlobalKeyboard.downKeys[(int)Key.END] = false;
                                 break;
                             case SDL_Keycode.SDLK_EQUALS:
-                                GlobalKeyboard.downKeys.Remove(Key.EQUALS);
+                                GlobalKeyboard.downKeys[(int)Key.EQUALS] = false;
                                 break;
                             case SDL_Keycode.SDLK_ESCAPE:
-                                GlobalKeyboard.downKeys.Remove(Key.ESCAPE);
+                                GlobalKeyboard.downKeys[(int)Key.ESCAPE] = false;
                                 break;
                             case SDL_Keycode.SDLK_EXECUTE:
-                                GlobalKeyboard.downKeys.Remove(Key.EXECUTE);
+                                GlobalKeyboard.downKeys[(int)Key.EXECUTE] = false;
                                 break;
                             case SDL_Keycode.SDLK_EXSEL:
-                                GlobalKeyboard.downKeys.Remove(Key.EXSEL);
+                                GlobalKeyboard.downKeys[(int)Key.EXSEL] = false;
                                 break;
                             case SDL_Keycode.SDLK_f:
-                                GlobalKeyboard.downKeys.Remove(Key.F);
+                                GlobalKeyboard.downKeys[(int)Key.F] = false;
                                 break;
                             case SDL_Keycode.SDLK_F1:
-                                GlobalKeyboard.downKeys.Remove(Key.F1);
+                                GlobalKeyboard.downKeys[(int)Key.F1] = false;
                                 break;
                             case SDL_Keycode.SDLK_F10:
-                                GlobalKeyboard.downKeys.Remove(Key.F10);
+                                GlobalKeyboard.downKeys[(int)Key.F10] = false;
                                 break;
                             case SDL_Keycode.SDLK_F11:
-                                GlobalKeyboard.downKeys.Remove(Key.F11);
+                                GlobalKeyboard.downKeys[(int)Key.F11] = false;
                                 break;
                             case SDL_Keycode.SDLK_F12:
-                                GlobalKeyboard.downKeys.Remove(Key.F12);
+                                GlobalKeyboard.downKeys[(int)Key.F12] = false;
                                 break;
                             case SDL_Keycode.SDLK_F13:
-                                GlobalKeyboard.downKeys.Remove(Key.F13);
+                                GlobalKeyboard.downKeys[(int)Key.F13] = false;
                                 break;
                             case SDL_Keycode.SDLK_F14:
-                                GlobalKeyboard.downKeys.Remove(Key.F14);
+                                GlobalKeyboard.downKeys[(int)Key.F14] = false;
                                 break;
                             case SDL_Keycode.SDLK_F15:
-                                GlobalKeyboard.downKeys.Remove(Key.F15);
+                                GlobalKeyboard.downKeys[(int)Key.F15] = false;
                                 break;
                             case SDL_Keycode.SDLK_F16:
-                                GlobalKeyboard.downKeys.Remove(Key.F16);
+                                GlobalKeyboard.downKeys[(int)Key.F16] = false;
                                 break;
                             case SDL_Keycode.SDLK_F17:
-                                GlobalKeyboard.downKeys.Remove(Key.F17);
+                                GlobalKeyboard.downKeys[(int)Key.F17] = false;
                                 break;
                             case SDL_Keycode.SDLK_F18:
-                                GlobalKeyboard.downKeys.Remove(Key.F18);
+                                GlobalKeyboard.downKeys[(int)Key.F18] = false;
                                 break;
                             case SDL_Keycode.SDLK_F19:
-                                GlobalKeyboard.downKeys.Remove(Key.F19);
+                                GlobalKeyboard.downKeys[(int)Key.F19] = false;
                                 break;
                             case SDL_Keycode.SDLK_F2:
-                                GlobalKeyboard.downKeys.Remove(Key.F2);
+                                GlobalKeyboard.downKeys[(int)Key.F2] = false;
                                 break;
                             case SDL_Keycode.SDLK_F20:
-                                GlobalKeyboard.downKeys.Remove(Key.F20);
+                                GlobalKeyboard.downKeys[(int)Key.F20] = false;
                                 break;
                             case SDL_Keycode.SDLK_F21:
-                                GlobalKeyboard.downKeys.Remove(Key.F21);
+                                GlobalKeyboard.downKeys[(int)Key.F21] = false;
                                 break;
                             case SDL_Keycode.SDLK_F22:
-                                GlobalKeyboard.downKeys.Remove(Key.F22);
+                                GlobalKeyboard.downKeys[(int)Key.F22] = false;
                                 break;
                             case SDL_Keycode.SDLK_F23:
-                                GlobalKeyboard.downKeys.Remove(Key.F23);
+                                GlobalKeyboard.downKeys[(int)Key.F23] = false;
                                 break;
                             case SDL_Keycode.SDLK_F24:
-                                GlobalKeyboard.downKeys.Remove(Key.F24);
+                                GlobalKeyboard.downKeys[(int)Key.F24] = false;
                                 break;
                             case SDL_Keycode.SDLK_F3:
-                                GlobalKeyboard.downKeys.Remove(Key.F3);
+                                GlobalKeyboard.downKeys[(int)Key.F3] = false;
                                 break;
                             case SDL_Keycode.SDLK_F4:
-                                GlobalKeyboard.downKeys.Remove(Key.F4);
+                                GlobalKeyboard.downKeys[(int)Key.F4] = false;
                                 break;
                             case SDL_Keycode.SDLK_F5:
-                                GlobalKeyboard.downKeys.Remove(Key.F5);
+                                GlobalKeyboard.downKeys[(int)Key.F5] = false;
                                 break;
                             case SDL_Keycode.SDLK_F6:
-                                GlobalKeyboard.downKeys.Remove(Key.F6);
+                                GlobalKeyboard.downKeys[(int)Key.F6] = false;
                                 break;
                             case SDL_Keycode.SDLK_F7:
-                                GlobalKeyboard.downKeys.Remove(Key.F7);
+                                GlobalKeyboard.downKeys[(int)Key.F7] = false;
                                 break;
                             case SDL_Keycode.SDLK_F8:
-                                GlobalKeyboard.downKeys.Remove(Key.F8);
+                                GlobalKeyboard.downKeys[(int)Key.F8] = false;
                                 break;
                             case SDL_Keycode.SDLK_F9:
-                                GlobalKeyboard.downKeys.Remove(Key.F9);
+                                GlobalKeyboard.downKeys[(int)Key.F9] = false;
                                 break;
                             case SDL_Keycode.SDLK_FIND:
-                                GlobalKeyboard.downKeys.Remove(Key.FIND);
+                                GlobalKeyboard.downKeys[(int)Key.FIND] = false;
                                 break;
                             case SDL_Keycode.SDLK_g:
-                                GlobalKeyboard.downKeys.Remove(Key.G);
+                                GlobalKeyboard.downKeys[(int)Key.G] = false;
                                 break;
                             case SDL_Keycode.SDLK_BACKQUOTE:
-                                GlobalKeyboard.downKeys.Remove(Key.BACKQUOTE);
+                                GlobalKeyboard.downKeys[(int)Key.BACKQUOTE] = false;
                                 break;
                             case SDL_Keycode.SDLK_h:
-                                GlobalKeyboard.downKeys.Remove(Key.H);
+                                GlobalKeyboard.downKeys[(int)Key.H] = false;
                                 break;
                             case SDL_Keycode.SDLK_HELP:
-                                GlobalKeyboard.downKeys.Remove(Key.HELP);
+                                GlobalKeyboard.downKeys[(int)Key.HELP] = false;
                                 break;
                             case SDL_Keycode.SDLK_HOME:
-                                GlobalKeyboard.downKeys.Remove(Key.HOME);
+                                GlobalKeyboard.downKeys[(int)Key.HOME] = false;
                                 break;
                             case SDL_Keycode.SDLK_i:
-                                GlobalKeyboard.downKeys.Remove(Key.I);
+                                GlobalKeyboard.downKeys[(int)Key.I] = false;
                                 break;
                             case SDL_Keycode.SDLK_INSERT:
-                                GlobalKeyboard.downKeys.Remove(Key.INSERT);
+                                GlobalKeyboard.downKeys[(int)Key.INSERT] = false;
                                 break;
                             case SDL_Keycode.SDLK_j:
-                                GlobalKeyboard.downKeys.Remove(Key.J);
+                                GlobalKeyboard.downKeys[(int)Key.J] = false;
                                 break;
                             case SDL_Keycode.SDLK_k:
-                                GlobalKeyboard.downKeys.Remove(Key.K);
+                                GlobalKeyboard.downKeys[(int)Key.K] = false;
                                 break;
                             case SDL_Keycode.SDLK_KBDILLUMDOWN:
-                                GlobalKeyboard.downKeys.Remove(Key.KBDILLUMDOWN);
+                                GlobalKeyboard.downKeys[(int)Key.KBDILLUMDOWN] = false;
                                 break;
                             case SDL_Keycode.SDLK_KBDILLUMTOGGLE:
-                                GlobalKeyboard.downKeys.Remove(Key.KBDILLUMTOGGLE);
+                                GlobalKeyboard.downKeys[(int)Key.KBDILLUMTOGGLE] = false;
                                 break;
                             case SDL_Keycode.SDLK_KBDILLUMUP:
-                                GlobalKeyboard.downKeys.Remove(Key.KBDILLUMUP);
+                                GlobalKeyboard.downKeys[(int)Key.KBDILLUMUP] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_0:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_0);
+                                GlobalKeyboard.downKeys[(int)Key.KP_0] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_00:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_00);
+                                GlobalKeyboard.downKeys[(int)Key.KP_00] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_000:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_000);
+                                GlobalKeyboard.downKeys[(int)Key.KP_000] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_1:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_1);
+                                GlobalKeyboard.downKeys[(int)Key.KP_1] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_2:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_2);
+                                GlobalKeyboard.downKeys[(int)Key.KP_2] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_3:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_3);
+                                GlobalKeyboard.downKeys[(int)Key.KP_3] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_4:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_4);
+                                GlobalKeyboard.downKeys[(int)Key.KP_4] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_5:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_5);
+                                GlobalKeyboard.downKeys[(int)Key.KP_5] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_6:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_6);
+                                GlobalKeyboard.downKeys[(int)Key.KP_6] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_7:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_7);
+                                GlobalKeyboard.downKeys[(int)Key.KP_7] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_8:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_8);
+                                GlobalKeyboard.downKeys[(int)Key.KP_8] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_9:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_9);
+                                GlobalKeyboard.downKeys[(int)Key.KP_9] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_A:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_A);
+                                GlobalKeyboard.downKeys[(int)Key.KP_A] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_AMPERSAND:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_AMPERSAND);
+                                GlobalKeyboard.downKeys[(int)Key.KP_AMPERSAND] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_AT:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_AT);
+                                GlobalKeyboard.downKeys[(int)Key.KP_AT] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_B:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_B);
+                                GlobalKeyboard.downKeys[(int)Key.KP_B] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_BACKSPACE:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_BACKSPACE);
+                                GlobalKeyboard.downKeys[(int)Key.KP_BACKSPACE] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_BINARY:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_BINARY);
+                                GlobalKeyboard.downKeys[(int)Key.KP_BINARY] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_C:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_C);
+                                GlobalKeyboard.downKeys[(int)Key.KP_C] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_CLEAR:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_CLEAR);
+                                GlobalKeyboard.downKeys[(int)Key.KP_CLEAR] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_CLEARENTRY:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_CLEARENTRY);
+                                GlobalKeyboard.downKeys[(int)Key.KP_CLEARENTRY] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_COLON:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_COLON);
+                                GlobalKeyboard.downKeys[(int)Key.KP_COLON] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_COMMA:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_COMMA);
+                                GlobalKeyboard.downKeys[(int)Key.KP_COMMA] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_D:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_D);
+                                GlobalKeyboard.downKeys[(int)Key.KP_D] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_DBLAMPERSAND:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_DBLAMPERSAND);
+                                GlobalKeyboard.downKeys[(int)Key.KP_DBLAMPERSAND] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_DBLVERTICALBAR:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_DBLVERTICALBAR);
+                                GlobalKeyboard.downKeys[(int)Key.KP_DBLVERTICALBAR] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_DECIMAL:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_DECIMAL);
+                                GlobalKeyboard.downKeys[(int)Key.KP_DECIMAL] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_DIVIDE:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_DIVIDE);
+                                GlobalKeyboard.downKeys[(int)Key.KP_DIVIDE] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_E:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_E);
+                                GlobalKeyboard.downKeys[(int)Key.KP_E] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_ENTER:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_ENTER);
+                                GlobalKeyboard.downKeys[(int)Key.KP_ENTER] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_EQUALS:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_EQUALS);
+                                GlobalKeyboard.downKeys[(int)Key.KP_EQUALS] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_EQUALSAS400:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_EQUALSAS400);
+                                GlobalKeyboard.downKeys[(int)Key.KP_EQUALSAS400] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_EXCLAM:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_EXCLAM);
+                                GlobalKeyboard.downKeys[(int)Key.KP_EXCLAM] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_F:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_F);
+                                GlobalKeyboard.downKeys[(int)Key.KP_F] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_GREATER:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_GREATER);
+                                GlobalKeyboard.downKeys[(int)Key.KP_GREATER] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_HASH:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_HASH);
+                                GlobalKeyboard.downKeys[(int)Key.KP_HASH] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_HEXADECIMAL:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_HEXADECIMAL);
+                                GlobalKeyboard.downKeys[(int)Key.KP_HEXADECIMAL] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_LEFTBRACE:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_LEFTBRACE);
+                                GlobalKeyboard.downKeys[(int)Key.KP_LEFTBRACE] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_LEFTPAREN:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_LEFTPAREN);
+                                GlobalKeyboard.downKeys[(int)Key.KP_LEFTPAREN] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_LESS:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_LESS);
+                                GlobalKeyboard.downKeys[(int)Key.KP_LESS] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_MEMADD:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_MEMADD);
+                                GlobalKeyboard.downKeys[(int)Key.KP_MEMADD] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_MEMCLEAR:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_MEMCLEAR);
+                                GlobalKeyboard.downKeys[(int)Key.KP_MEMCLEAR] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_MEMDIVIDE:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_MEMDIVIDE);
+                                GlobalKeyboard.downKeys[(int)Key.KP_MEMDIVIDE] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_MEMMULTIPLY:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_MEMMULTIPLY);
+                                GlobalKeyboard.downKeys[(int)Key.KP_MEMMULTIPLY] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_MEMRECALL:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_MEMRECALL);
+                                GlobalKeyboard.downKeys[(int)Key.KP_MEMRECALL] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_MEMSTORE:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_MEMSTORE);
+                                GlobalKeyboard.downKeys[(int)Key.KP_MEMSTORE] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_MEMSUBTRACT:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_MEMSUBTRACT);
+                                GlobalKeyboard.downKeys[(int)Key.KP_MEMSUBTRACT] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_MINUS:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_MINUS);
+                                GlobalKeyboard.downKeys[(int)Key.KP_MINUS] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_MULTIPLY:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_MULTIPLY);
+                                GlobalKeyboard.downKeys[(int)Key.KP_MULTIPLY] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_OCTAL:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_OCTAL);
+                                GlobalKeyboard.downKeys[(int)Key.KP_OCTAL] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_PERCENT:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_PERCENT);
+                                GlobalKeyboard.downKeys[(int)Key.KP_PERCENT] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_PERIOD:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_PERIOD);
+                                GlobalKeyboard.downKeys[(int)Key.KP_PERIOD] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_PLUS:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_PLUS);
+                                GlobalKeyboard.downKeys[(int)Key.KP_PLUS] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_PLUSMINUS:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_PLUSMINUS);
+                                GlobalKeyboard.downKeys[(int)Key.KP_PLUSMINUS] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_POWER:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_POWER);
+                                GlobalKeyboard.downKeys[(int)Key.KP_POWER] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_RIGHTBRACE:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_RIGHTBRACE);
+                                GlobalKeyboard.downKeys[(int)Key.KP_RIGHTBRACE] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_RIGHTPAREN:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_RIGHTPAREN);
+                                GlobalKeyboard.downKeys[(int)Key.KP_RIGHTPAREN] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_SPACE:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_SPACE);
+                                GlobalKeyboard.downKeys[(int)Key.KP_SPACE] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_TAB:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_TAB);
+                                GlobalKeyboard.downKeys[(int)Key.KP_TAB] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_VERTICALBAR:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_VERTICALBAR);
+                                GlobalKeyboard.downKeys[(int)Key.KP_VERTICALBAR] = false;
                                 break;
                             case SDL_Keycode.SDLK_KP_XOR:
-                                GlobalKeyboard.downKeys.Remove(Key.KP_XOR);
+                                GlobalKeyboard.downKeys[(int)Key.KP_XOR] = false;
                                 break;
                             case SDL_Keycode.SDLK_l:
-                                GlobalKeyboard.downKeys.Remove(Key.L);
+                                GlobalKeyboard.downKeys[(int)Key.L] = false;
                                 break;
                             case SDL_Keycode.SDLK_LEFT:
-                                GlobalKeyboard.downKeys.Remove(Key.LEFT);
+                                GlobalKeyboard.downKeys[(int)Key.LEFT] = false;
                                 break;
                             case SDL_Keycode.SDLK_LEFTBRACKET:
-                                GlobalKeyboard.downKeys.Remove(Key.LEFTBRACKET);
+                                GlobalKeyboard.downKeys[(int)Key.LEFTBRACKET] = false;
                                 break;
                             case SDL_Keycode.SDLK_LGUI:
-                                GlobalKeyboard.downKeys.Remove(Key.LGUI);
+                                GlobalKeyboard.downKeys[(int)Key.LGUI] = false;
                                 break;
                             case SDL_Keycode.SDLK_m:
-                                GlobalKeyboard.downKeys.Remove(Key.M);
+                                GlobalKeyboard.downKeys[(int)Key.M] = false;
                                 break;
                             case SDL_Keycode.SDLK_MAIL:
-                                GlobalKeyboard.downKeys.Remove(Key.MAIL);
+                                GlobalKeyboard.downKeys[(int)Key.MAIL] = false;
                                 break;
                             case SDL_Keycode.SDLK_MEDIASELECT:
-                                GlobalKeyboard.downKeys.Remove(Key.MEDIASELECT);
+                                GlobalKeyboard.downKeys[(int)Key.MEDIASELECT] = false;
                                 break;
                             case SDL_Keycode.SDLK_MENU:
-                                GlobalKeyboard.downKeys.Remove(Key.MENU);
+                                GlobalKeyboard.downKeys[(int)Key.MENU] = false;
                                 break;
                             case SDL_Keycode.SDLK_MINUS:
-                                GlobalKeyboard.downKeys.Remove(Key.MINUS);
+                                GlobalKeyboard.downKeys[(int)Key.MINUS] = false;
                                 break;
                             case SDL_Keycode.SDLK_MODE:
-                                GlobalKeyboard.downKeys.Remove(Key.MODE);
+                                GlobalKeyboard.downKeys[(int)Key.MODE] = false;
                                 break;
                             case SDL_Keycode.SDLK_MUTE:
-                                GlobalKeyboard.downKeys.Remove(Key.MUTE);
+                                GlobalKeyboard.downKeys[(int)Key.MUTE] = false;
                                 break;
                             case SDL_Keycode.SDLK_n:
-                                GlobalKeyboard.downKeys.Remove(Key.N);
+                                GlobalKeyboard.downKeys[(int)Key.N] = false;
                                 break;
                             case SDL_Keycode.SDLK_NUMLOCKCLEAR:
-                                GlobalKeyboard.downKeys.Remove(Key.NUMLOCKCLEAR);
+                                GlobalKeyboard.downKeys[(int)Key.NUMLOCKCLEAR] = false;
                                 break;
                             case SDL_Keycode.SDLK_o:
-                                GlobalKeyboard.downKeys.Remove(Key.O);
+                                GlobalKeyboard.downKeys[(int)Key.O] = false;
                                 break;
                             case SDL_Keycode.SDLK_OPER:
-                                GlobalKeyboard.downKeys.Remove(Key.OPER);
+                                GlobalKeyboard.downKeys[(int)Key.OPER] = false;
                                 break;
                             case SDL_Keycode.SDLK_OUT:
-                                GlobalKeyboard.downKeys.Remove(Key.OUT);
+                                GlobalKeyboard.downKeys[(int)Key.OUT] = false;
                                 break;
                             case SDL_Keycode.SDLK_p:
-                                GlobalKeyboard.downKeys.Remove(Key.P);
+                                GlobalKeyboard.downKeys[(int)Key.P] = false;
                                 break;
                             case SDL_Keycode.SDLK_PAGEDOWN:
-                                GlobalKeyboard.downKeys.Remove(Key.PAGEDOWN);
+                                GlobalKeyboard.downKeys[(int)Key.PAGEDOWN] = false;
                                 break;
                             case SDL_Keycode.SDLK_PAGEUP:
-                                GlobalKeyboard.downKeys.Remove(Key.PAGEUP);
+                                GlobalKeyboard.downKeys[(int)Key.PAGEUP] = false;
                                 break;
                             case SDL_Keycode.SDLK_PASTE:
-                                GlobalKeyboard.downKeys.Remove(Key.PASTE);
+                                GlobalKeyboard.downKeys[(int)Key.PASTE] = false;
                                 break;
                             case SDL_Keycode.SDLK_PAUSE:
-                                GlobalKeyboard.downKeys.Remove(Key.PAUSE);
+                                GlobalKeyboard.downKeys[(int)Key.PAUSE] = false;
                                 break;
                             case SDL_Keycode.SDLK_PERIOD:
-                                GlobalKeyboard.downKeys.Remove(Key.PERIOD);
+                                GlobalKeyboard.downKeys[(int)Key.PERIOD] = false;
                                 break;
                             case SDL_Keycode.SDLK_POWER:
-                                GlobalKeyboard.downKeys.Remove(Key.POWER);
+                                GlobalKeyboard.downKeys[(int)Key.POWER] = false;
                                 break;
                             case SDL_Keycode.SDLK_PRINTSCREEN:
-                                GlobalKeyboard.downKeys.Remove(Key.PRINTSCREEN);
+                                GlobalKeyboard.downKeys[(int)Key.PRINTSCREEN] = false;
                                 break;
                             case SDL_Keycode.SDLK_PRIOR:
-                                GlobalKeyboard.downKeys.Remove(Key.PRIOR);
+                                GlobalKeyboard.downKeys[(int)Key.PRIOR] = false;
                                 break;
                             case SDL_Keycode.SDLK_q:
-                                GlobalKeyboard.downKeys.Remove(Key.Q);
+                                GlobalKeyboard.downKeys[(int)Key.Q] = false;
                                 break;
                             case SDL_Keycode.SDLK_r:
-                                GlobalKeyboard.downKeys.Remove(Key.R);
+                                GlobalKeyboard.downKeys[(int)Key.R] = false;
                                 break;
                             case SDL_Keycode.SDLK_RETURN:
-                                GlobalKeyboard.downKeys.Remove(Key.RETURN);
+                                GlobalKeyboard.downKeys[(int)Key.RETURN] = false;
                                 break;
                             case SDL_Keycode.SDLK_RETURN2:
-                                GlobalKeyboard.downKeys.Remove(Key.RETURN2);
+                                GlobalKeyboard.downKeys[(int)Key.RETURN2] = false;
                                 break;
                             case SDL_Keycode.SDLK_RGUI:
-                                GlobalKeyboard.downKeys.Remove(Key.RGUI);
+                                GlobalKeyboard.downKeys[(int)Key.RGUI] = false;
                                 break;
                             case SDL_Keycode.SDLK_RIGHT:
-                                GlobalKeyboard.downKeys.Remove(Key.RIGHT);
+                                GlobalKeyboard.downKeys[(int)Key.RIGHT] = false;
                                 break;
                             case SDL_Keycode.SDLK_RIGHTBRACKET:
-                                GlobalKeyboard.downKeys.Remove(Key.RIGHTBRACKET);
+                                GlobalKeyboard.downKeys[(int)Key.RIGHTBRACKET] = false;
                                 break;
                             case SDL_Keycode.SDLK_s:
-                                GlobalKeyboard.downKeys.Remove(Key.S);
+                                GlobalKeyboard.downKeys[(int)Key.S] = false;
                                 break;
                             case SDL_Keycode.SDLK_SCROLLLOCK:
-                                GlobalKeyboard.downKeys.Remove(Key.SCROLLLOCK);
+                                GlobalKeyboard.downKeys[(int)Key.SCROLLLOCK] = false;
                                 break;
                             case SDL_Keycode.SDLK_SELECT:
-                                GlobalKeyboard.downKeys.Remove(Key.SELECT);
+                                GlobalKeyboard.downKeys[(int)Key.SELECT] = false;
                                 break;
                             case SDL_Keycode.SDLK_SEMICOLON:
-                                GlobalKeyboard.downKeys.Remove(Key.SEMICOLON);
+                                GlobalKeyboard.downKeys[(int)Key.SEMICOLON] = false;
                                 break;
                             case SDL_Keycode.SDLK_SEPARATOR:
-                                GlobalKeyboard.downKeys.Remove(Key.SEPARATOR);
+                                GlobalKeyboard.downKeys[(int)Key.SEPARATOR] = false;
                                 break;
                             case SDL_Keycode.SDLK_SLASH:
-                                GlobalKeyboard.downKeys.Remove(Key.SLASH);
+                                GlobalKeyboard.downKeys[(int)Key.SLASH] = false;
                                 break;
                             case SDL_Keycode.SDLK_SLEEP:
-                                GlobalKeyboard.downKeys.Remove(Key.SLEEP);
+                                GlobalKeyboard.downKeys[(int)Key.SLEEP] = false;
                                 break;
                             case SDL_Keycode.SDLK_SPACE:
-                                GlobalKeyboard.downKeys.Remove(Key.SPACE);
+                                GlobalKeyboard.downKeys[(int)Key.SPACE] = false;
                                 break;
                             case SDL_Keycode.SDLK_STOP:
-                                GlobalKeyboard.downKeys.Remove(Key.STOP);
+                                GlobalKeyboard.downKeys[(int)Key.STOP] = false;
                                 break;
                             case SDL_Keycode.SDLK_SYSREQ:
-                                GlobalKeyboard.downKeys.Remove(Key.SYSREQ);
+                                GlobalKeyboard.downKeys[(int)Key.SYSREQ] = false;
                                 break;
                             case SDL_Keycode.SDLK_t:
-                                GlobalKeyboard.downKeys.Remove(Key.T);
+                                GlobalKeyboard.downKeys[(int)Key.T] = false;
                                 break;
                             case SDL_Keycode.SDLK_TAB:
-                                GlobalKeyboard.downKeys.Remove(Key.TAB);
+                                GlobalKeyboard.downKeys[(int)Key.TAB] = false;
                                 break;
                             case SDL_Keycode.SDLK_THOUSANDSSEPARATOR:
-                                GlobalKeyboard.downKeys.Remove(Key.THOUSANDSSEPARATOR);
+                                GlobalKeyboard.downKeys[(int)Key.THOUSANDSSEPARATOR] = false;
                                 break;
                             case SDL_Keycode.SDLK_u:
-                                GlobalKeyboard.downKeys.Remove(Key.U);
+                                GlobalKeyboard.downKeys[(int)Key.U] = false;
                                 break;
                             case SDL_Keycode.SDLK_UNDO:
-                                GlobalKeyboard.downKeys.Remove(Key.UNDO);
+                                GlobalKeyboard.downKeys[(int)Key.UNDO] = false;
                                 break;
                             case SDL_Keycode.SDLK_UNKNOWN:
-                                GlobalKeyboard.downKeys.Remove(Key.UNKNOWN);
+                                GlobalKeyboard.downKeys[(int)Key.UNKNOWN] = false;
                                 break;
                             case SDL_Keycode.SDLK_UP:
-                                GlobalKeyboard.downKeys.Remove(Key.UP);
+                                GlobalKeyboard.downKeys[(int)Key.UP] = false;
                                 break;
                             case SDL_Keycode.SDLK_v:
-                                GlobalKeyboard.downKeys.Remove(Key.V);
+                                GlobalKeyboard.downKeys[(int)Key.V] = false;
                                 break;
                             case SDL_Keycode.SDLK_VOLUMEDOWN:
-                                GlobalKeyboard.downKeys.Remove(Key.VOLUMEDOWN);
+                                GlobalKeyboard.downKeys[(int)Key.VOLUMEDOWN] = false;
                                 break;
                             case SDL_Keycode.SDLK_VOLUMEUP:
-                                GlobalKeyboard.downKeys.Remove(Key.VOLUMEUP);
+                                GlobalKeyboard.downKeys[(int)Key.VOLUMEUP] = false;
                                 break;
                             case SDL_Keycode.SDLK_w:
-                                GlobalKeyboard.downKeys.Remove(Key.W);
+                                GlobalKeyboard.downKeys[(int)Key.W] = false;
                                 break;
                             case SDL_Keycode.SDLK_WWW:
-                                GlobalKeyboard.downKeys.Remove(Key.WWW);
+                                GlobalKeyboard.downKeys[(int)Key.WWW] = false;
                                 break;
                             case SDL_Keycode.SDLK_x:
-                                GlobalKeyboard.downKeys.Remove(Key.X);
+                                GlobalKeyboard.downKeys[(int)Key.X] = false;
                                 break;
                             case SDL_Keycode.SDLK_y:
-                                GlobalKeyboard.downKeys.Remove(Key.Y);
+                                GlobalKeyboard.downKeys[(int)Key.Y] = false;
                                 break;
                             case SDL_Keycode.SDLK_z:
-                                GlobalKeyboard.downKeys.Remove(Key.Z);
+                                GlobalKeyboard.downKeys[(int)Key.Z] = false;
                                 break;
                             case SDL_Keycode.SDLK_AMPERSAND:
-                                GlobalKeyboard.downKeys.Remove(Key.AMPERSAND);
+                                GlobalKeyboard.downKeys[(int)Key.AMPERSAND] = false;
                                 break;
                             case SDL_Keycode.SDLK_ASTERISK:
-                                GlobalKeyboard.downKeys.Remove(Key.ASTERISK);
+                                GlobalKeyboard.downKeys[(int)Key.ASTERISK] = false;
                                 break;
                             case SDL_Keycode.SDLK_AT:
-                                GlobalKeyboard.downKeys.Remove(Key.AT);
+                                GlobalKeyboard.downKeys[(int)Key.AT] = false;
                                 break;
                             case SDL_Keycode.SDLK_CARET:
-                                GlobalKeyboard.downKeys.Remove(Key.CARET);
+                                GlobalKeyboard.downKeys[(int)Key.CARET] = false;
                                 break;
                             case SDL_Keycode.SDLK_COLON:
-                                GlobalKeyboard.downKeys.Remove(Key.COLON);
+                                GlobalKeyboard.downKeys[(int)Key.COLON] = false;
                                 break;
                             case SDL_Keycode.SDLK_DOLLAR:
-                                GlobalKeyboard.downKeys.Remove(Key.DOLLAR);
+                                GlobalKeyboard.downKeys[(int)Key.DOLLAR] = false;
                                 break;
                             case SDL_Keycode.SDLK_EXCLAIM:
-                                GlobalKeyboard.downKeys.Remove(Key.EXCLAIM);
+                                GlobalKeyboard.downKeys[(int)Key.EXCLAIM] = false;
                                 break;
                             case SDL_Keycode.SDLK_GREATER:
-                                GlobalKeyboard.downKeys.Remove(Key.GREATER);
+                                GlobalKeyboard.downKeys[(int)Key.GREATER] = false;
                                 break;
                             case SDL_Keycode.SDLK_HASH:
-                                GlobalKeyboard.downKeys.Remove(Key.HASH);
+                                GlobalKeyboard.downKeys[(int)Key.HASH] = false;
                                 break;
                             case SDL_Keycode.SDLK_LEFTPAREN:
-                                GlobalKeyboard.downKeys.Remove(Key.LEFTPAREN);
+                                GlobalKeyboard.downKeys[(int)Key.LEFTPAREN] = false;
                                 break;
                             case SDL_Keycode.SDLK_LESS:
-                                GlobalKeyboard.downKeys.Remove(Key.LESS);
+                                GlobalKeyboard.downKeys[(int)Key.LESS] = false;
                                 break;
                             case SDL_Keycode.SDLK_PERCENT:
-                                GlobalKeyboard.downKeys.Remove(Key.PERCENT);
+                                GlobalKeyboard.downKeys[(int)Key.PERCENT] = false;
                                 break;
                             case SDL_Keycode.SDLK_PLUS:
-                                GlobalKeyboard.downKeys.Remove(Key.PLUS);
+                                GlobalKeyboard.downKeys[(int)Key.PLUS] = false;
                                 break;
                             case SDL_Keycode.SDLK_QUESTION:
-                                GlobalKeyboard.downKeys.Remove(Key.QUESTION);
+                                GlobalKeyboard.downKeys[(int)Key.QUESTION] = false;
                                 break;
                             case SDL_Keycode.SDLK_QUOTEDBL:
-                                GlobalKeyboard.downKeys.Remove(Key.QUOTEDBL);
+                                GlobalKeyboard.downKeys[(int)Key.QUOTEDBL] = false;
                                 break;
                             case SDL_Keycode.SDLK_RIGHTPAREN:
-                                GlobalKeyboard.downKeys.Remove(Key.RIGHTPAREN);
+                                GlobalKeyboard.downKeys[(int)Key.RIGHTPAREN] = false;
                                 break;
                             case SDL_Keycode.SDLK_UNDERSCORE:
-                                GlobalKeyboard.downKeys.Remove(Key.UNDERSCORE);
+                                GlobalKeyboard.downKeys[(int)Key.UNDERSCORE] = false;
                                 break;
                             case SDL_Keycode.SDLK_LCTRL:
                                 GlobalKeyboard.pressedModifiers.Remove(Mod.LCtrl);

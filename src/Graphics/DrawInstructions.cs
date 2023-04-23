@@ -165,7 +165,7 @@ public class Texture : DrawInstruction {
     public IntPtr SDLTexture;
     public Vector2 textureSize;
     public Vector2 sizeMultiplier = new(1, 1);
-    public bool destroy = true;
+    public bool destroy = false;
     public float angle;
     public Flip flip;
     public Center center;
@@ -256,6 +256,85 @@ public class Texture : DrawInstruction {
     public Texture Destroy(bool des)
     {
         this.destroy = des;
+        return this;
+    }
+
+    public Texture GetRect(out Vector4 outRect)
+    {
+        SDL_Rect rect = new()
+        {
+            x = (int)this.position.X,
+            y = (int)this.position.Y,
+            w = (int)(this.textureSize.X * this.sizeMultiplier.X),
+            h = (int)(this.textureSize.Y * this.sizeMultiplier.Y)
+        };
+
+        SDL_RendererFlip tmpFlip = this.flip == Graphics.Flip.Horizontal ? SDL_RendererFlip.SDL_FLIP_HORIZONTAL : this.flip == Graphics.Flip.Vertical ? SDL_RendererFlip.SDL_FLIP_VERTICAL : this.flip == Graphics.Flip.Both ? SDL_RendererFlip.SDL_FLIP_HORIZONTAL | SDL_RendererFlip.SDL_FLIP_VERTICAL : SDL_RendererFlip.SDL_FLIP_NONE;
+
+        Vector2 center = new();
+        Vector2 textureSize = this.textureSize;
+
+        switch (this.center)
+        {
+            case Graphics.Center.TopLeft:
+                {
+                    center = new(0, 0);
+                }
+                break;
+            case Graphics.Center.TopMiddle:
+                {
+                    center = new(rect.w / 2, 0);
+                }
+                break;
+            case Graphics.Center.TopRight:
+                {
+                    center = new(rect.h, 0);
+                }
+                break;
+
+            case Graphics.Center.MiddleLeft:
+                {
+                    center = new(0, rect.h / 2);
+                }
+                break;
+            case Graphics.Center.Middle:
+                {
+                    center = new(rect.w / 2, rect.h / 2);
+                }
+                break;
+            case Graphics.Center.MiddleRight:
+                {
+                    center = new(rect.w, rect.h / 2);
+                }
+                break;
+
+            case Graphics.Center.BottomLeft:
+                {
+                    center = new(0, rect.h);
+                }
+                break;
+            case Graphics.Center.BottomMiddle:
+                {
+                    center = new(rect.w / 2, rect.h);
+                }
+                break;
+            case Graphics.Center.BottomRight:
+                {
+                    center = new(rect.w, rect.h);
+                }
+                break;
+        };
+
+        SDL_Point sdlcenter = new()
+        {
+            x = (int)center.X,
+            y = (int)center.Y
+        };
+        rect.x -= sdlcenter.x;
+        rect.y -= sdlcenter.y;
+
+        outRect = new(rect.x, rect.y, rect.w, rect.h);
+
         return this;
     }
 

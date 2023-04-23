@@ -253,22 +253,19 @@ public enum Mod
 
 public static class GlobalKeyboard
 {
-    internal static List<Key> pressedKeys = new();
-    internal static List<Key> downKeys = new();
+    internal static bool[] pressedKeys = new bool[229];
+    internal static bool[] downKeys = new bool[229];
     internal static List<Mod> pressedModifiers = new();
 
     internal static void AddKey(Key key)
     {
-        if (!GlobalKeyboard.downKeys.Contains(Key.D))
-        {
-            GlobalKeyboard.downKeys.Add(key);
-            GlobalKeyboard.pressedKeys.Add(key);
-        }
+        GlobalKeyboard.downKeys[(int)key] = true;
+        GlobalKeyboard.pressedKeys[(int)key] = true;
     }
 
     public static bool Down(Key key)
     {
-        return downKeys.Contains(key);
+        return downKeys[(int)key];
     }
 
     public static bool Down(Key key, params Mod[] mods)
@@ -283,7 +280,7 @@ public static class GlobalKeyboard
             }
         }
 
-        return GlobalKeyboard.downKeys.Contains(key) && containsModifiers;
+        return GlobalKeyboard.downKeys[(int)key] && containsModifiers;
     }
 
     //public static KeyboardDownBuilder DownExt(Key key)
@@ -293,7 +290,7 @@ public static class GlobalKeyboard
 
     public static bool Pressed(Key key)
     {
-        return pressedKeys.Contains(key);
+        return pressedKeys[(int)key];
     }
 
     public static bool Pressed(Key key, params Mod[] mods)
@@ -308,7 +305,7 @@ public static class GlobalKeyboard
             }
         }
 
-        return GlobalKeyboard.pressedKeys.Contains(key) && containsModifiers;
+        return GlobalKeyboard.pressedKeys[(int)key] && containsModifiers;
     }
 
     //public static KeyboardPressedBuilder PressedExt(Key key)
