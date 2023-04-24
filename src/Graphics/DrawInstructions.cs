@@ -532,11 +532,11 @@ public class Line : DrawInstruction
     {
         if (Draw.CurrentSceneID is not null)
         {
-            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add((Texture)this.Clone());
+            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add((Line)this.Clone());
         }
         else
         {
-            Draw.drawBuffer.Add((Texture)this.Clone());
+            Draw.drawBuffer.Add((Line)this.Clone());
         }
     }
 }
