@@ -20,7 +20,7 @@ public static class FUI
     private static Vector2 UiRenderOffset = new();
     private static Vector2? OverMousePosition = null;
     private static Dictionary<string, List<Circle>> resizeRectCache = new();
-    private static int pressedCorner = -1;
+    private static (string, int) pressedCorner = new("", -1);
     public static void OverrideMousePosition(Vector2 MousePosition)
     {
         OverMousePosition = MousePosition;
@@ -292,39 +292,41 @@ public static class FUI
             .HoverAnimation(SampleAnimations.CirclePulseAnimation(id + "3"))
             .Render();
         
-        
+
         if (GlobalMouse.Down(MB.Left)){
             if (Helpers.PointDistance(new Vector2(localRect.x, localRect.y), GlobalMouse.Position) < radius)
             {
-                pressedCorner = 0;
+                pressedCorner = (id, 0);
             } else if (Helpers.PointDistance(new Vector2(localRect.x + localRect.w, localRect.y), GlobalMouse.Position) < radius) {
-                pressedCorner = 1;
+                pressedCorner = (id, 1);
             } else if (Helpers.PointDistance(new Vector2(localRect.x, localRect.y + localRect.h), GlobalMouse.Position) < radius) {
-                pressedCorner = 2;
+                pressedCorner = (id, 2);
             } else if (Helpers.PointDistance(new Vector2(localRect.x + localRect.w, localRect.y + localRect.h), GlobalMouse.Position) < radius) {
-                pressedCorner = 3;
+                pressedCorner = (id, 3);
             }
         } else {
-            pressedCorner = -1;
+            pressedCorner = ("", -1);
         }
 
-        switch (pressedCorner) {
-            case 0: {
-                rect.x = GlobalMouse.Position.X / Game.Window.Width;
-                rect.y = GlobalMouse.Position.Y / Game.Window.Height;
-            } break;
-            case 1: {
-                rect.w = GlobalMouse.Position.X / Game.Window.Width;
-                rect.y = GlobalMouse.Position.Y / Game.Window.Height;
-            } break;
-            case 2: {
-                rect.x = GlobalMouse.Position.X / Game.Window.Width;
-                rect.h = GlobalMouse.Position.Y / Game.Window.Height;
-            } break;
-            case 3: {
-                rect.w = GlobalMouse.Position.X / Game.Window.Width;
-                rect.h = GlobalMouse.Position.Y / Game.Window.Height;
-            } break;
+        if (pressedCorner.Item1 == id){
+            switch (pressedCorner.Item2) {
+                case 0: {
+                    rect.x = GlobalMouse.Position.X / Game.Window.Width;
+                    rect.y = GlobalMouse.Position.Y / Game.Window.Height;
+                } break;
+                case 1: {
+                    rect.w = GlobalMouse.Position.X / Game.Window.Width;
+                    rect.y = GlobalMouse.Position.Y / Game.Window.Height;
+                } break;
+                case 2: {
+                    rect.x = GlobalMouse.Position.X / Game.Window.Width;
+                    rect.h = GlobalMouse.Position.Y / Game.Window.Height;
+                } break;
+                case 3: {
+                    rect.w = GlobalMouse.Position.X / Game.Window.Width;
+                    rect.h = GlobalMouse.Position.Y / Game.Window.Height;
+                } break;
+            }
         }
     }
 
