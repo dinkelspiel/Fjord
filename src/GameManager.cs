@@ -113,6 +113,11 @@ public static class Game
             GlobalMouse.downKeys[MB.ScrollLeft] = false;
             GlobalMouse.downKeys[MB.ScrollRight] = false;
             GlobalMouse.downKeys[MB.ScrollUp] = false;
+
+            if(!SceneHandler.LoadedScenes.Any((s) => SceneHandler.Scenes[s].MouseInsideScene == true))
+            {
+                SDL_ShowCursor(SDL_ENABLE);
+            }
         }
     }
 
