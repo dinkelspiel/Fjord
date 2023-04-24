@@ -20,6 +20,7 @@ public static class FUI
     private static Vector2 UiRenderOffset = new();
     private static Vector2? OverMousePosition = null;
     private static Dictionary<string, List<Circle>> resizeRectCache = new();
+    private static int pressedCorner = -1;
     public static void OverrideMousePosition(Vector2 MousePosition)
     {
         OverMousePosition = MousePosition;
@@ -244,6 +245,7 @@ public static class FUI
     public static void ResizeableRectangle(ref SDL_FRect rect, string id, Vector2? aspectRatio=null)
     {
         int i = 0;
+
         SDL_Rect localRect = new();
         while(i < 3) {
             i++;
@@ -290,40 +292,39 @@ public static class FUI
             .HoverAnimation(SampleAnimations.CirclePulseAnimation(id + "3"))
             .Render();
         
-        if (Helpers.PointDistance(new Vector2(localRect.x, localRect.y), GlobalMouse.Position) < radius)
-        {
-            if (GlobalMouse.Down(MB.Left))
+        
+        if (GlobalMouse.Down(MB.Left)){
+            if (Helpers.PointDistance(new Vector2(localRect.x, localRect.y), GlobalMouse.Position) < radius)
             {
+                pressedCorner = 0;
+            } else if (Helpers.PointDistance(new Vector2(localRect.x + localRect.w, localRect.y), GlobalMouse.Position) < radius) {
+                pressedCorner = 1;
+            } else if (Helpers.PointDistance(new Vector2(localRect.x, localRect.y + localRect.h), GlobalMouse.Position) < radius) {
+                pressedCorner = 2;
+            } else if (Helpers.PointDistance(new Vector2(localRect.x + localRect.w, localRect.y + localRect.h), GlobalMouse.Position) < radius) {
+                pressedCorner = 3;
+            }
+        } else {
+            pressedCorner = -1;
+        }
+
+        switch (pressedCorner) {
+            case 0: {
                 rect.x = GlobalMouse.Position.X / Game.Window.Width;
                 rect.y = GlobalMouse.Position.Y / Game.Window.Height;
-            }
-        }
-
-        if (Helpers.PointDistance(new Vector2(localRect.x + localRect.w, localRect.y), GlobalMouse.Position) < radius)
-        {
-            if (GlobalMouse.Down(MB.Left))
-            {
+            } break;
+            case 1: {
                 rect.w = GlobalMouse.Position.X / Game.Window.Width;
                 rect.y = GlobalMouse.Position.Y / Game.Window.Height;
-            }
-        }
-
-        if (Helpers.PointDistance(new Vector2(localRect.x, localRect.y + localRect.h), GlobalMouse.Position) < radius)
-        {
-            if (GlobalMouse.Down(MB.Left))
-            {
+            } break;
+            case 2: {
                 rect.x = GlobalMouse.Position.X / Game.Window.Width;
                 rect.h = GlobalMouse.Position.Y / Game.Window.Height;
-            }
-        }
-
-        if (Helpers.PointDistance(new Vector2(localRect.x + localRect.w, localRect.y + localRect.h), GlobalMouse.Position) < radius)
-        {
-            if (GlobalMouse.Down(MB.Left))
-            {
+            } break;
+            case 3: {
                 rect.w = GlobalMouse.Position.X / Game.Window.Width;
                 rect.h = GlobalMouse.Position.Y / Game.Window.Height;
-            }
+            } break;
         }
     }
 
