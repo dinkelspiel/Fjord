@@ -107,6 +107,7 @@ public abstract class Scene : ICloneable
         
         RenderTarget = SDL_CreateTexture(Game.SDLRenderer, SDL_PIXELFORMAT_RGBA8888,
             (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, width, height);
+        SDL_SetTextureBlendMode(RenderTarget, SDL_BlendMode.SDL_BLENDMODE_BLEND);
 
         Keyboard = new(id);
         Mouse = new(id);
@@ -208,6 +209,7 @@ public abstract class Scene : ICloneable
             SDL_DestroyTexture(RenderTarget);
             RenderTarget = SDL_CreateTexture(Game.SDLRenderer, SDL_PIXELFORMAT_RGBA8888,
             (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, (int)LocalWindowSize.w, (int)LocalWindowSize.h);
+            SDL_SetTextureBlendMode(RenderTarget, SDL_BlendMode.SDL_BLENDMODE_BLEND);
 
             Mouse.Position.X = (GlobalMouse.Position.X - LocalWindowSize.x);
             Mouse.Position.Y = (GlobalMouse.Position.Y - LocalWindowSize.y);
@@ -273,7 +275,6 @@ public abstract class Scene : ICloneable
         SDL_SetRenderTarget(Game.SDLRenderer, RenderTarget);
         SDL_SetRenderDrawColor(Game.SDLRenderer, ClearColor.r, ClearColor.g, ClearColor.b, ClearColor.a);
         SDL_RenderClear(Game.SDLRenderer);
-        SDL_SetRenderDrawColor(Game.SDLRenderer, 0, 0, 0, 255);
         
         Draw.CurrentSceneID = SceneID;
         Render();
