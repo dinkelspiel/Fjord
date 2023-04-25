@@ -490,13 +490,13 @@ public static class FUI
                 }
 
                 Vector2 size = Font.DrawSize(Font.GetDefaultFont(), label.text + component.Count, 18, new(0, 0, 0, 255));
-                Vector4 rect = new Vector4(new((indent + 1) * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), size.X, size.Y);
+                Vector4 rect = new Vector4(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), size.X + 15, size.Y);
 
                 float xpos;
                 float ypos;
                 (int, int) p2offset;
                 (int, int) p3offset;
-                xpos = (indent + 1) * 10 + UiRenderOffset.X + size.X + 2;
+                xpos = indent * 10 + UiRenderOffset.X + size.X + 2;
 
                 if(FUI.containerShown[label.text + component.Count])
                 {
@@ -583,12 +583,12 @@ public static class FUI
                 else {
 
                 }
-                Draw.Text(new((indent + 1) * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), Font.GetDefaultFont(), label.text, 18, UiColors.TextColor);
+                Draw.Text(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), Font.GetDefaultFont(), label.text, 18, UiColors.TextColor);
 
                 yOffset += size.Y + 5;
 
                 component.RemoveAt(0);
-                Debug.Log(FUI.containerShown.Count);
+                //Debug.Log(FUI.containerShown.Count);
 
                 // Debug.Log(FUI.containerShown.Count);
 

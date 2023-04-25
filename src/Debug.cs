@@ -74,16 +74,21 @@ public static class Debug {
 
     public static void Initialize()
     {
-        SceneHandler.Register(new InspectorScene((int)(Game.Window.Width * 0.201), 1080, "inspector")
+        SceneHandler.Register(new InspectorScene((int)(Game.Window.Width * 0.201), 1080, "Inspector")
             .SetAllowWindowResize(false)
             .SetAlwaysRebuildTexture(true)
             .SetRelativeWindowSize(0.8f, 0f, 1.0001f, 1f));
 
-        SceneHandler.Register(new ConsoleScene((int)(Game.Window.Width * 0.2), (int)(Game.Window.Height * 0.4), "console")
+        SceneHandler.Register(new ConsoleScene((int)(Game.Window.Width * 0.2), (int)(Game.Window.Height * 0.4), "Console")
             .SetAllowWindowResize(true)
             .SetRelativeWindowSize(0.1f, 0.1f, 0.4f, 0.6f)
             .SetAlwaysRebuildTexture(true));
 
+        SceneHandler.Register(new PerformanceScene((int)(Game.Window.Width * 0.2), (int)(Game.Window.Height * 0.4), "Performance")
+            .SetRelativeWindowSize(0f, 0.89f, 0.14f, 1.001f)
+            .SetAlwaysRebuildTexture(true));
+
+        SceneHandler.Load("Performance");
         // SceneHandler.Load("console");
         // SceneHandler.Load("inspector");
 
@@ -444,5 +449,72 @@ public class ConsoleScene : Scene
         FUI.TextFieldExt(new(10, WindowSize.Y - 40), "consolein", consoleInput, (val) => {consoleInput = val;}, (val) => submitCommand(), null, out Vector2 size);
         FUI.Button(new(Math.Min(size.X + 20, WindowSize.X - 88), WindowSize.Y - 40), "Send", submitCommand);
         FUI.ResetMousePosition();
+    }
+}
+
+public class PerformanceScene : Scene
+{
+    float recentInputFPS = 0f;
+    float recentUpdateFPS = 0f;
+    float recentRenderFPS = 0f;
+    float recentProgramFPS = 0f;
+    ulong setFps = 0;
+
+    public PerformanceScene(int width, int height, string id) : base(width, height, id)
+    {
+    }
+
+    public override void Awake()
+    {
+        SetClearColor(UiColors.Background);
+    }
+
+    public override void Update(double dt)
+    {
+        if (SDL_GetTicks64() - setFps > 1000)
+        {
+            setFps = SDL_GetTicks64();
+
+            recentInputFPS = Game.inputFPS;
+            recentUpdateFPS = Game.updateFPS;
+            recentRenderFPS = Game.renderFPS;
+            recentProgramFPS = Game.programFPS;
+        }
+    }
+
+    public override void Render()
+    {
+        //new Rectangle(new(0, 0, WindowSize.X, WindowSize.Y))
+        //    .Color(new(0, 0, 0, 120))
+        //    .Fill(true)
+        //    .Render();
+
+        new UiBuilder(new Vector2(0, 0), Mouse.Position)
+            .Container("FPS", new()
+            {
+                new UiText(((int)recentProgramFPS).ToString() + " FPS")
+            })
+            .Container("Input", new()
+            {
+                new UiText(((int)recentInputFPS).ToString() + " FPS")
+            })
+            .Render();
+
+        new UiBuilder(new Vector2(WindowSize.X / 2, 0), Mouse.Position)
+            .Container("Update", new()
+            {
+                new UiText(((int)recentUpdateFPS).ToString() + " FPS")
+            })
+            .Container("Render", new()
+            {
+                new UiText(((int)recentRenderFPS).ToString() + " FPS")
+            })
+            .Render();
+
+
+
+        //Draw.Text(new(10, 10), Font.DefaultFont, Game.inputFPS.ToString(), 32, new(255, 255, 255, 255));
+        //Draw.Text(new(10, 10), Font.DefaultFont, Game.updateFPS.ToString(), 32, new(255, 255, 255, 255));
+        //Draw.Text(new(10, 10), Font.DefaultFont, Game.renderFPS.ToString(), 32, new(255, 255, 255, 255));
     }
 }

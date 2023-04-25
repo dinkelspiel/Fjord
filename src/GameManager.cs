@@ -27,6 +27,11 @@ public static class Game
     private static ulong timeLast = 0;
     private static double deltaTime = 0.0;
 
+    internal static float inputFPS = 0;
+    internal static float updateFPS = 0;
+    internal static float renderFPS = 0;
+    internal static float programFPS = 0;
+
     public static void Initialize(string title, int width, int height)
     {   
         #if DEBUG
@@ -94,13 +99,39 @@ public static class Game
             timeNow = SDL_GetPerformanceCounter();
             deltaTime = (double)Math.Clamp(((timeNow - timeLast)*1000 / (double)SDL_GetPerformanceFrequency() )*0.001, 0, 1);
             timeLast = timeNow;
-            
+
+            ulong programStart = SDL_GetPerformanceCounter();
+
+            ulong inputStart = SDL_GetPerformanceCounter();
             EventHandler.HandleEvents();
+            ulong inputEnd = SDL_GetPerformanceCounter();
 
+            ulong updateStart = SDL_GetPerformanceCounter();
             Update();
-            Render(ref open);
+            ulong updateEnd = SDL_GetPerformanceCounter();
 
-            for(var i = 0; i < GlobalKeyboard.downKeys.Length; i++)
+            ulong renderStart = SDL_GetPerformanceCounter();
+            Render(ref open);
+            ulong renderEnd = SDL_GetPerformanceCounter();
+
+            ulong programEnd = SDL_GetPerformanceCounter();
+
+
+            float elapsed;
+
+            elapsed = (inputEnd - inputStart) / (float)SDL_GetPerformanceFrequency();
+            inputFPS = 1f / elapsed;
+
+            elapsed = (updateEnd - updateStart) / (float)SDL_GetPerformanceFrequency();
+            updateFPS = 1f / elapsed;
+
+            elapsed = (renderEnd - renderStart) / (float)SDL_GetPerformanceFrequency();
+            renderFPS = 1f / elapsed;
+
+            elapsed = (programEnd - programStart) / (float)SDL_GetPerformanceFrequency();
+            programFPS = 1f / elapsed;
+
+            for (var i = 0; i < GlobalKeyboard.downKeys.Length; i++)
             {
                 GlobalKeyboard.pressedKeys[i] = false;
             }
@@ -143,18 +174,18 @@ public static class Game
         
         if (GlobalKeyboard.Pressed(Key.D, Mod.LShift, Mod.LCtrl))
         {
-            if (!SceneHandler.IsLoaded("inspector"))
-                SceneHandler.Load("inspector");
+            if (!SceneHandler.IsLoaded("Inspector"))
+                SceneHandler.Load("Inspector");
             else
-                SceneHandler.Unload("inspector");
+                SceneHandler.Unload("Inspector");
         }
 
         if (GlobalKeyboard.Pressed(Key.C, Mod.LShift, Mod.LCtrl))
         {
-            if (!SceneHandler.IsLoaded("console")) {
-                SceneHandler.Load("console");
+            if (!SceneHandler.IsLoaded("Console")) {
+                SceneHandler.Load("Console");
             } else
-                SceneHandler.Unload("console");
+                SceneHandler.Unload("Console");
         }
     }
 
