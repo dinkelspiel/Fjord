@@ -187,6 +187,16 @@ public static class Game
             } else
                 SceneHandler.Unload("Console");
         }
+
+        if (GlobalKeyboard.Pressed(Key.F, Mod.LShift, Mod.LCtrl))
+        {
+            if (!SceneHandler.IsLoaded("Performance"))
+            {
+                SceneHandler.Load("Performance");
+            }
+            else
+                SceneHandler.Unload("Performance");
+        }
     }
 
     public static void Render(ref bool open)
