@@ -498,16 +498,16 @@ public static class FUI
                 (int, int) p3offset;
                 xpos = (indent + 1) * 10 + UiRenderOffset.X + size.X + 2;
 
-                if(FUI.containerShown[label.text + component.Count]) 
+                if(FUI.containerShown[label.text + component.Count])
                 {
-                    ypos = yOffset + UiRenderOffset.Y + 10;
-                    p2offset = (5, 10);
-                    p3offset = (-5, 10);
-                }
-                else {
                     ypos = yOffset + UiRenderOffset.Y + 10 + 10;
                     p2offset = (5, -10);
                     p3offset = (-5, -10);
+                }
+                else {
+                    ypos = yOffset + UiRenderOffset.Y + 10;
+                    p2offset = (5, 10);
+                    p3offset = (-5, 10);
                 }
 
                 new Geometry()
