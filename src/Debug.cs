@@ -189,8 +189,8 @@ public class InspectorScene : Scene
         new UiBuilder(new Vector4(0, yOffset, (int)(Game.Window.Width * 0.2), (int)Game.Window.Height), Mouse.Position)
             .Title("Inspector")
             .Container(
+                "Scenes",
                 new UiBuilder()
-                    .Title("Scenes")
                     .ForEach(SceneHandler.Scenes.ToList(), (val, idx) =>
                     {
                         var list = new List<object>() {
@@ -213,31 +213,37 @@ public class InspectorScene : Scene
                         foreach(var fi in infos) {
                             if (fi.IsDefined(typeof(Export), true))
                             {
-                                exports.Add(new UiText(fi.Name));
-                                if (fi.GetValue(val.Value).GetType() == typeof(string))
+                                var fival = fi.GetValue(val.Value);
+                                if(fival is not null) 
                                 {
-                                    exports.Add(new UiTextField(fi.Name, fi.GetValue(val.Value).ToString(), (result) =>
+                                    exports.Add(new UiText(fi.Name));
+                                    if (fival.GetType() == typeof(string))
                                     {
-                                        fi.SetValue(val.Value, result);
-                                    }, (result) => { }));
-                                } else if(fi.GetValue(val.Value).GetType() == typeof(bool)) {
-                                    exports.RemoveAt(exports.Count - 1);
-                                    exports.Add(new UiCheckbox(fi.Name, (bool)fi.GetValue(val.Value), () =>
-                                    {
-                                        fi.SetValue(val.Value, !(bool)fi.GetValue(val.Value));
-                                    }));
-                                } else if(fi.GetValue(val.Value).GetType() == typeof(float)) {
-                                    exports.RemoveAt(exports.Count - 1);
-                                    exports.Add(new UiText($"{fi.Name} ({(float)fi.GetValue(val.Value)})"));
+                                        exports.Add(new UiTextField(fi.Name, fival.ToString(), (result) =>
+                                        {
+                                            fi.SetValue(val.Value, result);
+                                        }, (result) => { }));
+                                    } else if(fival.GetType() == typeof(bool)) {
+                                        exports.RemoveAt(exports.Count - 1);
+                                        exports.Add(new UiCheckbox(fi.Name, (bool)fival, () =>
+                                        {
+                                            fi.SetValue(val.Value, !(bool)fival);
+                                        }));
+                                    } else if(fival.GetType() == typeof(float)) {
+                                        exports.RemoveAt(exports.Count - 1);
+                                        exports.Add(new UiText($"{fi.Name} ({(float)fival})"));
+                                        var expor = fi.GetCustomAttribute(typeof(Export));
+                                        if(expor is not null) {
+                                            Export a = (Export)expor;
 
-                                    Export a = (Export)fi.GetCustomAttribute(typeof(Export));
-
-                                    exports.Add(new UiSlider(a.sliderMin, a.sliderMax, (float)fi.GetValue(val.Value), (result) => {
-                                        fi.SetValue(val.Value, result);
-                                    }));
-                                } else {
-                                    exports.RemoveAt(exports.Count - 1);
-                                    exports.Add(new UiText($"{fi.Name} has an unsupported type: {fi.GetValue(val.Value).GetType()}!"));
+                                            exports.Add(new UiSlider(a.sliderMin, a.sliderMax, (float)fival, (result) => {
+                                                fi.SetValue(val.Value, result);
+                                            }));
+                                        }
+                                    } else {
+                                        exports.RemoveAt(exports.Count - 1);
+                                        exports.Add(new UiText($"{fi.Name} has an unsupported type: {fival.GetType()}!"));
+                                    }
                                 }
                             }
                         }
@@ -255,7 +261,11 @@ public class InspectorScene : Scene
                         
                         return list;
                     })
-                    .Title("Loaded Scenes")
+                    .Build()
+            )
+            .Container(
+                "Loaded Scenes",
+                new UiBuilder()
                     .ForEach(SceneHandler.LoadedScenes, (scene, idx) =>
                     {
                         var list = new List<object>()

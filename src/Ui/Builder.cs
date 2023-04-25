@@ -54,8 +54,9 @@ public class UiBuilder
         return this;
     }
 
-    public UiBuilder Container(List<object> components)
+    public UiBuilder Container(string label, List<object> components)
     {
+        components.Insert(0, new UiTitle(label));
         UiComponents.Add(components);
         return this;
     }
