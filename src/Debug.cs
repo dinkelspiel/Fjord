@@ -96,6 +96,35 @@ public static class Debug {
         {
             Logs = new();
         });
+
+        RegisterCommand("cl_showfps", (args) =>
+        {
+            if (args.Length < 1)
+            {
+                Debug.Log(SceneHandler.IsLoaded("Performance"));
+                return;
+            }
+
+            if (args[0].GetType() != typeof(bool))
+            {
+                Debug.Log("Argument 1 is not of type bool");
+                return;
+            }
+
+            if ((bool)args[0])
+            {
+                SceneHandler.Load("Performance");
+            }
+            else
+            {
+                SceneHandler.Unload("Performance");
+            }
+        });
+
+        RegisterCommand(new string[3] { "q", "quit", "exit" }, (args) =>
+        {
+            Game.Stop();
+        });
     }
 
     public static SDL_FRect DebugWindowOffset = new()

@@ -9,7 +9,7 @@ public static class SceneHandler
     internal static List<string> LoadedScenes = new();
     
     public static void Initialize() {
-        Debug.RegisterCommand("scene_close", (args) => {
+        Debug.RegisterCommand("cl_sceneclose", (args) => {
             if(args.Length > 0) {
                 if(SceneHandler.Scenes.ContainsKey((string)args[0])) {
                     if(SceneHandler.IsLoaded((string)args[0])) {
@@ -26,7 +26,7 @@ public static class SceneHandler
             }
         });
 
-        Debug.RegisterCommand("scene_open", (args) => {
+        Debug.RegisterCommand("cl_sceneopen", (args) => {
             if(args.Length > 0) {
                 if(SceneHandler.Scenes.ContainsKey((string)args[0])) {
                     if(!SceneHandler.IsLoaded((string)args[0])) {
