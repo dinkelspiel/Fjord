@@ -323,7 +323,7 @@ public class Texture : DrawInstruction {
                     center = new(rect.w, rect.h);
                 }
                 break;
-        };
+        }
 
         SDL_Point sdlcenter = new()
         {

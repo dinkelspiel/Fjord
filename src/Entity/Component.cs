@@ -10,14 +10,6 @@ public abstract class Component
     internal Entity ParentEntity;
     public Scene ParentScene;
 
-    public Component()
-    {
-        //this.Keyboard = new("");
-        //this.Mouse = new("");
-        //this.ParentScene = default(Scene);
-        //this.ParentEntity = new(ParentScene, Keyboard, Mouse);
-    }
-
     public void Remove<T>()
     {
         ParentEntity.Remove<T>();

@@ -22,8 +22,7 @@ public static class SampleAnimations {
 
     public static CirlceAnimation CirclePulseAnimation(string id)
     {
-        if(!anims.ContainsKey(id))
-            anims.Add(id, (CirlceAnimation)circlePulseAnimation.Clone());
+        anims.TryAdd(id, (CirlceAnimation)circlePulseAnimation.Clone());
 
         return anims[id];
     }

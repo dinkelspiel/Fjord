@@ -117,9 +117,7 @@ public static class Game
             ulong programEnd = SDL_GetPerformanceCounter();
 
 
-            float elapsed;
-
-            elapsed = (inputEnd - inputStart) / (float)SDL_GetPerformanceFrequency();
+            var elapsed = (inputEnd - inputStart) / (float)SDL_GetPerformanceFrequency();
             inputFPS = 1f / elapsed;
 
             elapsed = (updateEnd - updateStart) / (float)SDL_GetPerformanceFrequency();
@@ -145,7 +143,7 @@ public static class Game
             GlobalMouse.downKeys[MB.ScrollRight] = false;
             GlobalMouse.downKeys[MB.ScrollUp] = false;
 
-            if(!SceneHandler.LoadedScenes.Any((s) => SceneHandler.Scenes[s].MouseInsideScene == true))
+            if(SceneHandler.LoadedScenes.All(s => SceneHandler.Scenes[s].MouseInsideScene != true))
             {
                 SDL_ShowCursor(SDL_ENABLE);
             }
@@ -196,20 +194,21 @@ public static class Game
             }
             else
             {
-                if(SceneHandler.Get<PerformanceScene>().WindowSize.X < 450)
+                PerformanceScene scene = SceneHandler.Get<PerformanceScene>()!;
+                if (scene.WindowSize.X < 450)
                 {
-                    if(SceneHandler.Get<PerformanceScene>().Position < 2)
-                        SceneHandler.Get<PerformanceScene>().SetRelativeWindowSize(SceneHandler.Get<PerformanceScene>().RelativeWindowSize.x, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.y, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.w + 0.14f, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.h);
+                    if(scene.Position < 2)
+                        scene.SetRelativeWindowSize(scene.RelativeWindowSize.x, scene.RelativeWindowSize.y, scene.RelativeWindowSize.w + 0.14f, scene.RelativeWindowSize.h);
                     else
-                        SceneHandler.Get<PerformanceScene>().SetRelativeWindowSize(SceneHandler.Get<PerformanceScene>().RelativeWindowSize.x - 0.14f, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.y, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.w, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.h);
-                    SceneHandler.Get<PerformanceScene>().Size = true;
+                        scene.SetRelativeWindowSize(scene.RelativeWindowSize.x - 0.14f, scene.RelativeWindowSize.y, scene.RelativeWindowSize.w, scene.RelativeWindowSize.h);
+                    scene.Size = true;
                 } else
                 {
-                    if (SceneHandler.Get<PerformanceScene>().Position < 2)
-                        SceneHandler.Get<PerformanceScene>().SetRelativeWindowSize(SceneHandler.Get<PerformanceScene>().RelativeWindowSize.x, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.y, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.w - 0.14f, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.h);
+                    if (scene.Position < 2)
+                        scene.SetRelativeWindowSize(scene.RelativeWindowSize.x, scene.RelativeWindowSize.y, scene.RelativeWindowSize.w - 0.14f, scene.RelativeWindowSize.h);
                     else
-                        SceneHandler.Get<PerformanceScene>().SetRelativeWindowSize(SceneHandler.Get<PerformanceScene>().RelativeWindowSize.x + 0.14f, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.y, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.w, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.h);
-                    SceneHandler.Get<PerformanceScene>().Size = false;
+                        scene.SetRelativeWindowSize(scene.RelativeWindowSize.x + 0.14f, scene.RelativeWindowSize.y, scene.RelativeWindowSize.w, scene.RelativeWindowSize.h);
+                    scene.Size = false;
                     SceneHandler.Unload("Performance");
                 }
                     

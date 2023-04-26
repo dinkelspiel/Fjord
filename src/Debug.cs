@@ -142,7 +142,7 @@ public static class Debug {
 
     public static void Log(LogLevel level, object message)
     {
-        var words = message.ToString().Split();
+        var words = message.ToString()?.Split();
         // List<string> messageSplit = message.ToString().SplitInParts(60).ToList();
 
         var lines = new List<string> { words[0] };
@@ -187,9 +187,9 @@ public static class Debug {
     }
 
     public static void PerformCommand(string command, object[] args) {
-        if(commands.ContainsKey(command)) {
+        if(commands.TryGetValue(command, out var command1)) {
             try {
-                commands[command](args);
+                command1(args);
             } catch(Exception e) {
                 Debug.Log(LogLevel.Error, e.ToString());
             }
@@ -571,23 +571,24 @@ public class PerformanceScene : Scene
             {
                 SetRelativeWindowSize(0.9f, 0.89f, 1.001f, 1.001f);
             }
-            SceneHandler.Get<PerformanceScene>().Size = false;
+            SceneHandler.Get<PerformanceScene>()!.Size = false;
         }
 
         if(LastSize != Size)
         {
+            PerformanceScene scene = SceneHandler.Get<PerformanceScene>()!;
             if (Size)
             {
-                if (SceneHandler.Get<PerformanceScene>().Position < 2)
-                    SceneHandler.Get<PerformanceScene>().SetRelativeWindowSize(SceneHandler.Get<PerformanceScene>().RelativeWindowSize.x, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.y, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.w + 0.14f, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.h);
+                if (scene.Position < 2)
+                    scene.SetRelativeWindowSize(scene.RelativeWindowSize.x, scene.RelativeWindowSize.y, scene.RelativeWindowSize.w + 0.14f, scene.RelativeWindowSize.h);
                 else
-                    SceneHandler.Get<PerformanceScene>().SetRelativeWindowSize(SceneHandler.Get<PerformanceScene>().RelativeWindowSize.x - 0.14f, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.y, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.w, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.h);
+                    scene.SetRelativeWindowSize(scene.RelativeWindowSize.x - 0.14f, scene.RelativeWindowSize.y, scene.RelativeWindowSize.w, scene.RelativeWindowSize.h);
             } else
             {
-                if (SceneHandler.Get<PerformanceScene>().Position < 2)
-                    SceneHandler.Get<PerformanceScene>().SetRelativeWindowSize(SceneHandler.Get<PerformanceScene>().RelativeWindowSize.x, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.y, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.w - 0.14f, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.h);
+                if (scene.Position < 2)
+                    scene.SetRelativeWindowSize(scene.RelativeWindowSize.x, scene.RelativeWindowSize.y, scene.RelativeWindowSize.w - 0.14f, scene.RelativeWindowSize.h);
                 else
-                    SceneHandler.Get<PerformanceScene>().SetRelativeWindowSize(SceneHandler.Get<PerformanceScene>().RelativeWindowSize.x + 0.14f, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.y, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.w, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.h);
+                    scene.SetRelativeWindowSize(scene.RelativeWindowSize.x + 0.14f, scene.RelativeWindowSize.y, scene.RelativeWindowSize.w, scene.RelativeWindowSize.h);
             }
         }
     }

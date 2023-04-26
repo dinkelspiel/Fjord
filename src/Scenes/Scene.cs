@@ -98,7 +98,7 @@ public abstract class Scene : ICloneable
         RelativeWindowSize.h = newSize.Y / Game.Window.Height;
     }
 
-    public Scene(int width, int height, string id)
+    protected Scene(int width, int height, string id)
     {
         OriginalWindowSize.X = width;
         OriginalWindowSize.Y = height;

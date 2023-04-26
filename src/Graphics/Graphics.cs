@@ -289,7 +289,7 @@ public static class Draw
             case Graphics.Center.BottomRight: {
                 center = new(rect.w, rect.h);
             } break;
-        };
+        }
 
         SDL_Point sdlcenter = new()
         {
