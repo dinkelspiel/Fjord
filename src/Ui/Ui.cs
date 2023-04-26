@@ -482,120 +482,127 @@ public static class FUI
             else if (componentObj.GetType() == typeof(List<object>))
             {
                 List<object> component = (List<object>)componentObj;
-                UiTitle label = (UiTitle)component[0];
 
-                if(!FUI.containerShown.ContainsKey(label.text + component.Count))
+                if(component[0].GetType() == typeof(UiTitle)) 
                 {
-                    FUI.containerShown.Add(label.text + component.Count, true);
-                }
+                    UiTitle label = (UiTitle)component[0];
 
-                Vector2 size = Font.DrawSize(Font.GetDefaultFont(), label.text + component.Count, 18, new(0, 0, 0, 255));
-                Vector4 rect = new Vector4(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), size.X + 15, size.Y);
-
-                float xpos;
-                float ypos;
-                (int, int) p2offset;
-                (int, int) p3offset;
-                xpos = indent * 10 + UiRenderOffset.X + size.X + 2;
-
-                if(FUI.containerShown[label.text + component.Count])
-                {
-                    ypos = yOffset + UiRenderOffset.Y + 10 + 10;
-                    p2offset = (5, -10);
-                    p3offset = (-5, -10);
-                }
-                else {
-                    ypos = yOffset + UiRenderOffset.Y + 10;
-                    p2offset = (5, 10);
-                    p3offset = (-5, 10);
-                }
-
-                new Geometry()
-                    .AddVertex(new SDL_Vertex()
+                    if(!FUI.containerShown.ContainsKey(label.text + component.Count))
                     {
-                        position = new SDL_FPoint()
-                        {
-                            x = xpos,
-                            y = ypos
-                        },
-                        color = new SDL_Color()
-                        {
-                            r = 255, 
-                            g = 255,
-                            b = 255,
-                            a = 255
-                        },
-                        tex_coord = new SDL_FPoint()
-                        {
-                            x = 0,
-                            y = 0
-                        }
-                    })
-                    .AddVertex(new SDL_Vertex()
-                    {
-                        position = new SDL_FPoint()
-                        {
-                            x = xpos + p2offset.Item1,
-                            y = ypos + p2offset.Item2
-                        },
-                        color = new SDL_Color()
-                        {
-                            r = 255, 
-                            g = 255,
-                            b = 255,
-                            a = 255
-                        },
-                        tex_coord = new SDL_FPoint()
-                        {
-                            x = 0,
-                            y = 0
-                        }
-                    })
-                    .AddVertex(new SDL_Vertex()
-                    {
-                        position = new SDL_FPoint()
-                        {
-                            x = xpos + p3offset.Item1,
-                            y = ypos + p3offset.Item2
-                        },
-                        color = new SDL_Color()
-                        {
-                            r = 255, 
-                            g = 255,
-                            b = 255,
-                            a = 255
-                        },
-                        tex_coord = new SDL_FPoint()
-                        {
-                            x = 0,
-                            y = 0
-                        }
-                    })
-                    .Render();
-
-                if(Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : GlobalMouse.Position, rect))
-                {
-                    if(GlobalMouse.Pressed(MB.Left))
-                    {   
-                        FUI.containerShown[label.text + component.Count] = !FUI.containerShown[label.text + component.Count];
+                        FUI.containerShown.Add(label.text + component.Count, true);
                     }
-                } 
-                else {
 
-                }
-                Draw.Text(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), Font.GetDefaultFont(), label.text, 18, UiColors.TextColor);
+                    Vector2 size = Font.DrawSize(Font.GetDefaultFont(), label.text + component.Count, 18, new(0, 0, 0, 255));
+                    Vector4 rect = new Vector4(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), size.X + 15, size.Y);
 
-                yOffset += size.Y + 5;
+                    float xpos;
+                    float ypos;
+                    (int, int) p2offset;
+                    (int, int) p3offset;
+                    xpos = indent * 10 + UiRenderOffset.X + size.X + 2;
 
-                component.RemoveAt(0);
-                //Debug.Log(FUI.containerShown.Count);
+                    if(FUI.containerShown[label.text + component.Count])
+                    {
+                        ypos = yOffset + UiRenderOffset.Y + 10 + 10;
+                        p2offset = (5, -10);
+                        p3offset = (-5, -10);
+                    }
+                    else {
+                        ypos = yOffset + UiRenderOffset.Y + 10;
+                        p2offset = (5, 10);
+                        p3offset = (-5, 10);
+                    }
 
-                // Debug.Log(FUI.containerShown.Count);
+                    new Geometry()
+                        .AddVertex(new SDL_Vertex()
+                        {
+                            position = new SDL_FPoint()
+                            {
+                                x = xpos,
+                                y = ypos
+                            },
+                            color = new SDL_Color()
+                            {
+                                r = 255, 
+                                g = 255,
+                                b = 255,
+                                a = 255
+                            },
+                            tex_coord = new SDL_FPoint()
+                            {
+                                x = 0,
+                                y = 0
+                            }
+                        })
+                        .AddVertex(new SDL_Vertex()
+                        {
+                            position = new SDL_FPoint()
+                            {
+                                x = xpos + p2offset.Item1,
+                                y = ypos + p2offset.Item2
+                            },
+                            color = new SDL_Color()
+                            {
+                                r = 255, 
+                                g = 255,
+                                b = 255,
+                                a = 255
+                            },
+                            tex_coord = new SDL_FPoint()
+                            {
+                                x = 0,
+                                y = 0
+                            }
+                        })
+                        .AddVertex(new SDL_Vertex()
+                        {
+                            position = new SDL_FPoint()
+                            {
+                                x = xpos + p3offset.Item1,
+                                y = ypos + p3offset.Item2
+                            },
+                            color = new SDL_Color()
+                            {
+                                r = 255, 
+                                g = 255,
+                                b = 255,
+                                a = 255
+                            },
+                            tex_coord = new SDL_FPoint()
+                            {
+                                x = 0,
+                                y = 0
+                            }
+                        })
+                        .Render();
 
-                if(FUI.containerShown[label.text + (component.Count + 1)]) 
+                    if(Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : GlobalMouse.Position, rect))
+                    {
+                        if(GlobalMouse.Pressed(MB.Left))
+                        {   
+                            FUI.containerShown[label.text + component.Count] = !FUI.containerShown[label.text + component.Count];
+                        }
+                    } 
+                    else {
+
+                    }
+                    Draw.Text(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), Font.GetDefaultFont(), label.text, 18, UiColors.TextColor);
+
+                    yOffset += size.Y + 5;
+
+                    component.RemoveAt(0);
+
+                    if(FUI.containerShown[label.text + (component.Count + 1)]) 
+                    {
+                        Render(component, ref yOffset, indent + 1);
+                    }
+                } else 
                 {
                     Render(component, ref yOffset, indent + 1);
                 }
+                //Debug.Log(FUI.containerShown.Count);
+
+                // Debug.Log(FUI.containerShown.Count);
             }
         }
         return yOffset;
