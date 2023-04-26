@@ -61,6 +61,12 @@ public class UiBuilder
         return this;
     }
 
+    public UiBuilder HAlign(HAlign<UiComponent> components)
+    {
+        UiComponents.Add(components);
+        return this;
+    }
+
     public UiBuilder ForEach<T>(List<T> objects, Func<T, UiComponent> callback)
     {
         foreach(T obj in objects)

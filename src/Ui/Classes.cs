@@ -106,3 +106,8 @@ public class UiSlider : UiComponent
         this.onChange = onChange;
     }
 }
+
+public class HAlign<T> : List<T>
+{
+    
+}
