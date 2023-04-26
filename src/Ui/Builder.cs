@@ -158,6 +158,11 @@ public class UiBuilder
         return UiComponents;
     }
 
+    public HAlign<UiComponent> BuildHAlign()
+    {
+        return UiComponents.ConvertAll(e => (UiComponent)e).IntoHAlign();
+    }
+
     public void Render(out int height)
     {
         FUI.SetRenderOffset(Position + new Vector2(10, 5));

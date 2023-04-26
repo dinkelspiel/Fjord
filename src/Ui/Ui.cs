@@ -186,7 +186,7 @@ public static class FUI
         {
             x = (int)(position.X),
             y = (int)(position.Y + (size.Y + 7) / 4),
-            w = (int)200,
+            w = (int)210,
             h = (int)((size.Y + 7) / 2)
         };
 
@@ -224,7 +224,7 @@ public static class FUI
 
                 float lerp = offset / 200;
 
-                float val = Lerp(min, max, lerp);
+                float val = Math.Clamp(Lerp(min, max, lerp), min, max);
 
                 onChange(val);
             }
@@ -477,7 +477,7 @@ public static class FUI
 
                 FUI.SliderExt(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), component.min, component.max, component.value, component.onChange, out Vector2 size);
 
-                yOffset += size.Y + 5 + (size.Y + 5) / 2;
+                yOffset += size.Y + 15 + (size.Y + 5) / 2;
             }
             else if (componentObj.GetType() == typeof(List<object>))
             {
@@ -604,8 +604,117 @@ public static class FUI
 
                 // Debug.Log(FUI.containerShown.Count);
             }
+            else if (componentObj.GetType() == typeof(HAlign<UiComponent>))
+            {
+                HAlign<UiComponent> component = (HAlign<UiComponent>)componentObj;
+                RenderHorizontal(component, ref yOffset, indent);
+            }
         }
         return yOffset;
+    }
+
+    public static float RenderHorizontal(HAlign<UiComponent> components, ref float yOffset, int indent = 0)
+    {
+        float xOffset = 0;
+        float biggestHeight = 0;
+        foreach (UiComponent componentObj in components)
+        {
+            if (componentObj.GetType() == typeof(UiButton))
+            {
+                UiButton component = (UiButton)componentObj;
+                ButtonExt(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset), component.text, component.callback, out Vector2 size);
+                xOffset += size.X + 5;
+                if (size.Y > biggestHeight)
+                    biggestHeight = size.Y;
+            }
+            else if (componentObj.GetType() == typeof(UiTitle))
+            {
+                UiTitle component = (UiTitle)componentObj;
+                Draw.Text(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset), Font.GetDefaultFont(), component.text, 18, UiColors.TextColor);
+                Vector2 size = Font.DrawSize(Font.GetDefaultFont(), component.text, 18, new(0, 0, 0, 255));
+                xOffset += size.X + 5;
+                if (size.Y > biggestHeight)
+                    biggestHeight = size.Y;
+            }
+            else if (componentObj.GetType() == typeof(UiText))
+            {
+                UiText component = (UiText)componentObj;
+                Draw.Text(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset), Font.GetDefaultFont(), component.text, 14, UiColors.TextColor);
+                Vector2 size = Font.DrawSize(Font.GetDefaultFont(), component.text, 14, new(0, 0, 0, 255));
+                xOffset += size.X + 5;
+                if (size.Y > biggestHeight)
+                    biggestHeight = size.Y;
+            }
+            else if (componentObj.GetType() == typeof(UiCheckbox))
+            {
+                UiCheckbox component = (UiCheckbox)componentObj;
+
+                SDL_Rect rect = new SDL_Rect()
+                {
+                    x = (int)(indent * 10 + UiRenderOffset.X + xOffset),
+                    y = (int)(UiRenderOffset.Y + yOffset),
+                    w = 20,
+                    h = 20
+                };
+
+                if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : GlobalMouse.Position, rect))
+                {
+                    SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerHoverColor.ToCol());
+                    if (GlobalMouse.Down(MB.Left))
+                    {
+                        SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerPressedColor.ToCol());
+                    }
+                }
+                else if (component.value)
+                {
+                    SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerPressedColor.ToCol());
+                }
+                else
+                {
+                    SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerIdleColor.ToCol());
+                }
+
+                if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : GlobalMouse.Position, rect) && GlobalMouse.Pressed(MB.Left))
+                {
+                    component.callback();
+                }
+
+                SDL_RenderFillRect(Game.SDLRenderer, ref rect);
+
+                Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + 25 + xOffset, UiRenderOffset.Y), Font.DefaultFont, component.text, 16, new(255, 255, 255, 255));
+                Vector2 drawSize = Font.DrawSize(Font.DefaultFont, component.text, 16, new(255, 255, 255, 255));
+
+                xOffset += 50 + drawSize.X;
+                if (drawSize.Y > biggestHeight)
+                    biggestHeight = drawSize.Y;
+            }
+            else if (componentObj.GetType() == typeof(UiTextField))
+            {
+                UiTextField component = (UiTextField)componentObj;
+
+                FUI.TextFieldExt(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset), component.id, component.value, component.onChange, component.onSubmit, component.placeholder, out Vector2 size);
+
+                xOffset += size.X + 5;
+                if (size.Y > biggestHeight)
+                    biggestHeight = size.Y;
+            }
+            else if (componentObj.GetType() == typeof(UiSlider))
+            {
+                UiSlider component = (UiSlider)componentObj;
+
+                FUI.SliderExt(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset), component.min, component.max, component.value, component.onChange, out Vector2 size);
+
+                xOffset += size.X + 5;
+                if (size.Y > biggestHeight)
+                    biggestHeight = size.Y;
+            }
+            else
+            {
+                throw new Exception("Invalid UiComponent found in HAlign");
+            }
+        }
+        yOffset += biggestHeight + 5;
+        return biggestHeight + 5;
     }
 
     public static void Render(List<object> components, out float height)

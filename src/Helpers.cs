@@ -1,4 +1,5 @@
 using System.Numerics;
+using Fjord.Ui;
 using SDL2;
 using static SDL2.SDL;
 
@@ -101,16 +102,41 @@ public static class Helpers
     }
 }
 
-static class StringExtensions {
+static class Extensions
+{
 
-  public static IEnumerable<String> SplitInParts(this String s, Int32 partLength) {
-    if (s == null)
-      throw new ArgumentNullException(nameof(s));
-    if (partLength <= 0)
-      throw new ArgumentException("Part length has to be positive.", nameof(partLength));
+    public static IEnumerable<String> SplitInParts(this String s, Int32 partLength)
+    {
+        if (s == null)
+            throw new ArgumentNullException(nameof(s));
+        if (partLength <= 0)
+            throw new ArgumentException("Part length has to be positive.", nameof(partLength));
 
-    for (var i = 0; i < s.Length; i += partLength)
-      yield return s.Substring(i, Math.Min(partLength, s.Length - i));
-  }
+        for (var i = 0; i < s.Length; i += partLength)
+            yield return s.Substring(i, Math.Min(partLength, s.Length - i));
+    }
 
+    public static HAlign<T> IntoHAlign<T>(this List<T> s)
+    {
+        HAlign<T> a = new();
+
+        foreach(T i in s)
+        {
+            a.Add(i);
+        }
+
+        return a;
+    }
+
+    public static List<T> IntoList<T>(this HAlign<T> s)
+    {
+        List<T> a = new();
+
+        foreach (T i in s)
+        {
+            a.Add(i);
+        }
+
+        return a;
+    }
 }

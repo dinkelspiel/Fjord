@@ -195,7 +195,25 @@ public static class Game
                 SceneHandler.Load("Performance");
             }
             else
-                SceneHandler.Unload("Performance");
+            {
+                if(SceneHandler.Get<PerformanceScene>().WindowSize.X < 450)
+                {
+                    if(SceneHandler.Get<PerformanceScene>().Position < 2)
+                        SceneHandler.Get<PerformanceScene>().SetRelativeWindowSize(SceneHandler.Get<PerformanceScene>().RelativeWindowSize.x, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.y, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.w + 0.14f, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.h);
+                    else
+                        SceneHandler.Get<PerformanceScene>().SetRelativeWindowSize(SceneHandler.Get<PerformanceScene>().RelativeWindowSize.x - 0.14f, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.y, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.w, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.h);
+                    SceneHandler.Get<PerformanceScene>().Size = true;
+                } else
+                {
+                    if (SceneHandler.Get<PerformanceScene>().Position < 2)
+                        SceneHandler.Get<PerformanceScene>().SetRelativeWindowSize(SceneHandler.Get<PerformanceScene>().RelativeWindowSize.x, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.y, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.w - 0.14f, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.h);
+                    else
+                        SceneHandler.Get<PerformanceScene>().SetRelativeWindowSize(SceneHandler.Get<PerformanceScene>().RelativeWindowSize.x + 0.14f, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.y, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.w, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.h);
+                    SceneHandler.Get<PerformanceScene>().Size = false;
+                    SceneHandler.Unload("Performance");
+                }
+                    
+            }
         }
     }
 

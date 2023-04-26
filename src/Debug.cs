@@ -85,7 +85,7 @@ public static class Debug {
             .SetAlwaysRebuildTexture(true));
 
         SceneHandler.Register(new PerformanceScene((int)(Game.Window.Width * 0.2), (int)(Game.Window.Height * 0.4), "Performance")
-            .SetRelativeWindowSize(0f, 0.89f, 0.14f, 1.001f)
+            .SetRelativeWindowSize(0f, 0.89f, 0.10f, 1.001f)
             .SetAlwaysRebuildTexture(true));
 
         //SceneHandler.Load("Performance");
@@ -227,16 +227,20 @@ public class InspectorScene : Scene
                 new UiBuilder()
                     .ForEach(SceneHandler.Scenes.ToList(), (val, idx) =>
                     {
-                        var list = new List<object>() {
-                                new UiTitle(val.Key),
-                                new UiButton("Load", () => SceneHandler.Load(val.Key)),
-                                new UiButton("Unload", () => SceneHandler.Unload(val.Key)),
-                                new UiButton("Remake", () => SceneHandler.Remake(val.Key)),
-                                new UiButton("Apply Aspect Ratio", () => val.Value.ApplyOriginalAspectRatio()),
-                                new UiCheckbox("Allow window resize", val.Value.AllowWindowResize, () => val.Value.SetAllowWindowResize(!val.Value.AllowWindowResize)),
-                                new UiCheckbox("Always at back", val.Value.AlwaysAtBack, () => val.Value.SetAlwaysAtBack(!val.Value.AlwaysAtBack)),
-                                new UiCheckbox("Always rebuild texture", val.Value.AlwaysRebuildTexture, () => val.Value.SetAlwaysRebuildTexture(!val.Value.AlwaysRebuildTexture))
-                        };
+                        var list = new UiBuilder()
+                            .Title(val.Key)
+                            .HAlign(
+                                new UiBuilder()
+                                    .Button("Load", () => SceneHandler.Load(val.Key))
+                                    .Button("Unload", () => SceneHandler.Unload(val.Key))
+                                    .Button("Remake", () => SceneHandler.Remake(val.Key))
+                                    .BuildHAlign()
+                            )
+                            .Button("Apply Aspect Ratio", () => val.Value.ApplyOriginalAspectRatio())
+                            .Checkbox("Allow window resize", val.Value.AllowWindowResize, () => val.Value.SetAllowWindowResize(!val.Value.AllowWindowResize))
+                            .Checkbox("Always at back", val.Value.AlwaysAtBack, () => val.Value.SetAlwaysAtBack(!val.Value.AlwaysAtBack))
+                            .Checkbox("Always rebuild texture", val.Value.AlwaysRebuildTexture, () => val.Value.SetAlwaysRebuildTexture(!val.Value.AlwaysRebuildTexture))
+                            .Build();
 
                         FieldInfo[] infos = val.Value.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -257,21 +261,39 @@ public class InspectorScene : Scene
                                         {
                                             fi.SetValue(val.Value, result);
                                         }, (result) => { }));
-                                    } else if(fival.GetType() == typeof(bool)) {
+                                    }
+                                    else if (fival.GetType() == typeof(bool))
+                                    {
                                         exports.RemoveAt(exports.Count - 1);
                                         exports.Add(new UiCheckbox(fi.Name, (bool)fival, () =>
                                         {
                                             fi.SetValue(val.Value, !(bool)fival);
                                         }));
-                                    } else if(fival.GetType() == typeof(float)) {
+                                    }
+                                    else if (fival.GetType() == typeof(float))
+                                    {
                                         exports.RemoveAt(exports.Count - 1);
                                         exports.Add(new UiText($"{fi.Name} ({(float)fival})"));
                                         var expor = fi.GetCustomAttribute(typeof(Export));
-                                        if(expor is not null) {
+                                        if (expor is not null)
+                                        {
                                             Export a = (Export)expor;
 
-                                            exports.Add(new UiSlider(a.sliderMin, a.sliderMax, (float)fival, (result) => {
+                                            exports.Add(new UiSlider(a.sliderMin, a.sliderMax, (float)fival, (result) =>
+                                            {
                                                 fi.SetValue(val.Value, result);
+                                            }));
+                                        }
+                                    } else if(fival.GetType() == typeof(int)) {
+                                        exports.RemoveAt(exports.Count - 1);
+                                        exports.Add(new UiText($"{fi.Name} ({(int)fival})"));
+                                        var expor = fi.GetCustomAttribute(typeof(Export));
+                                        if (expor is not null)
+                                        {
+                                            Export a = (Export)expor;
+
+                                            exports.Add(new UiSlider(a.sliderMin, a.sliderMax, (int)fival, (result) => {
+                                                fi.SetValue(val.Value, (int)result);
                                             }));
                                         }
                                     } else {
@@ -483,11 +505,26 @@ public class ConsoleScene : Scene
 
 public class PerformanceScene : Scene
 {
-    float recentInputFPS = 0f;
-    float recentUpdateFPS = 0f;
-    float recentRenderFPS = 0f;
-    float recentProgramFPS = 0f;
+    float InputFPS = 0f;
+    float UpdateFPS = 0f;
+    float RenderFPS = 0f;
+    float ProgramFPS = 0f;
     ulong setFps = 0;
+
+    List<float> recentInputFPS = new();
+    List<float> recentUpdateFPS = new();
+    List<float> recentRenderFPS = new();
+    List<float> recentProgramFPS = new();
+
+    [Export(0, 3)]
+    public int Position = 0;
+
+    int LastPosition = 0;
+
+    [Export]
+    public bool Size = false;
+
+    bool LastSize = false;
 
     public PerformanceScene(int width, int height, string id) : base(width, height, id)
     {
@@ -504,10 +541,54 @@ public class PerformanceScene : Scene
         {
             setFps = SDL_GetTicks64();
 
-            recentInputFPS = Game.inputFPS;
-            recentUpdateFPS = Game.updateFPS;
-            recentRenderFPS = Game.renderFPS;
-            recentProgramFPS = Game.programFPS;
+            InputFPS = Game.inputFPS;
+            UpdateFPS = Game.updateFPS;
+            RenderFPS = Game.renderFPS;
+            ProgramFPS = Game.programFPS;
+
+            recentInputFPS.Add(InputFPS);
+            recentProgramFPS.Add(ProgramFPS);
+
+            recentRenderFPS.Add(RenderFPS);
+            recentUpdateFPS.Add(UpdateFPS);
+        }
+
+        if (LastPosition != Position)
+        {
+            if (Position == 0)
+            {
+                SetRelativeWindowSize(0f, 0.89f, 0.10f, 1.001f);
+            }
+            else if (Position == 1)
+            {
+                SetRelativeWindowSize(0f, 0f, 0.1f, 0.11f);
+            }
+            else if (Position == 2)
+            {
+                SetRelativeWindowSize(0.9f, 0f, 1.001f, 0.11f);
+            }
+            else if (Position == 3)
+            {
+                SetRelativeWindowSize(0.9f, 0.89f, 1.001f, 1.001f);
+            }
+            SceneHandler.Get<PerformanceScene>().Size = false;
+        }
+
+        if(LastSize != Size)
+        {
+            if (Size)
+            {
+                if (SceneHandler.Get<PerformanceScene>().Position < 2)
+                    SceneHandler.Get<PerformanceScene>().SetRelativeWindowSize(SceneHandler.Get<PerformanceScene>().RelativeWindowSize.x, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.y, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.w + 0.14f, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.h);
+                else
+                    SceneHandler.Get<PerformanceScene>().SetRelativeWindowSize(SceneHandler.Get<PerformanceScene>().RelativeWindowSize.x - 0.14f, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.y, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.w, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.h);
+            } else
+            {
+                if (SceneHandler.Get<PerformanceScene>().Position < 2)
+                    SceneHandler.Get<PerformanceScene>().SetRelativeWindowSize(SceneHandler.Get<PerformanceScene>().RelativeWindowSize.x, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.y, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.w - 0.14f, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.h);
+                else
+                    SceneHandler.Get<PerformanceScene>().SetRelativeWindowSize(SceneHandler.Get<PerformanceScene>().RelativeWindowSize.x + 0.14f, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.y, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.w, SceneHandler.Get<PerformanceScene>().RelativeWindowSize.h);
+            }
         }
     }
 
@@ -519,28 +600,57 @@ public class PerformanceScene : Scene
         //    .Render();
 
         new UiBuilder(new Vector2(0, 0), Mouse.Position)
-            .Container("FPS", new()
-            {
-                new UiText(((int)recentProgramFPS).ToString() + " FPS")
-            })
-            .Container("Input", new()
-            {
-                new UiText(((int)recentInputFPS).ToString() + " FPS")
-            })
+            .Title("FPS")
+            .Text(((int)ProgramFPS).ToString() + " FPS")
+            .Title("Input")
+            .Text(((int)InputFPS).ToString() + " FPS")
             .Render();
 
         new UiBuilder(new Vector2(WindowSize.X / 2, 0), Mouse.Position)
-            .Container("Update", new()
-            {
-                new UiText(((int)recentUpdateFPS).ToString() + " FPS")
-            })
-            .Container("Render", new()
-            {
-                new UiText(((int)recentRenderFPS).ToString() + " FPS")
-            })
+            .Title("Update")
+            .Text(((int)UpdateFPS).ToString() + " FPS")
+            .Title("Render")
+            .Text(((int)RenderFPS).ToString() + " FPS")
             .Render();
 
+        if(recentInputFPS.Count > 25)
+        {
+            recentInputFPS.RemoveAt(0);
+            recentProgramFPS.RemoveAt(0);
 
+            recentRenderFPS.RemoveAt(0);
+            recentUpdateFPS.RemoveAt(0);
+        }
+
+        if(WindowSize.X > 450)
+        {
+            for(var i = 0; i < recentInputFPS.Count; i++)
+            {
+                new Rectangle(new(95 + i * 5, 10, 4, (recentProgramFPS[i] / recentProgramFPS.Max()) * 30))
+                    .Color(UiColors.ContainerIdleColor)
+                    .Fill(true)
+                    .Render();
+
+                new Rectangle(new(95 + i * 5, 65, 4, (recentInputFPS[i] / recentInputFPS.Max()) * 30))
+                    .Color(UiColors.ContainerIdleColor)
+                    .Fill(true)
+                    .Render();
+
+
+                new Rectangle(new(95 + i * 5 + WindowSize.X / 2, 10, 4, (recentUpdateFPS[i] / recentUpdateFPS.Max()) * 30))
+                    .Color(UiColors.ContainerIdleColor)
+                    .Fill(true)
+                    .Render();
+
+                new Rectangle(new(95 + i * 5 + WindowSize.X / 2, 65, 4, (recentRenderFPS[i] / recentRenderFPS.Max()) * 30))
+                    .Color(UiColors.ContainerIdleColor)
+                    .Fill(true)
+                    .Render();
+            }
+        }
+
+        LastPosition = Position;
+        LastSize = Size;
 
         //Draw.Text(new(10, 10), Font.DefaultFont, Game.inputFPS.ToString(), 32, new(255, 255, 255, 255));
         //Draw.Text(new(10, 10), Font.DefaultFont, Game.updateFPS.ToString(), 32, new(255, 255, 255, 255));
