@@ -87,6 +87,57 @@ public static class FUI
         size = new Vector2(rect.w, rect.h);
     }
 
+    public static void ButtonExt(Vector4 v4rect, string text, Action callback, bool runContinuously=false)
+    {
+        Vector2 TextSize = Font.DrawSize(Font.GetDefaultFont(), text, 16, new(255, 0, 0, 255));
+
+        SDL_FRect rect = new()
+        {
+            x = v4rect.X,
+            y = v4rect.Y,
+            w = v4rect.Z,
+            h = v4rect.W
+        };
+
+        Vector4 col;
+
+        if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : GlobalMouse.Position, Helpers.FRectToRect(rect)))
+        {
+            col =  UiColors.ContainerHoverColor;
+            if (GlobalMouse.Down(MB.Left))
+            {
+                col = UiColors.ContainerPressedColor;
+            }
+        }
+        else
+        {
+            col = UiColors.ContainerIdleColor;
+        }
+
+        new Rectangle(v4rect)
+            .Color(col)
+            .Fill(true)
+            .Render();
+
+        Draw.Text(Vector2.Add(new(v4rect.X, v4rect.Y), new Vector2(5, 3)), Font.GetDefaultFont(), text, 16, new(255, 255, 255, 255));
+
+        if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : GlobalMouse.Position, Helpers.FRectToRect(rect)))
+        {
+            if(!runContinuously) 
+            {
+                if (GlobalMouse.Pressed(MB.Left))
+                {
+                    callback();
+                }
+            } else {
+                if (GlobalMouse.Down(MB.Left))
+                {
+                    callback();
+                }
+            }
+        }
+    }
+
     public static void Button(Vector2 position, string text, Action callback)
     {
         ButtonExt(position, text, callback, out Vector2 size);
@@ -338,7 +389,7 @@ public static class FUI
             if (componentObj.GetType() == typeof(UiButton))
             {
                 UiButton component = (UiButton)componentObj;
-                ButtonExt(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), component.text, component.callback, out Vector2 size);
+                ButtonExt(new Vector2(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), component.text, component.callback, out Vector2 size);
                 yOffset += size.Y + 5;
             }
             else if (componentObj.GetType() == typeof(UiTitle))
@@ -622,7 +673,7 @@ public static class FUI
             if (componentObj.GetType() == typeof(UiButton))
             {
                 UiButton component = (UiButton)componentObj;
-                ButtonExt(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset), component.text, component.callback, out Vector2 size);
+                ButtonExt(new Vector2(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset), component.text, component.callback, out Vector2 size);
                 xOffset += size.X + 5;
                 if (size.Y > biggestHeight)
                     biggestHeight = size.Y;
