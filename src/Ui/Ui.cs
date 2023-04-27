@@ -659,10 +659,16 @@ public static class FUI
 
                 if (Helpers.PointInside(OverMousePosition.HasValue ? OverMousePosition.Value : GlobalMouse.Position, rect))
                 {
+                    Draw.Text(Vector2.Add(OverMousePosition.HasValue ? OverMousePosition.Value : GlobalMouse.Position, new(20, 0)), Font.DefaultFont, component.text, 16, new(255, 255, 255, 255));
+
                     SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerHoverColor.ToCol());
                     if (GlobalMouse.Down(MB.Left))
                     {
                         SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerPressedColor.ToCol());
+                    }
+                    if (component.value)
+                    {
+                        SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerHoverPressedColor.ToCol());
                     }
                 }
                 else if (component.value)
@@ -681,10 +687,9 @@ public static class FUI
 
                 SDL_RenderFillRect(Game.SDLRenderer, ref rect);
 
-                Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + 25 + xOffset, UiRenderOffset.Y), Font.DefaultFont, component.text, 16, new(255, 255, 255, 255));
                 Vector2 drawSize = Font.DrawSize(Font.DefaultFont, component.text, 16, new(255, 255, 255, 255));
 
-                xOffset += 50 + drawSize.X;
+                xOffset += 25;
                 if (drawSize.Y > biggestHeight)
                     biggestHeight = drawSize.Y;
             }
