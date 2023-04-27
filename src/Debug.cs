@@ -397,18 +397,15 @@ public class ConsoleScene : Scene
             .Render(out int uiHeight);
 
         // Math.Clamp(yOffset, 0, uiHeight);
-        if(MouseInsideScene) 
-        {
-            if(uiHeight > WindowSize.Y) {
-                if(-yOffset < 0) {
-                    yOffset = 0;
-                }
-                if(-yOffset > uiHeight - WindowSize.Y + 50) {
-                    yOffset = -uiHeight + WindowSize.Y - 50;
-                }
-            } else {
+        if(uiHeight > WindowSize.Y) {
+            if(-yOffset < 0) {
                 yOffset = 0;
             }
+            if(-yOffset > uiHeight - WindowSize.Y + 50) {
+                yOffset = -uiHeight + WindowSize.Y - 50;
+            }
+        } else {
+            yOffset = 0;
         }
 
         if(Debug.Logs.Count != logsLength)
