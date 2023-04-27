@@ -571,7 +571,8 @@ public class PerformanceScene : Scene
             {
                 SetRelativeWindowSize(0.9f, 0.89f, 1.001f, 1.001f);
             }
-            SceneHandler.Get<PerformanceScene>()!.Size = false;
+            Size = false;
+            LastSize = false;
         }
 
         if(LastSize != Size)
