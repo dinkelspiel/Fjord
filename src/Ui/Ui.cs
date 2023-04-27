@@ -351,7 +351,7 @@ public static class FUI
             else if (componentObj.GetType() == typeof(UiText))
             {
                 UiText component = (UiText)componentObj;
-                Draw.Text(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), Font.GetDefaultFont(), component.text, 14, UiColors.TextColor);
+                Draw.Text(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), Font.GetDefaultFont(), component.text, 14, component.overrideColor.HasValue ? component.overrideColor.Value : UiColors.TextColor);
                 Vector2 size = Font.DrawSize(Font.GetDefaultFont(), component.text, 14, new(0, 0, 0, 255));
                 yOffset += size.Y + 5;
             }
@@ -639,7 +639,7 @@ public static class FUI
             else if (componentObj.GetType() == typeof(UiText))
             {
                 UiText component = (UiText)componentObj;
-                Draw.Text(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset), Font.GetDefaultFont(), component.text, 14, UiColors.TextColor);
+                Draw.Text(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset), Font.GetDefaultFont(), component.text, 14, component.overrideColor.HasValue ? component.overrideColor.Value : UiColors.TextColor);
                 Vector2 size = Font.DrawSize(Font.GetDefaultFont(), component.text, 14, new(0, 0, 0, 255));
                 xOffset += size.X + 5;
                 if (size.Y > biggestHeight)

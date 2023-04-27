@@ -1,3 +1,4 @@
+using System.Numerics;
 using Fjord.Scenes;
 
 namespace Fjord.Ui;
@@ -43,10 +44,12 @@ public class UiTitle : UiComponent
 public class UiText : UiComponent
 {
     public string text;
+    public Vector4? overrideColor;
 
-    public UiText(string text)
+    public UiText(string text, Vector4? overrideColor=null)
     {
         this.text = text;
+        this.overrideColor = overrideColor;
     }
 }
 

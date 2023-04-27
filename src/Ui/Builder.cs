@@ -48,9 +48,9 @@ public class UiBuilder
         return this;
     }
 
-    public UiBuilder Text(string text)
+    public UiBuilder Text(string text, Vector4? overrideColor=null)
     {
-        UiComponents.Add(new UiText(text));
+        UiComponents.Add(new UiText(text, overrideColor));
         return this;
     }
 
