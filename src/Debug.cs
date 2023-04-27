@@ -97,7 +97,7 @@ public static class Debug {
             Logs = new();
         });
 
-        RegisterCommand("cl_showfps", (args) =>
+        RegisterCommand("showfps", (args) =>
         {
             if (args.Length < 1)
             {
@@ -118,6 +118,13 @@ public static class Debug {
             else
             {
                 SceneHandler.Unload("Performance");
+            }
+        });
+
+        RegisterCommand("commands", (args) => {
+            foreach(string command in commands.Keys.ToList())
+            {
+                Debug.Log(command);
             }
         });
 
@@ -194,7 +201,7 @@ public static class Debug {
                 Debug.Log(LogLevel.Error, e.ToString());
             }
         } else {
-            Debug.Log(LogLevel.Error, "Invalid Command");
+            Debug.Log(LogLevel.Error, $"Unknown Command: {command}");
         }
     }
 }
@@ -387,7 +394,7 @@ public class ConsoleScene : Scene
             {
                 switch(val.level) {
                     case LogLevel.User: {
-                        return new UiText(val.message);
+                        return new UiText(val.message, new(170, 170, 170, 255));
                     }
                     default: {
                         return new UiDebugLog(val.level, val.time, val.sender, val.message, val.hideInfo, val.repeat);
@@ -419,7 +426,7 @@ public class ConsoleScene : Scene
                 return;
             }
 
-            Debug.Log(LogLevel.User, consoleInput);
+            Debug.Log(LogLevel.User, $"> {consoleInput}");
             string command = consoleInput.Split(" ")[0];
             List<object> args = new List<object>();
 
