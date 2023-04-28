@@ -15,9 +15,14 @@ public abstract class Component
         ParentEntity.Remove<T>();
     }
 
-    public T? Get<T>()
+    public T Get<T>()
     {
         return ParentEntity.Get<T>();
+    }
+
+    public bool TryGet<T>(out T component)
+    {
+        return ParentEntity.TryGet<T>(out component);
     }
 
     public virtual void Awake() {}

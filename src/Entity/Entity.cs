@@ -37,13 +37,25 @@ public class Entity
         }
     }
 
-    public T? Get<T>()
+    public T Get<T>()
     {
         var scene = Components.Find((comp) => comp.GetType() == typeof(T));
         if (scene != null)
             return (T)(dynamic)scene;
         else
-            return default(T);
+            throw new Exception("Component doesn't exist in entity");
+    }
+
+    public bool TryGet<T>(out T component)
+    {
+        var scene = Components.Find((comp) => comp.GetType() == typeof(T));
+        if (scene != null) {
+            component = (T)(dynamic)scene;
+            return true;
+        } else {
+            component = default(T)!;
+            return false;
+        } 
     }
 
     internal void AwakeCall()
