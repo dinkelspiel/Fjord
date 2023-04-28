@@ -38,7 +38,6 @@ Extract the dlls and put them in `bin/Debug/net7.0/` in the FjordTemplate direct
 **MacOS (Homebrew)**
 
 `brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer`
-```
 
 ## Run the project
 
