@@ -281,11 +281,16 @@ public static class FUI
             }
         }
 
-        SDL_SetRenderDrawColor(Game.SDLRenderer, UiColors.ContainerIdleColor.ToCol());
-        SDL_RenderFillRect(Game.SDLRenderer, ref rect);
+        new Rectangle(new(rect.x, rect.y, rect.w, rect.h))
+            .Color(UiColors.ContainerIdleColor)
+            .Fill(true)
+            .Render();
 
-        SDL_SetRenderDrawColor(Game.SDLRenderer, col);
-        SDL_RenderFillRect(Game.SDLRenderer, ref thumbrect);
+        float radius = (size.Y + 7) / 2;
+        new Circle(new(thumbrect.x + radius, thumbrect.y + radius), radius)
+            .Fill(true)
+            .Color(col.ToV4())
+            .Render();
 
         // Font.Draw(position + new Vector2(5, 3), Font.GetDefaultFont(), value.ToString(), 16, UiColors.TextColor);
     }
@@ -634,9 +639,7 @@ public static class FUI
                             FUI.containerShown[label.text + component.Count] = !FUI.containerShown[label.text + component.Count];
                         }
                     } 
-                    else {
 
-                    }
                     Draw.Text(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), Font.GetDefaultFont(), label.text, 18, UiColors.TextColor);
 
                     yOffset += size.Y + 5;
