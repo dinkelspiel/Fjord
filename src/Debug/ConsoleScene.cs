@@ -9,6 +9,9 @@ public class ConsoleScene : Scene
     string consoleInput = "";
     float yOffset = 0;
     int logsLength = 0;
+    float scrollY = 0;
+    float scrollYOffset = 0;
+    bool pressedScroll = false;
 
     public ConsoleScene(int width, int height, string id) : base(width, height, id)
     {
@@ -142,15 +145,30 @@ public class ConsoleScene : Scene
 
         float h = -uiHeight + WindowSize.Y - 70;
 
+        if(pressedScroll && !GlobalMouse.Down(MB.Left))
+        {
+            pressedScroll = false;
+        }
+
+        float hh =  WindowSize.Y / (Math.Abs(h) + WindowSize.Y);
+        if(pressedScroll)
+        {
+            scrollY = Mouse.Position.Y + scrollYOffset;
+            scrollY = Math.Clamp(scrollY, 0, WindowSize.Y - (hh * WindowSize.Y));
+            yOffset = (scrollY / (WindowSize.Y - (hh * WindowSize.Y))) * (-uiHeight + WindowSize.Y - 70);
+        } else {
+            scrollY = (yOffset / (-uiHeight + WindowSize.Y - 70)) * (WindowSize.Y - (hh * WindowSize.Y));
+        }
+
         FUI.TextFieldExt(new(10, WindowSize.Y - 40), "consolein", consoleInput, (val) => {consoleInput = val;}, (val) => submitCommand(), null, out Vector2 size);
-        FUI.Button(new(Math.Min(size.X + 20, WindowSize.X - 88), WindowSize.Y - 40), $"{yOffset} {h}", submitCommand);
+        FUI.Button(new(Math.Min(size.X + 20, WindowSize.X - 88), WindowSize.Y - 40), "Send", submitCommand);
 
         if(h < 0)
         {
-            float hh =  WindowSize.Y / (Math.Abs(h) + WindowSize.Y);
-            FUI.ButtonExt(new Vector4(WindowSize.X - 20, WindowSize.Y - (WindowSize.Y / (Math.Abs(yOffset) + WindowSize.Y) * WindowSize.Y), 15, hh * WindowSize.Y), hh.ToString(), () => {
-                yOffset = (-uiHeight + WindowSize.Y - 50) * (Mouse.Position.Y / WindowSize.Y);
-            }, true);
+            FUI.ButtonExt(new Vector4(WindowSize.X - 20, scrollY, 15, hh * WindowSize.Y), "", () => {
+                pressedScroll = true;
+                scrollYOffset = scrollY - Mouse.Position.Y;
+            });
         }
         FUI.ResetMousePosition();
     }
