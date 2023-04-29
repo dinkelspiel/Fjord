@@ -30,6 +30,23 @@ public static class Helpers
         return (point.X > rect.X && point.X < rect.X + rect.Z && point.Y > rect.Y && point.Y < rect.Y + rect.W);
     }
 
+    public static double LengthDirX(double length, double angle)
+    {
+        angle = 180 - angle + 180;
+        return length * Math.Cos(angle * Math.PI / -180);
+    }
+
+    public static double LengthDirY(double length, double angle)
+    {
+        angle = 180 - angle + 180;
+        return length * Math.Sin(angle * Math.PI / -180);
+    }
+
+    public static Vector2 LengthDir(double length, double angle)
+    {
+        return new Vector2((float)LengthDirX(length, angle), (float)LengthDirY(length, angle));
+    }
+
     public static SDL_FRect RectToFRect(SDL_Rect rect)
     {
         return new SDL_FRect()
