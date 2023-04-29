@@ -81,13 +81,25 @@ public static class SceneHandler
         Scenes[id].Awake();
     }
 
-    public static T? Get<T>()
+    public static T Get<T>()
     {
         var scene = Scenes.Values.ToList().Find((val) => val.GetType() == typeof(T));
         if(scene != null)
             return (T)(dynamic)scene;
         else    
-            return default(T);
+            throw new Exception("Scene doesn't exist");
+    }
+
+    public static bool Get<T>(out T scene)
+    {
+        var s = Scenes.Values.ToList().Find((val) => val.GetType() == typeof(T));
+        if(s != null) {
+            scene = (T)(dynamic)s;
+            return true;
+        } else {    
+            scene = default(T)!;
+            return false;
+        }
     }
 
     public static Scene Get(string id)
