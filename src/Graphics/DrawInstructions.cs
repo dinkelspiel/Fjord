@@ -145,8 +145,12 @@ public class Circle : DrawInstruction {
     {
         IntPtr oldRender = SDL_GetRenderTarget(Game.SDLRenderer);
 
-        IntPtr tex = SDL_CreateTexture(Game.SDLRenderer, SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, (int)(radius * 2), (int)(radius * 2));
+        IntPtr tex = SDL_CreateTexture(Game.SDLRenderer, SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, (int)(radius * 2 + 1), (int)(radius * 2 + 1));
+        SDL_SetTextureBlendMode(tex, SDL_BlendMode.SDL_BLENDMODE_BLEND); 
         SDL_SetRenderTarget(Game.SDLRenderer, tex);
+        SDL_SetRenderDrawColor(Game.SDLRenderer, 0, 0, 0, 0);
+        SDL_RenderClear(Game.SDLRenderer);
+
         var tempRect = (Circle)this.Clone();
         tempRect.position.X = tempRect.radius;
         tempRect.position.Y = tempRect.radius;
