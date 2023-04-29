@@ -172,7 +172,7 @@ public class Texture : DrawInstruction {
     public bool destroy = false;
     public float angle;
     public Flip flip;
-    public float alpha;
+    public float alpha = 255;
     public Center center;
 
     public Texture(string path)
