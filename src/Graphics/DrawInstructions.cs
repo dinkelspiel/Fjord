@@ -172,6 +172,7 @@ public class Texture : DrawInstruction {
     public bool destroy = false;
     public float angle;
     public Flip flip;
+    public float alpha;
     public Center center;
 
     public Texture(string path)
@@ -254,6 +255,12 @@ public class Texture : DrawInstruction {
     public Texture Center(Center drawCenter)
     {
         this.center = drawCenter;
+        return this;
+    }
+
+    public Texture Alpha(float alpha)
+    {
+        this.alpha = alpha;
         return this;
     }
 

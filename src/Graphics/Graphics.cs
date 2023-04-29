@@ -299,7 +299,11 @@ public static class Draw
         rect.x -= sdlcenter.x;
         rect.y -= sdlcenter.y;
 
+        SDL_SetTextureAlphaMod(texture.SDLTexture, (byte)texture.alpha);
+
         SDL_RenderCopyEx(Game.SDLRenderer, texture.SDLTexture, IntPtr.Zero, ref rect, texture.angle, ref sdlcenter, tmpFlip);
+
+        SDL_SetTextureAlphaMod(texture.SDLTexture, 255);
 
         if(texture.destroy)
             SDL_DestroyTexture(texture.SDLTexture);
