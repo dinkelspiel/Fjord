@@ -86,6 +86,16 @@ public class UiBuilder
 
         return this;
     }
+
+    public UiBuilder ForEach<T>(List<T> objects, Func<T, HAlign<UiComponent>> callback)
+    {
+        foreach (T obj in objects)
+        {
+            UiComponents.Add(callback(obj));
+        }
+
+        return this;
+    }
     
     public UiBuilder ForEach<T>(List<T> objects, Func<T, int, UiComponent> callback)
     {
