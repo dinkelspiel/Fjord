@@ -24,6 +24,8 @@ public abstract class Scene : ICloneable
     internal List<Entity> Entities = new();
     internal List<Entity> removeEntity = new();
 
+    internal List<Entity> RegisterEntityBacklog = new();
+
     internal List<DrawInstruction> drawBuffer = new();
     internal SDL_FRect RelativeWindowSize = new()
     {
@@ -157,7 +159,7 @@ public abstract class Scene : ICloneable
 
     public void RegisterEntity(Entity e)
     {
-        this.Entities.Add(e);
+        this.RegisterEntityBacklog.Add(e);
     }
 
     public void RemoveEntity(Entity e)
@@ -298,6 +300,12 @@ public abstract class Scene : ICloneable
         {
             FUI.ResizeableRectangle(ref RelativeWindowSize, SceneID);
         }
+
+        foreach(Entity e in RegisterEntityBacklog)
+        {
+            Entities.Add(e);
+        }
+        RegisterEntityBacklog = new();
 
         foreach(Entity e in removeEntity)
         {
