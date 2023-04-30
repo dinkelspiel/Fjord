@@ -163,6 +163,12 @@ public class UiBuilder
         return this;
     }
 
+    public UiBuilder Image(Texture texture)
+    {
+        UiComponents.Add(new UiImage(texture));
+        return this;
+    }
+
     public List<object> Build()
     {
         return UiComponents;

@@ -535,6 +535,16 @@ public static class FUI
 
                 yOffset += size.Y + 15 + (size.Y + 5) / 2;
             }
+            else if (componentObj.GetType() == typeof(UiImage))
+            {
+                UiImage component = (UiImage)componentObj;
+                Texture tex = (Texture)component.texture.Clone();
+                
+                Vector2 mult = new(40 / tex.textureSize.Y, 40 / tex.textureSize.Y);
+                tex.SizeMultiplier(mult).Position(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y)).Alpha(255).Angle(0).Depth(-5000).Render();
+
+                yOffset += 45;
+            }
             else if (componentObj.GetType() == typeof(List<object>))
             {
                 List<object> component = (List<object>)componentObj;
@@ -766,6 +776,18 @@ public static class FUI
                 xOffset += size.X + 5;
                 if (size.Y > biggestHeight)
                     biggestHeight = size.Y;
+            }
+            else if (componentObj.GetType() == typeof(UiImage))
+            {
+                UiImage component = (UiImage)componentObj;
+                Texture tex = (Texture)component.texture.Clone();
+                
+                Vector2 mult = new(biggestHeight / tex.textureSize.Y, biggestHeight / tex.textureSize.Y);
+                tex.SizeMultiplier(mult).Position(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset)).Alpha(255).Angle(0).Depth(-5000).GetRect(out Vector4 rect).Render();
+
+                xOffset += rect.Z + 5;
+                if (rect.W > biggestHeight)
+                    biggestHeight = rect.W;
             }
             else
             {

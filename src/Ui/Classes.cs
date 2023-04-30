@@ -1,4 +1,5 @@
 using System.Numerics;
+using Fjord.Graphics;
 using Fjord.Scenes;
 
 namespace Fjord.Ui;
@@ -107,6 +108,16 @@ public class UiSlider : UiComponent
         this.max = max;
         this.value = value;
         this.onChange = onChange;
+    }
+}
+
+public class UiImage : UiComponent
+{
+    public Texture texture;
+
+    public UiImage(Texture texture)
+    {
+        this.texture = texture;
     }
 }
 
