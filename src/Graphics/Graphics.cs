@@ -357,6 +357,11 @@ public static class Draw
         foreach(DrawInstruction drawInsObj in sortedDrawBuffer) {
             if(drawInsObj.GetType() == typeof(Rectangle)) {
                 Rectangle drawIns = (Rectangle)drawInsObj;
+                if(sceneId != null)
+                {
+                    drawIns.rect.X -= SceneHandler.Get(sceneId).Camera.Offset.X;
+                    drawIns.rect.Y -= SceneHandler.Get(sceneId).Camera.Offset.Y;
+                }
                 Draw.RectangleDirect(drawIns);
             } else if(drawInsObj.GetType() == typeof(Circle)) {
                 Circle drawIns = (Circle)drawInsObj;
@@ -380,23 +385,53 @@ public static class Draw
                         if(drawIns.hoverAnimation.progress < 0)
                             drawIns.hoverAnimation.progress = 0;
                     }
+
                 }
+                if(sceneId != null)
+                    drawInsClone.position -= SceneHandler.Get(sceneId).Camera.Offset;
                 Draw.CircleDirect(drawInsClone);
             } else if(drawInsObj.GetType() == typeof(Texture))
             {
                 Texture drawIns = (Texture)drawInsObj;
+                if(sceneId != null)
+                    drawIns.position -= SceneHandler.Get(sceneId).Camera.Offset;
                 Draw.TextureDirect(drawIns);
             } else if(drawInsObj.GetType() == typeof(Geometry))
             {
                 Geometry drawIns = (Geometry)drawInsObj;
+
+                if(sceneId != null)
+                {
+                    for(var i = 0; i < drawIns.verticies.Count; i++)
+                    {
+                        drawIns.verticies[i] = new SDL_Vertex() {
+                            position = new SDL_FPoint() {
+                                x = drawIns.verticies[i].position.x - SceneHandler.Get(sceneId).Camera.Offset.X,
+                                y = drawIns.verticies[i].position.y - SceneHandler.Get(sceneId).Camera.Offset.Y,
+                            },
+                            color = drawIns.verticies[i].color,
+                            tex_coord = drawIns.verticies[i].tex_coord
+                        }; 
+                    }
+                }
+
                 Draw.GeometryDirect(drawIns);
             } else if(drawInsObj.GetType() == typeof(Text))
             {
                 Text drawIns = (Text)drawInsObj;
+                if(sceneId != null)
+                    drawIns.position -= SceneHandler.Get(sceneId).Camera.Offset;
                 Draw.TextDirect(drawIns);
             } else if(drawInsObj.GetType() == typeof(Line))
             {
                 Line drawIns = (Line)drawInsObj;
+
+                if(sceneId != null)
+                {   
+                    drawIns.point1 -= SceneHandler.Get(sceneId).Camera.Offset;
+                    drawIns.point2 -= SceneHandler.Get(sceneId).Camera.Offset;
+                }
+
                 Draw.LineDirect(drawIns);
             }
         }

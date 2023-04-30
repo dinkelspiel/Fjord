@@ -18,6 +18,7 @@ public abstract class Scene : ICloneable
 
     public SceneKeyboard Keyboard;
     public SceneMouse Mouse;
+    public SceneCamera Camera;
 
     public bool MouseInsideScene { get; internal set; }
 
@@ -113,6 +114,7 @@ public abstract class Scene : ICloneable
 
         Keyboard = new(id);
         Mouse = new(id);
+        Camera = new(this);
     }
 
     public Scene SetRelativeWindowSize(SDL_FRect RelativeWindow) {
@@ -264,6 +266,8 @@ public abstract class Scene : ICloneable
             SceneHandler.LoadedScenes.Insert(0, SceneID);
         }
         
+        Camera.Update(WindowSize);
+
         Update(Game.GetDeltaTime());
 
         foreach(Entity e in Entities)
