@@ -7,9 +7,20 @@ namespace Fjord;
 
 public static class Helpers
 {
-    public static float PointDirection(Vector2 pos, Vector2 pos2) {
-        return (float)System.Math.Atan2(pos2.Y-pos.Y, pos2.X-pos.X);
-    } 
+    public static float RadianToDegrees(float radians)
+    {
+        return (float)((180 / Math.PI) * radians);
+    }
+
+    public static float DegreesToRadian(float degrees)
+    {
+        return (float)((System.Math.PI / 180) * degrees);
+    }
+
+    public static float PointDirection(Vector2 origin, Vector2 target)
+    {
+        return RadianToDegrees((float)Math.Atan2(target.Y - origin.Y, target.X - origin.X));
+    }
 
     public static float PointDistance(Vector2 pos, Vector2 pos2) {
         return (float)Math.Pow((Math.Pow(pos2.X - pos.X, 2)) + (Math.Pow(pos2.Y-pos.Y, 2)), 0.5);
