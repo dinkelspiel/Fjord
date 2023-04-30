@@ -301,7 +301,19 @@ public static class Draw
 
         SDL_SetTextureAlphaMod(texture.SDLTexture, (byte)texture.alpha);
 
-        SDL_RenderCopyEx(Game.SDLRenderer, texture.SDLTexture, IntPtr.Zero, ref rect, texture.angle, ref sdlcenter, tmpFlip);
+        if(texture.srcTextureOffset is not null)
+        {
+            SDL_Rect srcRect = new()
+            {
+                x = (int)texture.srcTextureOffset.Value.X,
+                y = (int)texture.srcTextureOffset.Value.Y,
+                w = (int)texture.srcTextureOffset.Value.Z,
+                h = (int)texture.srcTextureOffset.Value.W
+            };
+            SDL_RenderCopyEx(Game.SDLRenderer, texture.SDLTexture, ref srcRect, ref rect, texture.angle, ref sdlcenter, tmpFlip);
+        } else {
+            SDL_RenderCopyEx(Game.SDLRenderer, texture.SDLTexture, IntPtr.Zero, ref rect, texture.angle, ref sdlcenter, tmpFlip);
+        }
 
         SDL_SetTextureAlphaMod(texture.SDLTexture, 255);
 

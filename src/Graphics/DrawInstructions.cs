@@ -174,6 +174,7 @@ public class Texture : DrawInstruction {
     public Flip flip;
     public float alpha = 255;
     public Center center;
+    public Vector4? srcTextureOffset = null;
 
     public Texture(string path)
     {
@@ -267,6 +268,12 @@ public class Texture : DrawInstruction {
     public Texture Destroy(bool des)
     {
         this.destroy = des;
+        return this;
+    }
+
+    public Texture SrcTextureOffset(Vector4 off)
+    {
+        this.srcTextureOffset = off;
         return this;
     }
 
