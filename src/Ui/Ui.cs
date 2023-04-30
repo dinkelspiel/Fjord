@@ -783,7 +783,7 @@ public static class FUI
                 Texture tex = (Texture)component.texture.Clone();
                 
                 Vector2 mult = new(biggestHeight / tex.textureSize.Y, biggestHeight / tex.textureSize.Y);
-                tex.SizeMultiplier(mult).Position(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset)).Alpha(255).Angle(0).Depth(-5000).GetRect(out Vector4 rect).Render();
+                tex.SizeMultiplier(mult).Center(Center.TopLeft).Position(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset)).Alpha(255).Angle(0).Depth(-5000).GetRect(out Vector4 rect).Render();
 
                 xOffset += rect.Z + 5;
                 if (rect.W > biggestHeight)
