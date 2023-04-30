@@ -7,6 +7,7 @@ public class SceneMouse
     public string SceneID;
 
     public Vector2 Position = new();
+    public Vector2 LocalPosition = new();
 
     public SceneMouse(string sceneID)
     {

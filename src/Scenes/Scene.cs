@@ -217,6 +217,9 @@ public abstract class Scene : ICloneable
 
             Mouse.Position.X = (GlobalMouse.Position.X - LocalWindowSize.x);
             Mouse.Position.Y = (GlobalMouse.Position.Y - LocalWindowSize.y);
+
+            Mouse.LocalPosition.X = (GlobalMouse.Position.X - LocalWindowSize.x) + Camera.Offset.X;
+            Mouse.LocalPosition.Y = (GlobalMouse.Position.Y - LocalWindowSize.y) + Camera.Offset.Y;
         } else
         {
             float wRatio = (float)WindowSize.X / (float)LocalWindowSize.w;
@@ -224,6 +227,9 @@ public abstract class Scene : ICloneable
 
             Mouse.Position.X = (GlobalMouse.Position.X - LocalWindowSize.x) * wRatio;
             Mouse.Position.Y = (GlobalMouse.Position.Y - LocalWindowSize.y) * hRatio;
+
+            Mouse.LocalPosition.X = (GlobalMouse.Position.X - LocalWindowSize.x) * wRatio + Camera.Offset.X;
+            Mouse.LocalPosition.Y = (GlobalMouse.Position.Y - LocalWindowSize.y) * hRatio + Camera.Offset.Y;
         }
 
         if (Mouse.Pressed(MB.Left) && Helpers.PointInside(GlobalMouse.Position, LocalWindowSize) && !AlwaysAtBack)
@@ -265,7 +271,7 @@ public abstract class Scene : ICloneable
             SceneHandler.LoadedScenes.Remove(SceneID);
             SceneHandler.LoadedScenes.Insert(0, SceneID);
         }
-        
+
         Camera.Update(WindowSize);
 
         Update(Game.GetDeltaTime());
