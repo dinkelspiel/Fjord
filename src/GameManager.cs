@@ -137,6 +137,7 @@ public static class Game
             foreach (var key in GlobalMouse.pressedKeys.Keys.ToList())
             {
                 GlobalMouse.pressedKeys[key] = false;
+                GlobalMouse.downKeysLast[key] = GlobalMouse.downKeys[key];
             }
             GlobalMouse.downKeys[MB.ScrollDown] = false;
             GlobalMouse.downKeys[MB.ScrollLeft] = false;

@@ -45,4 +45,20 @@ public class SceneMouse
         else
             return false;
     }
+
+    public bool Released(MB mouseButton)
+    {
+        if (SceneHandler.Get(SceneID).MouseInsideScene)
+            return GlobalMouse.Released(mouseButton);
+        else
+            return false;
+    }
+
+    public bool Released()
+    {
+        if (SceneHandler.Get(SceneID).MouseInsideScene)
+            return GlobalMouse.Released();
+        else
+            return false;
+    }
 }

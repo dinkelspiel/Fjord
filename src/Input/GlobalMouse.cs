@@ -33,6 +33,14 @@ public static class GlobalMouse
         {MB.ScrollLeft, false},
         {MB.ScrollRight, false}
     };
+    internal static Dictionary<MB, bool> downKeysLast = new() {
+        {MB.Left, false},
+        {MB.Right, false},
+        {MB.ScrollUp, false},
+        {MB.ScrollDown, false},
+        {MB.ScrollLeft, false},
+        {MB.ScrollRight, false}
+    };
 
     public static bool Down(MB mouseButton)
     {
@@ -52,5 +60,15 @@ public static class GlobalMouse
     public static bool Pressed()
     {
         return pressedKeys.Any((val) => val.Value == true);
+    }
+
+    public static bool Released(MB mouseButton)
+    {
+        return downKeysLast[mouseButton] && !downKeys[mouseButton];
+    }
+
+    public static bool Released()
+    {
+        return downKeys.Any((mouseButton) => downKeysLast[mouseButton.Key] && !downKeys[mouseButton.Key]);
     }
 }
