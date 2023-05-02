@@ -15,6 +15,7 @@ public abstract class Scene : ICloneable
     public bool AlwaysAtBack = false;
 
     internal bool showCursor = true;
+    internal bool captureMouseInput = true;
 
     public SceneKeyboard Keyboard;
     public SceneMouse Mouse;
@@ -90,6 +91,11 @@ public abstract class Scene : ICloneable
     public void SetShowCursor(bool showCursor)
     {
         this.showCursor = showCursor;
+    }
+
+    public void SetCaptureMouse(bool capture)
+    {
+        this.captureMouseInput = capture;
     }
 
     public void ApplyOriginalAspectRatio()
@@ -246,7 +252,10 @@ public abstract class Scene : ICloneable
             {
                 if(Helpers.PointInside(GlobalMouse.Position, SceneHandler.Scenes[scene].LocalWindowSize))
                 {
-                    eligble.Add(scene);
+                    if(SceneHandler.Scenes[scene].captureMouseInput)
+                    {
+                        eligble.Add(scene);
+                    }
                 }
             }
             loadedScenes.Reverse();
