@@ -178,6 +178,7 @@ public class Texture : DrawInstruction {
 
     public Texture(string path)
     {
+        path = path.OSPath();
         if(!Draw.textureCache.ContainsKey(path)) {
             if(File.Exists(path)) {
                 SDLTexture = IMG_LoadTexture(Game.SDLRenderer, path);

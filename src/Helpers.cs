@@ -2,6 +2,14 @@ using System.Numerics;
 using Fjord.Ui;
 using SDL2;
 using static SDL2.SDL;
+using System.Runtime.CompilerServices;
+using System;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Fjord;
 
@@ -166,5 +174,37 @@ static class Extensions
         }
 
         return a;
+    }
+
+    public static string OSPath(this string path, [CallerFilePath] string caller = "")
+    {
+        String newPath = path;
+        if (GetPlatform() == Platform.Windows)
+            newPath = path.Replace("/", "\\");
+        else
+            newPath = path.Replace("\\", "/");
+        return newPath;
+    }
+
+    public enum Platform
+    {
+        Windows,
+        Linux,
+        OSX,
+        Unknown
+    }
+
+    public static Platform GetPlatform()
+    {
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            return Platform.Windows;
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            return Platform.Linux;
+
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+            return Platform.OSX;
+
+        return Platform.Unknown;
     }
 }
