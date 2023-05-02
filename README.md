@@ -51,7 +51,7 @@ Run
 
 # Games Made With Fjord
 
-[Lost At Sea](https://github.com/shykeiichi/LostAtSea-LD53.git) <br/>
+## [Lost At Sea](https://github.com/shykeiichi/LostAtSea-LD53.git) <br/>
 A game made for Ludum Dare 53 where you wander the seas using only a map and your instincts.
 
 <p align="center">
