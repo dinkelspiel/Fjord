@@ -66,8 +66,8 @@ public static class Helpers
         return new Vector2((float)LengthDirX(length, angle), (float)LengthDirY(length, angle));
     }
 
-    public static float AngleDifference(float angle1, float angle2) {
-        var a = angle2 - angle1;
+    public static float AngleDifference(float dest, float src) {
+        var a = src - dest;
         a += (a > 180) ? -360 : (a < -180) ? 360 : 0;
         return a;
     }
