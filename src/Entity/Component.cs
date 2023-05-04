@@ -54,4 +54,5 @@ public abstract class Component
 public class Transform : Component
 {
     public Vector2 Position;
+    public float Angle;
 }
