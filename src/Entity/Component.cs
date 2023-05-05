@@ -10,6 +10,18 @@ public abstract class Component
     internal Entity ParentEntity;
     public Scene ParentScene;
 
+    public float DeltaTime
+    {
+        get
+        {
+            return (float)Game.GetDeltaTime();
+        }
+        private set
+        {
+            this.DeltaTime = value;
+        }
+    }
+
     public void Remove<T>()
     {
         ParentEntity.Remove<T>();
@@ -27,7 +39,7 @@ public abstract class Component
 
     public virtual void Awake() {}
     public virtual void Sleep() {}
-    public virtual void Update(double dt) {}
+    public virtual void Update() {}
     public virtual void Render() {}
 
     internal void AwakeCall()
@@ -42,7 +54,7 @@ public abstract class Component
 
     internal void UpdateCall()
     {
-        Update(Game.GetDeltaTime());
+        Update();
     }
 
     internal void RenderCall()

@@ -37,7 +37,7 @@ public class PerformanceScene : Scene
         SetClearColor(UiColors.Background);
     }
 
-    public override void Update(double dt)
+    public override void Update()
     {
         if (SDL_GetTicks64() - setFps > 1000)
         {

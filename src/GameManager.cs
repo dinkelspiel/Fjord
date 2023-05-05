@@ -151,9 +151,9 @@ public static class Game
         }
     }
 
-    public static double GetDeltaTime()
+    public static float GetDeltaTime()
     {
-        return deltaTime;
+        return (float)deltaTime;
     }
 
     public static void Update()

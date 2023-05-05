@@ -22,6 +22,18 @@ public abstract class Scene : ICloneable
     public SceneMouse Mouse;
     public SceneCamera Camera;
 
+    public float DeltaTime
+    {
+        get
+        {
+            return (float)Game.GetDeltaTime();
+        }
+        private set
+        {
+
+        }
+    }
+
     public bool MouseInsideScene { get; internal set; }
 
     internal List<Entity> Entities = new();
@@ -185,7 +197,7 @@ public abstract class Scene : ICloneable
 
     public virtual void Awake() {}
     public virtual void Sleep() {}
-    public virtual void Update(double dt) {}
+    public virtual void Update() {}
     public virtual void Render() {}
 
     internal void AwakeCall()
@@ -297,7 +309,7 @@ public abstract class Scene : ICloneable
 
         Camera.Update(WindowSize);
 
-        Update(Game.GetDeltaTime());
+        Update();
 
         foreach(Entity e in Entities)
         {
