@@ -13,6 +13,7 @@ public abstract class Scene : ICloneable
     public bool AllowWindowResize = false;
     public bool AlwaysRebuildTexture = false;
     public bool AlwaysAtBack = false;
+    public bool AlwaysAtFront = false;
 
     internal bool showCursor = true;
     internal bool captureMouseInput = true;
@@ -165,6 +166,13 @@ public abstract class Scene : ICloneable
         return this;
     }
 
+    public Scene SetAlwaysAtFront(bool Always)
+    {
+        this.AlwaysAtFront = Always;
+
+        return this;
+    }
+
     public void RegisterEntity(Entity e)
     {
         this.RegisterEntityBacklog.Add(e);
@@ -279,6 +287,12 @@ public abstract class Scene : ICloneable
         {
             SceneHandler.LoadedScenes.Remove(SceneID);
             SceneHandler.LoadedScenes.Insert(0, SceneID);
+        }
+
+        if (AlwaysAtFront)
+        {
+            SceneHandler.LoadedScenes.Remove(SceneID);
+            SceneHandler.LoadedScenes.Add(SceneID);
         }
 
         Camera.Update(WindowSize);

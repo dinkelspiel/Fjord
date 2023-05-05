@@ -89,10 +89,16 @@ public static class Debug {
             .SetRelativeWindowSize(0.1f, 0.1f, 0.4f, 0.6f)
             .SetAlwaysRebuildTexture(true));
 
+        SceneHandler.Register(new NotificationScene((int)(Game.Window.Width * 0.2), (int)(Game.Window.Height), "Notification")
+            .SetRelativeWindowSize(0f, 0f, 0.2f, 1f)
+            .SetAlwaysRebuildTexture(true)
+            .SetAlwaysAtFront(true));
+
         SceneHandler.Register(new PerformanceScene((int)(Game.Window.Width * 0.2), (int)(Game.Window.Height * 0.4), "Performance")
             .SetRelativeWindowSize(0f, 0.89f, 0.10f, 1.001f)
             .SetAlwaysRebuildTexture(true));
 
+        SceneHandler.Load("Notification");
         //SceneHandler.Load("Performance");
         // SceneHandler.Load("Console");
         // SceneHandler.Load("Inspector");
@@ -147,6 +153,14 @@ public static class Debug {
         h = 0f
     };
 
+    public static void SendNotification(string message)
+    {
+        SceneHandler.Get<NotificationScene>().Notifications.Add(new Notification() {
+            Life = 50f,
+            Message = message
+        });
+    }
+
     public static void Log(object message)
     {
         Log(LogLevel.Message, message);
@@ -195,6 +209,11 @@ public static class Debug {
                     }
                 }
             }
+        }
+
+        if(level == LogLevel.Error)
+        {
+            SendNotification(String.Join(" ", lines));
         }
     }
 
