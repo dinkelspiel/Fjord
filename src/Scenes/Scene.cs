@@ -212,6 +212,8 @@ public abstract class Scene : ICloneable
     
     internal void UpdateCall()
     {
+        // Update Stuff
+
         if(MouseInsideScene)
         {
             SDL_ShowCursor(showCursor ? SDL_ENABLE : SDL_DISABLE);
@@ -307,7 +309,15 @@ public abstract class Scene : ICloneable
             SceneHandler.LoadedScenes.Add(SceneID);
         }
 
+        // Render Stuff
+
         Camera.Update(WindowSize);
+
+        SDL_SetRenderTarget(Game.SDLRenderer, RenderTarget);
+        SDL_SetRenderDrawColor(Game.SDLRenderer, ClearColor.r, ClearColor.g, ClearColor.b, ClearColor.a);
+        SDL_RenderClear(Game.SDLRenderer);
+
+        Draw.CurrentSceneID = SceneID;
 
         Update();
 
@@ -315,21 +325,7 @@ public abstract class Scene : ICloneable
         {
             e.UpdateCall();
         }
-    }
 
-    internal void RenderCall()
-    {
-        SDL_SetRenderTarget(Game.SDLRenderer, RenderTarget);
-        SDL_SetRenderDrawColor(Game.SDLRenderer, ClearColor.r, ClearColor.g, ClearColor.b, ClearColor.a);
-        SDL_RenderClear(Game.SDLRenderer);
-        
-        Draw.CurrentSceneID = SceneID;
-        Render();
-
-        foreach(Entity e in Entities)
-        {
-            e.RenderCall();
-        }
         Draw.CurrentSceneID = null;
 
         Draw.DrawDrawBuffer(drawBuffer, SceneID);
@@ -346,13 +342,13 @@ public abstract class Scene : ICloneable
             FUI.ResizeableRectangle(ref RelativeWindowSize, SceneID);
         }
 
-        foreach(Entity e in RegisterEntityBacklog)
+        foreach (Entity e in RegisterEntityBacklog)
         {
             Entities.Add(e);
         }
         RegisterEntityBacklog = new();
 
-        foreach(Entity e in removeEntity)
+        foreach (Entity e in removeEntity)
         {
             Entities.Remove(e);
         }

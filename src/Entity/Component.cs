@@ -40,7 +40,6 @@ public abstract class Component
     public virtual void Awake() {}
     public virtual void Sleep() {}
     public virtual void Update() {}
-    public virtual void Render() {}
 
     internal void AwakeCall()
     {
@@ -55,11 +54,6 @@ public abstract class Component
     internal void UpdateCall()
     {
         Update();
-    }
-
-    internal void RenderCall()
-    {
-        Render();
     }
 }
 

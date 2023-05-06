@@ -45,7 +45,6 @@ public class PerformanceScene : Scene
 
             InputFPS = Game.inputFPS;
             UpdateFPS = Game.updateFPS;
-            RenderFPS = Game.renderFPS;
             ProgramFPS = Game.programFPS;
 
             recentInputFPS.Add(InputFPS);
@@ -94,10 +93,8 @@ public class PerformanceScene : Scene
                     scene.SetRelativeWindowSize(scene.RelativeWindowSize.x + 0.14f, scene.RelativeWindowSize.y, scene.RelativeWindowSize.w, scene.RelativeWindowSize.h);
             }
         }
-    }
 
-    public override void Render()
-    {
+
         //new Rectangle(new(0, 0, WindowSize.X, WindowSize.Y))
         //    .Color(new(0, 0, 0, 120))
         //    .Fill(true)
@@ -113,8 +110,6 @@ public class PerformanceScene : Scene
         new UiBuilder(new Vector2(WindowSize.X / 2, 0), Mouse.Position)
             .Title("Update")
             .Text(((int)UpdateFPS).ToString() + " FPS")
-            .Title("Render")
-            .Text(((int)RenderFPS).ToString() + " FPS")
             .Render();
 
         if(recentInputFPS.Count > 25)

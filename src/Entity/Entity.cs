@@ -81,12 +81,4 @@ public class Entity
             comp.UpdateCall();
         }
     }
-
-    internal void RenderCall()
-    {
-        foreach(Component comp in Components)
-        {
-            comp.RenderCall();
-        }
-    }
 }

@@ -14,7 +14,7 @@ public class InspectorScene : Scene
         SetClearColor(UiStyles.Background);
     }
 
-    public override void Render()
+    public override void Update()
     {
         if(MouseInsideScene) 
         {

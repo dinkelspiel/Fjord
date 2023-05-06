@@ -29,7 +29,6 @@ public static class Game
 
     internal static float inputFPS = 0;
     internal static float updateFPS = 0;
-    internal static float renderFPS = 0;
     internal static float programFPS = 0;
 
     public static void Initialize(string title, int width, int height)
@@ -110,10 +109,6 @@ public static class Game
             Update();
             ulong updateEnd = SDL_GetPerformanceCounter();
 
-            ulong renderStart = SDL_GetPerformanceCounter();
-            Render(ref open);
-            ulong renderEnd = SDL_GetPerformanceCounter();
-
             ulong programEnd = SDL_GetPerformanceCounter();
 
 
@@ -122,9 +117,6 @@ public static class Game
 
             elapsed = (updateEnd - updateStart) / (float)SDL_GetPerformanceFrequency();
             updateFPS = 1f / elapsed;
-
-            elapsed = (renderEnd - renderStart) / (float)SDL_GetPerformanceFrequency();
-            renderFPS = 1f / elapsed;
 
             elapsed = (programEnd - programStart) / (float)SDL_GetPerformanceFrequency();
             programFPS = 1f / elapsed;
@@ -160,6 +152,9 @@ public static class Game
     {
         SDL_GetWindowSize(SDLWindow, out Window.Width, out Window.Height);
 
+        SDL_SetRenderDrawColor(SDLRenderer, 0, 0, 0, 255);
+        SDL_RenderClear(SDLRenderer);
+
         foreach (string id in SceneHandler.GetLoadedScenes())
         {
             try {
@@ -170,7 +165,12 @@ public static class Game
                 Debug.Log(LogLevel.Error, e.ToString());
             }
         }
-        
+
+        Draw.DrawDrawBuffer(Draw.drawBuffer, null);
+        Draw.drawBuffer = new();
+
+        SDL_RenderPresent(SDLRenderer);
+
         if (GlobalKeyboard.Pressed(Key.D, Mod.LShift, Mod.LCtrl))
         {
             if (!SceneHandler.IsLoaded("Inspector"))
@@ -215,27 +215,5 @@ public static class Game
                     
             }
         }
-    }
-
-    public static void Render(ref bool open)
-    {
-        SDL_SetRenderDrawColor(SDLRenderer, 0, 0, 0, 255);
-        SDL_RenderClear(SDLRenderer);
-
-        foreach (string id in SceneHandler.GetLoadedScenes())
-        {
-            try {
-                SceneHandler.Scenes[id].RenderCall();
-            } catch(Exception e) {
-                SceneHandler.Unload(id);
-                Debug.Log(LogLevel.Error, $"Scene '{id}' render crashed!");
-                Debug.Log(LogLevel.Error, e.ToString());
-            }
-        }
-        
-        Draw.DrawDrawBuffer(Draw.drawBuffer, null);
-        Draw.drawBuffer = new();
-
-        SDL_RenderPresent(SDLRenderer);
     }
 }

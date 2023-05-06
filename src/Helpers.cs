@@ -15,19 +15,19 @@ namespace Fjord;
 
 public static class Helpers
 {
-    public static float RadianToDegrees(float radians)
+    public static float RadiansToDegrees(float radians)
     {
         return (float)((180 / Math.PI) * radians);
     }
 
-    public static float DegreesToRadian(float degrees)
+    public static float DegreesToRadians(float degrees)
     {
         return (float)((System.Math.PI / 180) * degrees);
     }
 
     public static float PointDirection(Vector2 origin, Vector2 target)
     {
-        return RadianToDegrees((float)Math.Atan2(target.Y - origin.Y, target.X - origin.X));
+        return RadiansToDegrees((float)Math.Atan2(target.Y - origin.Y, target.X - origin.X));
     }
 
     public static float PointDistance(Vector2 pos, Vector2 pos2) {
@@ -70,6 +70,13 @@ public static class Helpers
         var a = src - dest;
         a += (a > 180) ? -360 : (a < -180) ? 360 : 0;
         return a;
+    }
+
+    public static float MeanAngle(float[] angles)
+    {
+        double x = angles.Select(a => Math.Cos(DegreesToRadians(a))).Sum() / angles.Length;
+        double y = angles.Select(a => Math.Sin(RadiansToDegrees(a))).Sum() / angles.Length;
+        return RadiansToDegrees((float)Math.Atan2(y, x));
     }
 
     public static SDL_FRect RectToFRect(SDL_Rect rect)
