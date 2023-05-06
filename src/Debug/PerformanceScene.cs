@@ -34,7 +34,7 @@ public class PerformanceScene : Scene
 
     public override void Awake()
     {
-        SetClearColor(UiColors.Background);
+        SetClearColor(UiStyles.Background);
     }
 
     public override void Update()
@@ -131,23 +131,23 @@ public class PerformanceScene : Scene
             for(var i = 0; i < recentInputFPS.Count; i++)
             {
                 new Rectangle(new(95 + i * 5, 10, 4, (recentProgramFPS[i] / recentProgramFPS.Max()) * 30))
-                    .Color(UiColors.ContainerIdleColor)
+                    .Color(UiStyles.ContainerIdleColor)
                     .Fill(true)
                     .Render();
 
                 new Rectangle(new(95 + i * 5, 65, 4, (recentInputFPS[i] / recentInputFPS.Max()) * 30))
-                    .Color(UiColors.ContainerIdleColor)
+                    .Color(UiStyles.ContainerIdleColor)
                     .Fill(true)
                     .Render();
 
 
                 new Rectangle(new(95 + i * 5 + WindowSize.X / 2, 10, 4, (recentUpdateFPS[i] / recentUpdateFPS.Max()) * 30))
-                    .Color(UiColors.ContainerIdleColor)
+                    .Color(UiStyles.ContainerIdleColor)
                     .Fill(true)
                     .Render();
 
                 new Rectangle(new(95 + i * 5 + WindowSize.X / 2, 65, 4, (recentRenderFPS[i] / recentRenderFPS.Max()) * 30))
-                    .Color(UiColors.ContainerIdleColor)
+                    .Color(UiStyles.ContainerIdleColor)
                     .Fill(true)
                     .Render();
             }

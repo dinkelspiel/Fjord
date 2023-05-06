@@ -15,7 +15,7 @@ public class ConsoleScene : Scene
 
     public ConsoleScene(int width, int height, string id) : base(width, height, id)
     {
-        SetClearColor(UiColors.Background);
+        SetClearColor(UiStyles.Background);
     }
 
     public override void Render()

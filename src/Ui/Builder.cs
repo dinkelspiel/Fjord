@@ -187,7 +187,7 @@ public class UiBuilder
         //float y = Ui.Render(Build(), ref yOffset);
 
         //new Rectangle(new(Position.X, Position.Y, Size.HasValue ? Size.Value.X : 200, Size.HasValue ? Size.Value.Y : 400))
-        //    .Color(UiColors.Background)
+        //    .Color(UiStyles.Background)
         //    .Render();
 
         FUI.Render(Build(), out float renderHeight);

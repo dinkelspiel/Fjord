@@ -1,9 +1,11 @@
 using System.Numerics;
-using static SDL2.SDL;
 
-namespace Fjord.Ui;
+namespace Fjord.Graphics;
 
-public static class UiColors {
+public static class UiStyles 
+{
+    public static float GlobalBorderRadius = 0f;    
+
     public static Vector4 Background = new() {
         X = 23,
         Y = 24,
