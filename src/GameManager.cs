@@ -92,7 +92,6 @@ public static class Game
     
     public static void Run()
     {
-        bool open = false;
         while (Running)
         {
             timeNow = SDL_GetPerformanceCounter();
