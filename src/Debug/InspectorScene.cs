@@ -36,12 +36,10 @@ public class InspectorScene : Scene
                     {
                         var list = new UiBuilder()
                             .Title(val.Key)
-                            .HAlign(
-                                new UiBuilder()
-                                    .Button("Load", () => SceneHandler.Load(val.Key))
-                                    .Button("Unload", () => SceneHandler.Unload(val.Key))
-                                    .Button("Remake", () => SceneHandler.Remake(val.Key))
-                                    .BuildHAlign()
+                            .ButtonGroup(
+                                new UiButton("Load", () => SceneHandler.Load(val.Key)),
+                                new UiButton("Unload", () => SceneHandler.Unload(val.Key)),
+                                new UiButton("Remake", () => SceneHandler.Remake(val.Key))
                             )
                             .Button("Apply Aspect Ratio", () => val.Value.ApplyOriginalAspectRatio())
                             .Checkbox("Allow window resize", val.Value.AllowWindowResize, () => val.Value.SetAllowWindowResize(!val.Value.AllowWindowResize))

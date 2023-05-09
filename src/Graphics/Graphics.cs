@@ -176,23 +176,30 @@ public static class Draw
                 };
                 SDL_RenderFillRect(Game.SDLRenderer, ref rect2);
 
+                //Top Left
                 CircleDirect(
                     new Circle(new(rect.rect.X + (float)rect.borderRadius, rect.rect.Y + (float)rect.borderRadius), (float)rect.borderRadius)
                         .Fill(true)
                         .Color(rect.color)
                 );
+
+                //Top Right
                 CircleDirect(
-                    new Circle(new(rect.rect.X + rect.rect.Z - (float)rect.borderRadius, rect.rect.Y + (float)rect.borderRadius), (float)rect.borderRadius)
+                    new Circle(new(rect.rect.X + rect.rect.Z - (float)rect.borderRadius - 1, rect.rect.Y + (float)rect.borderRadius), (float)rect.borderRadius)
                         .Fill(true)
                         .Color(rect.color)
                 );
+
+                //Bottom Left
                 CircleDirect(
-                    new Circle(new(rect.rect.X + (float)rect.borderRadius, rect.rect.Y + rect.rect.W - (float)rect.borderRadius), (float)rect.borderRadius)
+                    new Circle(new(rect.rect.X + (float)rect.borderRadius + 1, rect.rect.Y + rect.rect.W - (float)rect.borderRadius), (float)rect.borderRadius)
                         .Fill(true)
                         .Color(rect.color)
                 );
+
+                // Bottom Right
                 CircleDirect(
-                    new Circle(new(rect.rect.X + rect.rect.Z - (float)rect.borderRadius, rect.rect.Y + rect.rect.W - (float)rect.borderRadius), (float)rect.borderRadius)
+                    new Circle(new(rect.rect.X + rect.rect.Z - (float)rect.borderRadius - 1, rect.rect.Y + rect.rect.W - (float)rect.borderRadius - 1), (float)rect.borderRadius)
                         .Fill(true)
                         .Color(rect.color)
                 );

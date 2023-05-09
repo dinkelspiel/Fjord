@@ -49,30 +49,30 @@ public static class UiStyles
     };
     
     public static Vector4 ContainerHoverColor = new() {
-        X = 52,
-        Y = 97,
-        Z = 152,
+        X = 173,
+        Y = 51,
+        Z = 51,
         W = 255
     };
 
     public static Vector4 ContainerHoverPressedColor = new() {
-        X = 85,
-        Y = 141,
-        Z = 210,
+        X = 193,
+        Y = 71,
+        Z = 71,
         W = 255
     };
 
     public static Vector4 ContainerPressedColor = new() {
-        X = 65,
-        Y = 121,
-        Z = 190,
+        X = 183,
+        Y = 61,
+        Z = 61,
         W = 255
     };
 
     public static Vector4 ContainerIdleColor = new() {
-        X = 39,
-        Y = 73,
-        Z = 114,
+        X = 163,
+        Y = 41,
+        Z = 41,
         W = 255
     };
 

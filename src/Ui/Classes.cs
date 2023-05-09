@@ -18,6 +18,21 @@ public class UiButton : UiComponent
     }
 }
 
+public class UiButtonGroup : UiComponent
+{
+    public List<UiButton> buttons;
+
+    public UiButtonGroup(params UiButton[] buttons)
+    {
+        this.buttons = buttons.ToList();
+    }
+
+    public UiButtonGroup(List<UiButton> buttons)
+    {
+        this.buttons = buttons;
+    }
+}
+
 public class UiCheckbox : UiComponent
 {
     public string text;

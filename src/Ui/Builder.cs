@@ -42,6 +42,12 @@ public class UiBuilder
         return this;
     }
 
+    public UiBuilder ButtonGroup(params UiButton[] buttons)
+    {
+        UiComponents.Add(new UiButtonGroup(buttons));
+        return this;
+    }
+
     public UiBuilder Title(string text)
     {
         UiComponents.Add(new UiTitle(text));
