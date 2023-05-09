@@ -139,7 +139,7 @@ public class ConsoleScene : Scene
         {
             foreach(var i in Debug.commands.Keys.ToList().Where((command) => command.Contains(consoleInput)))
             {
-                FUI.ButtonExt(new Vector2(10, WindowSize.Y - 40 - height - 60), i, () => {consoleInput = i + " ";}, out Vector2 bSize);
+                FUI.ButtonExt(new Vector2(10, WindowSize.Y - 40 - height - 55), i, () => {consoleInput = i + " ";}, out Vector2 bSize);
                 height += bSize.Y;
             }
         }
