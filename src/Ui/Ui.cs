@@ -495,7 +495,7 @@ public static class FUI
                     .Fill(true)
                     .Render();
 
-                yOffset += 10;
+                yOffset += 15;
             }
             else if (componentObj.GetType() == typeof(UiCheckbox))
             {
