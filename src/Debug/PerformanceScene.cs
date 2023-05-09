@@ -37,7 +37,7 @@ public class PerformanceScene : Scene
 
     public override void Update()
     {
-        if (SDL_GetTicks64() - setFps > 1000)
+        if (SDL_GetTicks64() - setFps > 100)
         {
             setFps = SDL_GetTicks64();
 
@@ -109,7 +109,7 @@ public class PerformanceScene : Scene
             .Text(((int)UpdateFPS).ToString() + " FPS")
             .Render();
 
-        if(recentInputFPS.Count > 25)
+        if(recentInputFPS.Count > 35)
         {
             recentInputFPS.RemoveAt(0);
             recentProgramFPS.RemoveAt(0);
