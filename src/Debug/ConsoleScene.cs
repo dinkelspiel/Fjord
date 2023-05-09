@@ -161,8 +161,8 @@ public class ConsoleScene : Scene
             scrollY = (yOffset / (-uiHeight + WindowSize.Y - 70)) * (WindowSize.Y - (hh * WindowSize.Y));
         }
 
-        FUI.TextFieldExt(new(10, WindowSize.Y - 50), "consolein", consoleInput, (val) => {consoleInput = val;}, (val) => submitCommand(), null, out Vector2 size);
-        FUI.Button(new(Math.Min(size.X + 20, WindowSize.X - 88), WindowSize.Y - 50), "Send", submitCommand);
+        FUI.TextFieldExt(new(10, WindowSize.Y - 50), WindowSize.X - 20, "consolein", consoleInput, (val) => {consoleInput = val;}, (val) => submitCommand(), null, out Vector2 size);
+        // FUI.Button(new(Math.Min(size.X + 20, WindowSize.X - 88), WindowSize.Y - 50), "Send", submitCommand);
 
         if(h < 0)
         {

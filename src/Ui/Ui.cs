@@ -114,7 +114,7 @@ public static class FUI
         ButtonExt(position, text, callback, out Vector2 size);
     }
 
-    public static void TextFieldExt(Vector2 position, string id, string value, Action<string> onChange, Action<string> onSubmit, string? placeholder, out Vector2 fieldsize)
+    public static void TextFieldExt(Vector2 position, float minSize, string id, string value, Action<string> onChange, Action<string> onSubmit, string? placeholder, out Vector2 fieldsize)
     {
         // Font.Draw(new Vector2(indent * 10 + UiRenderOffset.X + 5, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.value, 14, UiStyles.TextColor);
         Vector2 size = Font.DrawSize(Font.GetDefaultFont(), "asdasd", 16, UiStyles.TextColor);
@@ -124,7 +124,7 @@ public static class FUI
         {
             X = (int)(position.X),
             Y = (int)(position.Y),
-            Z = (int)Math.Max(Math.Max(size.X, size2.X) + 40, 200),
+            Z = (int)Math.Max(Math.Max(size.X, size2.X) + 40, minSize),
             W = 40
         };
 
@@ -195,6 +195,11 @@ public static class FUI
 
         //SDL_RenderFillFRect(Game.SDLRenderer, ref rect);
         Draw.Text(position + new Vector2(16, 7), Font.GetDefaultFont(), value, 16, UiStyles.TextColor);
+    }
+
+    public static void TextFieldExt(Vector2 position, string id, string value, Action<string> onChange, Action<string> onSubmit, string? placeholder, out Vector2 fieldsize)
+    {
+        TextFieldExt(position, 200, id, value, onChange, onSubmit, placeholder, out fieldsize);
     }
 
     public static void TextField(Vector2 position, string id, string value, Action<string> onChange, Action<string> onSubmit, string? placeholder=null) 
