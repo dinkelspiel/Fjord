@@ -9,13 +9,11 @@ public class PerformanceScene : Scene
 {
     float InputFPS = 0f;
     float UpdateFPS = 0f;
-    float RenderFPS = 0f;
     float ProgramFPS = 0f;
     ulong setFps = 0;
 
     List<float> recentInputFPS = new();
     List<float> recentUpdateFPS = new();
-    List<float> recentRenderFPS = new();
     List<float> recentProgramFPS = new();
 
     [Export(0, 3)]
@@ -50,7 +48,6 @@ public class PerformanceScene : Scene
             recentInputFPS.Add(InputFPS);
             recentProgramFPS.Add(ProgramFPS);
 
-            recentRenderFPS.Add(RenderFPS);
             recentUpdateFPS.Add(UpdateFPS);
         }
 
@@ -117,7 +114,6 @@ public class PerformanceScene : Scene
             recentInputFPS.RemoveAt(0);
             recentProgramFPS.RemoveAt(0);
 
-            recentRenderFPS.RemoveAt(0);
             recentUpdateFPS.RemoveAt(0);
         }
 
@@ -137,11 +133,6 @@ public class PerformanceScene : Scene
 
 
                 new Rectangle(new(95 + i * 5 + WindowSize.X / 2, 10, 4, (recentUpdateFPS[i] / recentUpdateFPS.Max()) * 30))
-                    .Color(UiStyles.ContainerIdleColor)
-                    .Fill(true)
-                    .Render();
-
-                new Rectangle(new(95 + i * 5 + WindowSize.X / 2, 65, 4, (recentRenderFPS[i] / recentRenderFPS.Max()) * 30))
                     .Color(UiStyles.ContainerIdleColor)
                     .Fill(true)
                     .Render();
