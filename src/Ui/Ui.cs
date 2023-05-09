@@ -290,7 +290,7 @@ public static class FUI
                 h = (int)((rect.h - rect.y) * Game.Window.Height + i * 2)
             };
 
-            SDL.SDL_SetRenderDrawColor(Game.SDLRenderer, 238, 170, 0,255);
+            SDL.SDL_SetRenderDrawColor(Game.SDLRenderer, (byte)UiStyles.ContainerIdleColor.X, (byte)UiStyles.ContainerIdleColor.Y, (byte)UiStyles.ContainerIdleColor.Z, 255);
             SDL_RenderDrawRect(Game.SDLRenderer, ref localRect);
             SDL.SDL_SetRenderDrawColor(Game.SDLRenderer, 0, 0, 0, 255);
         }
@@ -305,22 +305,22 @@ public static class FUI
         short radius = 12;
 
         new Circle(new(localRect.x, localRect.y), radius / 2)
-            .Color(new(238, 170, 0, 255))
+            .Color(UiStyles.ContainerIdleColor)
             .Fill(true)
             .HoverAnimation(SampleAnimations.CirclePulseAnimation(id + "0"))
             .Render();
         new Circle(new(localRect.x + localRect.w, localRect.y), radius / 2)
-            .Color(new(238, 170, 0, 255))
+            .Color(UiStyles.ContainerIdleColor)
             .Fill(true)
             .HoverAnimation(SampleAnimations.CirclePulseAnimation(id + "1"))
             .Render();
         new Circle(new(localRect.x, localRect.y + localRect.h), radius / 2)
-            .Color(new(238, 170, 0, 255))
+            .Color(UiStyles.ContainerIdleColor)
             .Fill(true)
             .HoverAnimation(SampleAnimations.CirclePulseAnimation(id + "2"))
             .Render();
         new Circle(new(localRect.x + localRect.w, localRect.y + localRect.h), radius / 2)
-            .Color(new(238, 170, 0, 255))
+            .Color(UiStyles.ContainerIdleColor)
             .Fill(true)
             .HoverAnimation(SampleAnimations.CirclePulseAnimation(id + "3"))
             .Render();
