@@ -109,7 +109,7 @@ public class PerformanceScene : Scene
             .Text(((int)UpdateFPS).ToString() + " FPS")
             .Render();
 
-        if(recentInputFPS.Count > 35)
+        if(recentInputFPS.Count > 65)
         {
             recentInputFPS.RemoveAt(0);
             recentProgramFPS.RemoveAt(0);
@@ -121,18 +121,18 @@ public class PerformanceScene : Scene
         {
             for(var i = 0; i < recentInputFPS.Count; i++)
             {
-                new Rectangle(new(95 + i * 5, 10, 4, (recentProgramFPS[i] / recentProgramFPS.Max()) * 30))
+                new Rectangle(new(95 + i * 4, 10, 4, (recentProgramFPS[i] / recentProgramFPS.Max()) * 30))
                     .Color(UiStyles.ContainerIdleColor)
                     .Fill(true)
                     .Render();
 
-                new Rectangle(new(95 + i * 5, 65, 4, (recentInputFPS[i] / recentInputFPS.Max()) * 30))
+                new Rectangle(new(95 + i * 4, 65, 4, (recentInputFPS[i] / recentInputFPS.Max()) * 30))
                     .Color(UiStyles.ContainerIdleColor)
                     .Fill(true)
                     .Render();
 
 
-                new Rectangle(new(95 + i * 5 + WindowSize.X / 2, 10, 4, (recentUpdateFPS[i] / recentUpdateFPS.Max()) * 30))
+                new Rectangle(new(95 + i * 4 + WindowSize.X / 2, 10, 4, (recentUpdateFPS[i] / recentUpdateFPS.Max()) * 30))
                     .Color(UiStyles.ContainerIdleColor)
                     .Fill(true)
                     .Render();
