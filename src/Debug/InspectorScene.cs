@@ -29,8 +29,6 @@ public class InspectorScene : Scene
             }
         }
 
-        Console.WriteLine($"Updated {SDL_GetTicks64()}");
-
         new UiBuilder(new Vector4(0, yOffset, (int)(Game.Window.Width * 0.2), (int)Game.Window.Height), Mouse.Position)
             .Title("Inspector")
             .Container(
