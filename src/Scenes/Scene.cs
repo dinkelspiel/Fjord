@@ -18,6 +18,10 @@ public abstract class Scene : ICloneable
     internal bool showCursor = true;
     internal bool captureMouseInput = true;
 
+    internal bool updateOnlyIfActive = false;
+    internal bool hasRendered = false;
+    internal IntPtr cacheTexture;
+
     public SceneKeyboard Keyboard;
     public SceneMouse Mouse;
     public SceneCamera Camera;
@@ -109,6 +113,11 @@ public abstract class Scene : ICloneable
     public void SetCaptureMouse(bool capture)
     {
         this.captureMouseInput = capture;
+    }
+
+    public void SetUpdateOnlyIfActive(bool active)
+    {
+        this.updateOnlyIfActive = active;
     }
 
     public void ApplyOriginalAspectRatio()
@@ -231,7 +240,7 @@ public abstract class Scene : ICloneable
             WindowSize = new(OriginalWindowSize.X, OriginalWindowSize.Y);
         }
 
-        if (AlwaysRebuildTexture)
+        if (AlwaysRebuildTexture && (MouseInsideScene || !updateOnlyIfActive))
         {
             WindowSize = new() {
                 X = LocalWindowSize.w,
@@ -248,6 +257,8 @@ public abstract class Scene : ICloneable
 
             Mouse.LocalPosition.X = (GlobalMouse.Position.X - LocalWindowSize.x) + Camera.Offset.X;
             Mouse.LocalPosition.Y = (GlobalMouse.Position.Y - LocalWindowSize.y) + Camera.Offset.Y;
+
+            hasRendered = false;
         } else
         {
             float wRatio = (float)WindowSize.X / (float)LocalWindowSize.w;
@@ -313,26 +324,29 @@ public abstract class Scene : ICloneable
 
         Camera.Update(WindowSize);
 
-        SDL_SetRenderTarget(Game.SDLRenderer, RenderTarget);
-        SDL_SetRenderDrawColor(Game.SDLRenderer, ClearColor.r, ClearColor.g, ClearColor.b, ClearColor.a);
-        SDL_RenderClear(Game.SDLRenderer);
-
-        Draw.CurrentSceneID = SceneID;
-
-        Update();
-
-        foreach(Entity e in Entities)
+        if(!updateOnlyIfActive || !hasRendered)
         {
-            e.UpdateCall();
+            SDL_SetRenderTarget(Game.SDLRenderer, RenderTarget);
+            SDL_SetRenderDrawColor(Game.SDLRenderer, ClearColor.r, ClearColor.g, ClearColor.b, ClearColor.a);
+            SDL_RenderClear(Game.SDLRenderer);
+
+            Draw.CurrentSceneID = SceneID;
+
+            Update();
+
+            foreach(Entity e in Entities)
+            {
+                e.UpdateCall();
+            }
+
+            Draw.CurrentSceneID = null;
+
+            Draw.DrawDrawBuffer(drawBuffer, SceneID);
+
+            drawBuffer = new();
+
+            hasRendered = true;
         }
-
-        Draw.CurrentSceneID = null;
-
-        Draw.DrawDrawBuffer(drawBuffer, SceneID);
-
-        drawBuffer = new();
-
-        SDL_SetRenderTarget(Game.SDLRenderer, IntPtr.Zero);
 
         SDL_SetRenderTarget(Game.SDLRenderer, IntPtr.Zero);
         SDL_RenderCopy(Game.SDLRenderer, RenderTarget, IntPtr.Zero, ref LocalWindowSize);

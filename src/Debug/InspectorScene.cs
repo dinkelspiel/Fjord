@@ -3,6 +3,7 @@ using System.Reflection;
 using Fjord.Input;
 using Fjord.Ui;
 using Fjord.Graphics;
+using static SDL2.SDL;
 
 namespace Fjord.Scenes;
 
@@ -13,6 +14,7 @@ public class InspectorScene : Scene
     public InspectorScene(int width, int height, string id) : base(width, height, id)
     {
         SetClearColor(UiStyles.Background);
+        SetUpdateOnlyIfActive(true);
     }
 
     public override void Update()
@@ -26,6 +28,8 @@ public class InspectorScene : Scene
                 yOffset += 10;
             }
         }
+
+        Console.WriteLine($"Updated {SDL_GetTicks64()}");
 
         new UiBuilder(new Vector4(0, yOffset, (int)(Game.Window.Width * 0.2), (int)Game.Window.Height), Mouse.Position)
             .Title("Inspector")
