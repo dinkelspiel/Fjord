@@ -28,7 +28,7 @@ public class SceneCamera
     {
         if(Target != null)
         {
-            Offset += ((Target.Get<Transform>().Position - WindowSize / 2) - Offset) / Lag;
+            Offset += ((((Target.Get<Transform>().Position - WindowSize / 2) - Offset) / Lag) * 500) * parentScene.DeltaTime;
         }
     }
 }
