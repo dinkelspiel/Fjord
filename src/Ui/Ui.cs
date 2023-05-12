@@ -744,7 +744,7 @@ public static class FUI
             {
                 UiButton component = (UiButton)componentObj;
                 ButtonExt(new Vector2(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset), component.text, component.callback, out Vector2 size);
-                xOffset += size.X + 5;
+                xOffset += size.X + 10;
                 if (size.Y > biggestHeight)
                     biggestHeight = size.Y;
             }
@@ -753,7 +753,7 @@ public static class FUI
                 UiTitle component = (UiTitle)componentObj;
                 Draw.Text(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset), Font.GetDefaultFont(), component.text, 18, UiStyles.TextColor);
                 Vector2 size = Font.DrawSize(Font.GetDefaultFont(), component.text, 18, new(0, 0, 0, 255));
-                xOffset += size.X + 5;
+                xOffset += size.X + 10;
                 if (size.Y > biggestHeight)
                     biggestHeight = size.Y;
             }
@@ -762,7 +762,7 @@ public static class FUI
                 UiText component = (UiText)componentObj;
                 Draw.Text(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset), Font.GetDefaultFont(), component.text, 14, component.overrideColor.HasValue ? component.overrideColor.Value : UiStyles.TextColor);
                 Vector2 size = Font.DrawSize(Font.GetDefaultFont(), component.text, 14, new(0, 0, 0, 255));
-                xOffset += size.X + 5;
+                xOffset += size.X + 10;
                 if (size.Y > biggestHeight)
                     biggestHeight = size.Y;
             }
@@ -810,7 +810,7 @@ public static class FUI
 
                 Vector2 drawSize = Font.DrawSize(Font.DefaultFont, component.text, 16, new(255, 255, 255, 255));
 
-                xOffset += 25;
+                xOffset += 35;
                 if (drawSize.Y > biggestHeight)
                     biggestHeight = drawSize.Y;
             }
@@ -820,7 +820,7 @@ public static class FUI
 
                 FUI.TextFieldExt(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset), component.id, component.value, component.onChange, component.onSubmit, component.placeholder, out Vector2 size);
 
-                xOffset += size.X + 5;
+                xOffset += size.X + 10;
                 if (size.Y > biggestHeight)
                     biggestHeight = size.Y;
             }
@@ -830,7 +830,7 @@ public static class FUI
 
                 FUI.SliderExt(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset), component.min, component.max, component.value, component.onChange, out Vector2 size);
 
-                xOffset += size.X + 5;
+                xOffset += size.X + 10;
                 if (size.Y > biggestHeight)
                     biggestHeight = size.Y;
             }
@@ -842,7 +842,7 @@ public static class FUI
                 Vector2 mult = new(biggestHeight / tex.textureSize.Y, biggestHeight / tex.textureSize.Y);
                 tex.SizeMultiplier(mult).Center(Center.TopLeft).Position(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset)).Alpha(255).Angle(0).Depth(-5000).GetRect(out Vector4 rect).Render();
 
-                xOffset += rect.Z + 5;
+                xOffset += rect.Z + 10;
                 if (rect.W > biggestHeight)
                     biggestHeight = rect.W;
             }
@@ -851,8 +851,8 @@ public static class FUI
                 throw new Exception("Invalid UiComponent found in HAlign");
             }
         }
-        yOffset += biggestHeight + 5;
-        return biggestHeight + 5;
+        yOffset += biggestHeight + 20;
+        return biggestHeight + 20;
     }
 
     public static void Render(List<object> components, out float height)
