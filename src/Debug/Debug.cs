@@ -60,7 +60,7 @@ public enum LogLevel
 public static class Debug {
 
     public static List<DebugLog> Logs = new List<DebugLog>();
-    internal static DebugLog lastTopMessage;
+
 
     public static Dictionary<string, Action<object[]>> commands = new Dictionary<string, Action<object[]>>();
 

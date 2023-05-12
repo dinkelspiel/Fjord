@@ -7,24 +7,18 @@ using static SDL2.SDL;
 
 namespace Fjord.Scenes;
 
-public class InspectorScene : Scene
+public class OldInspectorScene : Scene
 {
     float yOffset = 0;
-    public string SelectedScene = "";
 
-    public InspectorScene(int width, int height, string id) : base(width, height, id)
+    public OldInspectorScene(int width, int height, string id) : base(width, height, id)
     {
         SetClearColor(UiStyles.Background);
-        // SetUpdateOnlyIfActive(true);
+        SetUpdateOnlyIfActive(true);
     }
 
     public override void Update()
     {
-        if(SelectedScene == "")
-        {
-            SelectedScene = SceneHandler.Scenes.First(e => e.Key != "Inspector" && e.Key != "Console" && e.Key != "Performance").Key;
-        }
-
         if(MouseInsideScene) 
         {
             if(Mouse.Pressed(MB.ScrollDown)) {
@@ -36,17 +30,26 @@ public class InspectorScene : Scene
         }
 
         new UiBuilder(new Vector4(0, yOffset, (int)(Game.Window.Width * 0.2), (int)Game.Window.Height), Mouse.Position)
-            .Title($"Inspector for {SelectedScene}")
-            .ForEach(SceneHandler.Get(SelectedScene).Entities, (e) =>
+            .Title("Inspector")
+            .Container(
+                "Scenes",
                 new UiBuilder()
-                    .Title(e.name == null ? e.ToString()! : e.name)
-                    .ForEach(e.Components, (c) => {
-
+                    .ForEach(SceneHandler.Scenes.ToList(), (val, idx) =>
+                    {
                         var list = new UiBuilder()
-                            .Title(c.ToString())
+                            .Title(val.Key)
+                            .ButtonGroup(
+                                new UiButton("Load", () => SceneHandler.Load(val.Key)),
+                                new UiButton("Unload", () => SceneHandler.Unload(val.Key)),
+                                new UiButton("Remake", () => SceneHandler.Remake(val.Key))
+                            )
+                            .Button("Apply Aspect Ratio", () => val.Value.ApplyOriginalAspectRatio())
+                            .Checkbox("Allow window resize", val.Value.AllowWindowResize, () => val.Value.SetAllowWindowResize(!val.Value.AllowWindowResize))
+                            .Checkbox("Always at back", val.Value.AlwaysAtBack, () => val.Value.SetAlwaysAtBack(!val.Value.AlwaysAtBack))
+                            .Checkbox("Always rebuild texture", val.Value.AlwaysRebuildTexture, () => val.Value.SetAlwaysRebuildTexture(!val.Value.AlwaysRebuildTexture))
                             .Build();
 
-                        FieldInfo[] infos = c.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                        FieldInfo[] infos = val.Value.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
                         List<object> exports = new() {
                             
@@ -55,7 +58,7 @@ public class InspectorScene : Scene
                         foreach(var fi in infos) {
                             if (fi.IsDefined(typeof(Export), true))
                             {
-                                var fival = fi.GetValue(c);
+                                var fival = fi.GetValue(val.Value);
                                 if(fival is not null) 
                                 {
                                     exports.Add(new UiText(fi.Name));
@@ -63,7 +66,7 @@ public class InspectorScene : Scene
                                     {
                                         exports.Add(new UiTextField(fi.Name, fival.ToString()!, (result) =>
                                         {
-                                            fi.SetValue(c, result);
+                                            fi.SetValue(val.Value, result);
                                         }, (result) => { }));
                                     }
                                     else if (fival.GetType() == typeof(bool))
@@ -71,7 +74,7 @@ public class InspectorScene : Scene
                                         exports.RemoveAt(exports.Count - 1);
                                         exports.Add(new UiCheckbox(fi.Name, (bool)fival, () =>
                                         {
-                                            fi.SetValue(c, !(bool)fival);
+                                            fi.SetValue(val.Value, !(bool)fival);
                                         }));
                                     }
                                     else if (fival.GetType() == typeof(float))
@@ -85,7 +88,7 @@ public class InspectorScene : Scene
 
                                             exports.Add(new UiSlider(a.sliderMin, a.sliderMax, (float)fival, (result) =>
                                             {
-                                                fi.SetValue(c, result);
+                                                fi.SetValue(val.Value, result);
                                             }));
                                         }
                                     } else if(fival.GetType() == typeof(int)) {
@@ -97,7 +100,7 @@ public class InspectorScene : Scene
                                             Export a = (Export)expor;
 
                                             exports.Add(new UiSlider(a.sliderMin, a.sliderMax, (int)fival, (result) => {
-                                                fi.SetValue(c, (int)result);
+                                                fi.SetValue(val.Value, (int)result);
                                             }));
                                         }
                                     } else {
@@ -110,12 +113,36 @@ public class InspectorScene : Scene
 
                         if (exports.Count > 0)
                         {
-                            list.AddRange(exports);
-                            return list;
+                            list.Add(new UiTitle($"Exports"));
+                            list.Add(exports);
                         }
 
-                        return new UiBuilder()
-                            .Build();
+                        if (idx != SceneHandler.Scenes.ToList().Count - 1)
+                        {
+                            list.Add(new UiSpacer());
+                        }
+                        
+                        return list;
+                    })
+                    .Build()
+            )
+            .Container(
+                "Loaded Scenes",
+                new UiBuilder()
+                    .ForEach(SceneHandler.LoadedScenes, (scene, idx) =>
+                    {
+                        var list = new List<object>()
+                        {
+                            new UiTitle(scene),
+                            new UiButton("Unload", () => SceneHandler.Unload(scene))
+                        };
+
+                        if (idx != SceneHandler.LoadedScenes.Count - 1)
+                        {
+                            list.Add(new UiSpacer());
+                        }
+
+                        return list;
                     })
                     .Build()
             )
@@ -124,7 +151,7 @@ public class InspectorScene : Scene
         if(MouseInsideScene) 
         {
             if(uiHeight > WindowSize.Y) {
-                if(-yOffset < 0) {  
+                if(-yOffset < 0) {
                     yOffset = 0;
                 }
                 if(-yOffset > uiHeight - WindowSize.Y + 50) {

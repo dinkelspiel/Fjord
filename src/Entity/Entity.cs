@@ -5,6 +5,7 @@ public class Entity
     internal SceneKeyboard Keyboard;
     internal SceneMouse Mouse;
     internal Scene Parent;
+    internal string? name;
 
     internal List<Component> Components = new(); 
 
@@ -15,6 +16,12 @@ public class Entity
         this.Mouse = parent.Mouse;
 
         this.Components.Add(new Transform());
+    }
+
+    public Entity Name(string name)
+    {
+        this.name = name;
+        return this;
     }
 
     public Entity Add(Component component)

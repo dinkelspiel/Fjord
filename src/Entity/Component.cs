@@ -59,6 +59,22 @@ public abstract class Component
 
 public class Transform : Component
 {
+    [Export]
     public Vector2 Position;
+
+    [Export(0, 360)]
     public float Angle;
+
+    public override void Update()
+    {
+        if(Angle > 360)
+        {
+            Angle = 0;
+        }
+
+        if(Angle < 0)
+        {
+            Angle = 360;
+        }
+    }
 }
