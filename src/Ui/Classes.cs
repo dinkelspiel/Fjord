@@ -138,5 +138,5 @@ public class UiImage : UiComponent
 
 public class HAlign<T> : List<T>
 {
-    
+
 }

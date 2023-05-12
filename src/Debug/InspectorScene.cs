@@ -104,6 +104,29 @@ public class InspectorScene : Scene
                                                 fi.SetValue(c, (int)result);
                                             }));
                                         }
+                                    } else if(fival.GetType() == typeof(Vector2))
+                                    {
+                                        exports.RemoveAt(exports.Count - 1);
+                                        exports.Add(new UiText($"{fi.Name}"));
+                                        var expor = fi.GetCustomAttribute(typeof(Export));
+                                        if (expor is not null)
+                                        {
+                                            Export a = (Export)expor;
+
+                                            exports.Add(new HAlign<UiComponent>() {
+                                                new UiSlider(a.sliderMin, a.sliderMax, ((Vector2)fival).X, (result) => {
+                                                    fi.SetValue(c, new Vector2(result, ((Vector2)fival).Y));
+                                                }),
+                                                new UiTitle("X")
+                                            });
+
+                                            exports.Add(new HAlign<UiComponent>() {
+                                                new UiSlider(a.sliderMin, a.sliderMax, ((Vector2)fival).Y, (result) => {
+                                                    fi.SetValue(c, new Vector2(((Vector2)fival).X, result));
+                                                }),
+                                                new UiTitle("Y")
+                                            });
+                                        }
                                     } else {
                                         exports.RemoveAt(exports.Count - 1);
                                         exports.Add(new UiText($"{fi.Name} has an unsupported type: {fival.GetType()}!"));
