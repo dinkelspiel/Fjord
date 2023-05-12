@@ -137,6 +137,19 @@ public static class Debug {
         {
             Game.Stop();
         });
+        
+        Debug.RegisterCommand("debug_selectscene", (args) => {
+            if(args.Length > 0) {
+                if(SceneHandler.Scenes.ContainsKey((string)args[0])) {
+                    SceneHandler.Get<InspectorScene>().SelectedScene = (string)args[0];
+                    Debug.Log(LogLevel.Message, $"{(string)args[0]} is now selected");
+                } else {
+                    Debug.Log(LogLevel.Warning, $"No scene named {(string)args[0]}");
+                }
+            } else {
+                Debug.Log(LogLevel.Error, $"No argument provided");
+            }
+        });
     }
 
     public static SDL_FRect DebugWindowOffset = new()

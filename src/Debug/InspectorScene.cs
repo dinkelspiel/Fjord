@@ -37,11 +37,15 @@ public class InspectorScene : Scene
 
         new UiBuilder(new Vector4(0, yOffset, (int)(Game.Window.Width * 0.2), (int)Game.Window.Height), Mouse.Position)
             .Title($"Inspector for {SelectedScene}")
-            .ForEach(SceneHandler.Get(SelectedScene).Entities, (e) =>
-                new UiBuilder()
+            .ForEach(SceneHandler.Get(SelectedScene).Entities, (e) => {
+                if(e.excludeFromInspector)
+                {
+                    return null;
+                }
+                
+                return new UiBuilder()
                     .Title(e.name == null ? e.ToString()! : e.name)
                     .ForEach(e.Components, (c) => {
-
                         var list = new UiBuilder()
                             .Title(c.ToString())
                             .Build();
@@ -116,8 +120,8 @@ public class InspectorScene : Scene
 
                         return null;
                     })
-                    .Build()
-            )
+                    .Build();
+            })
             .Render(out int uiHeight);
 
         if(MouseInsideScene) 

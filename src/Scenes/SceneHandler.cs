@@ -9,7 +9,7 @@ public static class SceneHandler
     internal static List<string> LoadedScenes = new();
     
     public static void Initialize() {
-        Debug.RegisterCommand("scene_close", (args) => {
+        Debug.RegisterCommand("scene_unload", (args) => {
             if(args.Length > 0) {
                 if(SceneHandler.Scenes.ContainsKey((string)args[0])) {
                     if(SceneHandler.IsLoaded((string)args[0])) {
@@ -26,7 +26,7 @@ public static class SceneHandler
             }
         });
 
-        Debug.RegisterCommand("scene_open", (args) => {
+        Debug.RegisterCommand("scene_load", (args) => {
             if(args.Length > 0) {
                 if(SceneHandler.Scenes.ContainsKey((string)args[0])) {
                     if(!SceneHandler.IsLoaded((string)args[0])) {
@@ -40,6 +40,78 @@ public static class SceneHandler
                 }
             } else {
                 Debug.Log(LogLevel.Error, $"No argument provided");
+            }
+        });
+
+        Debug.RegisterCommand("scene_remake", (args) => {
+            if(args.Length > 0) {
+                if(SceneHandler.Scenes.ContainsKey((string)args[0])) {
+                    SceneHandler.Remake((string)args[0]);
+                    Debug.Log(LogLevel.Message, $"Remade {(string)args[0]}");
+                } else {
+                    Debug.Log(LogLevel.Warning, $"No scene named {(string)args[0]}");
+                }
+            } else {
+                Debug.Log(LogLevel.Error, $"No argument provided");
+            }
+        });
+
+        Debug.RegisterCommand("scene_allowresize", (args) => {
+            if(args.Length > 0) {
+                if(SceneHandler.Scenes.ContainsKey((string)args[0])) {
+                    SceneHandler.Get((string)args[0]).AllowWindowResize = true;
+                    Debug.Log(LogLevel.Message, $"{(string)args[0]} can now be resized");
+                } else {
+                    Debug.Log(LogLevel.Warning, $"No scene named {(string)args[0]}");
+                }
+            } else {
+                Debug.Log(LogLevel.Error, $"No argument provided");
+            }
+        });
+
+        Debug.RegisterCommand("scene_alwaysback", (args) => {
+            if(args.Length > 0) {
+                if(SceneHandler.Scenes.ContainsKey((string)args[0])) {
+                    SceneHandler.Get((string)args[0]).AlwaysAtBack = true;
+                    Debug.Log(LogLevel.Message, $"{(string)args[0]} is now always at back");
+                } else {
+                    Debug.Log(LogLevel.Warning, $"No scene named {(string)args[0]}");
+                }
+            } else {
+                Debug.Log(LogLevel.Error, $"No argument provided");
+            }
+        });
+
+        Debug.RegisterCommand("scene_alwaysfront", (args) => {
+            if(args.Length > 0) {
+                if(SceneHandler.Scenes.ContainsKey((string)args[0])) {
+                    SceneHandler.Get((string)args[0]).AlwaysAtFront = true;
+                    Debug.Log(LogLevel.Message, $"{(string)args[0]} is now always at front");
+                } else {
+                    Debug.Log(LogLevel.Warning, $"No scene named {(string)args[0]}");
+                }
+            } else {
+                Debug.Log(LogLevel.Error, $"No argument provided");
+            }
+        });
+
+        Debug.RegisterCommand("scene_rebuildalways", (args) => {
+            if(args.Length > 0) {
+                if(SceneHandler.Scenes.ContainsKey((string)args[0])) {
+                    SceneHandler.Get((string)args[0]).AlwaysRebuildTexture = true;
+                    Debug.Log(LogLevel.Message, $"{(string)args[0]} is now always rebuilt");
+                } else {
+                    Debug.Log(LogLevel.Warning, $"No scene named {(string)args[0]}");
+                }
+            } else {
+                Debug.Log(LogLevel.Error, $"No argument provided");
+            }
+        });
+
+        Debug.RegisterCommand("scene_getall", (args) => {
+            foreach(string scene in Scenes.Keys)
+            {
+                Debug.Log(scene); 
             }
         });
     }

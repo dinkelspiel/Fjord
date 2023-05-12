@@ -6,6 +6,7 @@ public class Entity
     internal SceneMouse Mouse;
     internal Scene Parent;
     internal string? name;
+    internal bool excludeFromInspector = false;
 
     internal List<Component> Components = new(); 
 
@@ -21,6 +22,12 @@ public class Entity
     public Entity Name(string name)
     {
         this.name = name;
+        return this;
+    }
+
+    public Entity ExcludeFromInspector(bool exclude)
+    {
+        this.excludeFromInspector = exclude;
         return this;
     }
 
