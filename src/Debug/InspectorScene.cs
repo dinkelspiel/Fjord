@@ -114,8 +114,7 @@ public class InspectorScene : Scene
                             return list;
                         }
 
-                        return new UiBuilder()
-                            .Build();
+                        return null;
                     })
                     .Build()
             )

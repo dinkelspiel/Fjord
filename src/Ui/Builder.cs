@@ -73,49 +73,57 @@ public class UiBuilder
         return this;
     }
 
-    public UiBuilder ForEach<T>(List<T> objects, Func<T, UiComponent> callback)
+    public UiBuilder ForEach<T>(List<T> objects, Func<T, UiComponent?> callback)
     {
         foreach(T obj in objects)
         {
-            UiComponents.Add(callback(obj));
+            var val = callback(obj);
+            if(val != null)
+                UiComponents.Add(val);
         }
 
         return this;
     }
 
-    public UiBuilder ForEach<T>(List<T> objects, Func<T, List<object>> callback)
+    public UiBuilder ForEach<T>(List<T> objects, Func<T, List<object>?> callback)
     {
         foreach (T obj in objects)
         {
-            UiComponents.Add(callback(obj));
+            var val = callback(obj);
+            if(val != null)
+                UiComponents.Add(val);
         }
 
         return this;
     }
 
-    public UiBuilder ForEach<T>(List<T> objects, Func<T, HAlign<UiComponent>> callback)
+    public UiBuilder ForEach<T>(List<T> objects, Func<T, HAlign<UiComponent>?> callback)
     {
         foreach (T obj in objects)
         {
-            UiComponents.Add(callback(obj));
+            var val = callback(obj);
+            if(val != null)
+                UiComponents.Add(val);
         }
 
         return this;
     }
     
-    public UiBuilder ForEach<T>(List<T> objects, Func<T, int, UiComponent> callback)
+    public UiBuilder ForEach<T>(List<T> objects, Func<T, int, UiComponent?> callback)
     {
         int idx = -1;
         foreach(T obj in objects)
         {
             idx++;
-            UiComponents.Add(callback(obj, idx));
+            var val = callback(obj, idx);
+            if(val != null)
+                UiComponents.Add(val);
         }
 
         return this;
     }
 
-    public UiBuilder ForEach<T>(List<T> objects, Func<T, int, List<object>> callback)
+    public UiBuilder ForEach<T>(List<T> objects, Func<T, int, List<object>?> callback)
     {
         int idx = -1;
         foreach (T obj in objects)
