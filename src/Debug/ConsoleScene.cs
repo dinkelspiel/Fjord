@@ -140,6 +140,11 @@ public class ConsoleScene : Scene
         {
             foreach(var i in Debug.commands.Keys.ToList().Where((command) => command.Contains(consoleInput)))
             {
+                if(GlobalKeyboard.Pressed(Key.TAB))
+                {
+                    consoleInput = i;
+                }
+
                 FUI.ButtonExt(new Vector2(10, WindowSize.Y - 40 - height - 55), i, () => {consoleInput = i + " ";}, out Vector2 bSize);
                 height += bSize.Y;
             }

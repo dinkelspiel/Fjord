@@ -59,8 +59,8 @@ public static class SceneHandler
         Debug.RegisterCommand("scene_allowresize", (args) => {
             if(args.Length > 0) {
                 if(SceneHandler.Scenes.ContainsKey((string)args[0])) {
-                    SceneHandler.Get((string)args[0]).AllowWindowResize = true;
-                    Debug.Log(LogLevel.Message, $"{(string)args[0]} can now be resized");
+                    SceneHandler.Get((string)args[0]).AllowWindowResize = !SceneHandler.Get((string)args[0]).AllowWindowResize;
+                    Debug.Log(LogLevel.Message, $"{(string)args[0]} can now{(SceneHandler.Get((string)args[0]).AllowWindowResize ? "" : "not ")}be resized");
                 } else {
                     Debug.Log(LogLevel.Warning, $"No scene named {(string)args[0]}");
                 }
@@ -72,8 +72,8 @@ public static class SceneHandler
         Debug.RegisterCommand("scene_alwaysback", (args) => {
             if(args.Length > 0) {
                 if(SceneHandler.Scenes.ContainsKey((string)args[0])) {
-                    SceneHandler.Get((string)args[0]).AlwaysAtBack = true;
-                    Debug.Log(LogLevel.Message, $"{(string)args[0]} is now always at back");
+                    SceneHandler.Get((string)args[0]).AlwaysAtBack = !SceneHandler.Get((string)args[0]).AlwaysAtBack;
+                    Debug.Log(LogLevel.Message, $"{(string)args[0]} is now {(SceneHandler.Get((string)args[0]).AlwaysAtBack ? "" : "not ")}always at front");
                 } else {
                     Debug.Log(LogLevel.Warning, $"No scene named {(string)args[0]}");
                 }
@@ -85,8 +85,8 @@ public static class SceneHandler
         Debug.RegisterCommand("scene_alwaysfront", (args) => {
             if(args.Length > 0) {
                 if(SceneHandler.Scenes.ContainsKey((string)args[0])) {
-                    SceneHandler.Get((string)args[0]).AlwaysAtFront = true;
-                    Debug.Log(LogLevel.Message, $"{(string)args[0]} is now always at front");
+                    SceneHandler.Get((string)args[0]).AlwaysAtFront = !SceneHandler.Get((string)args[0]).AlwaysAtFront;
+                    Debug.Log(LogLevel.Message, $"{(string)args[0]} is now {(SceneHandler.Get((string)args[0]).AlwaysAtFront ? "" : "not ")}always at front");
                 } else {
                     Debug.Log(LogLevel.Warning, $"No scene named {(string)args[0]}");
                 }
@@ -98,8 +98,8 @@ public static class SceneHandler
         Debug.RegisterCommand("scene_rebuildalways", (args) => {
             if(args.Length > 0) {
                 if(SceneHandler.Scenes.ContainsKey((string)args[0])) {
-                    SceneHandler.Get((string)args[0]).AlwaysRebuildTexture = true;
-                    Debug.Log(LogLevel.Message, $"{(string)args[0]} is now always rebuilt");
+                    SceneHandler.Get((string)args[0]).AlwaysRebuildTexture = !SceneHandler.Get((string)args[0]).AlwaysRebuildTexture;
+                    Debug.Log(LogLevel.Message, $"{(string)args[0]} is now {(SceneHandler.Get((string)args[0]).AlwaysRebuildTexture ? "" : "not ")}always rebuilt");
                 } else {
                     Debug.Log(LogLevel.Warning, $"No scene named {(string)args[0]}");
                 }
