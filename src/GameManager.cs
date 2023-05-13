@@ -31,6 +31,9 @@ public static class Game
     internal static float updateFPS = 0;
     internal static float programFPS = 0;
 
+    private static double FPSCapLast = 0;
+    private static double FPSMax = 144;
+
     public static void Initialize(string title, int width, int height)
     {   
         #if DEBUG
@@ -94,50 +97,59 @@ public static class Game
     {
         while (Running)
         {
-            timeNow = SDL_GetPerformanceCounter();
-            deltaTime = (double)Math.Clamp(((timeNow - timeLast)*1000 / (double)SDL_GetPerformanceFrequency() )*0.001, 0, 1);
-            timeLast = timeNow;
+            var FPSCapNow = SDL_GetTicks64();
+            var FPSCapDelta = FPSCapNow - FPSCapLast;
 
-            ulong programStart = SDL_GetPerformanceCounter();
-
-            ulong inputStart = SDL_GetPerformanceCounter();
-            EventHandler.HandleEvents();
-            ulong inputEnd = SDL_GetPerformanceCounter();
-
-            ulong updateStart = SDL_GetPerformanceCounter();
-            Update();
-            ulong updateEnd = SDL_GetPerformanceCounter();
-
-            ulong programEnd = SDL_GetPerformanceCounter();
-
-
-            var elapsed = (inputEnd - inputStart) / (float)SDL_GetPerformanceFrequency();
-            inputFPS = 1f / elapsed;
-
-            elapsed = (updateEnd - updateStart) / (float)SDL_GetPerformanceFrequency();
-            updateFPS = 1f / elapsed;
-
-            elapsed = (programEnd - programStart) / (float)SDL_GetPerformanceFrequency();
-            programFPS = 1f / elapsed;
-
-            for (var i = 0; i < GlobalKeyboard.downKeys.Length; i++)
+            if(FPSCapDelta > 1000/FPSMax)
             {
-                GlobalKeyboard.pressedKeys[i] = false;
-            }
+                timeNow = SDL_GetPerformanceCounter();
+                deltaTime = ((timeNow - timeLast)*1000 / (double)SDL_GetPerformanceFrequency()) * 0.001;
+                timeLast = timeNow;
 
-            foreach (var key in GlobalMouse.pressedKeys.Keys.ToList())
-            {
-                GlobalMouse.pressedKeys[key] = false;
-                GlobalMouse.downKeysLast[key] = GlobalMouse.downKeys[key];
-            }
-            GlobalMouse.downKeys[MB.ScrollDown] = false;
-            GlobalMouse.downKeys[MB.ScrollLeft] = false;
-            GlobalMouse.downKeys[MB.ScrollRight] = false;
-            GlobalMouse.downKeys[MB.ScrollUp] = false;
+                FPSCapLast = FPSCapNow;
 
-            if(SceneHandler.LoadedScenes.All(s => SceneHandler.Scenes[s].MouseInsideScene != true))
-            {
-                SDL_ShowCursor(SDL_ENABLE);
+                ulong programStart = SDL_GetPerformanceCounter();
+
+                ulong inputStart = SDL_GetPerformanceCounter();
+                EventHandler.HandleEvents();
+                ulong inputEnd = SDL_GetPerformanceCounter();
+
+                ulong updateStart = SDL_GetPerformanceCounter();
+                Update();
+                ulong updateEnd = SDL_GetPerformanceCounter();
+
+                ulong programEnd = SDL_GetPerformanceCounter();
+
+
+
+                var elapsed = (inputEnd - inputStart) / (float)SDL_GetPerformanceFrequency();
+                inputFPS = 1f / elapsed;
+
+                elapsed = (updateEnd - updateStart) / (float)SDL_GetPerformanceFrequency();
+                updateFPS = 1f / elapsed;
+
+                elapsed = (programEnd - programStart) / (float)SDL_GetPerformanceFrequency();
+                programFPS = 1f / elapsed;
+
+                for (var i = 0; i < GlobalKeyboard.downKeys.Length; i++)
+                {
+                    GlobalKeyboard.pressedKeys[i] = false;
+                }
+
+                foreach (var key in GlobalMouse.pressedKeys.Keys.ToList())
+                {
+                    GlobalMouse.pressedKeys[key] = false;
+                    GlobalMouse.downKeysLast[key] = GlobalMouse.downKeys[key];
+                }
+                GlobalMouse.downKeys[MB.ScrollDown] = false;
+                GlobalMouse.downKeys[MB.ScrollLeft] = false;
+                GlobalMouse.downKeys[MB.ScrollRight] = false;
+                GlobalMouse.downKeys[MB.ScrollUp] = false;
+
+                if(SceneHandler.LoadedScenes.All(s => SceneHandler.Scenes[s].MouseInsideScene != true))
+                {
+                    SDL_ShowCursor(SDL_ENABLE);
+                }   
             }
         }
     }
@@ -145,6 +157,11 @@ public static class Game
     public static float GetDeltaTime()
     {
         return (float)deltaTime;
+    }
+
+    public static void SetMaxFPS(double FPS)
+    {
+        FPSMax = FPS;
     }
 
     public static void Update()

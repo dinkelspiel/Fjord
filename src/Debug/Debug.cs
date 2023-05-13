@@ -126,6 +126,20 @@ public static class Debug {
             }
         });
 
+        RegisterCommand("maxfps", (args) => {
+            if(args.Length > 0) {
+                if(args[0].GetType() == typeof(float)) {
+                    Debug.Log(args[0].GetType());
+                    Game.SetMaxFPS((double)((float)args[0]));
+                } else {
+                    Debug.Log(LogLevel.Warning, $"Argument must be number");
+                }
+            } else {
+                Debug.Log(LogLevel.Error, $"No argument provided");
+            }
+        });
+        
+
         RegisterCommand("commands", (args) => {
             foreach(string command in commands.Keys.ToList())
             {
@@ -137,8 +151,8 @@ public static class Debug {
         {
             Game.Stop();
         });
-        
-        Debug.RegisterCommand("debug_selectscene", (args) => {
+
+        RegisterCommand("debug_selectscene", (args) => {
             if(args.Length > 0) {
                 if(SceneHandler.Scenes.ContainsKey((string)args[0])) {
                     SceneHandler.Get<InspectorScene>().SelectedScene = (string)args[0];

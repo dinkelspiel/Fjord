@@ -85,7 +85,7 @@ public class ConsoleScene : Scene
                     float value = 0f;
                     if (float.TryParse(currentWord, out value))
                     {
-                        args.Add(value);
+                        args.Add((float)value);
                     }
                     if(boolValues.Contains(currentWord.ToLower())) {
                         args.Add(currentWord.ToLower() == "true");
