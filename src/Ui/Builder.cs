@@ -129,7 +129,9 @@ public class UiBuilder
         foreach (T obj in objects)
         {
             idx++;
-            UiComponents.Add(callback(obj, idx));
+            var val = callback(obj, idx);
+            if(val != null)
+                UiComponents.Add(val);
         }
 
         return this;

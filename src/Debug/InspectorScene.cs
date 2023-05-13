@@ -47,7 +47,7 @@ public class InspectorScene : Scene
                     .Title(e.name == null ? e.ToString()! : e.name)
                     .ForEach(e.Components, (c) => {
                         var list = new UiBuilder()
-                            .Title(c.ToString())
+                            .Title(c.ToString()!)
                             .Build();
 
                         FieldInfo[] infos = c.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);

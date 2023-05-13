@@ -4,11 +4,11 @@ namespace Fjord.Scenes;
 
 public abstract class Component 
 {
-    public SceneKeyboard Keyboard;
-    public SceneMouse Mouse;
+    public SceneKeyboard Keyboard = new("");
+    public SceneMouse Mouse = new("");
 
-    internal Entity ParentEntity;
-    public Scene ParentScene;
+    internal Entity ParentEntity = new(default(Scene)!);
+    public Scene ParentScene = default(Scene)!;
 
     public float DeltaTime
     {
