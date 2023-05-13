@@ -20,7 +20,6 @@ public abstract class Scene : ICloneable
 
     internal bool updateOnlyIfActive = false;
     internal bool hasRendered = false;
-    internal IntPtr cacheTexture;
 
     public SceneKeyboard Keyboard;
     public SceneMouse Mouse;
