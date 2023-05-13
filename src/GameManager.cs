@@ -134,6 +134,7 @@ public static class Game
                 for (var i = 0; i < GlobalKeyboard.downKeys.Length; i++)
                 {
                     GlobalKeyboard.pressedKeys[i] = false;
+                    GlobalKeyboard.downKeysLast[i] = GlobalKeyboard.downKeys[i];
                 }
 
                 foreach (var key in GlobalMouse.pressedKeys.Keys.ToList())

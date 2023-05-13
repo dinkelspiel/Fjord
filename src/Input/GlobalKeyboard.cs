@@ -255,6 +255,7 @@ public static class GlobalKeyboard
 {
     internal static bool[] pressedKeys = new bool[229];
     internal static bool[] downKeys = new bool[229];
+    internal static bool[] downKeysLast = new bool[229];
     internal static List<Mod> pressedModifiers = new();
 
     internal static void AddKey(Key key)
@@ -306,6 +307,26 @@ public static class GlobalKeyboard
         }
 
         return GlobalKeyboard.pressedKeys[(int)key] && containsModifiers;
+    }
+
+    public static bool Released(Key key)
+    {
+        return (GlobalKeyboard.downKeysLast[(int)key] && !GlobalKeyboard.downKeys[(int)key]);
+    }
+
+    public static bool Released(Key key, params Mod[] mods)
+    {
+        bool containsModifiers = true;
+        foreach(var i in mods)
+        {
+            if(!GlobalKeyboard.pressedModifiers.Contains(i))
+            {
+                containsModifiers = false;
+                break;
+            }
+        }
+
+        return (GlobalKeyboard.downKeysLast[(int)key] && !GlobalKeyboard.downKeys[(int)key]) && containsModifiers;
     }
 
     //public static KeyboardPressedBuilder PressedExt(Key key)

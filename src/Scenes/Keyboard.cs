@@ -41,4 +41,20 @@ public class SceneKeyboard
         else
             return false;
     }
+
+    public bool Released(Key key)
+    {
+        if (SceneHandler.Get(SceneID).MouseInsideScene)
+            return GlobalKeyboard.Released(key);
+        else
+            return false;
+    }
+
+    public bool Released(Key key, params Mod[] mods)
+    {
+        if (SceneHandler.Get(SceneID).MouseInsideScene)
+            return GlobalKeyboard.Released(key, mods);
+        else
+            return false;
+    }
 }
