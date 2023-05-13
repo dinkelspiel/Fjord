@@ -7,7 +7,7 @@ public abstract class Component
     public SceneKeyboard Keyboard = new("");
     public SceneMouse Mouse = new("");
 
-    internal Entity ParentEntity = new(default(Scene)!);
+    internal Entity ParentEntity = new();
     public Scene ParentScene = default(Scene)!;
 
     public float DeltaTime

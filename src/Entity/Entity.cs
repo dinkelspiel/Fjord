@@ -10,6 +10,13 @@ public class Entity
 
     internal List<Component> Components = new(); 
 
+    internal Entity()
+    {
+        Keyboard = new("")!;
+        Mouse = new("")!;
+        Parent = default(Scene)!;
+    }
+
     public Entity(Scene parent)
     {
         this.Parent = parent;
