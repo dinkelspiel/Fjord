@@ -64,7 +64,7 @@ public class Entity
         if (scene != null)
             return (T)(dynamic)scene;
         else
-            throw new Exception("Component doesn't exist in entity");
+            throw new Exception($"Component '{typeof(T)}' doesn't exist in entity");
     }
 
     public bool TryGet<T>(out T component)
