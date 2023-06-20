@@ -15,6 +15,8 @@ public abstract class Scene : ICloneable
     public bool AlwaysAtBack = false;
     public bool AlwaysAtFront = false;
 
+    public bool Paused = false;
+
     internal bool showCursor = true;
     internal bool captureMouseInput = true;
 
@@ -132,6 +134,8 @@ public abstract class Scene : ICloneable
     {
         OriginalWindowSize.X = width;
         OriginalWindowSize.Y = height;
+        WindowSize.X = width;
+        WindowSize.Y = height;
 
         SceneID = id;
         
@@ -320,9 +324,10 @@ public abstract class Scene : ICloneable
 
         // Render Stuff
 
-        Camera.Update(WindowSize);
+        if(!Paused)
+            Camera.Update(WindowSize);
 
-        if(!updateOnlyIfActive || !hasRendered)
+        if((!updateOnlyIfActive || !hasRendered) && !Paused)
         {
             SDL_SetRenderTarget(Game.SDLRenderer, RenderTarget);
             SDL_SetRenderDrawColor(Game.SDLRenderer, ClearColor.r, ClearColor.g, ClearColor.b, ClearColor.a);
