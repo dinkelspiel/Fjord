@@ -265,37 +265,43 @@ public static class Draw
         Vector2 center = new();
         Vector2 textureSize = texture.textureSize;
 
-        switch(texture.center)
+        if(!texture.isCustomCenter)
         {
-            case Graphics.Center.TopLeft: {
-                center = new(0, 0);
-            } break;
-            case Graphics.Center.TopMiddle: {
-                center = new(rect.w / 2, 0);
-            } break;
-            case Graphics.Center.TopRight: {
-                center = new(rect.h, 0);
-            } break;
+            switch(texture.center)
+            {
+                case Graphics.Center.TopLeft: {
+                    center = new(0, 0);
+                } break;
+                case Graphics.Center.TopMiddle: {
+                    center = new(rect.w / 2, 0);
+                } break;
+                case Graphics.Center.TopRight: {
+                    center = new(rect.h, 0);
+                } break;
 
-            case Graphics.Center.MiddleLeft: {
-                center = new(0, rect.h / 2);
-            } break;
-            case Graphics.Center.Middle: {
-                center = new(rect.w / 2, rect.h / 2);
-            } break;
-            case Graphics.Center.MiddleRight: {
-                center = new(rect.w, rect.h / 2);
-            } break;
-            
-            case Graphics.Center.BottomLeft: {
-                center = new(0, rect.h);
-             } break;
-            case Graphics.Center.BottomMiddle: {
-                center = new(rect.w / 2, rect.h);
-            } break;
-            case Graphics.Center.BottomRight: {
-                center = new(rect.w, rect.h);
-            } break;
+                case Graphics.Center.MiddleLeft: {
+                    center = new(0, rect.h / 2);
+                } break;
+                case Graphics.Center.Middle: {
+                    center = new(rect.w / 2, rect.h / 2);
+                } break;
+                case Graphics.Center.MiddleRight: {
+                    center = new(rect.w, rect.h / 2);
+                } break;
+                
+                case Graphics.Center.BottomLeft: {
+                    center = new(0, rect.h);
+                } break;
+                case Graphics.Center.BottomMiddle: {
+                    center = new(rect.w / 2, rect.h);
+                } break;
+                case Graphics.Center.BottomRight: {
+                    center = new(rect.w, rect.h);
+                } break;
+            }
+        } else
+        {
+            center = new(texture.customCenter.X, texture.customCenter.Y);
         }
 
         SDL_Point sdlcenter = new()

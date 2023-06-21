@@ -174,6 +174,8 @@ public class Texture : DrawInstruction {
     public Flip flip;
     public float alpha = 255;
     public Center center;
+    public bool isCustomCenter = false;
+    public Vector2 customCenter = new();
     public Vector4? srcTextureOffset = null;
 
     public Texture(string path)
@@ -215,6 +217,18 @@ public class Texture : DrawInstruction {
         return this;
     }
 
+    public Texture PositionAndDepth(Vector2 position) {
+        this.position = position;
+        this.depth = -(int)position.Y;
+        return this;
+    }
+
+    public Texture PositionAndDepth(float x, float y) {
+        this.position = new(x, y);
+        this.depth = -(int)y;
+        return this;
+    }
+
     public Texture Size(Vector2 size) {
         this.textureSize = size;
         return this;
@@ -242,6 +256,18 @@ public class Texture : DrawInstruction {
         return this;
     } 
 
+    public Texture Depth(float depth)
+    {
+        this.depth = (int)depth;
+        return this;
+    } 
+
+    public Texture Depth(double depth)
+    {
+        this.depth = (int)depth;
+        return this;
+    } 
+
     public Texture Angle(float angle)
     {
         this.angle = angle;
@@ -257,6 +283,14 @@ public class Texture : DrawInstruction {
     public Texture Center(Center drawCenter)
     {
         this.center = drawCenter;
+        this.isCustomCenter = false;
+        return this;
+    }
+
+    public Texture Center(Vector2 drawCenter)
+    {
+        this.customCenter = drawCenter;
+        this.isCustomCenter = true;
         return this;
     }
 
@@ -293,55 +327,61 @@ public class Texture : DrawInstruction {
         Vector2 center = new();
         Vector2 textureSize = this.textureSize;
 
-        switch (this.center)
+        if(!isCustomCenter)
         {
-            case Graphics.Center.TopLeft:
-                {
-                    center = new(0, 0);
-                }
-                break;
-            case Graphics.Center.TopMiddle:
-                {
-                    center = new(rect.w / 2, 0);
-                }
-                break;
-            case Graphics.Center.TopRight:
-                {
-                    center = new(rect.h, 0);
-                }
-                break;
+            switch (this.center)
+            {
+                case Graphics.Center.TopLeft:
+                    {
+                        center = new(0, 0);
+                    }
+                    break;
+                case Graphics.Center.TopMiddle:
+                    {
+                        center = new(rect.w / 2, 0);
+                    }
+                    break;
+                case Graphics.Center.TopRight:
+                    {
+                        center = new(rect.h, 0);
+                    }
+                    break;
 
-            case Graphics.Center.MiddleLeft:
-                {
-                    center = new(0, rect.h / 2);
-                }
-                break;
-            case Graphics.Center.Middle:
-                {
-                    center = new(rect.w / 2, rect.h / 2);
-                }
-                break;
-            case Graphics.Center.MiddleRight:
-                {
-                    center = new(rect.w, rect.h / 2);
-                }
-                break;
+                case Graphics.Center.MiddleLeft:
+                    {
+                        center = new(0, rect.h / 2);
+                    }
+                    break;
+                case Graphics.Center.Middle:
+                    {
+                        center = new(rect.w / 2, rect.h / 2);
+                    }
+                    break;
+                case Graphics.Center.MiddleRight:
+                    {
+                        center = new(rect.w, rect.h / 2);
+                    }
+                    break;
 
-            case Graphics.Center.BottomLeft:
-                {
-                    center = new(0, rect.h);
-                }
-                break;
-            case Graphics.Center.BottomMiddle:
-                {
-                    center = new(rect.w / 2, rect.h);
-                }
-                break;
-            case Graphics.Center.BottomRight:
-                {
-                    center = new(rect.w, rect.h);
-                }
-                break;
+                case Graphics.Center.BottomLeft:
+                    {
+                        center = new(0, rect.h);
+                    }
+                    break;
+                case Graphics.Center.BottomMiddle:
+                    {
+                        center = new(rect.w / 2, rect.h);
+                    }
+                    break;
+                case Graphics.Center.BottomRight:
+                    {
+                        center = new(rect.w, rect.h);
+                    }
+                    break;
+            }
+        } else
+        {
+            center = new(customCenter.X, customCenter.Y);
         }
 
         SDL_Point sdlcenter = new()
