@@ -1,6 +1,7 @@
 using Fjord.Scenes;
 using System.Numerics;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.InteropServices;
 using static SDL2.SDL;
 using static SDL2.SDL_image;
 
@@ -167,6 +168,7 @@ public class Circle : DrawInstruction {
 public class Texture : DrawInstruction {
     public Vector2 position;
     public IntPtr SDLTexture;
+    public IntPtr SDLSurface;
     public Vector2 textureSize;
     public Vector2 sizeMultiplier = new(1, 1);
     public bool destroy = false;
@@ -183,7 +185,8 @@ public class Texture : DrawInstruction {
         path = path.OSPath();
         if(!Draw.textureCache.ContainsKey(path)) {
             if(File.Exists(path)) {
-                SDLTexture = IMG_LoadTexture(Game.SDLRenderer, path);
+                SDLSurface = IMG_Load(path);
+                SDLTexture = SDL_CreateTextureFromSurface(Game.SDLRenderer, SDLSurface);
                 Draw.textureCache.Add(path, SDLTexture);
             } else {
                 throw new FileNotFoundException($"No image exists to load at path '{path}'");
@@ -395,6 +398,35 @@ public class Texture : DrawInstruction {
         outRect = new(rect.x, rect.y, rect.w, rect.h);
 
         return this;
+    }
+
+    public Texture GetTextureAsSolid(Vector4 color)
+    {
+        // color = new(100, 100, 100, 255);
+        // IntPtr surface = SDL_CreateRGBSurface(0,(int)textureSize.X,(int)textureSize.Y,32,0,0,0,0);
+        // SDL_Rect dstRect = new();
+        // SDL_BlitSurface(SDLSurface, IntPtr.Zero, surface, ref dstRect);
+
+        // IntPtr newTexture = SDL_CreateTextureFromSurface(Game.SDLRenderer, surface);
+
+        IntPtr newTexture = SDL_CreateTexture(Game.SDLRenderer, SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, (int)textureSize.X, (int)textureSize.Y);
+
+        IntPtr oldRenderer = SDL_GetRenderer(Game.SDLRenderer);
+        SDL_SetRenderTarget(Game.SDLRenderer, newTexture);
+
+        SDL_RenderCopy(Game.SDLRenderer, SDLTexture, IntPtr.Zero, IntPtr.Zero);
+
+        SDL_SetRenderTarget(Game.SDLRenderer, oldRenderer);
+
+        SDL_SetTextureBlendMode(newTexture, SDL_BlendMode.SDL_BLENDMODE_BLEND);
+
+
+        SDL_SetTextureColorMod(newTexture, 0, 0, 0);
+        SDL_SetTextureAlphaMod(newTexture, 255);
+
+        SDL_SetTextureColorMod(newTexture, (byte)color.X, (byte)color.Y, (byte)color.Z);
+
+        return ((Texture)this.Clone()).SetTexture(newTexture);
     }
 
     public void Render() {

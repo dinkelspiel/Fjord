@@ -331,7 +331,10 @@ public static class Draw
         SDL_SetTextureAlphaMod(texture.SDLTexture, 255);
 
         if(texture.destroy)
+        {
             SDL_DestroyTexture(texture.SDLTexture);
+            SDL_FreeSurface(texture.SDLSurface);
+        }
     }
 
     internal static void GeometryDirect(Geometry geometry)
