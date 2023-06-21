@@ -37,6 +37,8 @@ public class InspectorScene : Scene
 
         new UiBuilder(new Vector4(0, yOffset, (int)(Game.Window.Width * 0.2), (int)Game.Window.Height), Mouse.Position)
             .Title($"Inspector for {SelectedScene}")
+            .If(SceneHandler.Get(SelectedScene).Paused, new UiButton("Resume", () => SceneHandler.Get(SelectedScene).Paused = false))
+            .If(!SceneHandler.Get(SelectedScene).Paused, new UiButton("Pause", () => SceneHandler.Get(SelectedScene).Paused = true))
             .ForEach(SceneHandler.Get(SelectedScene).Entities, (e) => {
                 if(e.excludeFromInspector)
                 {
