@@ -281,7 +281,7 @@ public static class GlobalKeyboard
             }
         }
 
-        return GlobalKeyboard.downKeys[(int)key] && containsModifiers;
+        return downKeys[(int)key] && containsModifiers;
     }
 
     //public static KeyboardDownBuilder DownExt(Key key)

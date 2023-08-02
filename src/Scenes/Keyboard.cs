@@ -3,7 +3,7 @@
 namespace Fjord.Scenes;
 public class SceneKeyboard
 {
-    public string SceneID;
+    public string SceneID { get; private set; }
 
     public SceneKeyboard(string SceneID)
     {

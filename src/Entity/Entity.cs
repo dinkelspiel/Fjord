@@ -4,6 +4,7 @@ public class Entity
 {
     internal SceneKeyboard Keyboard;
     internal SceneMouse Mouse;
+    internal SceneInput Input;
     internal Scene Parent;
     internal string name;
     internal bool excludeFromInspector = false;
@@ -15,6 +16,7 @@ public class Entity
         name = this.GetType().Name;
         Keyboard = new("")!;
         Mouse = new("")!;
+        Input = new("")!;
         Parent = default(Scene)!;
     }
 
@@ -24,6 +26,7 @@ public class Entity
         this.Parent = parent;
         this.Keyboard = parent.Keyboard;
         this.Mouse = parent.Mouse;
+        this.Input = parent.Input;
 
         this.Components.Add(new Transform());
     }
@@ -44,6 +47,7 @@ public class Entity
     {
         component.Keyboard = Keyboard;
         component.Mouse = Mouse;
+        component.Input = Input;
         component.ParentEntity = this;
         component.ParentScene = this.Parent;
         this.Components.Add(component);

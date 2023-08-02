@@ -4,7 +4,7 @@ using System.Numerics;
 namespace Fjord.Scenes;
 public class SceneMouse
 {
-    public string SceneID;
+    public string SceneID { get; private set; }
 
     public Vector2 Position = new();
     public Vector2 LocalPosition = new();

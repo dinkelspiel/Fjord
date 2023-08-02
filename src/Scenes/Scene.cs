@@ -26,6 +26,7 @@ public abstract class Scene : ICloneable
     public SceneKeyboard Keyboard;
     public SceneMouse Mouse;
     public SceneCamera Camera;
+    public SceneInput Input;
 
     public float DeltaTime
     {
@@ -89,6 +90,7 @@ public abstract class Scene : ICloneable
         Keyboard = new(SceneID);
         Mouse = new(SceneID);
         Camera = new(this);
+        Input = new(SceneID);
     }
 
     public Scene SetRelativeWindowSize(SDL_FRect RelativeWindow) {
