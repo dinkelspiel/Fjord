@@ -25,6 +25,7 @@ public class NotificationScene : Scene
     public override void Awake()
     {
         ClearColor = new(0, 0, 0, 0);
+        CaptureMouseInput = false;
     }   
 
     public override void Sleep()
