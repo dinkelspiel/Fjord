@@ -104,6 +104,10 @@ public static class Game
             {
                 _timeNow = SDL_GetPerformanceCounter();
                 DeltaTime = ((_timeNow - _timeLast)*1000 / (double)SDL_GetPerformanceFrequency()) * 0.001;
+                if(DeltaTime > 0.01)
+                {
+                    DeltaTime = 0.01;
+                }
                 _timeLast = _timeNow;
 
                 _fpsCapLast = FPSCapNow;
@@ -164,13 +168,7 @@ public static class Game
 
         foreach (string id in new List<string>(SceneHandler.LoadedScenes))
         {
-            try {
-                SceneHandler.Scenes[id].UpdateCall();
-            } catch(Exception e) {
-                SceneHandler.Unload(id);
-                Debug.Log(LogLevel.Error, $"Scene '{id}' update crashed!");
-                Debug.Log(LogLevel.Error, e.ToString());
-            }
+            SceneHandler.Scenes[id].UpdateCall();
         }
 
         Draw.DrawDrawBuffer(Draw.drawBuffer, null);

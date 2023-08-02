@@ -278,11 +278,21 @@ public abstract class Scene : ICloneable
 
             Draw.CurrentSceneID = SceneID;
 
-            Update();
+            try {
+                Update();
+            } catch(Exception e) {
+                Debug.Log(LogLevel.Error, $"Scene \"{SceneID}\" update crashed!");
+                Debug.Log(LogLevel.Message, e.ToString());
+            }
 
             foreach(Entity e in Entities)
             {
-                e.UpdateCall();
+                try {
+                    e.UpdateCall();
+                } catch(Exception err) {
+                    Debug.Log(LogLevel.Error, $"Entity \"{e.GetType().Name}\" crashed!");
+                    Debug.Log(LogLevel.Message, err.ToString());
+                }            
             }
 
             Draw.CurrentSceneID = null;

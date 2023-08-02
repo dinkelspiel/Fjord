@@ -5,13 +5,14 @@ public class Entity
     internal SceneKeyboard Keyboard;
     internal SceneMouse Mouse;
     internal Scene Parent;
-    internal string? name;
+    internal string name;
     internal bool excludeFromInspector = false;
 
     internal List<Component> Components = new(); 
 
     internal Entity()
     {
+        name = this.GetType().Name;
         Keyboard = new("")!;
         Mouse = new("")!;
         Parent = default(Scene)!;
@@ -19,6 +20,7 @@ public class Entity
 
     public Entity(Scene parent)
     {
+        this.name = this.GetType().Name;
         this.Parent = parent;
         this.Keyboard = parent.Keyboard;
         this.Mouse = parent.Mouse;
@@ -45,7 +47,12 @@ public class Entity
         component.ParentEntity = this;
         component.ParentScene = this.Parent;
         this.Components.Add(component);
-        this.Components[this.Components.Count - 1].AwakeCall();
+        try {
+            this.Components[this.Components.Count - 1].AwakeCall();
+        } catch(Exception e) {
+            Debug.Log(LogLevel.Error, $"Component \"{this.Components[this.Components.Count - 1].GetType().Name}\" awake crashed!");
+            Debug.Log(LogLevel.Message, e.ToString());
+        }
         return this;
     }  
 
@@ -53,7 +60,12 @@ public class Entity
     {
         Component? comp = this.Components.Find((comp) => comp.GetType() == typeof(T));
         if(comp != null) {
-            comp.SleepCall();
+            try {
+                comp.SleepCall();
+            } catch(Exception e) {
+                Debug.Log(LogLevel.Error, $"Component \"{comp.GetType().Name}\" sleep crashed!");
+                Debug.Log(LogLevel.Message, e.ToString());
+            }
             this.Components.Remove(comp);
         }
     }

@@ -93,6 +93,11 @@ public static class Debug {
             .SetRelativeWindowSize(0f, 0.89f, 0.10f, 1.001f)
             .SetAlwaysRebuildTexture(true));
 
+        SceneHandler.Register(new NotificationScene(0, 0)
+            .SetRelativeWindowSize(0f, 0f, 0.5f, 1.001f)
+            .SetAlwaysRebuildTexture(true));
+        SceneHandler.Load<NotificationScene>();
+
         //SceneHandler.Load("Performance");
         // SceneHandler.Load("Console");
         // SceneHandler.Load("Inspector");
@@ -166,6 +171,11 @@ public static class Debug {
         });
     }
 
+    public static void SendNotification(string message)
+    {
+        SceneHandler.Get<NotificationScene>().Notifications.Add(new(message, 100));
+    }
+
     public static SDL_FRect DebugWindowOffset = new()
     {
         x = 0f,
@@ -183,6 +193,11 @@ public static class Debug {
     {
         var words = message.ToString()?.Split();
         // List<string> messageSplit = message.ToString().SplitInParts(60).ToList();
+
+        if(level == LogLevel.Error)
+        {
+            SendNotification(message.ToString()!);
+        }
 
         var lines = new List<string> { words![0] };
         var lineNum = 0;
