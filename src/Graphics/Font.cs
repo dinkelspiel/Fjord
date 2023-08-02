@@ -10,7 +10,7 @@ public static class Font
     internal static Dictionary<string, IntPtr> Fonts = new ();
     internal static Dictionary<string, IntPtr> FontCache = new();
 
-    public static string DefaultFont { internal set; get; } = "segoeui.ttf";
+    public static string DefaultFont { internal set; get; } = "selawk.ttf";
 
     public static void Initialize()
     {
