@@ -67,7 +67,7 @@ public class Rectangle : DrawInstruction {
         }
     }
 
-    public Texture RenderToTexture()
+    public Texture ToTexture()
     {
         IntPtr oldRender = SDL_GetRenderTarget(Game.SDLRenderer);
 
@@ -142,7 +142,7 @@ public class Circle : DrawInstruction {
         }
     }
 
-    public Texture RenderToTexture()
+    public Texture ToTexture()
     {
         IntPtr oldRender = SDL_GetRenderTarget(Game.SDLRenderer);
 
@@ -565,7 +565,7 @@ public class Text : DrawInstruction
         }
     }
 
-    public Texture RenderToTexture()
+    public Texture ToTexture()
     {
         IntPtr oldRender = SDL_GetRenderTarget(Game.SDLRenderer);
 
