@@ -17,7 +17,7 @@ public class ConsoleScene : Scene
     public ConsoleScene(int width, int height) : base(width, height)
     {
         ClearColor = UiStyles.Background;
-        UpdateOnlyIfActive = true;
+        UpdateOnlyIfActive = false;
     }
 
     public override void Update()
