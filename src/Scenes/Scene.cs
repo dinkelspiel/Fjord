@@ -62,24 +62,7 @@ public abstract class Scene : ICloneable
     internal Vector2 OriginalWindowSize = new();
     internal IntPtr RenderTarget;
 
-    private SDL_Color _clearColor = new()
-    {
-        r = 0,
-        g = 0,
-        b = 0,
-        a = 0
-    };
-
-    public Vector4 ClearColor {
-        get => new(_clearColor.r, _clearColor.g, _clearColor.b, _clearColor.a);
-        set => _clearColor = new()
-        {
-            r = (byte)value.X,
-            g = (byte)value.Y,
-            b = (byte)value.Z,
-            a = (byte)value.W
-        };
-    }
+    public Vector4 ClearColor = new();
 
     public void ApplyOriginalAspectRatio()
     {
@@ -290,7 +273,7 @@ public abstract class Scene : ICloneable
         if((!UpdateOnlyIfActive || !HasRendered) && !Paused)
         {
             SDL_SetRenderTarget(Game.SDLRenderer, RenderTarget);
-            SDL_SetRenderDrawColor(Game.SDLRenderer, (byte)ClearColor.X, (byte)ClearColor.Y, (byte)ClearColor.Y, (byte)ClearColor.Z);
+            SDL_SetRenderDrawColor(Game.SDLRenderer, (byte)ClearColor.X, (byte)ClearColor.Y, (byte)ClearColor.Z, (byte)ClearColor.W);
             SDL_RenderClear(Game.SDLRenderer);
 
             Draw.CurrentSceneID = SceneID;
