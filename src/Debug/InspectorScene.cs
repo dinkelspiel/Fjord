@@ -14,7 +14,7 @@ public class InspectorScene : Scene
 
     public InspectorScene(int width, int height, string id) : base(width, height, id)
     {
-        SetClearColor(UiStyles.Background);
+        ClearColor = UiStyles.Background;
         // SetUpdateOnlyIfActive(true);
     }
 

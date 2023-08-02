@@ -23,16 +23,16 @@ public static class Game
 
     internal static bool Running = true;
 
-    private static ulong timeNow = 0;
-    private static ulong timeLast = 0;
-    private static double deltaTime = 0.0;
+    private static ulong _timeNow = 0;
+    private static ulong _timeLast = 0;
+    public static double DeltaTime { internal set; get; } = 0.0;
 
-    internal static float inputFPS = 0;
-    internal static float updateFPS = 0;
-    internal static float programFPS = 0;
+    internal static float InputFPS = 0;
+    internal static float UpdateFPS = 0;
+    internal static float ProgramFPS = 0;
 
-    private static double FPSCapLast = 0;
-    private static double FPSMax = 144;
+    private static double _fpsCapLast = 0;
+    public static double FPSMax = 144;
 
     public static void Initialize(string title, int width, int height)
     {   
@@ -98,15 +98,15 @@ public static class Game
         while (Running)
         {
             var FPSCapNow = SDL_GetTicks64();
-            var FPSCapDelta = FPSCapNow - FPSCapLast;
+            var FPSCapDelta = FPSCapNow - _fpsCapLast;
 
             if(FPSCapDelta > 1000/FPSMax)
             {
-                timeNow = SDL_GetPerformanceCounter();
-                deltaTime = ((timeNow - timeLast)*1000 / (double)SDL_GetPerformanceFrequency()) * 0.001;
-                timeLast = timeNow;
+                _timeNow = SDL_GetPerformanceCounter();
+                DeltaTime = ((_timeNow - _timeLast)*1000 / (double)SDL_GetPerformanceFrequency()) * 0.001;
+                _timeLast = _timeNow;
 
-                FPSCapLast = FPSCapNow;
+                _fpsCapLast = FPSCapNow;
 
                 ulong programStart = SDL_GetPerformanceCounter();
 
@@ -123,13 +123,13 @@ public static class Game
 
 
                 var elapsed = (inputEnd - inputStart) / (float)SDL_GetPerformanceFrequency();
-                inputFPS = 1f / elapsed;
+                InputFPS = 1f / elapsed;
 
                 elapsed = (updateEnd - updateStart) / (float)SDL_GetPerformanceFrequency();
-                updateFPS = 1f / elapsed;
+                UpdateFPS = 1f / elapsed;
 
                 elapsed = (programEnd - programStart) / (float)SDL_GetPerformanceFrequency();
-                programFPS = 1f / elapsed;
+                ProgramFPS = 1f / elapsed;
 
                 for (var i = 0; i < GlobalKeyboard.downKeys.Length; i++)
                 {
@@ -155,16 +155,6 @@ public static class Game
         }
     }
 
-    public static float GetDeltaTime()
-    {
-        return (float)deltaTime;
-    }
-
-    public static void SetMaxFPS(double FPS)
-    {
-        FPSMax = FPS;
-    }
-
     public static void Update()
     {
         SDL_GetWindowSize(SDLWindow, out Window.Width, out Window.Height);
@@ -172,7 +162,7 @@ public static class Game
         SDL_SetRenderDrawColor(SDLRenderer, 0, 0, 0, 255);
         SDL_RenderClear(SDLRenderer);
 
-        foreach (string id in SceneHandler.GetLoadedScenes())
+        foreach (string id in SceneHandler.LoadedScenes)
         {
             try {
                 SceneHandler.Scenes[id].UpdateCall();

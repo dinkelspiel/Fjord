@@ -17,34 +17,15 @@ public static class FUI
     internal static string? selectedTextFieldValue = null;
     internal static Action<string>? selectedTextFieldOnChange = null;
     internal static Action<string>? selectedTextFieldOnSumbit = null;
-    private static Vector2 UiRenderOffset = new();
-    private static Vector2? OverMousePosition = null;
+    public static Vector2 UiRenderOffset { get; set; } = new();
+    public static Vector2? OverMousePosition { get; set; } = null;
     private static Dictionary<string, List<Circle>> resizeRectCache = new();
     private static (string, int) pressedCorner = new("", -1);
     internal static Dictionary<string, bool> containerShown = new();
-    public static void OverrideMousePosition(Vector2 MousePosition)
-    {
-        OverMousePosition = MousePosition;
-    }
-
-    public static void SetRenderOffset(Vector2 offset)
-    {
-        UiRenderOffset = offset;
-    }
-
-    public static void ResetRenderOffset()
-    {
-        UiRenderOffset = new();
-    }
-
-    public static void ResetMousePosition()
-    {
-        OverMousePosition = null;
-    }
 
     public static void ButtonExt(Vector2 position, string text, Action callback, out Vector2 size)
     {
-        Vector2 TextSize = Font.DrawSize(Font.GetDefaultFont(), text, 16, new(255, 0, 0, 255));
+        Vector2 TextSize = Font.DrawSize(Font.DefaultFont, text, 16, new(255, 0, 0, 255));
 
         Vector4 ButtonRectangle = new(position, TextSize.X + 48, 40);
 
@@ -55,7 +36,7 @@ public static class FUI
 
     public static void ButtonExt(Vector4 v4rect, string text, Action callback, bool runContinuously=false)
     {
-        Vector2 TextSize = Font.DrawSize(Font.GetDefaultFont(), text, 16, new(255, 0, 0, 255));
+        Vector2 TextSize = Font.DrawSize(Font.DefaultFont, text, 16, new(255, 0, 0, 255));
 
         SDL_FRect rect = new()
         {
@@ -116,9 +97,9 @@ public static class FUI
 
     public static void TextFieldExt(Vector2 position, float minSize, string id, string value, Action<string> onChange, Action<string> onSubmit, string? placeholder, out Vector2 fieldsize)
     {
-        // Font.Draw(new Vector2(indent * 10 + UiRenderOffset.X + 5, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.value, 14, UiStyles.TextColor);
-        Vector2 size = Font.DrawSize(Font.GetDefaultFont(), "asdasd", 16, UiStyles.TextColor);
-        Vector2 size2 = Font.DrawSize(Font.GetDefaultFont(), value, 16, UiStyles.TextColor);
+        // Font.Draw(new Vector2(indent * 10 + UiRenderOffset.X + 5, yOffset + UiRenderOffset.Y + 3), Font.DefaultFont, component.value, 14, UiStyles.TextColor);
+        Vector2 size = Font.DrawSize(Font.DefaultFont, "asdasd", 16, UiStyles.TextColor);
+        Vector2 size2 = Font.DrawSize(Font.DefaultFont, value, 16, UiStyles.TextColor);
 
         Vector4 rect = new()
         {
@@ -194,7 +175,7 @@ public static class FUI
             .Render();
 
         //SDL_RenderFillFRect(Game.SDLRenderer, ref rect);
-        Draw.Text(position + new Vector2(16, 7), Font.GetDefaultFont(), value, 16, UiStyles.TextColor);
+        Draw.Text(position + new Vector2(16, 7), Font.DefaultFont, value, 16, UiStyles.TextColor);
     }
 
     public static void TextFieldExt(Vector2 position, string id, string value, Action<string> onChange, Action<string> onSubmit, string? placeholder, out Vector2 fieldsize)
@@ -209,7 +190,7 @@ public static class FUI
 
     public static void SliderExt(Vector2 position, float min, float max, float value, Action<float> onChange, out Vector2 fieldsize)
     {
-        Vector2 size = Font.DrawSize(Font.GetDefaultFont(), "10", 16, UiStyles.TextColor);
+        Vector2 size = Font.DrawSize(Font.DefaultFont, "10", 16, UiStyles.TextColor);
 
         var SliderRectangle = new Rectangle(new()
         {
@@ -273,7 +254,7 @@ public static class FUI
             .Color(SliderRectangle.color)
             .Render();
 
-        // Font.Draw(position + new Vector2(5, 3), Font.GetDefaultFont(), value.ToString(), 16, UiStyles.TextColor);
+        // Font.Draw(position + new Vector2(5, 3), Font.DefaultFont, value.ToString(), 16, UiStyles.TextColor);
     }
 
     public static void Slider(Vector2 position, float min, float max, float value, Action<float> onChange) {
@@ -387,7 +368,7 @@ public static class FUI
                 {
                     i++; 
 
-                    Vector2 TextSize = Font.DrawSize(Font.GetDefaultFont(), component.text, 16, new(255, 0, 0, 255));
+                    Vector2 TextSize = Font.DrawSize(Font.DefaultFont, component.text, 16, new(255, 0, 0, 255));
                     Vector2 Position = new Vector2(indent * 10 + UiRenderOffset.X + xOffset, yOffset + UiRenderOffset.Y);
 
                     Vector4 ButtonRectangle = new(Position, TextSize.X + 48, 36);
@@ -474,15 +455,15 @@ public static class FUI
             else if (componentObj.GetType() == typeof(UiTitle))
             {
                 UiTitle component = (UiTitle)componentObj;
-                Draw.Text(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), Font.GetDefaultFont(), component.text, 18, UiStyles.TextColor);
-                Vector2 size = Font.DrawSize(Font.GetDefaultFont(), component.text, 18, new(0, 0, 0, 255));
+                Draw.Text(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), Font.DefaultFont, component.text, 18, UiStyles.TextColor);
+                Vector2 size = Font.DrawSize(Font.DefaultFont, component.text, 18, new(0, 0, 0, 255));
                 yOffset += size.Y + 10;
             }
             else if (componentObj.GetType() == typeof(UiText))
             {
                 UiText component = (UiText)componentObj;
-                Draw.Text(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), Font.GetDefaultFont(), component.text, 14, component.overrideColor.HasValue ? component.overrideColor.Value : UiStyles.TextColor);
-                Vector2 size = Font.DrawSize(Font.GetDefaultFont(), component.text, 14, new(0, 0, 0, 255));
+                Draw.Text(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), Font.DefaultFont, component.text, 14, component.overrideColor.HasValue ? component.overrideColor.Value : UiStyles.TextColor);
+                Vector2 size = Font.DrawSize(Font.DefaultFont, component.text, 14, new(0, 0, 0, 255));
                 yOffset += size.Y + 10;
             }
             else if (componentObj.GetType() == typeof(UiSpacer))
@@ -539,7 +520,7 @@ public static class FUI
             } else if (componentObj.GetType() == typeof(UiDebugLog))
             {
                 UiDebugLog component = (UiDebugLog)componentObj;
-                Vector2 size = Font.DrawSize(Font.GetDefaultFont(), component.time, 14, UiStyles.SuccessTextColor);
+                Vector2 size = Font.DrawSize(Font.DefaultFont, component.time, 14, UiStyles.SuccessTextColor);
 
                 SDL_Rect rect = new SDL_Rect()
                 {
@@ -552,26 +533,26 @@ public static class FUI
                 SDL_SetRenderDrawColor(Game.SDLRenderer, UiStyles.SuccessBackgroundColor.ToCol());
                 SDL_RenderFillRect(Game.SDLRenderer, ref rect);
 
-                Vector2 size2 = Font.DrawSize(Font.GetDefaultFont(), component.sender, 14, UiStyles.SuccessTextColor);
+                Vector2 size2 = Font.DrawSize(Font.DefaultFont, component.sender, 14, UiStyles.SuccessTextColor);
 
-                Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + 5, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.time, 14, UiStyles.SuccessTextColor);
-                Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.sender, 14, UiStyles.SuccessTextColor);
+                Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + 5, yOffset + UiRenderOffset.Y + 3), Font.DefaultFont, component.time, 14, UiStyles.SuccessTextColor);
+                Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20, yOffset + UiRenderOffset.Y + 3), Font.DefaultFont, component.sender, 14, UiStyles.SuccessTextColor);
 
                 switch(component.level) {
                     case Scenes.LogLevel.Error: {
-                        Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.message, 14, UiStyles.ErrorTextColor);
+                        Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10, yOffset + UiRenderOffset.Y + 3), Font.DefaultFont, component.message, 14, UiStyles.ErrorTextColor);
                     } break;
                     case Scenes.LogLevel.Warning: {
-                        Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.message, 14, UiStyles.WarningTextColor);
+                        Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10, yOffset + UiRenderOffset.Y + 3), Font.DefaultFont, component.message, 14, UiStyles.WarningTextColor);
                     } break;
                     default: {
-                        Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), component.message, 14, UiStyles.TextColor);
+                        Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10, yOffset + UiRenderOffset.Y + 3), Font.DefaultFont, component.message, 14, UiStyles.TextColor);
                     } break;
                 }
 
                 if(component.repeat > 0) {
-                    Vector2 size3 = Font.DrawSize(Font.GetDefaultFont(), component.message, 14, UiStyles.TextColor);
-                    Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10 + size3.X + 10, yOffset + UiRenderOffset.Y + 3), Font.GetDefaultFont(), "(" + component.repeat.ToString() + "x)", 14, UiStyles.ErrorTextColor);
+                    Vector2 size3 = Font.DrawSize(Font.DefaultFont, component.message, 14, UiStyles.TextColor);
+                    Draw.Text(new Vector2(indent * 10 + UiRenderOffset.X + size.X + 20 + size2.X + 10 + size3.X + 10, yOffset + UiRenderOffset.Y + 3), Font.DefaultFont, "(" + component.repeat.ToString() + "x)", 14, UiStyles.ErrorTextColor);
                 }
 
                 yOffset += size.Y + 10;
@@ -615,7 +596,7 @@ public static class FUI
                         FUI.containerShown.Add(label.text + component.Count, true);
                     }
 
-                    Vector2 size = Font.DrawSize(Font.GetDefaultFont(), label.text + component.Count, 18, new(0, 0, 0, 255));
+                    Vector2 size = Font.DrawSize(Font.DefaultFont, label.text + component.Count, 18, new(0, 0, 0, 255));
                     Vector4 rect = new Vector4(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), size.X + 15, size.Y);
 
                     float xpos;
@@ -707,7 +688,7 @@ public static class FUI
                         }
                     } 
 
-                    Draw.Text(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), Font.GetDefaultFont(), label.text, 18, UiStyles.TextColor);
+                    Draw.Text(new(indent * 10 + UiRenderOffset.X, yOffset + UiRenderOffset.Y), Font.DefaultFont, label.text, 18, UiStyles.TextColor);
 
                     yOffset += size.Y + 10;
 
@@ -751,8 +732,8 @@ public static class FUI
             else if (componentObj.GetType() == typeof(UiTitle))
             {
                 UiTitle component = (UiTitle)componentObj;
-                Draw.Text(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset), Font.GetDefaultFont(), component.text, 18, UiStyles.TextColor);
-                Vector2 size = Font.DrawSize(Font.GetDefaultFont(), component.text, 18, new(0, 0, 0, 255));
+                Draw.Text(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset), Font.DefaultFont, component.text, 18, UiStyles.TextColor);
+                Vector2 size = Font.DrawSize(Font.DefaultFont, component.text, 18, new(0, 0, 0, 255));
                 xOffset += size.X + 10;
                 if (size.Y > biggestHeight)
                     biggestHeight = size.Y;
@@ -760,8 +741,8 @@ public static class FUI
             else if (componentObj.GetType() == typeof(UiText))
             {
                 UiText component = (UiText)componentObj;
-                Draw.Text(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset), Font.GetDefaultFont(), component.text, 14, component.overrideColor.HasValue ? component.overrideColor.Value : UiStyles.TextColor);
-                Vector2 size = Font.DrawSize(Font.GetDefaultFont(), component.text, 14, new(0, 0, 0, 255));
+                Draw.Text(new(indent * 10 + UiRenderOffset.X + xOffset, UiRenderOffset.Y + yOffset), Font.DefaultFont, component.text, 14, component.overrideColor.HasValue ? component.overrideColor.Value : UiStyles.TextColor);
+                Vector2 size = Font.DrawSize(Font.DefaultFont, component.text, 14, new(0, 0, 0, 255));
                 xOffset += size.X + 10;
                 if (size.Y > biggestHeight)
                     biggestHeight = size.Y;

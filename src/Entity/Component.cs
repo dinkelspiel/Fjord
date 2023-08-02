@@ -14,7 +14,7 @@ public abstract class Component
     {
         get
         {
-            return (float)Game.GetDeltaTime();
+            return (float)Game.DeltaTime;
         }
         private set
         {

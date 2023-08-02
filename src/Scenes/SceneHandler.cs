@@ -6,7 +6,13 @@ public static class SceneHandler
 {
     internal static Dictionary<string, Scene> Scenes = new ();
     internal static Dictionary<string, Scene> OriginalScenes = new ();
-    internal static List<string> LoadedScenes = new();
+    
+    private static List<string> _loadedScenes = new(); 
+    
+    internal static List<string> LoadedScenes {
+        get => new List<string>(_loadedScenes);
+        set => _loadedScenes = value;
+    }
     
     public static void Initialize() {
         Debug.RegisterCommand("scene_unload", (args) => {
@@ -114,11 +120,6 @@ public static class SceneHandler
                 Debug.Log(scene); 
             }
         });
-    }
-
-    public static List<string> GetLoadedScenes()
-    {
-        return new List<string>(LoadedScenes);
     }
 
     public static void Register(Scene scene)

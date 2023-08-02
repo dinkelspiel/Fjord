@@ -52,7 +52,7 @@ public class SceneCamera
                     ((float)(random.NextDouble() - 0.5) * CameraShakeIntensity) * (CameraShakeLife / CameraShakeLifeMax)
                 )
             );
-            CameraShakeLife -= 100 * Game.GetDeltaTime();
+            CameraShakeLife -= 100 * (float)Game.DeltaTime;
         } else
         {
             Offset = CoreOffset;

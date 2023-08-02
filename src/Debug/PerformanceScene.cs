@@ -32,7 +32,7 @@ public class PerformanceScene : Scene
 
     public override void Awake()
     {
-        SetClearColor(UiStyles.Background);
+        ClearColor = UiStyles.Background;
     }
 
     public override void Update()
@@ -41,9 +41,9 @@ public class PerformanceScene : Scene
         {
             setFps = SDL_GetTicks64();
 
-            InputFPS = Game.inputFPS;
-            UpdateFPS = Game.updateFPS;
-            ProgramFPS = Game.programFPS;
+            InputFPS = Game.InputFPS;
+            UpdateFPS = Game.UpdateFPS;
+            ProgramFPS = Game.ProgramFPS;
 
             recentInputFPS.Add(InputFPS);
             recentProgramFPS.Add(ProgramFPS);

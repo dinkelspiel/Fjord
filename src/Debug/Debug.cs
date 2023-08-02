@@ -130,7 +130,7 @@ public static class Debug {
             if(args.Length > 0) {
                 if(args[0].GetType() == typeof(float)) {
                     Debug.Log(args[0].GetType());
-                    Game.SetMaxFPS((double)((float)args[0]));
+                    Game.FPSMax = (double)((float)args[0]);
                 } else {
                     Debug.Log(LogLevel.Warning, $"Argument must be number");
                 }

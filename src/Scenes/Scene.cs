@@ -8,20 +8,20 @@ namespace Fjord.Scenes;
 
 public abstract class Scene : ICloneable
 {
-    private string SceneID;
+    public string SceneID { get => SceneID; set => throw new Exception("Can't set SceneID"); }
 
-    public bool AllowWindowResize = false;
-    public bool AlwaysRebuildTexture = false;
-    public bool AlwaysAtBack = false;
-    public bool AlwaysAtFront = false;
+    public bool AllowWindowResize { get; set; } = false;
+    public bool AlwaysRebuildTexture { get; set; } = false;
+    public bool AlwaysAtBack { get; set; } = false;
+    public bool AlwaysAtFront { get; set; } = false;
 
     public bool Paused = false;
 
-    internal bool showCursor = true;
-    internal bool captureMouseInput = true;
+    internal bool ShowCursor = true;
+    internal bool CaptureMouseInput = true;
 
-    internal bool updateOnlyIfActive = false;
-    internal bool hasRendered = false;
+    internal bool UpdateOnlyIfActive = false;
+    internal bool HasRendered = false;
 
     public SceneKeyboard Keyboard;
     public SceneMouse Mouse;
@@ -31,7 +31,7 @@ public abstract class Scene : ICloneable
     {
         get
         {
-            return (float)Game.GetDeltaTime();
+            return (float)Game.DeltaTime;
         }
         private set
         {
@@ -61,7 +61,8 @@ public abstract class Scene : ICloneable
     internal SDL_Rect LocalWindowSize = new();
     internal Vector2 OriginalWindowSize = new();
     internal IntPtr RenderTarget;
-    internal SDL_Color ClearColor = new()
+
+    private SDL_Color _clearColor = new()
     {
         r = 0,
         g = 0,
@@ -69,56 +70,20 @@ public abstract class Scene : ICloneable
         a = 0
     };
 
-    public void SetClearColor(SDL_Color cc)
-    {
-        ClearColor = cc;
-    }
-
-    public void SetClearColor(Vector4 cc)
-    {
-        ClearColor = new()
+    public Vector4 ClearColor {
+        get => new(_clearColor.r, _clearColor.g, _clearColor.b, _clearColor.a);
+        set => _clearColor = new()
         {
-            r = (byte)cc.X,
-            g = (byte)cc.Y,
-            b = (byte)cc.Z,
-            a = (byte)cc.W
+            r = (byte)value.X,
+            g = (byte)value.Y,
+            b = (byte)value.Z,
+            a = (byte)value.W
         };
-    }
-
-    public void SetClearColor(int r, int g, int b, int a)
-    {
-        ClearColor = new()
-        {
-            r = (byte)r,
-            g = (byte)g,
-            b = (byte)b,
-            a = (byte)a
-        };
-    }
-
-    public SDL_Color GetClearColor()
-    {
-        return ClearColor;
     }
 
     public string GetSceneID()
     {
         return SceneID;
-    }
-    
-    public void SetShowCursor(bool showCursor)
-    {
-        this.showCursor = showCursor;
-    }
-
-    public void SetCaptureMouse(bool capture)
-    {
-        this.captureMouseInput = capture;
-    }
-
-    public void SetUpdateOnlyIfActive(bool active)
-    {
-        this.updateOnlyIfActive = active;
     }
 
     public void ApplyOriginalAspectRatio()
@@ -227,7 +192,7 @@ public abstract class Scene : ICloneable
 
         if(MouseInsideScene)
         {
-            SDL_ShowCursor(showCursor ? SDL_ENABLE : SDL_DISABLE);
+            SDL_ShowCursor(ShowCursor ? SDL_ENABLE : SDL_DISABLE);
         }
 
         LocalWindowSize = new()
@@ -242,7 +207,7 @@ public abstract class Scene : ICloneable
             WindowSize = new(OriginalWindowSize.X, OriginalWindowSize.Y);
         }
 
-        if (AlwaysRebuildTexture && (MouseInsideScene || !updateOnlyIfActive))
+        if (AlwaysRebuildTexture && (MouseInsideScene || !UpdateOnlyIfActive))
         {
             WindowSize = new() {
                 X = LocalWindowSize.w,
@@ -260,7 +225,7 @@ public abstract class Scene : ICloneable
             Mouse.LocalPosition.X = (GlobalMouse.Position.X - LocalWindowSize.x) + Camera.Offset.X;
             Mouse.LocalPosition.Y = (GlobalMouse.Position.Y - LocalWindowSize.y) + Camera.Offset.Y;
 
-            hasRendered = false;
+            HasRendered = false;
         } else
         {
             float wRatio = (float)WindowSize.X / (float)LocalWindowSize.w;
@@ -287,7 +252,7 @@ public abstract class Scene : ICloneable
             {
                 if(Helpers.PointInside(GlobalMouse.Position, SceneHandler.Scenes[scene].LocalWindowSize))
                 {
-                    if(SceneHandler.Scenes[scene].captureMouseInput)
+                    if(SceneHandler.Scenes[scene].CaptureMouseInput)
                     {
                         eligble.Add(scene);
                     }
@@ -327,10 +292,10 @@ public abstract class Scene : ICloneable
         if(!Paused)
             Camera.Update(WindowSize);
 
-        if((!updateOnlyIfActive || !hasRendered) && !Paused)
+        if((!UpdateOnlyIfActive || !HasRendered) && !Paused)
         {
             SDL_SetRenderTarget(Game.SDLRenderer, RenderTarget);
-            SDL_SetRenderDrawColor(Game.SDLRenderer, ClearColor.r, ClearColor.g, ClearColor.b, ClearColor.a);
+            SDL_SetRenderDrawColor(Game.SDLRenderer, (byte)ClearColor.X, (byte)ClearColor.Y, (byte)ClearColor.Y, (byte)ClearColor.Z);
             SDL_RenderClear(Game.SDLRenderer);
 
             Draw.CurrentSceneID = SceneID;
@@ -348,7 +313,7 @@ public abstract class Scene : ICloneable
 
             drawBuffer = new();
 
-            hasRendered = true;
+            HasRendered = true;
         }
 
         SDL_SetRenderTarget(Game.SDLRenderer, IntPtr.Zero);

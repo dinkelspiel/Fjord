@@ -13,8 +13,8 @@ public class OldInspectorScene : Scene
 
     public OldInspectorScene(int width, int height, string id) : base(width, height, id)
     {
-        SetClearColor(UiStyles.Background);
-        SetUpdateOnlyIfActive(true);
+        ClearColor = UiStyles.Background;
+        UpdateOnlyIfActive = true;
     }
 
     public override void Update()

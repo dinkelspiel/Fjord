@@ -16,7 +16,7 @@ public class UiBuilder
         this.Position = position;
         if(MouseOverride != null)
         {
-            FUI.OverrideMousePosition(MouseOverride.Value);
+            FUI.OverMousePosition = MouseOverride.Value;
         }
     }
     public UiBuilder(Vector4 rect, Vector2? MouseOverride = null)
@@ -26,7 +26,7 @@ public class UiBuilder
 
         if (MouseOverride != null)
         {
-            FUI.OverrideMousePosition(MouseOverride.Value);
+            FUI.OverMousePosition = MouseOverride.Value;
         }
     }
 
@@ -197,7 +197,7 @@ public class UiBuilder
 
     public void Render(out int height)
     {
-        FUI.SetRenderOffset(Position + new Vector2(10, 5));
+        FUI.UiRenderOffset = Position + new Vector2(10, 5);
 
         //float yOffset = 0;
         //float y = Ui.Render(Build(), ref yOffset);
@@ -207,8 +207,8 @@ public class UiBuilder
         //    .Render();
 
         FUI.Render(Build(), out float renderHeight);
-        FUI.ResetMousePosition();
-        FUI.ResetRenderOffset();
+        FUI.OverMousePosition = null;
+        FUI.UiRenderOffset = new();
         height = (int)renderHeight;
     }
 

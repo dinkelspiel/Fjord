@@ -16,8 +16,8 @@ public class ConsoleScene : Scene
 
     public ConsoleScene(int width, int height, string id) : base(width, height, id)
     {
-        SetClearColor(UiStyles.Background);
-        SetUpdateOnlyIfActive(true);
+        ClearColor = UiStyles.Background;
+        UpdateOnlyIfActive = true;
     }
 
     public override void Update()
@@ -133,7 +133,7 @@ public class ConsoleScene : Scene
 
         logsLength = Debug.Logs.Count;
 
-        FUI.OverrideMousePosition(Mouse.Position);
+        FUI.OverMousePosition = Mouse.Position;
 
         float height = 0;
         if(consoleInput != "" && Debug.commands.Keys.ToList().Where((command) => command == consoleInput).ToList().Count != 1 ) 
@@ -177,6 +177,6 @@ public class ConsoleScene : Scene
                 scrollYOffset = scrollY - Mouse.Position.Y;
             });
         }
-        FUI.ResetMousePosition();
+        FUI.OverMousePosition = null;
     }
 }
