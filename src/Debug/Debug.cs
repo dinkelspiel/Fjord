@@ -79,17 +79,17 @@ public static class Debug {
 
     public static void Initialize()
     {
-        SceneHandler.Register(new InspectorScene((int)(Game.Window.Width * 0.201), 1080, "Inspector")
+        SceneHandler.Register(new InspectorScene((int)(Game.Window.Width * 0.201), 1080)
             .SetAllowWindowResize(false)
             .SetAlwaysRebuildTexture(true)
             .SetRelativeWindowSize(0.8f, 0f, 1.0001f, 1f));
 
-        SceneHandler.Register(new ConsoleScene((int)(Game.Window.Width * 0.2), (int)(Game.Window.Height * 0.4), "Console")
+        SceneHandler.Register(new ConsoleScene((int)(Game.Window.Width * 0.2), (int)(Game.Window.Height * 0.4))
             .SetAllowWindowResize(true)
             .SetRelativeWindowSize(0.1f, 0.1f, 0.4f, 0.6f)
             .SetAlwaysRebuildTexture(true));
 
-        SceneHandler.Register(new PerformanceScene((int)(Game.Window.Width * 0.2), (int)(Game.Window.Height * 0.4), "Performance")
+        SceneHandler.Register(new PerformanceScene((int)(Game.Window.Width * 0.2), (int)(Game.Window.Height * 0.4))
             .SetRelativeWindowSize(0f, 0.89f, 0.10f, 1.001f)
             .SetAlwaysRebuildTexture(true));
 
@@ -106,7 +106,7 @@ public static class Debug {
         {
             if (args.Length < 1)
             {
-                Debug.Log(SceneHandler.IsLoaded("Performance"));
+                Debug.Log(SceneHandler.IsLoaded<PerformanceScene>());
                 return;
             }
 
@@ -118,11 +118,11 @@ public static class Debug {
 
             if ((bool)args[0])
             {
-                SceneHandler.Load("Performance");
+                SceneHandler.Load<PerformanceScene>();
             }
             else
             {
-                SceneHandler.Unload("Performance");
+                SceneHandler.Unload<PerformanceScene>();
             }
         });
 
@@ -196,8 +196,6 @@ public static class Debug {
                 lineNum++;
             }
         }
-
-        // Console.WriteLine(message);
 
         StackTrace stackTrace = new StackTrace(); 
         StackFrame? stackFrame = stackTrace.GetFrame(1);

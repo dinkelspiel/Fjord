@@ -7,12 +7,7 @@ public static class SceneHandler
     internal static Dictionary<string, Scene> Scenes = new ();
     internal static Dictionary<string, Scene> OriginalScenes = new ();
     
-    private static List<string> _loadedScenes = new(); 
-    
-    internal static List<string> LoadedScenes {
-        get => new List<string>(_loadedScenes);
-        set => _loadedScenes = value;
-    }
+    public static List<string> LoadedScenes = new();
     
     public static void Initialize() {
         Debug.RegisterCommand("scene_unload", (args) => {
@@ -124,20 +119,22 @@ public static class SceneHandler
 
     public static void Register(Scene scene)
     {
-        Scenes.Add(scene.GetSceneID(), (Scene)scene.Clone());
-        OriginalScenes.Add(scene.GetSceneID(), (Scene)scene.Clone());
+        Scenes.Add(scene.SceneID, (Scene)scene.Clone());
+        OriginalScenes.Add(scene.SceneID, (Scene)scene.Clone());
     }
 
-    public static void Load(string id)
+    internal static void Load(string id)
     {
         if (!LoadedScenes.Contains(id))
         {
             LoadedScenes.Add(id);
             Scenes[id].AwakeCall();
+        } else {
+            Debug.Log($"Scene \"{id}\" doesnt exist");
         }
     }
 
-    public static void Unload(string id)
+    internal static void Unload(string id)
     {
         if (LoadedScenes.Contains(id))
         {
@@ -147,11 +144,26 @@ public static class SceneHandler
         FUI.selectedTextField = null;
     }
 
-    public static void Remake(string id)
+    internal static void Remake(string id)
     {
         Scenes[id] = (Scene)OriginalScenes[id].Clone();
         Scenes[id].Entities.Clear();
         Scenes[id].Awake();
+    }
+
+    public static void Load<T>()
+    {
+        Load(typeof(T).Name);
+    }
+
+    public static void Unload<T>()
+    {
+        Unload(typeof(T).Name);
+    }
+
+    public static void Remake<T>()
+    {
+        Remake(typeof(T).Name);
     }
 
     public static T Get<T>()
@@ -175,13 +187,18 @@ public static class SceneHandler
         }
     }
 
-    public static Scene Get(string id)
+    internal static Scene Get(string id)
     {
         return Scenes[id];
     }
 
-    public static bool IsLoaded(string id)
+    internal static bool IsLoaded(string id)
     {
         return LoadedScenes.Contains(id);
+    }
+
+    public static bool IsLoaded<T>()
+    {
+        return IsLoaded(typeof(T).Name);
     }
 }

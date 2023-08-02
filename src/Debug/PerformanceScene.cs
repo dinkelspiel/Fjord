@@ -26,7 +26,7 @@ public class PerformanceScene : Scene
 
     bool LastSize = false;
 
-    public PerformanceScene(int width, int height, string id) : base(width, height, id)
+    public PerformanceScene(int width, int height) : base(width, height)
     {
     }
 

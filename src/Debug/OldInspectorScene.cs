@@ -11,7 +11,7 @@ public class OldInspectorScene : Scene
 {
     float yOffset = 0;
 
-    public OldInspectorScene(int width, int height, string id) : base(width, height, id)
+    public OldInspectorScene(int width, int height) : base(width, height)
     {
         ClearColor = UiStyles.Background;
         UpdateOnlyIfActive = true;

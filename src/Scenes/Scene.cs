@@ -8,7 +8,7 @@ namespace Fjord.Scenes;
 
 public abstract class Scene : ICloneable
 {
-    public string SceneID { get => SceneID; set => throw new Exception("Can't set SceneID"); }
+    public string SceneID { get; internal set; }
 
     public bool AllowWindowResize { get; set; } = false;
     public bool AlwaysRebuildTexture { get; set; } = false;
@@ -81,11 +81,6 @@ public abstract class Scene : ICloneable
         };
     }
 
-    public string GetSceneID()
-    {
-        return SceneID;
-    }
-
     public void ApplyOriginalAspectRatio()
     {
         float ratio = OriginalWindowSize.X / OriginalWindowSize.Y;
@@ -95,21 +90,21 @@ public abstract class Scene : ICloneable
         RelativeWindowSize.h = newSize.Y / Game.Window.Height;
     }
 
-    protected Scene(int width, int height, string id)
+    protected Scene(int width, int height)
     {
         OriginalWindowSize.X = width;
         OriginalWindowSize.Y = height;
         WindowSize.X = width;
         WindowSize.Y = height;
 
-        SceneID = id;
+        SceneID = this.GetType().Name;
         
         RenderTarget = SDL_CreateTexture(Game.SDLRenderer, SDL_PIXELFORMAT_RGBA8888,
             (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, width, height);
         SDL_SetTextureBlendMode(RenderTarget, SDL_BlendMode.SDL_BLENDMODE_BLEND);
 
-        Keyboard = new(id);
-        Mouse = new(id);
+        Keyboard = new(SceneID);
+        Mouse = new(SceneID);
         Camera = new(this);
     }
 

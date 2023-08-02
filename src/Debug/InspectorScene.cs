@@ -12,7 +12,7 @@ public class InspectorScene : Scene
     float yOffset = 0;
     public string SelectedScene = "";
 
-    public InspectorScene(int width, int height, string id) : base(width, height, id)
+    public InspectorScene(int width, int height) : base(width, height)
     {
         ClearColor = UiStyles.Background;
         // SetUpdateOnlyIfActive(true);

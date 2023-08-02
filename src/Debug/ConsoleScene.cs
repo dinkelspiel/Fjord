@@ -14,7 +14,7 @@ public class ConsoleScene : Scene
     float scrollYOffset = 0;
     bool pressedScroll = false;
 
-    public ConsoleScene(int width, int height, string id) : base(width, height, id)
+    public ConsoleScene(int width, int height) : base(width, height)
     {
         ClearColor = UiStyles.Background;
         UpdateOnlyIfActive = true;

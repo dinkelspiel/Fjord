@@ -162,7 +162,7 @@ public static class Game
         SDL_SetRenderDrawColor(SDLRenderer, 0, 0, 0, 255);
         SDL_RenderClear(SDLRenderer);
 
-        foreach (string id in SceneHandler.LoadedScenes)
+        foreach (string id in new List<string>(SceneHandler.LoadedScenes))
         {
             try {
                 SceneHandler.Scenes[id].UpdateCall();
@@ -180,25 +180,25 @@ public static class Game
 
         if (GlobalKeyboard.Pressed(Key.D, Mod.LShift, Mod.LCtrl))
         {
-            if (!SceneHandler.IsLoaded("Inspector"))
-                SceneHandler.Load("Inspector");
+            if (!SceneHandler.IsLoaded<InspectorScene>())
+                SceneHandler.Load<InspectorScene>();
             else
-                SceneHandler.Unload("Inspector");
+                SceneHandler.Unload<InspectorScene>();
         }
 
         if (GlobalKeyboard.Pressed(Key.C, Mod.LShift, Mod.LCtrl))
         {
-            if (!SceneHandler.IsLoaded("Console")) {
-                SceneHandler.Load("Console");
+            if (!SceneHandler.IsLoaded<ConsoleScene>()) {
+                SceneHandler.Load<ConsoleScene>();
             } else
-                SceneHandler.Unload("Console");
+                SceneHandler.Unload<ConsoleScene>();
         }
 
         if (GlobalKeyboard.Pressed(Key.F, Mod.LShift, Mod.LCtrl))
         {
-            if (!SceneHandler.IsLoaded("Performance"))
+            if (!SceneHandler.IsLoaded<PerformanceScene>())
             {
-                SceneHandler.Load("Performance");
+                SceneHandler.Load<PerformanceScene>();
             }
             else
             {
@@ -217,7 +217,7 @@ public static class Game
                     else
                         scene.SetRelativeWindowSize(scene.RelativeWindowSize.x + 0.14f, scene.RelativeWindowSize.y, scene.RelativeWindowSize.w, scene.RelativeWindowSize.h);
                     scene.Size = false;
-                    SceneHandler.Unload("Performance");
+                    SceneHandler.Unload<PerformanceScene>();
                 }
                     
             }
