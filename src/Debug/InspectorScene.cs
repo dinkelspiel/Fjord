@@ -10,7 +10,16 @@ namespace Fjord.Scenes;
 public class InspectorScene : Scene
 {
     float yOffset = 0;
-    public string SelectedScene = "";
+
+    public string SelectedScene { 
+        get; 
+        internal set;
+    } = "";
+
+    public void SetSelectedScene<T>()
+    {
+        SelectedScene = typeof(T).Name;
+    }
 
     public InspectorScene(int width, int height) : base(width, height)
     {
@@ -22,7 +31,7 @@ public class InspectorScene : Scene
     {
         if(SelectedScene == "")
         {
-            SelectedScene = SceneHandler.Scenes.First(e => e.Key != "Inspector" && e.Key != "Console" && e.Key != "Performance").Key;
+            SelectedScene = SceneHandler.Scenes.First(e => e.Key != "InspectorScene" && e.Key != "ConsoleScene" && e.Key != "PerformanceScene").Key;
         }
 
         if(MouseInsideScene) 
