@@ -47,7 +47,7 @@ public abstract class Scene : ICloneable
 
     internal List<Entity> RegisterEntityBacklog = new();
 
-    internal List<DrawInstruction> drawBuffer = new();
+    internal List<IDrawInstruction> drawBuffer = new();
     internal SDL_FRect RelativeWindowSize = new()
     {
         x = 0.1f,
@@ -224,30 +224,31 @@ public abstract class Scene : ICloneable
             SceneHandler.LoadedScenes.Insert(SceneHandler.LoadedScenes.Count, SceneID);
         }
 
-        if (Helpers.PointInside(GlobalMouse.Position, LocalWindowSize)) 
+        if (Helpers.PointInside(GlobalMouse.Position, LocalWindowSize))
         {
-            List<string> loadedScenes = new(SceneHandler.LoadedScenes);
-            List<string> eligble = new();
-            foreach(var scene in loadedScenes)
+            bool? foundBefore = null;
+            foreach(var scene in SceneHandler.LoadedScenes.AsEnumerable().Reverse())
             {
                 if(Helpers.PointInside(GlobalMouse.Position, SceneHandler.Scenes[scene].LocalWindowSize))
                 {
                     if(SceneHandler.Scenes[scene].CaptureMouseInput)
                     {
-                        eligble.Add(scene);
+                        if (scene != SceneID)
+                        {
+                            MouseInsideScene = false;
+                            foundBefore = true;
+                            break;
+                        }
+
+                        MouseInsideScene = true;
+                        foundBefore = false;
+                        break;
                     }
                 }
             }
-            loadedScenes.Reverse();
-            if(eligble.Count > 1)
+
+            if (foundBefore is null)
             {
-                if(loadedScenes.First((scene) => eligble.Contains(scene)) == SceneID)
-                {
-                    MouseInsideScene = true;
-                } else {
-                    MouseInsideScene = false;
-                }
-            } else {
                 MouseInsideScene = true;
             }
         } else 

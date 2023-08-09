@@ -156,6 +156,9 @@ public static class Game
                 {
                     SDL_ShowCursor(SDL_ENABLE);
                 }   
+                
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
             }
         }
     }

@@ -7,20 +7,16 @@ using static SDL2.SDL_image;
 
 namespace Fjord.Graphics;
 
-public class DrawInstruction : ICloneable {
-    public int depth;
-
-    public object Clone()
-    {
-        return this.MemberwiseClone();
-    }
+public interface IDrawInstruction {
+    public int depth { get; set;  }
 }
 
-public class Rectangle : DrawInstruction {
+public struct Rectangle : IDrawInstruction {
     public Vector4 rect;
     public Vector4 color;
     public float? borderRadius = null;
     public bool fill;
+    public int depth { get; set; } = 0;
 
     public Rectangle(Vector4 rect)
     {
@@ -59,11 +55,11 @@ public class Rectangle : DrawInstruction {
     {
         if (Draw.CurrentSceneID is not null)
         {
-            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add((Rectangle)this.Clone());
+            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add(this);
         }
         else
         {
-            Draw.drawBuffer.Add((Rectangle)this.Clone());
+            Draw.drawBuffer.Add(this);
         }
     }
 
@@ -75,7 +71,7 @@ public class Rectangle : DrawInstruction {
         if(color.W != 255)
             SDL_SetTextureBlendMode(tex, SDL_BlendMode.SDL_BLENDMODE_BLEND);
         SDL_SetRenderTarget(Game.SDLRenderer, tex);
-        var tempRect = (Rectangle)this.Clone();
+        var tempRect = this;
         tempRect.rect.X = 0;
         tempRect.rect.Y = 0;
         Draw.RectangleDirect(tempRect);
@@ -85,10 +81,10 @@ public class Rectangle : DrawInstruction {
         var itex = new Texture(tex).Position(rect.X, rect.Y);
 
         return itex;
-    }
+    } 
 }
 
-public class Circle : DrawInstruction {
+public struct Circle : IDrawInstruction {
     public Vector2 position;
     public float radius;
     public Vector4 color;
@@ -136,11 +132,11 @@ public class Circle : DrawInstruction {
     public void Render() {
         if (Draw.CurrentSceneID is not null)
         {
-            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add((Circle)this.Clone());
+            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add(this);
         }
         else
         {
-            Draw.drawBuffer.Add((Circle)this.Clone());
+            Draw.drawBuffer.Add(this);
         }
     }
 
@@ -155,7 +151,7 @@ public class Circle : DrawInstruction {
         SDL_SetRenderDrawColor(Game.SDLRenderer, 0, 0, 0, 0);
         SDL_RenderClear(Game.SDLRenderer);
 
-        var tempRect = (Circle)this.Clone();
+        var tempRect = this;
         tempRect.position.X = tempRect.radius;
         tempRect.position.Y = tempRect.radius;
         Draw.CircleDirect(tempRect);
@@ -166,9 +162,11 @@ public class Circle : DrawInstruction {
 
         return itex;
     }
+
+    public int depth { get; set; }
 }
 
-public class Texture : DrawInstruction {
+public class Texture : IDrawInstruction {
     public Vector2 position;
     public IntPtr SDLTexture;
     public IntPtr SDLSurface;
@@ -429,24 +427,30 @@ public class Texture : DrawInstruction {
 
         SDL_SetTextureColorMod(newTexture, (byte)color.X, (byte)color.Y, (byte)color.Z);
 
-        return ((Texture)this.Clone()).SetTexture(newTexture);
+        return SetTexture(newTexture);
     }
 
     public void Render() {
         if (Draw.CurrentSceneID is not null)
         {
-            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add((Texture)this.Clone());
+            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add(this);
         }
         else
         {
-            Draw.drawBuffer.Add((Texture)this.Clone());
+            Draw.drawBuffer.Add(this);
         }
     }
+
+    public int depth { get; set; }
 }
 
-public class Geometry : DrawInstruction
+public struct Geometry : IDrawInstruction
 {
     public List<SDL_Vertex> verticies = new List<SDL_Vertex>();
+
+    public Geometry()
+    {
+    }
 
     public Geometry AddVertex(SDL_Vertex v)
     {
@@ -485,16 +489,18 @@ public class Geometry : DrawInstruction
     {
         if (Draw.CurrentSceneID is not null)
         {
-            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add((Geometry)this.Clone());
+            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add(this);
         }
         else
         {
-            Draw.drawBuffer.Add((Geometry)this.Clone());
+            Draw.drawBuffer.Add(this);
         }
     }
+
+    public int depth { get; set; }
 }
 
-public class Text : DrawInstruction
+public struct Text : IDrawInstruction
 {
     public string font;
     public string value;
@@ -560,11 +566,11 @@ public class Text : DrawInstruction
     {
         if (Draw.CurrentSceneID is not null)
         {
-            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add((Text)this.Clone());
+            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add(this);
         }
         else
         {
-            Draw.drawBuffer.Add((Text)this.Clone());
+            Draw.drawBuffer.Add(this);
         }
     }
 
@@ -579,7 +585,7 @@ public class Text : DrawInstruction
         SDL_SetRenderTarget(Game.SDLRenderer, tex);
         SDL_SetRenderDrawColor(Game.SDLRenderer, 0, 0, 0, 0);
         SDL_RenderClear(Game.SDLRenderer);
-        var tempRect = (Text)this.Clone();
+        var tempRect = this;
         tempRect.position.X = 0;
         tempRect.position.Y = 0;
         Draw.TextDirect(tempRect);
@@ -590,9 +596,11 @@ public class Text : DrawInstruction
 
         return itex;
     }
+
+    public int depth { get; set; }
 }
 
-public class Line : DrawInstruction
+public struct Line : IDrawInstruction
 {
     public Vector2 point1 = new();
     public Vector2 point2 = new();
@@ -626,11 +634,13 @@ public class Line : DrawInstruction
     {
         if (Draw.CurrentSceneID is not null)
         {
-            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add((Line)this.Clone());
+            SceneHandler.Scenes[Draw.CurrentSceneID].drawBuffer.Add(this);
         }
         else
         {
-            Draw.drawBuffer.Add((Line)this.Clone());
+            Draw.drawBuffer.Add(this);
         }
     }
+
+    public int depth { get; set; }
 }

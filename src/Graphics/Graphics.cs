@@ -33,7 +33,7 @@ public static class Draw
 {
     internal static string? CurrentSceneID = null;
 
-    internal static List<DrawInstruction> drawBuffer = new();
+    internal static List<IDrawInstruction> drawBuffer = new();
     
     internal static Dictionary<string, IntPtr> textureCache = new();
 
@@ -334,6 +334,7 @@ public static class Draw
         {
             SDL_DestroyTexture(texture.SDLTexture);
             SDL_FreeSurface(texture.SDLSurface);
+            texture = null;
         }
     }
 
@@ -379,88 +380,79 @@ public static class Draw
         SDL_RenderDrawLine(Game.SDLRenderer, (int)line.point1.X, (int)line.point1.Y, (int)line.point2.X, (int)line.point2.Y);
     }
 
-    internal static void DrawDrawBuffer(List<DrawInstruction> drawBufferLocal, string? sceneId) {
-        List<DrawInstruction> sortedDrawBuffer = drawBufferLocal.OrderBy(e => e.depth).ToList();
-
-        foreach(DrawInstruction drawInsObj in sortedDrawBuffer) {
-            if(drawInsObj.GetType() == typeof(Rectangle)) {
-                Rectangle drawIns = (Rectangle)drawInsObj;
+    internal static void DrawDrawBuffer(List<IDrawInstruction> drawBufferLocal, string? sceneId) {
+        
+        drawBufferLocal.Sort((a, b) => a.depth.CompareTo(b.depth));
+        foreach(IDrawInstruction drawInsObj in drawBufferLocal) {
+            if(drawInsObj is Rectangle rect) {
                 if(sceneId != null)
                 {
-                    drawIns.rect.X -= SceneHandler.Get(sceneId).Camera.Offset.X;
-                    drawIns.rect.Y -= SceneHandler.Get(sceneId).Camera.Offset.Y;
+                    rect.rect.X -= SceneHandler.Get(sceneId).Camera.Offset.X;
+                    rect.rect.Y -= SceneHandler.Get(sceneId).Camera.Offset.Y;
                 }
-                Draw.RectangleDirect(drawIns);
-            } else if(drawInsObj.GetType() == typeof(Circle)) {
-                Circle drawIns = (Circle)drawInsObj;
-                Circle drawInsClone = (Circle)drawInsObj.Clone();
-                if(drawIns.hoverAnimation != null)
+                Draw.RectangleDirect(rect);
+            } else if(drawInsObj is Circle circle) {
+                if(circle.hoverAnimation != null)
                 {
-                    if(drawIns.hoverAnimation.xDriver != null)
-                        drawInsClone.position.X *= (drawIns.hoverAnimation.xDriver(drawIns.hoverAnimation.progress) + 1);
-                    if(drawIns.hoverAnimation.yDriver != null)
-                        drawInsClone.position.Y *= (drawIns.hoverAnimation.yDriver(drawIns.hoverAnimation.progress) + 1);
-                    if(drawIns.hoverAnimation.radiusDriver != null)
-                        drawInsClone.radius *= (drawIns.hoverAnimation.radiusDriver(drawIns.hoverAnimation.progress) + 1);
-                    if(drawIns.hoverAnimation.colorDriver != null)
-                        drawInsClone.color = Helpers.Lerp(drawIns.color, drawIns.hoverAnimation.colorGoal, drawIns.hoverAnimation.progress);
+                    if(circle.hoverAnimation.xDriver != null)
+                        circle.position.X *= (circle.hoverAnimation.xDriver(circle.hoverAnimation.progress) + 1);
+                    if(circle.hoverAnimation.yDriver != null)
+                        circle.position.Y *= (circle.hoverAnimation.yDriver(circle.hoverAnimation.progress) + 1);
+                    if(circle.hoverAnimation.radiusDriver != null)
+                        circle.radius *= (circle.hoverAnimation.radiusDriver(circle.hoverAnimation.progress) + 1);
+                    if(circle.hoverAnimation.colorDriver != null)
+                        circle.color = Helpers.Lerp(circle.color, circle.hoverAnimation.colorGoal, circle.hoverAnimation.progress);
                         // drawInsClone.color *= (drawIns.hoverAnimation.colorDriver(drawIns.hoverAnimation.progress) + 1);
-                    if(sceneId == null ? Helpers.PointDistance(GlobalMouse.Position, drawInsClone.position) < drawInsClone.radius : Helpers.PointDistance(SceneHandler.Scenes[sceneId].Mouse.Position, drawInsClone.position) < drawInsClone.radius) {
-                        if(drawIns.hoverAnimation.progress < 1)
-                            drawIns.hoverAnimation.progress += drawIns.hoverAnimation.speed * (float)Game.DeltaTime;
-                    } else if(drawIns.hoverAnimation.progress > 0) {
-                        drawIns.hoverAnimation.progress -= drawIns.hoverAnimation.speed * (float)Game.DeltaTime;
-                        if(drawIns.hoverAnimation.progress < 0)
-                            drawIns.hoverAnimation.progress = 0;
+                    if(sceneId == null ? Helpers.PointDistance(GlobalMouse.Position, circle.position) < circle.radius : Helpers.PointDistance(SceneHandler.Scenes[sceneId].Mouse.Position, circle.position) < circle.radius) {
+                        if(circle.hoverAnimation.progress < 1)
+                            circle.hoverAnimation.progress += circle.hoverAnimation.speed * (float)Game.DeltaTime;
+                    } else if(circle.hoverAnimation.progress > 0) {
+                        circle.hoverAnimation.progress -= circle.hoverAnimation.speed * (float)Game.DeltaTime;
+                        if(circle.hoverAnimation.progress < 0)
+                            circle.hoverAnimation.progress = 0;
                     }
 
                 }
                 if(sceneId != null)
-                    drawInsClone.position -= SceneHandler.Get(sceneId).Camera.Offset;
-                Draw.CircleDirect(drawInsClone);
-            } else if(drawInsObj.GetType() == typeof(Texture))
+                    circle.position -= SceneHandler.Get(sceneId).Camera.Offset;
+                Draw.CircleDirect(circle);
+            } else if(drawInsObj is Texture texture)
             {
-                Texture drawIns = (Texture)drawInsObj;
                 if(sceneId != null)
-                    drawIns.position -= SceneHandler.Get(sceneId).Camera.Offset;
-                Draw.TextureDirect(drawIns);
-            } else if(drawInsObj.GetType() == typeof(Geometry))
+                    texture.position -= SceneHandler.Get(sceneId).Camera.Offset;
+                Draw.TextureDirect(texture);
+            } else if(drawInsObj is Geometry geo)
             {
-                Geometry drawIns = (Geometry)drawInsObj;
-
                 if(sceneId != null)
                 {
-                    for(var i = 0; i < drawIns.verticies.Count; i++)
+                    for(var i = 0; i < geo.verticies.Count; i++)
                     {
-                        drawIns.verticies[i] = new SDL_Vertex() {
+                        geo.verticies[i] = new SDL_Vertex() {
                             position = new SDL_FPoint() {
-                                x = drawIns.verticies[i].position.x - SceneHandler.Get(sceneId).Camera.Offset.X,
-                                y = drawIns.verticies[i].position.y - SceneHandler.Get(sceneId).Camera.Offset.Y,
+                                x = geo.verticies[i].position.x - SceneHandler.Get(sceneId).Camera.Offset.X,
+                                y = geo.verticies[i].position.y - SceneHandler.Get(sceneId).Camera.Offset.Y,
                             },
-                            color = drawIns.verticies[i].color,
-                            tex_coord = drawIns.verticies[i].tex_coord
+                            color = geo.verticies[i].color,
+                            tex_coord = geo.verticies[i].tex_coord
                         }; 
                     }
                 }
 
-                Draw.GeometryDirect(drawIns);
-            } else if(drawInsObj.GetType() == typeof(Text))
+                Draw.GeometryDirect(geo);
+            } else if(drawInsObj is Text text)
             {
-                Text drawIns = (Text)drawInsObj;
                 if(sceneId != null)
-                    drawIns.position -= SceneHandler.Get(sceneId).Camera.Offset;
-                Draw.TextDirect(drawIns);
-            } else if(drawInsObj.GetType() == typeof(Line))
+                    text.position -= SceneHandler.Get(sceneId).Camera.Offset;
+                Draw.TextDirect(text);
+            } else if(drawInsObj is Line line)
             {
-                Line drawIns = (Line)drawInsObj;
-
                 if(sceneId != null)
                 {   
-                    drawIns.point1 -= SceneHandler.Get(sceneId).Camera.Offset;
-                    drawIns.point2 -= SceneHandler.Get(sceneId).Camera.Offset;
+                    line.point1 -= SceneHandler.Get(sceneId).Camera.Offset;
+                    line.point2 -= SceneHandler.Get(sceneId).Camera.Offset;
                 }
 
-                Draw.LineDirect(drawIns);
+                Draw.LineDirect(line);
             }
         }
     }
