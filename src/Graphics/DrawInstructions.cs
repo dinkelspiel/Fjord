@@ -68,8 +68,7 @@ public struct Rectangle : IDrawInstruction {
         IntPtr oldRender = SDL_GetRenderTarget(Game.SDLRenderer);
 
         IntPtr tex = SDL_CreateTexture(Game.SDLRenderer, SDL_PIXELFORMAT_RGBA8888, (int)SDL_TextureAccess.SDL_TEXTUREACCESS_TARGET, (int)rect.Z, (int)rect.W);
-        if(color.W != 255)
-            SDL_SetTextureBlendMode(tex, SDL_BlendMode.SDL_BLENDMODE_BLEND);
+        SDL_SetTextureBlendMode(tex, SDL_BlendMode.SDL_BLENDMODE_BLEND);
         SDL_SetRenderTarget(Game.SDLRenderer, tex);
         var tempRect = this;
         tempRect.rect.X = 0;
