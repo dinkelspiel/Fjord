@@ -34,6 +34,9 @@ public static class Game
     private static double _fpsCapLast = 0;
     public static double FPSMax = 144;
 
+    public static ulong MillisecondsSinceStart => SDL_GetTicks64();
+    public static ulong SecondsSinceStart => SDL_GetTicks64() / 1000;
+
     public static void Initialize(string title, int width, int height)
     {   
         #if DEBUG
