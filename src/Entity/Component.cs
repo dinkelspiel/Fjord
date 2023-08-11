@@ -78,4 +78,19 @@ public class Transform : Component
             Angle = 360;
         }
     }
+    
+    public void MoveTowards(Vector2 position, float speed)
+    {
+        Position = Vector2.Add(Position, Helpers.LengthDir(speed, Helpers.PointDirection(Position, position)));
+    }
+    
+    public void MoveTowards(Entity entity, float speed)
+    {
+        Position = Vector2.Add(Position, Helpers.LengthDir(speed, Helpers.PointDirection(Position, entity.Get<Transform>().Position)));
+    }
+    
+    public void MoveTowards(Transform transform, float speed)
+    {
+        Position = Vector2.Add(Position, Helpers.LengthDir(speed, Helpers.PointDirection(Position, transform.Position)));
+    }
 }

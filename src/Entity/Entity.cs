@@ -95,6 +95,36 @@ public class Entity
         } 
     }
 
+    public float DistanceTo(Entity e)
+    {
+        return Helpers.PointDistance(Get<Transform>().Position, e.Get<Transform>().Position);
+    }
+    
+    public float DistanceTo(Transform e)
+    {
+        return Helpers.PointDistance(Get<Transform>().Position, e.Position);
+    }
+
+    public float DistanceTo(Vector2 e)
+    {
+        return Helpers.PointDistance(Get<Transform>().Position, e);
+    }
+    
+    public float DirectionTo(Entity e)
+    {
+        return Helpers.PointDirection(Get<Transform>().Position, e.Get<Transform>().Position);
+    }
+    
+    public float DirectionTo(Transform e)
+    {
+        return Helpers.PointDirection(Get<Transform>().Position, e.Position);
+    }
+
+    public float DirectionTo(Vector2 e)
+    {
+        return Helpers.PointDirection(Get<Transform>().Position, e);
+    }
+
     internal void AwakeCall()
     {
         foreach(Component comp in Components)
