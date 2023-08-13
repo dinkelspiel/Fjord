@@ -8,8 +8,8 @@ public abstract class Component
     public SceneMouse Mouse = new("");
     public SceneInput Input = new("");
 
-    internal Entity ParentEntity = new();
-    public Scene ParentScene = default(Scene)!;
+    public Entity ParentEntity { get; internal set; } = new();
+    public Scene ParentScene { get; internal set; } = default(Scene)!;
 
     public float DeltaTime
     {

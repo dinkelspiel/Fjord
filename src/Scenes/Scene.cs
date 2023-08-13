@@ -42,7 +42,7 @@ public abstract class Scene : ICloneable
 
     public bool MouseInsideScene { get; internal set; }
 
-    internal List<Entity> Entities = new();
+    public List<Entity> Entities { get; internal set; } = new();
     internal List<Entity> removeEntity = new();
 
     internal List<Entity> RegisterEntityBacklog = new();

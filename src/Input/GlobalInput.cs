@@ -19,16 +19,17 @@ public static class GlobalInput
 
     public static void Initialize()
     {
-        var assembly = Assembly.GetExecutingAssembly();
+        Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
+        foreach(var assembly in assemblies) {
+            var derivedTypes = assembly.GetTypes().Where(t =>
+                t != typeof(InputAction) &&
+                typeof(InputAction).IsAssignableFrom(t));
 
-        var derivedTypes = assembly.GetTypes().Where(t =>
-            t != typeof(InputAction) &&
-            typeof(InputAction).IsAssignableFrom(t));
-
-        foreach (var type in derivedTypes)
-        {
-            var action = Activator.CreateInstance(type) as InputAction;
-            _register(action!);
+            foreach (var type in derivedTypes)
+            {
+                var action = Activator.CreateInstance(type) as InputAction;
+                _register(action!);
+            }
         }
     }
 

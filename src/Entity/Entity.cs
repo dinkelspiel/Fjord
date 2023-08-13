@@ -1,3 +1,5 @@
+using System.Numerics;
+
 namespace Fjord.Scenes;
 
 public class Entity
