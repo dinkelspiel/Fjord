@@ -295,6 +295,7 @@ public abstract class Scene : ICloneable
                 } catch(Exception err) {
                     Debug.Log(LogLevel.Error, $"Entity \"{e.GetType().Name}\" crashed!");
                     Debug.Log(LogLevel.Message, err.ToString());
+                    RemoveEntity(e);
                 }            
             }
 
